@@ -66,7 +66,7 @@ public partial class Pawn
 		if ( LampEnabled )
 			LampPower -= LampDischargePerTick;
 
-		if ( LampPower <= 0 )
+		if ( LampPower <= 0 && LampEnabled )
 			LampEnabled = false;
 
 		DebugOverlay.ScreenText( $"Lamp Power: {LampPower / LampMaxPower * 100}", 1 );
