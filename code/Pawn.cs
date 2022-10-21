@@ -18,6 +18,10 @@ partial class Pawn : AnimatedEntity
 	[Net]
 	public BasePlayerController Controller { get; private set; }
 
+	ModelEntity Helmet;
+
+	SpotLightEntity Lamp;
+
 	/// <summary>
 	/// Called when the entity is first created 
 	/// </summary>
@@ -27,6 +31,21 @@ partial class Pawn : AnimatedEntity
 
 		SetModel( "models/citizen/citizen.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
+
+		Helmet = new ModelEntity( "models/cosmetics/spacehelmet.vmdl" );
+		Helmet.EnableHideInFirstPerson = true;
+
+		Lamp = new SpotLightEntity();
+		Lamp.Parent = Helmet;
+		Lamp.Transform = Helmet.GetAttachment( "light" ).Value;
+
+		Lamp.OuterConeAngle *= 0.4f;
+
+		Lamp.InnerConeAngle *= 0.1f;
+
+		Lamp.Brightness = 0.5f;
+
+		Helmet.SetParent( this, true );
 
 		Animator = new StandardPlayerAnimator();
 		Camera = new Camera();
