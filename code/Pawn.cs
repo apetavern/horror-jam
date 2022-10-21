@@ -30,7 +30,7 @@ partial class Pawn : AnimatedEntity
 
 		Animator = new StandardPlayerAnimator();
 		Camera = new Camera();
-		Controller = new WalkController();
+		Controller = new MovementController();
 
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
