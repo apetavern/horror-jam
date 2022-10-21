@@ -5,9 +5,8 @@ public partial class Camera : CameraMode
 	[Net, Predicted]
 	public ViewModeType ViewMode { get; private set; }
 
-	Vector3 lastPos;
-	float modeSwitchProgress;
 	float ModeSwitchSpeed => 2.0f;
+	float modeSwitchProgress;
 
 	public override void Activated()
 	{
@@ -16,8 +15,6 @@ public partial class Camera : CameraMode
 
 		Position = pawn.EyePosition;
 		Rotation = pawn.EyeRotation;
-
-		lastPos = Position;
 	}
 
 	public override void Update()
@@ -37,7 +34,6 @@ public partial class Camera : CameraMode
 		Position = Position.LerpTo( targetPos, modeSwitchProgress * ModeSwitchSpeed );
 
 		Rotation = pawn.EyeRotation;
-		lastPos = Position;
 		Viewer = null;
 	}
 
@@ -101,9 +97,9 @@ public partial class Camera : CameraMode
 	/// <returns></returns>
 	private Vector3 GetAdditiveNoise()
 	{
-		var noise = GetNoise( 0.1f, 16f ) * Vector3.Up
-				  + GetNoise( 0.5f, 1f ) * Vector3.Forward
-				  + GetNoise( 0.9f, 8f ) * Vector3.Right;
+		var noise = GetNoise( 0.1f, 8f ) * Rotation.Up
+				  + GetNoise( 5.5f, 1f ) * Rotation.Forward
+				  + GetNoise( 16f, 8f ) * Rotation.Right;
 
 		return noise * 4f;
 	}

@@ -2,7 +2,7 @@
 
 public partial class MovementController : WalkController
 {
-	private TimeSince TimeSinceStaminaUsed;
+	private TimeSince timeSinceStaminaUsed;
 
 	/// <summary>
 	/// 0 to 1
@@ -66,9 +66,9 @@ public partial class MovementController : WalkController
 			// Sprint reduction
 			//
 			Stamina -= StaminaReductionRate * Time.Delta;
-			TimeSinceStaminaUsed = 0;
+			timeSinceStaminaUsed = 0;
 		}
-		else if ( !IsSprinting && TimeSinceStaminaUsed > StaminaReplenishDelay )
+		else if ( !IsSprinting && timeSinceStaminaUsed > StaminaReplenishDelay )
 		{
 			//
 			// Sprint regen
@@ -118,7 +118,7 @@ public partial class MovementController : WalkController
 			flMul *= 0.75f;
 
 		Stamina -= JumpStaminaReduction;
-		TimeSinceStaminaUsed = 0;
+		timeSinceStaminaUsed = 0;
 
 		float startz = Velocity.z;
 
