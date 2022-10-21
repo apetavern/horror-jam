@@ -36,19 +36,18 @@ public sealed partial class Pawn : AnimatedEntity
 	/// The pawns helmet.
 	/// </summary>
 	[Net]
-	private ModelEntity Helmet { get; set; }
-
+	private ModelEntity Helmet { get; set; } = null!;
 	/// <summary>
 	/// The pawns lamp.
 	/// </summary>
 	[Net]
-	private SpotLightEntity Lamp { get; set; }
+	private SpotLightEntity Lamp { get; set; } = null!;
 
 	/// <summary>
 	/// This is a list of stuff we apply the alpha change to
 	/// ( This gets stored so that we're not constantly allocating )
 	/// </summary>
-	private List<ModelEntity> PlayerAndChildren { get; set; }
+	private List<ModelEntity> PlayerAndChildren { get; set; } = null!;
 
 	/// <summary>
 	/// Called when the entity is first created 
@@ -68,7 +67,7 @@ public sealed partial class Pawn : AnimatedEntity
 		Lamp = new SpotLightEntity
 		{
 			Parent = Helmet,
-			Transform = Helmet.GetAttachment( "light" ).Value
+			Transform = Helmet.GetAttachment( "light" )!.Value
 		};
 
 		Lamp.OuterConeAngle *= 0.4f;
@@ -120,7 +119,6 @@ public sealed partial class Pawn : AnimatedEntity
 	{
 		base.FrameSimulate( cl );
 
-		SimulateInteraction();
 		Controller?.FrameSimulate( cl, this, Animator );
 	}
 

@@ -25,7 +25,7 @@ public partial class Camera : CameraMode
 		var pawn = Local.Pawn;
 		if ( pawn == null ) return;
 
-		DebugOverlay.ScreenText( ViewMode.ToString() );
+		DebugOverlay.ScreenText( ViewMode.ToString(), 0 );
 		modeSwitchProgress += Time.Delta;
 
 		var targetPos = ViewMode switch
