@@ -22,9 +22,9 @@ public static class SoundManager
 
 		var randomSound = Rand.FromArray( AmbientMusic );
 
-		//CurrentAmbience = Sound.FromScreen( randomSound );
+		CurrentAmbience = Sound.FromScreen( randomSound );
 
-		//CurrentAmbience.SetVolume( AmbienceVolume );
+		CurrentAmbience.SetVolume( AmbienceVolume );
 	}
 
 	[Event.Tick]
