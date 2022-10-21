@@ -3,6 +3,11 @@
 public partial class Pawn
 {
 	/// <summary>
+	/// The pawns lamp.
+	/// </summary>
+	[Net]
+	private SpotLightEntity Lamp { get; set; } = null!;
+	/// <summary>
 	/// The delay in seconds before the lamps power starts recharging.
 	/// </summary>
 	private const float LampRechargeDelay = 2;

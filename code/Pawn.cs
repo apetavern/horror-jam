@@ -38,11 +38,6 @@ public sealed partial class Pawn : AnimatedEntity
 	/// </summary>
 	[Net]
 	private ModelEntity Helmet { get; set; } = null!;
-	/// <summary>
-	/// The pawns lamp.
-	/// </summary>
-	[Net]
-	private SpotLightEntity Lamp { get; set; } = null!;
 
 	/// <summary>
 	/// This is a list of stuff we apply the alpha change to
