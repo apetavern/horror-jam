@@ -71,4 +71,12 @@ public partial class Pawn
 
 		DebugOverlay.ScreenText( $"Lamp Power: {LampPower / LampMaxPower * 100}", 1 );
 	}
+
+	/// <summary>
+	/// Resets the lamps battery level to full.
+	/// </summary>
+	public void InsertNewLampBattery()
+	{
+		LampPower = LampMaxPower;
+	}
 }
