@@ -12,7 +12,7 @@ public class Camera : CameraMode
 	ViewMode viewMode;
 
 	float modeSwitchProgress;
-	float modeSwitchSpeed => 2.0f;
+	float ModeSwitchSpeed => 2.0f;
 
 	public override void Activated()
 	{
@@ -40,11 +40,11 @@ public class Camera : CameraMode
 			_ => (Vector3)0,
 		};
 
-		Position = Position.LerpTo( targetPos, modeSwitchProgress * modeSwitchSpeed );
-		Position += AdditiveNoise();
+		Position = Position.LerpTo( targetPos, modeSwitchProgress * ModeSwitchSpeed );
 
 		Rotation = pawn.EyeRotation;
 		lastPos = Position;
+		Viewer = null;
 	}
 
 	//
@@ -55,8 +55,6 @@ public class Camera : CameraMode
 		var targetPos = pawn.EyePosition
 			+ pawn.EyeRotation.Backward * 64
 			+ pawn.EyeRotation.Right * 16;
-
-		Viewer = null;
 
 		return targetPos;
 	}
@@ -69,9 +67,7 @@ public class Camera : CameraMode
 		var eyePos = pawn.EyePosition;
 		var targetPos = eyePos;
 
-		Viewer = pawn;
-
-		return targetPos;
+		return targetPos + GetAdditiveNoise();
 	}
 
 	//
@@ -92,7 +88,7 @@ public class Camera : CameraMode
 	// depending on how close a player is to the monster
 	// (i.e. some sort of 'sanity' value)
 	// 
-	private Vector3 AdditiveNoise()
+	private Vector3 GetAdditiveNoise()
 	{
 		var noise = GetNoise( 0.1f, 16f ) * Vector3.Up
 				  + GetNoise( 0.5f, 1f ) * Vector3.Forward
@@ -110,5 +106,18 @@ public class Camera : CameraMode
 			viewMode = (viewMode == ViewMode.FirstPerson) ? ViewMode.ThirdPerson : ViewMode.FirstPerson;
 			modeSwitchProgress = 0;
 		}
+	}
+
+	public float GetPlayerAlpha()
+	{
+		float baseAlpha = modeSwitchProgress * ModeSwitchSpeed * 4.0f;
+		baseAlpha = baseAlpha.Clamp( 0, 1 );
+
+		return viewMode switch
+		{
+			ViewMode.FirstPerson => 1.0f - baseAlpha,
+			ViewMode.ThirdPerson => baseAlpha,
+			_ => 1.0f,
+		};
 	}
 }

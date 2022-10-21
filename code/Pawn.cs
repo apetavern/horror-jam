@@ -56,4 +56,24 @@ partial class Pawn : AnimatedEntity
 
 		Controller?.FrameSimulate( cl, this, Animator );
 	}
+
+	[Event.PreRender]
+	public void OnPreRender()
+	{
+		float alpha = GetAlpha();
+		this.RenderColor = new Color( 1, 1, 1, alpha );
+	}
+
+	//
+	// This controls the alpha/transparency of the player.
+	// It's mainly used for transitions between the two
+	// camera modes.
+	//
+	private float GetAlpha()
+	{
+		if ( Camera is Camera camera )
+			return camera.GetPlayerAlpha();
+
+		return 1.0f;
+	}
 }
