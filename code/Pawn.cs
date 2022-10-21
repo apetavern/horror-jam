@@ -1,3 +1,4 @@
+using GvarJam.HammerEntities;
 using System.Collections.Generic;
 
 namespace GvarJam;
@@ -108,6 +109,12 @@ public sealed partial class Pawn : AnimatedEntity
 				Camera.GoToThirdPerson();
 			else
 				Camera.GoToFirstPerson();
+		}
+
+		if ( Input.Pressed( InputButton.Reload ) && IsServer)
+		{
+			MountedCamera cam = new MountedCamera();
+			cam.Position = Position + Rotation.Forward * 100f + Vector3.Up * 100f;
 		}
 
 		SimulateLamp();
