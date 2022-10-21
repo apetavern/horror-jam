@@ -1,9 +1,13 @@
-﻿namespace GvarJam.Interactions;
+﻿using SandboxEditor;
+
+namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an item that takes time to use.
 /// </summary>
 [Category( "Interactables" )]
+[HammerEntity]
+[EditorModel( "models/sbox_props/watermelon/watermelon.vmdl" )]
 public partial class LampBatteryItem : DelayedUseItem
 {
 	public override float TimeToUse => 1;
