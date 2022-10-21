@@ -15,9 +15,8 @@ partial class Pawn
 	//
 	//
 	//
-	float LeanMax => 0.015f;
-	float LeanMul => 0.005f;
-	float LeanDegrees => 12f;
+	float LeanDegrees => 0.5f;
+	float LeanMax => LeanDegrees * 2f;
 	float LeanSmooth => 15.0f;
 	float MinSpeed => 0f;
 	float MaxSpeed => 320f;
@@ -42,9 +41,10 @@ partial class Pawn
 		//
 		// Camera roll
 		//
-		Roll = Roll.LerpTo( Velocity.Dot( camSetup.Rotation.Right ) * LeanMul, Time.Delta * LeanSmooth );
-		Roll.Clamp( -LeanMax, LeanMax );
-		Roll += MathF.Sin( Bobbing / 2f ) * LeanMul * LeanDegrees;
+		var targetRoll = Velocity.Dot( camSetup.Rotation.Right ) / 180f;
+		targetRoll += MathF.Sin( Bobbing / 2f ) * LeanDegrees;
+		targetRoll = targetRoll.Clamp( -LeanMax, LeanMax );
+		Roll = Roll.LerpTo( targetRoll, Time.Delta * LeanSmooth );
 
 		//
 		// Camera FOV
