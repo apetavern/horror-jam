@@ -1,6 +1,4 @@
-﻿using Sandbox;
-
-namespace GvarJam.Interactions;
+﻿namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an item that has an instant use.

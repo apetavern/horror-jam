@@ -1,6 +1,4 @@
-﻿using Sandbox;
-
-namespace GvarJam.Interactions;
+﻿namespace GvarJam.Interactions;
 
 /// <summary>
 /// A contract to define something that has an interaction time.
