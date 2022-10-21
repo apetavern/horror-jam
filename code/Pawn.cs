@@ -119,7 +119,11 @@ public sealed partial class Pawn : AnimatedEntity
 
 		SimulateLamp();
 		SimulateInteraction();
+
+		var rotation = Rotation;
 		Controller?.Simulate( cl, this, Animator );
+		if ( IsInteracting )
+			Rotation = rotation;
 	}
 
 	/// <inheritdoc/>
@@ -127,7 +131,10 @@ public sealed partial class Pawn : AnimatedEntity
 	{
 		base.FrameSimulate( cl );
 
+		var rotation = Rotation;
 		Controller?.FrameSimulate( cl, this, Animator );
+		if ( IsInteracting )
+			Rotation = rotation;
 	}
 
 	/// <summary>

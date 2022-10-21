@@ -4,9 +4,9 @@ public partial class Camera : CameraMode
 {
 	[Net, Predicted]
 	public ViewModeType ViewMode { get; private set; }
+	private float ModeSwitchProgress { get; set; }
 
-	float ModeSwitchSpeed => 2.0f;
-	float modeSwitchProgress;
+	private const float ModeSwitchSpeed = 2.0f;
 
 	public override void Activated()
 	{
@@ -22,7 +22,7 @@ public partial class Camera : CameraMode
 		var pawn = Local.Pawn;
 		if ( pawn == null ) return;
 
-		modeSwitchProgress += Time.Delta;
+		ModeSwitchProgress += Time.Delta;
 
 		var targetPos = ViewMode switch
 		{
@@ -31,8 +31,7 @@ public partial class Camera : CameraMode
 			_ => (Vector3)0,
 		};
 
-		Position = Position.LerpTo( targetPos, modeSwitchProgress * ModeSwitchSpeed );
-
+		Position = Position.LerpTo( targetPos, ModeSwitchProgress * ModeSwitchSpeed );
 		Rotation = pawn.EyeRotation;
 		Viewer = null;
 	}
@@ -43,7 +42,7 @@ public partial class Camera : CameraMode
 			return;
 
 		ViewMode = ViewModeType.FirstPerson;
-		modeSwitchProgress = 0;
+		ModeSwitchProgress = 0;
 	}
 
 	public void GoToThirdPerson()
@@ -52,7 +51,7 @@ public partial class Camera : CameraMode
 			return;
 
 		ViewMode = ViewModeType.ThirdPerson;
-		modeSwitchProgress = 0;
+		ModeSwitchProgress = 0;
 	}
 
 	private Vector3 UpdateThirdPerson( Entity pawn )
@@ -113,7 +112,7 @@ public partial class Camera : CameraMode
 		// player look really ugly. I will look into this later
 		//
 
-		float baseAlpha = modeSwitchProgress * ModeSwitchSpeed * 4.0f;
+		float baseAlpha = ModeSwitchProgress * ModeSwitchSpeed * 4.0f;
 		baseAlpha = baseAlpha.Clamp( 0, 1 );
 
 		return ViewMode switch
