@@ -77,7 +77,6 @@ public partial class MovementController : WalkController
 		}
 
 		Stamina = Stamina.Clamp( 0, 1 );
-		DebugOverlay.ScreenText( $"Stamina: {Stamina}", 2 );
 	}
 
 	public override float GetWishSpeed()
