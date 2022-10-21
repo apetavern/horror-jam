@@ -1,6 +1,6 @@
-﻿using Sandbox;
-using System;
-using System.Linq;
+﻿global using Sandbox;
+global using System;
+global using System.Linq;
 
 //
 // You don't need to put things in a namespace, but it doesn't hurt.

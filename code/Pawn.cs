@@ -1,6 +1,4 @@
-﻿using Sandbox;
-
-namespace GvarJam;
+﻿namespace GvarJam;
 
 partial class Pawn : AnimatedEntity
 {
@@ -31,7 +29,7 @@ partial class Pawn : AnimatedEntity
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
 		Animator = new StandardPlayerAnimator();
-		Camera = new FirstPersonCamera();
+		Camera = new Camera();
 		Controller = new WalkController();
 
 		EnableDrawing = true;
