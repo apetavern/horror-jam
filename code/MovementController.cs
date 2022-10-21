@@ -2,7 +2,7 @@
 
 public partial class MovementController : WalkController
 {
-	private TimeSince TimeSinceSprinted;
+	private TimeSince TimeSinceStaminaUsed;
 
 	/// <summary>
 	/// 0 to 1
@@ -35,6 +35,11 @@ public partial class MovementController : WalkController
 	/// </summary>
 	public float MinimumStaminaForSprint => 0.3f;
 
+	/// <summary>
+	/// How much stamina does jumping cost? (Applied instantly)
+	/// </summary>
+	public float JumpStaminaReduction => 0.2f;
+
 	public override void Simulate()
 	{
 		base.Simulate();
@@ -61,9 +66,9 @@ public partial class MovementController : WalkController
 			// Sprint reduction
 			//
 			Stamina -= StaminaReductionRate * Time.Delta;
-			TimeSinceSprinted = 0;
+			TimeSinceStaminaUsed = 0;
 		}
-		else if ( !IsSprinting && TimeSinceSprinted > StaminaReplenishDelay )
+		else if ( !IsSprinting && TimeSinceStaminaUsed > StaminaReplenishDelay )
 		{
 			//
 			// Sprint regen
@@ -87,5 +92,43 @@ public partial class MovementController : WalkController
 		if ( Input.Down( InputButton.Walk ) ) return WalkSpeed;
 
 		return DefaultSpeed;
+	}
+
+	public override void CheckJumpButton()
+	{
+		// If we are in the water most of the way...
+		if ( Swimming )
+		{
+			// swimming, not jumping
+			ClearGroundEntity();
+
+			Velocity = Velocity.WithZ( 100 );
+
+			return;
+		}
+
+		if ( GroundEntity == null )
+			return;
+
+		ClearGroundEntity();
+
+		float flGroundFactor = 1.0f;
+		float flMul = 320f;
+
+		if ( Stamina < JumpStaminaReduction )
+			flMul *= 0.75f;
+
+		Stamina -= JumpStaminaReduction;
+		TimeSinceStaminaUsed = 0;
+
+		float startz = Velocity.z;
+
+		if ( Duck.IsActive )
+			flMul *= 0.8f;
+
+		Velocity = Velocity.WithZ( startz + flMul * flGroundFactor );
+		Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
+
+		AddEvent( "jump" );
 	}
 }
