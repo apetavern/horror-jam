@@ -3,7 +3,7 @@ global using Sandbox.UI;
 global using Sandbox.UI.Construct;
 global using System;
 global using System.Linq;
-using GvarJam.Interactions;
+global using GvarJam.Interactions;
 
 namespace GvarJam;
 
