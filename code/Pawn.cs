@@ -1,13 +1,22 @@
-﻿namespace GvarJam;
+namespace GvarJam;
 
-partial class Pawn : AnimatedEntity
+/// <summary>
+/// The players pawn.
+/// </summary>
+public sealed partial class Pawn : AnimatedEntity
 {
+	/// <summary>
+	/// The active animator of the pawn.
+	/// </summary>
 	[Net]
-	public PawnAnimator Animator { get; private set; }
+	public PawnAnimator Animator { get; private set; } = null!;
 
-	public CameraMode Camera
+	/// <summary>
+	/// The active camera for the pawn.
+	/// </summary>
+	public Camera Camera
 	{
-		get => Components.Get<CameraMode>();
+		get => Components.Get<Camera>();
 		private set
 		{
 			Components.RemoveAny<CameraMode>();
@@ -15,12 +24,22 @@ partial class Pawn : AnimatedEntity
 		}
 	}
 
+	/// <summary>
+	/// The active controller for the pawn.
+	/// </summary>
 	[Net]
-	public BasePlayerController Controller { get; private set; }
+	public BasePlayerController Controller { get; private set; } = null!;
 
-	ModelEntity Helmet;
-
-	SpotLightEntity Lamp;
+	/// <summary>
+	/// The pawns helmet.
+	/// </summary>
+	[Net]
+	private ModelEntity Helmet { get; set; }
+	/// <summary>
+	/// The pawns lamp.
+	/// </summary>
+	[Net]
+	private SpotLightEntity Lamp { get; set; }
 
 	/// <summary>
 	/// Called when the entity is first created 
@@ -32,17 +51,18 @@ partial class Pawn : AnimatedEntity
 		SetModel( "models/citizen/citizen.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
-		Helmet = new ModelEntity( "models/cosmetics/spacehelmet.vmdl" );
-		Helmet.EnableHideInFirstPerson = true;
+		Helmet = new ModelEntity( "models/cosmetics/spacehelmet.vmdl" )
+		{
+			EnableHideInFirstPerson = true
+		};
 
-		Lamp = new SpotLightEntity();
-		Lamp.Parent = Helmet;
-		Lamp.Transform = Helmet.GetAttachment( "light" ).Value;
-
+		Lamp = new SpotLightEntity
+		{
+			Parent = Helmet,
+			Transform = Helmet.GetAttachment( "light" ).Value
+		};
 		Lamp.OuterConeAngle *= 0.4f;
-
 		Lamp.InnerConeAngle *= 0.1f;
-
 		Lamp.Brightness = 0.5f;
 
 		Helmet.SetParent( this, true );
@@ -56,19 +76,23 @@ partial class Pawn : AnimatedEntity
 		EnableShadowInFirstPerson = true;
 	}
 
-	/// <summary>
-	/// Called every tick, clientside and serverside.
-	/// </summary>
+	/// <inheritdoc/>
 	public override void Simulate( Client cl )
 	{
 		base.Simulate( cl );
 
+		if ( Input.Pressed( InputButton.View ) )
+		{
+			if ( Camera.ViewMode == ViewModeType.FirstPerson )
+				Camera.GoToThirdPerson();
+			else
+				Camera.GoToFirstPerson();
+		}
+
 		Controller?.Simulate( cl, this, Animator );
 	}
 
-	/// <summary>
-	/// Called every frame on the client
-	/// </summary>
+	/// <inheritdoc/>
 	public override void FrameSimulate( Client cl )
 	{
 		base.FrameSimulate( cl );
@@ -76,18 +100,19 @@ partial class Pawn : AnimatedEntity
 		Controller?.FrameSimulate( cl, this, Animator );
 	}
 
+	/// <summary>
+	/// Sets the alpha on the pawns render color before the game renders.
+	/// </summary>
 	[Event.PreRender]
 	public void OnPreRender()
 	{
-		float alpha = GetAlpha();
-		this.RenderColor = new Color( 1, 1, 1, alpha );
+		RenderColor = new Color( 1, 1, 1, GetAlpha() );
 	}
 
-	//
-	// This controls the alpha/transparency of the player.
-	// It's mainly used for transitions between the two
-	// camera modes.
-	//
+	/// <summary>
+	/// Controls the alpha/transparency of the player. It's mainly used for transitions between the two camera modes.
+	/// </summary>
+	/// <returns>The transparency to render the player at.</returns>
 	private float GetAlpha()
 	{
 		if ( Camera is Camera camera )
