@@ -1,7 +1,4 @@
-﻿using SandboxEditor;
-
-
-namespace GvarJam.HammerEntities;
+﻿namespace GvarJam.HammerEntities;
 
 [Category( "Environment" )]
 [Library( "ent_mountedcamera" )]
@@ -9,32 +6,37 @@ namespace GvarJam.HammerEntities;
 [EditorModel( "models/mountedcamera/mountedcamera.vmdl" )]
 public partial class MountedCamera : AnimatedEntity
 {
-	public Pawn player;
+	private Pawn? TargetedPlayer;
+
+	private Vector3 lookPos;
+	private Rotation lookRot;
+	private Rotation flatLookRot;
+
 	public override void Spawn()
 	{
 		base.Spawn();
+
 		SetModel( "models/mountedcamera/mountedcamera.vmdl" );
-		player = All.OfType<Pawn>().First();
+
+		TargetedPlayer = All.OfType<Pawn>().First();
 	}
-	Vector3 lookpos;
-	Rotation lookrot;
-	Rotation flatlookrot;
+
 	[Event.Tick]
 	public void Tick()
 	{
-		if ( player is not null )
-		{
+		if ( TargetedPlayer is null )
+			return;
 
-			float playerdist = Vector3.DistanceBetween( Position - Vector3.Up * 15f, player.EyePosition )/200f;
-			lookpos = Vector3.Lerp( lookpos, Position - Vector3.Up * 15f + (player.EyePosition - (Position - Vector3.Up * 15f)).Normal * 25f * playerdist, 0.5f );
+		float playerdist = Vector3.DistanceBetween( Position - Vector3.Up * 15f, TargetedPlayer.EyePosition )/200f;
 
-			lookrot = Rotation.Slerp( lookrot, Rotation.LookAt( player.EyePosition - Vector3.Up*10f - (Position - Vector3.Up * 15f), Vector3.Up ) * new Angles(0,90,90).ToRotation(), 10f );
+		lookPos = Vector3.Lerp( lookPos, Position - Vector3.Up * 15f + (TargetedPlayer.EyePosition - (Position - Vector3.Up * 15f)).Normal * 25f * playerdist, 0.5f );
+		lookRot = Rotation.Slerp( lookRot, Rotation.LookAt( TargetedPlayer.EyePosition - Vector3.Up*10f - (Position - Vector3.Up * 15f), Vector3.Up ) * new Angles(0,90,90).ToRotation(), 10f );
+		flatLookRot = Rotation.Slerp( flatLookRot, Rotation.LookAt( (TargetedPlayer.Position - Position).WithZ( 0 ), Vector3.Up ), 10f );
 
-			SetAnimParameter( "position", lookpos );
-			SetAnimParameter( "rotation", lookrot );
-			flatlookrot = Rotation.Slerp( flatlookrot, Rotation.LookAt( (player.Position - Position).WithZ( 0 ), Vector3.Up ), 10f );
-			Rotation = flatlookrot;
-		}
+		SetAnimParameter( "position", lookPos );
+		SetAnimParameter( "rotation", lookRot );
+
+		Rotation = flatLookRot;
 	}
 }
 
