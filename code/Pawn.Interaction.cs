@@ -52,9 +52,9 @@ public partial class Pawn
 					InteractedEntity = null;
 			}
 		}
-		else if ( Input.Released( InputButton.Use ) )
+		else if ( Input.Released( InputButton.Use ) && InteractedEntity is not null )
 		{
-			if ( InteractedEntity is not null && InteractedEntity.IsValid && InteractedEntity is IInteractable interactable )
+			if ( InteractedEntity.IsValid && InteractedEntity is IInteractable interactable )
 				interactable.Reset();
 
 			InteractedEntity = null;
