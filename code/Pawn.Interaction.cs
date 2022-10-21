@@ -1,7 +1,4 @@
-﻿using GvarJam.Interaction;
-using GvarJam.Interactions;
-
-namespace GvarJam;
+﻿namespace GvarJam;
 
 public partial class Pawn
 {

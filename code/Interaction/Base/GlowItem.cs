@@ -1,4 +1,4 @@
-﻿namespace GvarJam.Interaction;
+﻿namespace GvarJam.Interactions;
 
 public class GlowItem : ModelEntity
 {
