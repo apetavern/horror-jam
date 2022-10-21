@@ -46,8 +46,15 @@ public partial class Pawn
 			var entity = FindInteractableEntity();
 			if ( entity is not null )
 			{
-				if ( (entity as IUse)!.OnUse( this ) )
-					InteractedEntity = entity;
+				if ( entity is IInteractable interactable )
+				{
+					if ( interactable.OnUse( this ) )
+						InteractedEntity = entity;
+					else
+						InteractedEntity = null;
+				}
+				else if ( IsServer && entity is IUse use )
+					use.OnUse( this );
 				else
 					InteractedEntity = null;
 			}
@@ -70,11 +77,24 @@ public partial class Pawn
 		if ( InteractedEntity is not null && (InteractedEntity as IUse)!.IsUsable( this ) )
 			return InteractedEntity;
 
-		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward.Normal * 10000 )
-			.WithTag( "usable" )
+		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 100 )
+			.WithoutTags( "trigger" )
 			.Ignore( this )
 			.Run();
 
-		return tr.Entity;
+		var entity = tr.Entity;
+		while ( entity.IsValid() && !IsValidInteractableEntity( entity ) )
+			entity = entity.Parent;
+
+		return entity;
+	}
+
+	private bool IsValidInteractableEntity( Entity? entity )
+	{
+		if ( entity is null ) return false;
+		if ( entity is not IUse use ) return false;
+		if ( !use.IsUsable( this ) ) return false;
+
+		return true;
 	}
 }

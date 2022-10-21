@@ -4,7 +4,7 @@
 /// Represents an item that has an instant use.
 /// </summary>
 [Category( "Interactables" )]
-public class InstantUseItem : ModelEntity, IUse
+public class InstantUseItem : ModelEntity, IInteractable
 {
 	/// <summary>
 	/// Whether or not to delete the entity after it has been used.
@@ -15,8 +15,6 @@ public class InstantUseItem : ModelEntity, IUse
 	public override void Spawn()
 	{
 		base.Spawn();
-
-		Tags.Add( "usable" );
 
 		SetModel( "models/sbox_props/watermelon/watermelon.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
@@ -45,5 +43,11 @@ public class InstantUseItem : ModelEntity, IUse
 			Delete();
 
 		return false;
+	}
+
+	/// <inheritdoc/>
+	public void Reset()
+	{
+		throw new NotSupportedException();
 	}
 }
