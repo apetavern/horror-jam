@@ -4,6 +4,22 @@ namespace GvarJam;
 
 partial class Pawn : AnimatedEntity
 {
+	[Net]
+	public PawnAnimator Animator { get; private set; }
+
+	public CameraMode Camera
+	{
+		get => Components.Get<CameraMode>();
+		private set
+		{
+			Components.RemoveAny<CameraMode>();
+			Components.Add( value );
+		}
+	}
+
+	[Net]
+	public BasePlayerController Controller { get; private set; }
+
 	/// <summary>
 	/// Called when the entity is first created 
 	/// </summary>
@@ -11,10 +27,12 @@ partial class Pawn : AnimatedEntity
 	{
 		base.Spawn();
 
-		//
-		// Use a watermelon model
-		//
-		SetModel( "models/sbox_props/watermelon/watermelon.vmdl" );
+		SetModel( "models/citizen/citizen.vmdl" );
+		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
+
+		Animator = new StandardPlayerAnimator();
+		Camera = new FirstPersonCamera();
+		Controller = new WalkController();
 
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
@@ -28,37 +46,7 @@ partial class Pawn : AnimatedEntity
 	{
 		base.Simulate( cl );
 
-		Rotation = Input.Rotation;
-		EyeRotation = Rotation;
-
-		// build movement from the input values
-		var movement = new Vector3( Input.Forward, Input.Left, 0 ).Normal;
-
-		// rotate it to the direction we're facing
-		Velocity = Rotation * movement;
-
-		// apply some speed to it
-		Velocity *= Input.Down( InputButton.Run ) ? 1000 : 200;
-
-		// apply it to our position using MoveHelper, which handles collision
-		// detection and sliding across surfaces for us
-		MoveHelper helper = new MoveHelper( Position, Velocity );
-		helper.Trace = helper.Trace.Size( 16 );
-		if ( helper.TryMove( Time.Delta ) > 0 )
-		{
-			Position = helper.Position;
-		}
-
-		// If we're running serverside and Attack1 was just pressed, spawn a ragdoll
-		if ( IsServer && Input.Pressed( InputButton.PrimaryAttack ) )
-		{
-			var ragdoll = new ModelEntity();
-			ragdoll.SetModel( "models/citizen/citizen.vmdl" );
-			ragdoll.Position = EyePosition + EyeRotation.Forward * 40;
-			ragdoll.Rotation = Rotation.LookAt( Vector3.Random.Normal );
-			ragdoll.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
-			ragdoll.PhysicsGroup.Velocity = EyeRotation.Forward * 1000;
-		}
+		Controller?.Simulate( cl, this, Animator );
 	}
 
 	/// <summary>
@@ -68,8 +56,6 @@ partial class Pawn : AnimatedEntity
 	{
 		base.FrameSimulate( cl );
 
-		// Update rotation every frame, to keep things smooth
-		Rotation = Input.Rotation;
-		EyeRotation = Rotation;
+		Controller?.FrameSimulate( cl, this, Animator );
 	}
 }
