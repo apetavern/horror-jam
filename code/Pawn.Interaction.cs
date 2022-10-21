@@ -13,8 +13,25 @@ public partial class Pawn
 	/// <summary>
 	/// The entity that the pawn is interacting with.
 	/// </summary>
+	public Entity? InteractedEntity
+	{
+		get => interactedEntity;
+		private set
+		{
+			interactedEntity = value;
+			IsInteracting = value is not null;
+
+			if ( IsInteracting )
+				Camera.GoToThirdPerson();
+			else
+				Camera.GoToFirstPerson();
+		}
+	}
+	/// <summary>
+	/// See <see cref="InteractedEntity"/>.
+	/// </summary>
 	[Net, Predicted]
-	public Entity? InteractedEntity { get; private set; } = null!;
+	private Entity? interactedEntity { get; set; } = null!;
 
 	/// <summary>
 	/// Simulates the interaction system.
@@ -30,17 +47,9 @@ public partial class Pawn
 			if ( entity is not null )
 			{
 				if ( (entity as IUse)!.OnUse( this ) )
-				{
 					InteractedEntity = entity;
-					IsInteracting = true;
-					Camera.GoToThirdPerson();
-				}
 				else
-				{
 					InteractedEntity = null;
-					IsInteracting = false;
-					Camera.GoToFirstPerson();
-				}
 			}
 		}
 		else if ( Input.Released( InputButton.Use ) )
@@ -49,8 +58,6 @@ public partial class Pawn
 				interactable.Reset();
 
 			InteractedEntity = null;
-			IsInteracting = false;
-			Camera.GoToFirstPerson();
 		}
 	}
 
