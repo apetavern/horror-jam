@@ -41,8 +41,6 @@ public partial class DelayedUseItem : GlowItem, IInteractable
 	{
 		base.Spawn();
 
-		Tags.Add( "usable" );
-
 		SetModel( "models/sbox_props/watermelon/watermelon.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
 	}

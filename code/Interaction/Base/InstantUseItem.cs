@@ -1,12 +1,10 @@
-﻿using GvarJam.Interaction;
-
-namespace GvarJam.Interactions;
+﻿namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an item that has an instant use.
 /// </summary>
 [Category( "Interactables" )]
-public class InstantUseItem : GlowItem, IUse
+public class InstantUseItem : GlowItem, IInteractable
 {
 	/// <summary>
 	/// Whether or not to delete the entity after it has been used.
@@ -17,8 +15,6 @@ public class InstantUseItem : GlowItem, IUse
 	public override void Spawn()
 	{
 		base.Spawn();
-
-		Tags.Add( "usable" );
 
 		SetModel( "models/sbox_props/watermelon/watermelon.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
@@ -47,5 +43,11 @@ public class InstantUseItem : GlowItem, IUse
 			Delete();
 
 		return false;
+	}
+
+	/// <inheritdoc/>
+	public void Reset()
+	{
+		throw new NotSupportedException();
 	}
 }
