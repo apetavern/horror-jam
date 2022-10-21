@@ -7,6 +7,7 @@ global using System;
 global using System.Linq;
 global using GvarJam.Interactions;
 global using GvarJam.HammerEntities;
+global using GvarJam.SoundManager;
 
 namespace GvarJam;
 
