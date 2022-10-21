@@ -1,8 +1,41 @@
-﻿StaminaBar {
+﻿$accent: #F2D933;
+
+StaminaBar {
     position: absolute;
     bottom: 250px;
     left: 50%;
     width: 250px;
     height: 4px;
+    background-color: rgba( black, 0.5 );
     transform: translate( -50% );
+    opacity: 0;
+    transition: opacity 1000ms ease;
+
+    &.visible {
+        transition: opacity 100ms ease;
+        opacity: 1;
+    }
+}
+
+.icon {
+    color: $accent;
+    text-shadow: 0 2px 2px rgba( black, 0.5 );
+    font-size: 32px;
+
+    //
+    // Positioning this manually is kinda sucky..
+    // it'll do for now
+    //
+    position: relative;
+    left: -38px;
+    top: -14px;
+}
+
+.fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: $accent;
+    box-shadow: 0 2px 2px rgba( black, 0.5 );
 }
