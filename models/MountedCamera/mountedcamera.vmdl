@@ -75,10 +75,89 @@
 					},
 				]
 			},
+			{
+				_class = "IKData"
+				children = 
+				[
+					{
+						_class = "IKChain"
+						name = "lookchain"
+						children = 
+						[
+							{
+								_class = "IKChainJoint"
+								name = "MainRotator"
+								children = 
+								[
+									{
+										_class = "IKChainJoint"
+										name = "TopCylinder"
+										children = 
+										[
+											{
+												_class = "IKChainJoint"
+												name = "BottomCylinder"
+												bone = "Camera"
+											},
+										]
+										bone = "BottomCylinder"
+									},
+								]
+								bone = "TopCylinder"
+							},
+						]
+						m_bDoBonesOrientAlongPositiveX = true
+						"m_DefaultSolverSettings.m_nNumIterations" = 6
+						"m_DefaultSolverSettings.m_SolverType " = "IKSOLVER_DogLeg3Bone"
+						"m_DefaultTargetSettings.m_Bone" = 
+						{
+							m_Name = ""
+						}
+						"m_DefaultTargetSettings.m_TargetSource" = "Animgraph Parameter"
+						"m_Data.m_DefaultTargetSettings.m_AnimgraphParameterNamePosition" = 
+						{
+							m_id = 4294967295
+						}
+						"m_Data.m_EndEffectorFixedOffsetAttachment" = 
+						{
+							m_Name = ""
+						}
+						"m_Data.m_bParentJointRequiresAlignment" = true
+					},
+				]
+			},
+			{
+				_class = "AnimationList"
+				children = 
+				[
+					{
+						_class = "AnimFile"
+						name = "MountedCamera"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/MountedCamera/MountedCamera.fbx"
+						start_frame = -1
+						end_frame = -1
+						framerate = -1.0
+						take = 0
+						reverse = false
+					},
+				]
+				default_root_bone_name = ""
+			},
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
-		anim_graph_name = ""
+		anim_graph_name = "models/MountedCamera/mountedcamera.vanmgrph"
 		base_model_name = ""
 	}
 }
