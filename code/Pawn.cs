@@ -110,6 +110,7 @@ public sealed partial class Pawn : AnimatedEntity
 				Camera.GoToFirstPerson();
 		}
 
+		SimulateLamp();
 		SimulateInteraction();
 		Controller?.Simulate( cl, this, Animator );
 	}
