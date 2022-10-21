@@ -5,7 +5,7 @@ StaminaBar {
     bottom: 250px;
     left: 50%;
     width: 250px;
-    height: 4px;
+    height: 2px;
     background-color: rgba( black, 0.5 );
     transform: translate( -50% );
     opacity: 0;
@@ -19,16 +19,16 @@ StaminaBar {
 
 .icon {
     color: $accent;
-    text-shadow: 0 2px 2px rgba( black, 0.5 );
-    font-size: 32px;
+    text-shadow: 0 1px 1px rgba( black, 0.1 );
+    font-size: 24px;
 
     //
     // Positioning this manually is kinda sucky..
     // it'll do for now
     //
     position: relative;
-    left: -38px;
-    top: -14px;
+    left: -32px;
+    top: -10px;
 }
 
 .fill {
@@ -37,5 +37,5 @@ StaminaBar {
     left: 0;
     bottom: 0;
     background-color: $accent;
-    box-shadow: 0 2px 2px rgba( black, 0.5 );
+    box-shadow: 0 1px 5px rgba( black, 0.1 );
 }
