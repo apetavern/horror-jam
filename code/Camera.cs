@@ -56,7 +56,8 @@ public class Camera : CameraMode
 			+ pawn.EyeRotation.Backward * 64
 			+ pawn.EyeRotation.Right * 16;
 
-		return targetPos;
+		var tr = Trace.Ray( pawn.EyePosition, targetPos ).Ignore( pawn ).Radius( 24f ).Run();
+		return tr.EndPosition;
 	}
 
 	//
@@ -110,6 +111,13 @@ public class Camera : CameraMode
 
 	public float GetPlayerAlpha()
 	{
+		//
+		// TODO: It might be worth scaling this by the inverse distance
+		// between the player and the camera, so that the third person
+		// camera colliding with a wall doesn't fuck us and make the
+		// player look really ugly. I will look into this later
+		//
+
 		float baseAlpha = modeSwitchProgress * ModeSwitchSpeed * 4.0f;
 		baseAlpha = baseAlpha.Clamp( 0, 1 );
 
