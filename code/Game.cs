@@ -52,12 +52,12 @@ public partial class MyGame : Sandbox.Game
 		_ = new InstantUseItem() { Position = ConsoleSystem.Caller.Pawn.Position };
 	}
 
-	[ConCmd.Admin( "spawn_delayed_item" )]
-	public static void SpawnDelayedItem()
+	[ConCmd.Admin( "spawn_battery" )]
+	public static void SpawnBatteryItem()
 	{
 		if ( ConsoleSystem.Caller?.Pawn is null )
 			return;
 
-		_ = new DelayedUseItem() { Position = ConsoleSystem.Caller.Pawn.Position };
+		_ = new LampBatteryItem() { Position = ConsoleSystem.Caller.Pawn.Position };
 	}
 }
