@@ -60,7 +60,7 @@ public partial class MovementController : WalkController
 			IsSprinting = false;
 		}
 
-		if ( IsSprinting )
+		if ( IsSprinting && !Velocity.IsNearZeroLength )
 		{
 			//
 			// Sprint reduction
@@ -68,7 +68,7 @@ public partial class MovementController : WalkController
 			Stamina -= StaminaReductionRate * Time.Delta;
 			timeSinceStaminaUsed = 0;
 		}
-		else if ( !IsSprinting && timeSinceStaminaUsed > StaminaReplenishDelay )
+		else if ( (!IsSprinting || Velocity.IsNearZeroLength) && timeSinceStaminaUsed > StaminaReplenishDelay )
 		{
 			//
 			// Sprint regen
