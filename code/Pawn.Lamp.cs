@@ -29,7 +29,14 @@ public partial class Pawn
 		{
 			Lamp.Enabled = value;
 			if ( !value )
+			{
 				TimeSinceLampOff = 0;
+				Sound.FromEntity( "flashlight_click_off", this );
+			}
+			else
+			{
+				Sound.FromEntity( "flashlight_click_on", this );
+			}
 		}
 	}
 
@@ -59,7 +66,7 @@ public partial class Pawn
 		if ( LampEnabled )
 			LampPower -= LampDischargePerTick;
 
-		if ( LampPower <= 0 )
+		if ( LampPower <= 0 && LampEnabled )
 			LampEnabled = false;
 
 		DebugOverlay.ScreenText( $"Lamp Power: {LampPower / LampMaxPower * 100}", 1 );
