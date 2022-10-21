@@ -7,8 +7,8 @@ public class GlowItem : ModelEntity
 	/// <summary>
 	/// Enable or disable the glow component on this entity.
 	/// </summary>
-	/// <param name="shouldGlow"></param>
-	public void ShouldGlow(bool shouldGlow)
+	/// <param name="shouldGlow">Whether or not to enable the glow component on the entity.</param>
+	public void ShouldGlow( bool shouldGlow )
 	{
 		var component = Components.GetOrCreate<Glow>();
 
