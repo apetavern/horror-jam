@@ -7,13 +7,13 @@
 		VolumeRandom = 0
 		Pitch = 1
 		PitchRandom = 0
-		Decibels = 65
+		Decibels = 75
 		Sounds = 
 		[
 			resource:"sounds/flashlight/flashlight_click_on.vsnd",
 		]
 		SelectionMode = "Forward"
-		MaximumDistance = 990.75903
-		MinimumDistance = 49.537952
+		MaximumDistance = 1308.4543
+		MinimumDistance = 65.42272
 	}
 }

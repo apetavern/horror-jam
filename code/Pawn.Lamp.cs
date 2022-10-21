@@ -29,7 +29,14 @@ public partial class Pawn
 		{
 			Lamp.Enabled = value;
 			if ( !value )
+			{
 				TimeSinceLampOff = 0;
+				Sound.FromEntity( "flashlight_click_off", this );
+			}
+			else
+			{
+				Sound.FromEntity( "flashlight_click_on", this );
+			}
 		}
 	}
 
