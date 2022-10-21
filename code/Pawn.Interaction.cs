@@ -8,7 +8,7 @@ public partial class Pawn
 	[Net, Predicted]
 	public bool IsInteracting { get; private set; }
 
-	private GlowItem? LastGlowable { get; set; }
+	private InteractableEntity? LastInteractable { get; set; }
 
 	/// <summary>
 	/// The entity that the pawn is interacting with.
@@ -40,14 +40,14 @@ public partial class Pawn
 	{
 		var entity = FindInteractableEntity();
 
-		if ( entity is GlowItem glowEntity )
+		if ( entity is InteractableEntity interactableEntity )
 		{
-			glowEntity.ShouldGlow( true );
-			LastGlowable = glowEntity;
+			interactableEntity.ShowInteractionPrompt( true );
+			LastInteractable = interactableEntity;
 		}
 		else
 		{
-			LastGlowable?.ShouldGlow( false );
+			LastInteractable?.ShowInteractionPrompt( false );
 		}
 
 		if ( InteractedEntity is not null && !InteractedEntity.IsValid )

@@ -4,7 +4,7 @@
 /// Represents an item that takes time to use.
 /// </summary>
 [Category( "Interactables" )]
-public partial class DelayedUseItem : GlowItem, IInteractable
+public partial class DelayedUseItem : InteractableEntity, IInteractable
 {
 	/// <summary>
 	/// The amount of time it takes to use the item.

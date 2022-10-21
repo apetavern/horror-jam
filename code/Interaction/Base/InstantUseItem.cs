@@ -4,7 +4,7 @@
 /// Represents an item that has an instant use.
 /// </summary>
 [Category( "Interactables" )]
-public class InstantUseItem : GlowItem, IInteractable
+public class InstantUseItem : InteractableEntity, IInteractable
 {
 	/// <summary>
 	/// Whether or not to delete the entity after it has been used.

@@ -15,6 +15,8 @@ public partial class LampBatteryItem : DelayedUseItem
 	{
 		base.Spawn();
 
+		Name = "Battery";
+
 		SetModel( "models/sbox_props/watermelon/watermelon.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
 	}
