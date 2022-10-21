@@ -60,9 +60,6 @@ public partial class Camera : CameraMode
 		modeSwitchProgress = 0;
 	}
 
-	//
-	//
-	//
 	private Vector3 UpdateThirdPerson( Entity pawn )
 	{
 		var targetPos = pawn.EyePosition
@@ -73,9 +70,6 @@ public partial class Camera : CameraMode
 		return tr.EndPosition;
 	}
 
-	//
-	//
-	//
 	private Vector3 UpdateFirstPerson( Entity pawn )
 	{
 		var eyePos = pawn.EyePosition;
@@ -84,9 +78,12 @@ public partial class Camera : CameraMode
 		return targetPos + GetAdditiveNoise();
 	}
 
-	//
-	// Returns time-based noise, normalized from -1 to 1.
-	//
+	/// <summary>
+	/// Returns time-based noise, normalized from -1 to 1.
+	/// </summary>
+	/// <param name="offset"></param>
+	/// <param name="speed"></param>
+	/// <returns></returns>
 	private float GetNoise( float offset, float speed )
 	{
 		var noise = Noise.Perlin( offset, offset, Time.Now * speed );
@@ -96,12 +93,13 @@ public partial class Camera : CameraMode
 		return noise;
 	}
 
-	//
-	// Provides noise for a 'breathing' effect.
-	// We could potentially multiply this by some factor later
-	// depending on how close a player is to the monster
-	// (i.e. some sort of 'sanity' value)
-	// 
+	/// <summary>
+	/// Provides noise for a 'breathing' effect.
+	/// We could potentially multiply this by some factor later
+	/// depending on how close a player is to the monster
+	/// (i.e. some sort of 'sanity' value)
+	/// </summary>
+	/// <returns></returns>
 	private Vector3 GetAdditiveNoise()
 	{
 		var noise = GetNoise( 0.1f, 16f ) * Vector3.Up

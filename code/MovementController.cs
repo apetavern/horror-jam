@@ -4,21 +4,35 @@ public partial class MovementController : WalkController
 {
 	private TimeSince TimeSinceSprinted;
 
-	// 0 to 1
+	/// <summary>
+	/// 0 to 1
+	/// </summary>
 	[Net, Predicted] public float Stamina { get; set; }
 
-	// Is the player currently sprinting?
+	/// <summary>
+	/// Is the player currently sprinting?
+	/// </summary>
 	[Net, Predicted] public bool IsSprinting { get; set; }
 
-	// Per second, while sprinting
+	/// <summary>
+	/// Per second, while sprinting
+	/// </summary>
 	private float StaminaReductionRate => 0.5f;
 
-	// Per second, while not sprinting for over StaminaReplenishDelay
+	/// <summary>
+	/// Per second, while not sprinting for over StaminaReplenishDelay
+	/// </summary>
 	private float StaminaReplenishRate => 0.5f;
+
+	/// <summary>
+	/// How long (in seconds) before stamina replenishes?
+	/// </summary>
 	// Seconds
 	private float StaminaReplenishDelay => 1.0f;
 
-	// How much stamina is required to engage sprint?
+	/// <summary>
+	/// How much stamina is required to engage sprint?
+	/// </summary>
 	public float MinimumStaminaForSprint => 0.3f;
 
 	public override void Simulate()
