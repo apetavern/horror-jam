@@ -86,24 +86,24 @@
 						[
 							{
 								_class = "IKChainJoint"
-								name = "MainRotator"
+								name = "main"
 								children = 
 								[
 									{
 										_class = "IKChainJoint"
-										name = "TopCylinder"
+										name = "MainRotator"
 										children = 
 										[
 											{
 												_class = "IKChainJoint"
-												name = "BottomCylinder"
-												bone = "Camera"
+												name = "TopCylinder"
+												bone = "BottomCylinder"
 											},
 										]
-										bone = "BottomCylinder"
+										bone = "TopCylinder"
 									},
 								]
-								bone = "TopCylinder"
+								bone = "TopConnector"
 							},
 						]
 						m_bDoBonesOrientAlongPositiveX = true
@@ -122,7 +122,7 @@
 						{
 							m_Name = ""
 						}
-						"m_Data.m_bParentJointRequiresAlignment" = true
+						"m_Data.m_bParentJointRequiresAlignment" = false
 					},
 				]
 			},

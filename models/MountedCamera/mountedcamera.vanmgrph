@@ -72,10 +72,10 @@
 					{
 						m_id = 987138501
 					}
-					m_bMatchTargetOrientation = false
+					m_bMatchTargetOrientation = true
 					m_rotationParam = 
 					{
-						m_id = 4294967295
+						m_id = 1687777024
 					}
 				}
 			},
@@ -120,6 +120,21 @@
 				m_bAutoReset = false
 				m_bPredicted = false
 				m_defaultValue = [ 0.0, 0.0, 0.0 ]
+				m_bInterpolate = false
+			},
+			{
+				_class = "CQuaternionAnimParameter"
+				m_name = "rotation"
+				m_id = 
+				{
+					m_id = 1687777024
+				}
+				m_previewButton = "ANIMPARAM_BUTTON_NONE"
+				m_bNetwork = true
+				m_bUseMostRecentValue = false
+				m_bAutoReset = false
+				m_bPredicted = false
+				m_defaultValue = [ 0.0, 0.0, 0.0, 1.0 ]
 				m_bInterpolate = false
 			},
 		]
