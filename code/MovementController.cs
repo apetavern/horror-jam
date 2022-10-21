@@ -95,6 +95,9 @@ public partial class MovementController : WalkController
 
 	public override void CheckJumpButton()
 	{
+		if ( (Pawn as Pawn)!.IsInteracting )
+			return;
+
 		// If we are in the water most of the way...
 		if ( Swimming )
 		{
