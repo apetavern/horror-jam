@@ -1,10 +1,12 @@
-﻿namespace GvarJam.Interactions;
+﻿using GvarJam.Interaction;
+
+namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an item that takes time to use.
 /// </summary>
 [Category( "Interactables" )]
-public partial class DelayedUseItem : ModelEntity, IInteractable
+public partial class DelayedUseItem : GlowItem, IInteractable
 {
 	/// <summary>
 	/// The amount of time it takes to use the item.

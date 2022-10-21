@@ -1,10 +1,12 @@
-﻿namespace GvarJam.Interactions;
+﻿using GvarJam.Interaction;
+
+namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an item that has an instant use.
 /// </summary>
 [Category( "Interactables" )]
-public class InstantUseItem : ModelEntity, IUse
+public class InstantUseItem : GlowItem, IUse
 {
 	/// <summary>
 	/// Whether or not to delete the entity after it has been used.

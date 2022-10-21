@@ -1,4 +1,5 @@
-﻿using GvarJam.Interactions;
+﻿using GvarJam.Interaction;
+using GvarJam.Interactions;
 
 namespace GvarJam;
 
@@ -9,6 +10,8 @@ public partial class Pawn
 	/// </summary>
 	[Net, Predicted]
 	public bool IsInteracting { get; private set; }
+
+	private GlowItem? LastGlowable { get; set; }
 
 	/// <summary>
 	/// The entity that the pawn is interacting with.
@@ -38,12 +41,23 @@ public partial class Pawn
 	/// </summary>
 	private void SimulateInteraction()
 	{
+		var entity = FindInteractableEntity();
+
+		if ( entity is GlowItem glowEntity )
+		{
+			glowEntity.ShouldGlow( true );
+			LastGlowable = glowEntity;
+		}
+		else
+		{
+			LastGlowable?.ShouldGlow( false );
+		}
+
 		if ( InteractedEntity is not null && !InteractedEntity.IsValid )
 			InteractedEntity = null;
 
 		if ( Input.Down( InputButton.Use ) )
 		{
-			var entity = FindInteractableEntity();
 			if ( entity is not null )
 			{
 				if ( (entity as IUse)!.OnUse( this ) )
