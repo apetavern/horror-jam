@@ -3,6 +3,7 @@ global using Sandbox.UI;
 global using Sandbox.UI.Construct;
 global using System;
 global using System.Linq;
+using GvarJam.Interactions;
 
 //
 // You don't need to put things in a namespace, but it doesn't hurt.
@@ -50,5 +51,23 @@ public partial class MyGame : Sandbox.Game
 			tx.Position += Vector3.Up * 50.0f; // raise it up
 			pawn.Transform = tx;
 		}
+	}
+
+	[ConCmd.Admin( "spawn_instant_item" )]
+	public static void SpawnInstantItem()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		_ = new InstantUseItem() { Position = ConsoleSystem.Caller.Pawn.Position };
+	}
+
+	[ConCmd.Admin( "spawn_delayed_item" )]
+	public static void SpawnDelayedItem()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		_ = new DelayedUseItem() { Position = ConsoleSystem.Caller.Pawn.Position };
 	}
 }

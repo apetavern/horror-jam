@@ -36,6 +36,9 @@ public class MovementController : WalkController
 
 	public override float GetWishSpeed()
 	{
+		if ( (Pawn as Pawn)!.IsInteracting )
+			return 0;
+
 		var ws = Duck.GetWishSpeed();
 		if ( ws >= 0 ) return ws;
 

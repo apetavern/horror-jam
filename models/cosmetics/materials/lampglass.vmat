@@ -1,0 +1,43 @@
+// THIS FILE IS AUTO-GENERATED
+
+Layer0
+{
+	shader "glass.vfx"
+
+	//---- Color ----
+	g_flModelTintAmount "1.000"
+	g_vColorTint "[0.674510 0.705882 0.713726 0.000000]"
+	TextureAmbientOcclusion "[1.000000 1.000000 1.000000 0.000000]"
+	TextureColor "[0.411765 0.835294 0.921569 0.000000]"
+	TextureMetalness "[0.670000 0.670000 0.670000 0.000000]"
+	TextureNormal "models/cosmetics/materials/helmetspherenormal.jpg"
+	TextureRoughness "[0.136000 0.136000 0.136000 0.000000]"
+	TextureTranslucency "[0.569000 0.569000 0.569000 0.000000]"
+
+	//---- Fade ----
+	g_flFadeExponent "1.000"
+
+	//---- Fresnel ----
+	g_bFresnel "1"
+	g_flEdgeColorFalloff "0.689"
+	g_flEdgeColorMaxOpacity "0.062"
+	g_flEdgeColorThickness "0.397"
+	g_vEdgeColor "[0.000000 0.964706 1.000000 0.000000]"
+
+	//---- Glass ----
+	g_flAlphaTestReference "0.000"
+	g_flOpacity "0.302"
+	GlassNormal "models/cosmetics/materials/helmetspherenormal.jpg"
+	GlassRoughness "[0.000000 0.000000 0.000000 0.000000]"
+	GlassTintColor "[0.505882 0.882353 1.000000 0.000000]"
+
+	//---- Lighting ----
+	g_flDirectionalLightmapStrength "1.000"
+
+	//---- Texture Coordinates ----
+	g_nScaleTexCoordUByModelScaleAxis "0"
+	g_nScaleTexCoordVByModelScaleAxis "0"
+	g_vTexCoordOffset "[0.000 0.000]"
+	g_vTexCoordScale "[1.000 1.000]"
+	g_vTexCoordScrollSpeed "[0.000 0.000]"
+}

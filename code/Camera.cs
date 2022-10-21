@@ -1,16 +1,11 @@
 ﻿namespace GvarJam;
 
-public class Camera : CameraMode
+public partial class Camera : CameraMode
 {
-	enum ViewMode
-	{
-		FirstPerson,
-		ThirdPerson
-	}
+	[Net, Predicted]
+	public ViewModeType ViewMode { get; private set; }
 
 	Vector3 lastPos;
-	ViewMode viewMode;
-
 	float modeSwitchProgress;
 	float ModeSwitchSpeed => 2.0f;
 
@@ -30,13 +25,13 @@ public class Camera : CameraMode
 		var pawn = Local.Pawn;
 		if ( pawn == null ) return;
 
-		DebugOverlay.ScreenText( $"{viewMode}" );
+		DebugOverlay.ScreenText( ViewMode.ToString() );
 		modeSwitchProgress += Time.Delta;
 
-		var targetPos = viewMode switch
+		var targetPos = ViewMode switch
 		{
-			ViewMode.FirstPerson => UpdateFirstPerson( pawn ),
-			ViewMode.ThirdPerson => UpdateThirdPerson( pawn ),
+			ViewModeType.FirstPerson => UpdateFirstPerson( pawn ),
+			ViewModeType.ThirdPerson => UpdateThirdPerson( pawn ),
 			_ => (Vector3)0,
 		};
 
@@ -45,6 +40,24 @@ public class Camera : CameraMode
 		Rotation = pawn.EyeRotation;
 		lastPos = Position;
 		Viewer = null;
+	}
+
+	public void GoToFirstPerson()
+	{
+		if ( ViewMode == ViewModeType.FirstPerson )
+			return;
+
+		ViewMode = ViewModeType.FirstPerson;
+		modeSwitchProgress = 0;
+	}
+
+	public void GoToThirdPerson()
+	{
+		if ( ViewMode == ViewModeType.ThirdPerson )
+			return;
+
+		ViewMode = ViewModeType.ThirdPerson;
+		modeSwitchProgress = 0;
 	}
 
 	//
@@ -98,17 +111,6 @@ public class Camera : CameraMode
 		return noise * 4f;
 	}
 
-	public override void BuildInput( InputBuilder input )
-	{
-		base.BuildInput( input );
-
-		if ( input.Pressed( InputButton.View ) )
-		{
-			viewMode = (viewMode == ViewMode.FirstPerson) ? ViewMode.ThirdPerson : ViewMode.FirstPerson;
-			modeSwitchProgress = 0;
-		}
-	}
-
 	public float GetPlayerAlpha()
 	{
 		//
@@ -121,10 +123,10 @@ public class Camera : CameraMode
 		float baseAlpha = modeSwitchProgress * ModeSwitchSpeed * 4.0f;
 		baseAlpha = baseAlpha.Clamp( 0, 1 );
 
-		return viewMode switch
+		return ViewMode switch
 		{
-			ViewMode.FirstPerson => 1.0f - baseAlpha,
-			ViewMode.ThirdPerson => baseAlpha,
+			ViewModeType.FirstPerson => 1.0f - baseAlpha,
+			ViewModeType.ThirdPerson => baseAlpha,
 			_ => 1.0f,
 		};
 	}
