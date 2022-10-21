@@ -1,4 +1,5 @@
 ﻿global using Sandbox;
+global using Sandbox.UI;
 global using System;
 global using System.Linq;
 
@@ -18,6 +19,10 @@ public partial class MyGame : Sandbox.Game
 {
 	public MyGame()
 	{
+		if ( IsServer )
+		{
+			_ = new Hud();
+		}
 	}
 
 	/// <summary>
