@@ -89,6 +89,7 @@ public sealed partial class Pawn : AnimatedEntity
 				Camera.GoToFirstPerson();
 		}
 
+		SimulateInteraction();
 		Controller?.Simulate( cl, this, Animator );
 	}
 
@@ -97,6 +98,7 @@ public sealed partial class Pawn : AnimatedEntity
 	{
 		base.FrameSimulate( cl );
 
+		SimulateInteraction();
 		Controller?.FrameSimulate( cl, this, Animator );
 	}
 
