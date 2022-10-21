@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace GvarJam;
 
 /// <summary>
@@ -35,11 +37,18 @@ public sealed partial class Pawn : AnimatedEntity
 	/// </summary>
 	[Net]
 	private ModelEntity Helmet { get; set; }
+
 	/// <summary>
 	/// The pawns lamp.
 	/// </summary>
 	[Net]
 	private SpotLightEntity Lamp { get; set; }
+
+	/// <summary>
+	/// This is a list of stuff we apply the alpha change to
+	/// ( This gets stored so that we're not constantly allocating )
+	/// </summary>
+	private List<ModelEntity> PlayerAndChildren { get; set; }
 
 	/// <summary>
 	/// Called when the entity is first created 
@@ -61,6 +70,7 @@ public sealed partial class Pawn : AnimatedEntity
 			Parent = Helmet,
 			Transform = Helmet.GetAttachment( "light" ).Value
 		};
+
 		Lamp.OuterConeAngle *= 0.4f;
 		Lamp.InnerConeAngle *= 0.1f;
 		Lamp.Brightness = 0.5f;
@@ -74,6 +84,18 @@ public sealed partial class Pawn : AnimatedEntity
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
+	}
+
+	public override void ClientSpawn()
+	{
+		base.ClientSpawn();
+
+		//
+		// Set up hideable entities
+		//
+		PlayerAndChildren = new List<ModelEntity>();
+		PlayerAndChildren.Add( this );
+		PlayerAndChildren.AddRange( Children.OfType<ModelEntity>() );
 	}
 
 	/// <inheritdoc/>
@@ -108,7 +130,13 @@ public sealed partial class Pawn : AnimatedEntity
 	[Event.PreRender]
 	public void OnPreRender()
 	{
-		RenderColor = new Color( 1, 1, 1, GetAlpha() );
+		//
+		// CACHING THE CHILDREN will definitely become a problem later!!
+		// This is a fast but probably not elegant solution
+		// If you need this changing or fixing, find Alex
+		//
+		var alpha = GetAlpha();
+		PlayerAndChildren?.ForEach( x => x.RenderColor = x.RenderColor.WithAlpha( alpha ) );
 	}
 
 	/// <summary>
