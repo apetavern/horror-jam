@@ -395,4 +395,4 @@ FodyWeavers.xsd
 
 # S&box
 [Pp]roperties
-*.csproj
+gvar_jam.csproj
