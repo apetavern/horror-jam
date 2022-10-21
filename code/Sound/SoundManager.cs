@@ -27,7 +27,7 @@ public static class SoundManager
 		CurrentAmbience.SetVolume( AmbienceVolume );
 	}
 
-	[Event.Tick]
+	[Event.Tick.Server]
 	public static void MonitorPlayback()
 	{
 		if ( !EnableAmbience )
