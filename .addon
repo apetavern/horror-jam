@@ -16,7 +16,7 @@
     "GameNetworkType": "Multiplayer",
     "MapSelect": "Unrestricted",
     "MapList": [
-      "facepunch.flatgrass"
+      "apetavern.horror_jam_map"
     ],
     "RankType": "None",
     "PerMapRanking": false,
