@@ -8,14 +8,6 @@ public partial class Pawn
 	[Net]
 	private SpotLightEntity Lamp { get; set; } = null!;
 	/// <summary>
-	/// The delay in seconds before the lamps power starts recharging.
-	/// </summary>
-	private const float LampRechargeDelay = 2;
-	/// <summary>
-	/// The amount of power that is recharged per tick.
-	/// </summary>
-	private const float LampRechargePerTick = 1;
-	/// <summary>
 	/// The amount of power that is discharged per tick.
 	/// </summary>
 	private const float LampDischargePerTick = 0.1f;
@@ -32,6 +24,9 @@ public partial class Pawn
 		get => Lamp.Enabled;
 		private set
 		{
+			if ( LampEnabled == value )
+				return;
+
 			Lamp.Enabled = value;
 			if ( !value )
 			{
@@ -39,11 +34,40 @@ public partial class Pawn
 				Sound.FromEntity( "flashlight_click_off", this );
 			}
 			else
-			{
 				Sound.FromEntity( "flashlight_click_on", this );
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets whether or not a battery is inserted to the pawns helmet.
+	/// </summary>
+	public bool BatteryInserted
+	{
+		get => batteryInserted;
+		set
+		{
+			if ( BatteryInserted == value )
+				return;
+
+			batteryInserted = value;
+			if ( value )
+			{
+				LampPower = LampMaxPower;
+				Helmet.SetBodyGroup( 0, 0 );
+			}
+			else
+			{
+				LampEnabled = false;
+				LampPower = 0;
+				Helmet.SetBodyGroup( 0, 1 );
 			}
 		}
 	}
+	/// <summary>
+	/// See <see cref="BatteryInserted"/>.
+	/// </summary>
+	[Net, Predicted]
+	private bool batteryInserted { get; set; } = true;
 
 	/// <summary>
 	/// The current amount of power in the lamp.
@@ -65,9 +89,6 @@ public partial class Pawn
 		if ( Input.Pressed( InputButton.Flashlight ) && LampPower > 0 )
 			LampEnabled = !LampEnabled;
 
-		if ( !LampEnabled && TimeSinceLampOff > LampRechargeDelay )
-			LampPower = MathX.Clamp( LampPower + LampRechargePerTick, 0, LampMaxPower );
-
 		if ( LampEnabled )
 			LampPower -= LampDischargePerTick;
 
@@ -75,13 +96,5 @@ public partial class Pawn
 			LampEnabled = false;
 
 		Lamp.Brightness = LampPower / 100;
-	}
-
-	/// <summary>
-	/// Resets the lamps battery level to full.
-	/// </summary>
-	public void InsertNewLampBattery()
-	{
-		LampPower = LampMaxPower;
 	}
 }

@@ -50,7 +50,7 @@
 						align_origin_x_type = "None"
 						align_origin_y_type = "None"
 						align_origin_z_type = "None"
-						parent_bone = "hold_L"
+						parent_bone = "battery"
 						import_filter = 
 						{
 							exclude_by_default = true
@@ -69,8 +69,18 @@
 					{
 						_class = "Bone"
 						name = "hold_L"
-						origin = [ 0.0, 0.0, 0.0 ]
-						angles = [ 0.0, 0.0, 0.0 ]
+						children = 
+						[
+							{
+								_class = "Bone"
+								name = "battery"
+								origin = [ 0.935322, -4.55808, -3.015359 ]
+								angles = [ 1.23501, 171.346649, 73.402817 ]
+								do_not_discard = true
+							},
+						]
+						origin = [ -1.064618, -1.771676, 5.415824 ]
+						angles = [ -13.341758, 3.259702, 75.567307 ]
 						do_not_discard = true
 					},
 				]

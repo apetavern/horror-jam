@@ -27,7 +27,7 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 	/// <summary>
 	/// The list of animations to play on the user when interacting with this item.
 	/// </summary>
-	protected List<(float, Action<Entity, bool>)> Actions = new();
+	protected List<(float, Action<Entity, bool, float>)> Actions = new();
 
 	/// <summary>
 	/// The current time that the item has been used for.
@@ -74,9 +74,9 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 	{
 		for ( var i = 0; i < Actions.Count; i++ )
 		{
-			var totalTime = 0f;
+			var previousTotalTime = 0f;
 			for ( var j = i; j > 0; j-- )
-				totalTime += Actions[j].Item1;
+				previousTotalTime += Actions[j].Item1;
 
 			var nextTime = 0f;
 			for ( var j = i + 1; j > 0; j-- )
@@ -90,9 +90,9 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 				nextTime += Actions[j].Item1;
 			}
 
-			if ( CurrentUseTime >= totalTime && CurrentUseTime < nextTime )
+			if ( CurrentUseTime >= previousTotalTime && CurrentUseTime < nextTime )
 			{
-				Actions[i].Item2( user, !firstTimeActions.Contains( i ) );
+				Actions[i].Item2( user, !firstTimeActions.Contains( i ), CurrentUseTime - previousTotalTime );
 				firstTimeActions.Add( i );
 			}
 		}
