@@ -6,8 +6,17 @@ internal class StaminaBar : Panel
 
 	public StaminaBar()
 	{
-		_ = Add.Icon( "bolt", "icon" );
-		FillPanel = Add.Panel( "fill" );
+		//
+		// Might move this to html?
+		//
+		var left = Add.Panel( "left" );
+		_ = left.Add.Icon( "bolt", "icon" );
+
+		var right = Add.Panel( "right" );
+		var bar = right.Add.Panel( "bar" );
+		FillPanel = bar.Add.Panel( "fill" );
+
+		_ = right.Add.Label( "Stamina", "label" );
 	}
 
 	public override void Tick()
@@ -17,7 +26,7 @@ internal class StaminaBar : Panel
 		if ( Local.Pawn is not Pawn { Controller: MovementController controller } )
 			return;
 
-		FillPanel.Style.Width = Box.Rect.Width * controller.Stamina * ScaleFromScreen;
+		FillPanel.Style.Width = Length.Fraction( controller.Stamina );
 		SetClass( "visible", !controller.Stamina.AlmostEqual( 1 ) );
 	}
 }
