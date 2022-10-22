@@ -1,4 +1,3 @@
-using GvarJam.HammerEntities;
 using System.Collections.Generic;
 
 namespace GvarJam;
@@ -38,11 +37,6 @@ public sealed partial class Pawn : AnimatedEntity
 	/// </summary>
 	[Net]
 	private ModelEntity Helmet { get; set; } = null!;
-	/// <summary>
-	/// The pawns lamp.
-	/// </summary>
-	[Net]
-	private SpotLightEntity Lamp { get; set; } = null!;
 
 	/// <summary>
 	/// This is a list of stuff we apply the alpha change to
@@ -68,7 +62,8 @@ public sealed partial class Pawn : AnimatedEntity
 		Lamp = new SpotLightEntity
 		{
 			Parent = Helmet,
-			Transform = Helmet.GetAttachment( "light" )!.Value
+			Transform = Helmet.GetAttachment( "light" )!.Value,
+			LightCookie = Texture.Load( FileSystem.Mounted, "materials/effects/lightcookie.vtex" )
 		};
 
 		Lamp.OuterConeAngle *= 0.4f;

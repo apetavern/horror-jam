@@ -3,6 +3,11 @@
 public partial class Pawn
 {
 	/// <summary>
+	/// The pawns lamp.
+	/// </summary>
+	[Net]
+	private SpotLightEntity Lamp { get; set; } = null!;
+	/// <summary>
 	/// The delay in seconds before the lamps power starts recharging.
 	/// </summary>
 	private const float LampRechargeDelay = 2;
@@ -69,7 +74,7 @@ public partial class Pawn
 		if ( LampPower <= 0 && LampEnabled )
 			LampEnabled = false;
 
-		DebugOverlay.ScreenText( $"Lamp Power: {LampPower / LampMaxPower * 100}", 1 );
+		Lamp.Brightness = LampPower / 100;
 	}
 
 	/// <summary>

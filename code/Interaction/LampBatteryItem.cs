@@ -15,7 +15,10 @@ public partial class LampBatteryItem : DelayedUseItem
 	{
 		base.Spawn();
 
+		Name = "Battery";
+
 		SetModel( "models/items/battery/battery.vmdl" );
+
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
 	}
 

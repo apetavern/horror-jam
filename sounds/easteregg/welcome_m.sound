@@ -10,7 +10,7 @@
 		Decibels = 70
 		Sounds = 
 		[
-			resource:"sounds/environment/eeriesoundstomakeyoushityourself.vsnd",
+			resource:"sounds/easteregg/welcome_m.vsnd",
 		]
 		SelectionMode = "Random"
 		MaximumDistance = 1143.9335

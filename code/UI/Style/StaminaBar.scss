@@ -2,40 +2,42 @@
 
 StaminaBar {
     position: absolute;
-    bottom: 250px;
+    bottom: 64px;
     left: 50%;
     width: 250px;
-    height: 2px;
-    background-color: rgba( black, 0.5 );
     transform: translate( -50% );
-    opacity: 0;
-    transition: opacity 1000ms ease;
-
-    &.visible {
-        transition: opacity 100ms ease;
-        opacity: 1;
-    }
+    
+    flex-direction: row;
 }
 
 .icon {
     color: $accent;
     text-shadow: 0 1px 1px rgba( black, 0.1 );
     font-size: 24px;
-
-    //
-    // Positioning this manually is kinda sucky..
-    // it'll do for now
-    //
-    position: relative;
-    left: -32px;
-    top: -10px;
 }
 
-.fill {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    background-color: $accent;
-    box-shadow: 0 1px 5px rgba( black, 0.1 );
+.left {
+    margin-right: 2px;
+}
+
+.right {
+    margin-left: 2px;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+
+    .bar {
+        background-color: rgba( black, 0.5 );
+        height: 2px;
+        width: 100%;
+
+        .fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            background-color: $accent;
+            box-shadow: 0 1px 5px rgba( black, 0.1 );
+        }
+    }
 }

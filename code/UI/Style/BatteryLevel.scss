@@ -1,0 +1,40 @@
+﻿$accent: #F2D933;
+
+BatteryLevel {
+    position: absolute;
+    top: 64px;
+    left: 50%;
+    transform: translate( -50% );
+    width: 49px;
+    height: 32px;
+
+    &.danger {
+        .frame {
+            background-image-tint: red;
+        }
+
+        .fill {
+            background-color: red;
+        }
+    }
+}
+
+.fill {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    bottom: 4px;
+
+    background-color: white;
+}
+
+.frame {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 64px;
+    height: 64px;
+    background: url( /ui/battery/battery-frame.png );
+    background-size: contain;
+    background-repeat: no-repeat;
+}
