@@ -1,10 +1,36 @@
 ﻿namespace GvarJam.Interactions;
 
-public class InteractableEntity : ModelEntity
+public class InteractableEntity : ModelEntity, IInteractable
 {
 	public virtual Color GlowColor { get; set; } = Color.Orange;
 
 	protected InteractionPromptPanel? InteractionPromptPanel { get; set; }
+
+	public virtual bool IsUsable( Entity user )
+	{
+		return user.Position.Distance( Position ) < 100;
+	}
+
+	/// <summary>
+	/// Invoked when using the item has finished.
+	/// </summary>
+	/// <param name="user">The entity that is using the item.</param>
+	protected virtual void OnUsed( Entity user )
+	{
+		DebugOverlay.Text( "Used", Position, 1 );
+	}
+
+	public virtual bool OnUse( Entity user )
+	{
+		OnUsed( user );
+
+		return true;
+	}
+
+	public virtual void Reset()
+	{
+		
+	}
 
 	/// <summary>
 	/// Enable or disable the interaction prompt on this entity.

@@ -52,17 +52,7 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 		DebugOverlay.Text( $"Use: {MathX.Floor( CurrentUseTime / TimeToUse * 100 )}%\nUser: {user}", Position );
 	}
 
-	/// <summary>
-	/// Invoked when using the item has finished.
-	/// </summary>
-	/// <param name="user">The entity that is using the item.</param>
-	protected virtual void OnUsed( Entity user )
-	{
-		DebugOverlay.Text( "Used", Position, 1 );
-	}
-
-	/// <inheritdoc/>
-	public virtual bool IsUsable( Entity user )
+	public override bool IsUsable( Entity user )
 	{
 		if ( User is not null && User != user )
 			return false;
@@ -70,8 +60,7 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 		return user.Position.Distance( Position ) < 100;
 	}
 
-	/// <inheritdoc/>
-	public bool OnUse( Entity user )
+	public override bool OnUse( Entity user )
 	{
 		if ( IsServer )
 			User = user;
@@ -80,6 +69,7 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 		OnUseTick( user );
 
 		var used = CurrentUseTime >= TimeToUse;
+
 		if ( used )
 		{
 			OnUsed( user );
@@ -92,10 +82,10 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 		return !used;
 	}
 
-	/// <inheritdoc/>
-	public virtual void Reset()
+	public override void Reset()
 	{
 		CurrentUseTime = 0;
+
 		if ( IsServer )
 			User = null;
 	}
