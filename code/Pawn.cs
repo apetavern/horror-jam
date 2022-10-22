@@ -51,7 +51,7 @@ public sealed partial class Pawn : AnimatedEntity
 	{
 		base.Spawn();
 
-		SetModel( "models/citizen/citizen.vmdl" );
+		SetModel( "models/player/playermodel.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
 		Helmet = new ModelEntity( "models/cosmetics/spacehelmet.vmdl" )
