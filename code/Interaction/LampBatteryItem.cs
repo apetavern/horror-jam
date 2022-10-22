@@ -11,7 +11,7 @@ namespace GvarJam.Interactions;
 public partial class LampBatteryItem : DelayedUseItem
 {
 	/// <inheritdoc/>
-	public override float TimeToUse => 2.2f;
+	public override float TimeToUse => 2.6f;
 	/// <inheritdoc/>
 	protected override bool DeleteOnUse => true;
 	/// <inheritdoc/>
@@ -21,8 +21,9 @@ public partial class LampBatteryItem : DelayedUseItem
 	/// </summary>
 	private readonly List<(float, Action<Entity>)> actions = new()
 	{
-		(0.8f, PullBattery),
-		(0.6f, PickupItem),
+		(0.4f, PullBattery),
+		(Time.Delta, DropOldBattery),
+		(0.5f, PickupItem),
 		(0.8f, PushBattery)
 	};
 
@@ -59,15 +60,26 @@ public partial class LampBatteryItem : DelayedUseItem
 	}
 
 	/// <summary>
+	/// The first animation, pulls the battery out of the helmet.
+	/// </summary>
+	/// <param name="user">The entity that is doing the interaction.</param>
+	private static void DropOldBattery( Entity user )
+	{
+		ModelEntity modl = new ModelEntity( "models/items/battery/battery.vmdl" );
+		modl.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+		modl.Transform = (user as AnimatedEntity).GetBoneTransform( "hold_L" ).WithScale(0.6f);
+		modl.RenderColor = Color.Red;
+		modl.DeleteAsync( 2.5f );
+	}
+
+	/// <summary>
 	/// The second animation, picks up the battery item.
 	/// </summary>
 	/// <param name="user">The entity that is doing the interaction.</param>
 	private static void PickupItem( Entity user )
 	{
-		var pawn = (user as Pawn)!;
-		pawn.SetAnimParameter( "holdtype", 1 );
-		pawn.SetAnimParameter( "holdtype_handedness", 1 );
-		pawn.SetAnimParameter( "b_attack", true );
+
+		(user as Pawn)!.SetAnimParameter( "grabitem", true );
 	}
 
 	/// <summary>

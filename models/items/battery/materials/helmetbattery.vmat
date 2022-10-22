@@ -43,8 +43,8 @@ Layer0
 
 	//---- Self Illum ----
 	g_flSelfIllumAlbedoFactor "1.000"
-	g_flSelfIllumBrightness "3.377"
-	g_flSelfIllumScale "3.515"
+	g_flSelfIllumBrightness "0.754"
+	g_flSelfIllumScale "0.420"
 	g_vSelfIllumScrollSpeed "[0.000 0.000]"
 	g_vSelfIllumTint "[1.000000 1.000000 1.000000 0.000000]"
 	TextureSelfIllumMask "models/items/battery/materials/helmetbattery_selfillum.psd"
