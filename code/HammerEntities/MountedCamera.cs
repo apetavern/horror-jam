@@ -30,16 +30,6 @@ public partial class MountedCamera : AnimatedEntity
 		SetModel( "models/mountedcamera/mountedcamera.vmdl" );
 	}
 
-	public void StartManualControl( Pawn player ) 
-	{
-		
-	}
-
-	public void EndManualControl( Pawn player ) 
-	{
-
-	}
-
 	[Event.Tick.Server]
 	public void Tick()
 	{

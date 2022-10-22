@@ -40,7 +40,7 @@ public partial class CameraController : InteractableEntity
 		if ( targetCamera is null )
 			return;
 
-		var camera = new ControllableCamera().SetupFromEntity( targetCamera );
+		var camera = new ControllableCamera().SetupFromMountedCamera( targetCamera );
 
 		player.Camera = camera;
 		player.Controller = null;

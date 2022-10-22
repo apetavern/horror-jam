@@ -3,24 +3,30 @@
 public partial class ControllableCamera : CameraMode
 {
 	[Net]
-	public Entity? ControlFromEntity { get; set; }
+	public MountedCamera? ControlFromCamera { get; set; }
 
-	public CameraMode SetupFromEntity( Entity entity )
+	public CameraMode SetupFromMountedCamera( MountedCamera camera )
 	{
-		ControlFromEntity = entity;
+		ControlFromCamera = camera;
 
-		Position = entity.Position;
-		Rotation = entity.Rotation;
+		Position = camera.Position;
+		Rotation = camera.Rotation;
 
 		return this;
 	}
 
 	public override void Update()
 	{
-		if ( ControlFromEntity is null )
+		if ( ControlFromCamera is null )
 			return;
 
-		Position = ControlFromEntity.Position;
-		Rotation = ControlFromEntity.Rotation;
+		var attachment = ControlFromCamera.GetAttachment( "lens_position" );
+
+		if ( attachment is null )
+			return;
+
+		Position = attachment.Value.Position;
+		Rotation = attachment.Value.Rotation;
+
 	}
 }
