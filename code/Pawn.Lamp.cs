@@ -8,14 +8,6 @@ public partial class Pawn
 	[Net]
 	private SpotLightEntity Lamp { get; set; } = null!;
 	/// <summary>
-	/// The delay in seconds before the lamps power starts recharging.
-	/// </summary>
-	private const float LampRechargeDelay = 2;
-	/// <summary>
-	/// The amount of power that is recharged per tick.
-	/// </summary>
-	private const float LampRechargePerTick = 1;
-	/// <summary>
 	/// The amount of power that is discharged per tick.
 	/// </summary>
 	private const float LampDischargePerTick = 0.1f;
@@ -71,9 +63,6 @@ public partial class Pawn
 	{
 		if ( Input.Pressed( InputButton.Flashlight ) && LampPower > 0 )
 			LampEnabled = !LampEnabled;
-
-		if ( !LampEnabled && TimeSinceLampOff > LampRechargeDelay )
-			LampPower = MathX.Clamp( LampPower + LampRechargePerTick, 0, LampMaxPower );
 
 		if ( LampEnabled )
 			LampPower -= LampDischargePerTick;
