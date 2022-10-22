@@ -1,6 +1,6 @@
-﻿namespace GvarJam;
+﻿namespace GvarJam.Cameras;
 
-public partial class Camera : CameraMode
+public partial class PawnCamera : CameraMode
 {
 	[Net, Predicted]
 	public ViewModeType ViewMode { get; private set; }

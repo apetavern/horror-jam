@@ -5,9 +5,11 @@ global using Sandbox.UI.Construct;
 global using Sandbox.Component;
 global using System;
 global using System.Linq;
+global using System.Collections.Generic;
 global using GvarJam.Interactions;
 global using GvarJam.HammerEntities;
 global using GvarJam.SoundManager;
+global using GvarJam.Cameras;
 
 namespace GvarJam;
 

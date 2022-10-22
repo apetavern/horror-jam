@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace GvarJam;
 
 /// <summary>
@@ -16,9 +14,9 @@ public sealed partial class Pawn : AnimatedEntity
 	/// <summary>
 	/// The active camera for the pawn.
 	/// </summary>
-	public Camera Camera
+	public PawnCamera Camera
 	{
-		get => Components.Get<Camera>();
+		get => Components.Get<PawnCamera>();
 		private set
 		{
 			Components.RemoveAny<CameraMode>();
@@ -73,7 +71,7 @@ public sealed partial class Pawn : AnimatedEntity
 		Helmet.SetParent( this, true );
 
 		Animator = new StandardPlayerAnimator();
-		Camera = new Camera();
+		Camera = new PawnCamera();
 		Controller = new MovementController();
 
 		EnableDrawing = true;
@@ -147,7 +145,7 @@ public sealed partial class Pawn : AnimatedEntity
 	/// <returns>The transparency to render the player at.</returns>
 	private float GetAlpha()
 	{
-		if ( Camera is Camera camera )
+		if ( Camera is PawnCamera camera )
 			return camera.GetPlayerAlpha();
 
 		return 1.0f;
