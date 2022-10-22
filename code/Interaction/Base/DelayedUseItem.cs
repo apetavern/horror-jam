@@ -27,7 +27,7 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 	/// <summary>
 	/// The list of animations to play on the user when interacting with this item.
 	/// </summary>
-	protected virtual List<(float, Action<Entity>)> Actions => new();
+	protected List<(float, Action<Entity, bool>)> Actions = new();
 
 	/// <summary>
 	/// The entity that is currently using the item.
@@ -41,13 +41,35 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 	[Net, Predicted]
 	protected float CurrentUseTime { get; set; }
 
+	/// <summary>
+	/// A hash set of all the action indices that have been called for the first time.
+	/// </summary>
+	private readonly HashSet<int> firstTimeActions = new();
+
 	/// <inheritdoc/>
 	public override void Spawn()
 	{
 		base.Spawn();
 
+		CreateActions();
+
 		SetModel( "models/sbox_props/watermelon/watermelon.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
+	}
+
+	/// <inheritdoc/>
+	public override void ClientSpawn()
+	{
+		base.ClientSpawn();
+
+		CreateActions();
+	}
+
+	/// <summary>
+	/// Invoked to create any required actions for the interaction.
+	/// </summary>
+	protected virtual void CreateActions()
+	{
 	}
 
 	/// <summary>
@@ -75,7 +97,10 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 			}
 
 			if ( CurrentUseTime >= totalTime && CurrentUseTime < nextTime )
-				Actions[i].Item2( user );
+			{
+				Actions[i].Item2( user, !firstTimeActions.Contains( i ) );
+				firstTimeActions.Add( i );
+			}
 		}
 	}
 
@@ -112,7 +137,7 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 	public override void Reset()
 	{
 		CurrentUseTime = 0;
-
+		firstTimeActions.Clear();
 		if ( IsServer )
 			User = null;
 	}
