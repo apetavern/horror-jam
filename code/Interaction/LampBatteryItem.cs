@@ -108,7 +108,7 @@ public partial class LampBatteryItem : DelayedUseItem
 		{
 			Transform = pawn.GetBoneTransform( "hold_L" ).WithScale( 0.6f ),
 			Velocity = user.Rotation.Left * 100f,
-			RenderColor = Color.Red
+			RenderColor = new Color( 1 - pawn.BatteryPercentage, pawn.BatteryPercentage, 0 )
 		};
 		modl.Tags.Add( "camignore" );
 		modl.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );

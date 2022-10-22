@@ -101,6 +101,7 @@ public partial class Pawn
 		if ( LampPower <= 0 && LampEnabled )
 			LampEnabled = false;
 
-		Lamp.Brightness = LampPower / 100;
+		Lamp.Brightness = BatteryPercentage;
+		Helmet.RenderColor = new Color( 1 - BatteryPercentage, BatteryPercentage, 0 );
 	}
 }
