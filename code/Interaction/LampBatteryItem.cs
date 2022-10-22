@@ -32,7 +32,7 @@ public partial class LampBatteryItem : DelayedUseItem
 		Name = "Battery";
 
 		SetModel( "models/items/battery/battery.vmdl" );
-		SetupPhysicsFromModel( PhysicsMotionType.Static );
+		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 	}
 
 	/// <inheritdoc/>
@@ -86,7 +86,7 @@ public partial class LampBatteryItem : DelayedUseItem
 		if ( !pawn.BatteryInserted )
 			return true;
 
-		if ( IsServer && timeInAnim >= 0.52 && !droppedBattery )
+		if ( IsServer && timeInAnim >= 0.6 && !droppedBattery )
 		{
 			DropOldBattery( user );
 			Sound.FromEntity( "replace_battery", user );
