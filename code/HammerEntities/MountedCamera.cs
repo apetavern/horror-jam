@@ -17,7 +17,7 @@ public partial class MountedCamera : AnimatedEntity
 	/// <summary>
 	/// Field of view in degrees
 	/// </summary>
-	[Property] public float Fov { get; set; } = 90.0f;
+	[Property] public float Fov { get; set; } = 120.0f;
 
 	/// <summary>
 	/// Distance to the near plane
