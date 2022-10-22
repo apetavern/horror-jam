@@ -14,16 +14,12 @@
 						remaps = 
 						[
 							{
-								from = "glass.vmat"
-								to = "materials/glass/sbox_glass.vmat"
-							},
-							{
 								from = "phong1.vmat"
 								to = "dev/helper/testgrid.vmat"
 							},
 							{
 								from = "monitor.vmat"
-								to = "models/sbox_props/road_signs/road_sign_give_way.vmat"
+								to = "models/cameraconsole/materials/monitoroff.vmat"
 							},
 						]
 						use_global_default = false
@@ -72,9 +68,9 @@
 							exclude_by_default = true
 							exception_list = 
 							[
-								"pCube1",
-								"pCube2",
 								"pCube3",
+								"pCube2",
+								"pCube1",
 							]
 						}
 					},
