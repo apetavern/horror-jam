@@ -19,7 +19,7 @@ public class InteractableEntity : ModelEntity
 
 		component.Enabled = shouldShow;
 
-		if( !shouldShow )
+		if ( !shouldShow )
 		{
 			InteractionPromptPanel?.Delete();
 			return;
@@ -28,14 +28,14 @@ public class InteractableEntity : ModelEntity
 		if ( Host.IsServer )
 			return;
 
-		if( InteractionPromptPanel is null || !InteractionPromptPanel.IsValid )
+		if ( InteractionPromptPanel is null || !InteractionPromptPanel.IsValid )
 		{
-			InteractionPromptPanel = new InteractionPromptPanel(this);
+			InteractionPromptPanel = new InteractionPromptPanel( this );
 			InteractionPromptPanel.Position = Position + Vector3.Up * Model.RenderBounds.Size.z;
 			InteractionPromptPanel.Rotation = Rotation;
 		}
 
-		InteractionPromptPanel.Rotation = Rotation.LookAt( Local.Pawn.Position - Position );
+		InteractionPromptPanel.Rotation = Rotation.LookAt( CurrentView.Position - InteractionPromptPanel.Position );
 	}
 }
 

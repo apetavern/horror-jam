@@ -1,9 +1,14 @@
 ﻿@import "/UI/Style/StaminaBar.scss";
+@import "/UI/Style/WorldPanels.scss";
 
 Hud {
 
 }
 
-Icon, IconPanel {
+text, label {
+    font-family: Chakra Petch;
+}
+
+icon, iconpanel {
     font-family: MaterialIcons-Regular;
 }

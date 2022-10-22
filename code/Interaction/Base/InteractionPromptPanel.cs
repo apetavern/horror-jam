@@ -9,14 +9,9 @@ public class InteractionPromptPanel : WorldPanel
 
 		PanelBounds = new Rect( -250, -150, 500, 150 );
 
-		Add.Label( entity.Name );
+		AddClass( "world-panel" );
+		StyleSheet.Load( "/UI/Hud.scss" );
 
-		Style.FontColor = Color.White;
-		Style.TextStrokeColor = Color.Black;
-		Style.TextStrokeWidth = 20f;
-		Style.FontSize = 24;
-		Style.JustifyContent = Justify.Center;
-		Style.AlignItems = Align.Center;
-		Style.FlexDirection = FlexDirection.Column;
+		Add.Label( entity.Name );
 	}
 }
