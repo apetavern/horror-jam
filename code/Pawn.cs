@@ -14,10 +14,10 @@ public sealed partial class Pawn : AnimatedEntity
 	/// <summary>
 	/// The active camera for the pawn.
 	/// </summary>
-	public PawnCamera Camera
+	public CameraMode Camera
 	{
-		get => Components.Get<PawnCamera>();
-		private set
+		get => Components.Get<CameraMode>();
+		set
 		{
 			Components.RemoveAny<CameraMode>();
 			Components.Add( value );
@@ -96,12 +96,12 @@ public sealed partial class Pawn : AnimatedEntity
 	{
 		base.Simulate( cl );
 
-		if ( Input.Pressed( InputButton.View ) )
+		if ( Input.Pressed( InputButton.View ) && Camera is PawnCamera camera )
 		{
-			if ( Camera.ViewMode == ViewModeType.FirstPerson )
-				Camera.GoToThirdPerson();
+			if ( camera.ViewMode == ViewModeType.FirstPerson )
+				camera.GoToThirdPerson();
 			else
-				Camera.GoToFirstPerson();
+				camera.GoToFirstPerson();
 		}
 
 		SimulateLamp();

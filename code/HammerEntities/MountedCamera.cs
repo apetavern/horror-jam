@@ -9,7 +9,16 @@ namespace GvarJam.HammerEntities;
 [EditorModel( "models/mountedcamera/mountedcamera.vmdl" )]
 public partial class MountedCamera : AnimatedEntity
 {
+	/// <summary>
+	/// Whether or not the camera should follow players that are moving around.
+	/// </summary>
 	private bool IsControlledManually { get; set; }
+
+	/// <summary>
+	/// The CameraMode that the player was using prior to operating this camera.
+	/// </summary>
+	private CameraMode PlayersLastCamera { get; set; }
+
 	private Vector3 LookPos;
 	private Rotation LookRot;
 	private Rotation FlatLookRot;
@@ -22,8 +31,8 @@ public partial class MountedCamera : AnimatedEntity
 	}
 
 	public void StartManualControl( Pawn player ) 
-	{ 
-
+	{
+		player.Camera = new ControllableCamera( this );
 	}
 
 	public void EndManualControl( Pawn player ) 
@@ -34,6 +43,9 @@ public partial class MountedCamera : AnimatedEntity
 	[Event.Tick.Server]
 	public void Tick()
 	{
+		if ( IsControlledManually )
+			return;
+
 		var player = All.OfType<Pawn>().GetClosestOrDefault( this );
 
 		if ( player is null )

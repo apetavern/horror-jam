@@ -21,10 +21,13 @@ public partial class Pawn
 			interactedEntity = value;
 			IsInteracting = value is not null;
 
+			if ( Camera is not PawnCamera camera )
+				return;
+
 			if ( IsInteracting )
-				Camera.GoToThirdPerson();
+				camera.GoToThirdPerson();
 			else
-				Camera.GoToFirstPerson();
+				camera.GoToFirstPerson();
 		}
 	}
 	/// <summary>
