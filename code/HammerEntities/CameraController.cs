@@ -43,6 +43,7 @@ public partial class CameraController : InteractableEntity
 		var camera = new ControllableCamera().SetupFromEntity( targetCamera );
 
 		player.Camera = camera;
+		player.Controller = null;
 	}
 
 	protected List<MountedCamera> FindUsableMountedCameras()
@@ -60,6 +61,8 @@ public partial class CameraController : InteractableEntity
 		if ( TimeSinceUsed > 10 && User is Pawn player )
 		{
 			player.Camera = new PawnCamera();
+			player.Controller = new MovementController();
+
 			User = null;
 		}
 			
