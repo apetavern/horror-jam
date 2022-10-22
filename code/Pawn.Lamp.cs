@@ -3,18 +3,16 @@
 public partial class Pawn
 {
 	/// <summary>
-	/// The pawns lamp.
+	/// The maximum amount of power that the lamp can hold.
 	/// </summary>
-	[Net]
-	private SpotLightEntity Lamp { get; set; } = null!;
+	private const float LampMaxPower = 100;
 	/// <summary>
 	/// The amount of power that is discharged per tick.
 	/// </summary>
 	private const float LampDischargePerTick = 0.1f;
+
 	/// <summary>
-	/// The maximum amount of power that the lamp can hold.
 	/// </summary>
-	private const float LampMaxPower = 100;
 
 	/// <summary>
 	/// Gets or sets whether or not the lamp is enabled.
@@ -80,6 +78,12 @@ public partial class Pawn
 	/// </summary>
 	[Net, Predicted]
 	public TimeSince TimeSinceLampOff { get; private set; }
+
+	/// <summary>
+	/// The pawns lamp.
+	/// </summary>
+	[Net]
+	private SpotLightEntity Lamp { get; set; } = null!;
 
 	/// <summary>
 	/// Simulates the lamp system.
