@@ -3,7 +3,7 @@
 internal class Crosshair : Panel
 {
 	public const float Size = 4f;
-	public const float JiggleAmount = 0.1f;
+	public const float JiggleAmount = 0.05f;
 
 	public override void DrawBackground( ref RenderState state )
 	{
