@@ -27,13 +27,19 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 	/// <summary>
 	/// The list of animations to play on the user when interacting with this item.
 	/// </summary>
-	protected List<(float, Action<Entity, bool, float>)> Actions = new();
+	protected List<(float, Func<Entity, bool, float, bool>)> Actions = new();
 
 	/// <summary>
 	/// The current time that the item has been used for.
 	/// </summary>
 	[Net, Predicted]
 	protected float CurrentUseTime { get; set; }
+
+	/// <summary>
+	/// The index of the current action in the interaction.
+	/// </summary>
+	[Net, Predicted]
+	private int CurrentActionIndex { get; set; }
 
 	/// <summary>
 	/// A hash set of all the action indices that have been called for the first time.
@@ -72,30 +78,26 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 	/// <param name="user">The entity that is using the item.</param>
 	protected virtual void OnUseTick( Entity user )
 	{
-		for ( var i = 0; i < Actions.Count; i++ )
-		{
-			var previousTotalTime = 0f;
-			for ( var j = i; j > 0; j-- )
-				previousTotalTime += Actions[j].Item1;
+		if ( CurrentActionIndex >= Actions.Count )
+			return;
 
-			var nextTime = 0f;
-			for ( var j = i + 1; j > 0; j-- )
-			{
-				if ( j >= Actions.Count )
-				{
-					nextTime = TimeToUse;
-					break;
-				}
+		var previousTotalTime = 0f;
+		for ( var i = 0; i < CurrentActionIndex; i++ )
+			previousTotalTime += Actions[i].Item1;
 
-				nextTime += Actions[j].Item1;
-			}
+		if ( previousTotalTime + Actions[CurrentActionIndex].Item1 < CurrentUseTime )
+			CurrentActionIndex++;
 
-			if ( CurrentUseTime >= previousTotalTime && CurrentUseTime < nextTime )
-			{
-				Actions[i].Item2( user, !firstTimeActions.Contains( i ), CurrentUseTime - previousTotalTime );
-				firstTimeActions.Add( i );
-			}
-		}
+		if ( CurrentActionIndex >= Actions.Count )
+			return;
+
+		var result = Actions[CurrentActionIndex].Item2( user, firstTimeActions.Contains( CurrentActionIndex ), CurrentUseTime - previousTotalTime );
+		firstTimeActions.Add( CurrentActionIndex );
+		if ( !result )
+			return;
+
+		CurrentUseTime = previousTotalTime + Actions[CurrentActionIndex].Item1;
+		CurrentActionIndex++;
 	}
 
 	public override bool IsUsable( Entity user )
@@ -131,6 +133,7 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 	public override void Reset()
 	{
 		CurrentUseTime = 0;
+		CurrentActionIndex = 0;
 		firstTimeActions.Clear();
 		if ( IsServer )
 			User = null;

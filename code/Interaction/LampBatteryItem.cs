@@ -80,11 +80,11 @@ public partial class LampBatteryItem : DelayedUseItem
 	/// <param name="user">The entity that is doing the interaction.</param>
 	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
 	/// <param name="timeInAnim">The time in seconds that this animation has been going for,</param>
-	private void PullBattery( Entity user, bool firstTime, float timeInAnim )
+	private bool PullBattery( Entity user, bool firstTime, float timeInAnim )
 	{
 		var pawn = (user as Pawn)!;
 		if ( !pawn.BatteryInserted )
-			return;
+			return true;
 
 		if ( IsServer && timeInAnim >= 0.52 && !droppedBattery )
 		{
@@ -93,6 +93,7 @@ public partial class LampBatteryItem : DelayedUseItem
 		}
 
 		pawn.SetAnimParameter( "pullbattery", true );
+		return false;
 	}
 
 	/// <summary>
@@ -123,12 +124,13 @@ public partial class LampBatteryItem : DelayedUseItem
 	/// <param name="user">The entity that is doing the interaction.</param>
 	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
 	/// <param name="timeInAnim">The time in seconds that this animation has been going for,</param>
-	private void PickupItem( Entity user, bool firstTime, float timeInAnim )
+	private bool PickupItem( Entity user, bool firstTime, float timeInAnim )
 	{
-		if ( IsServer && timeInAnim >= 0.7 && !pickedUp )
+		if ( IsServer && timeInAnim >= 0.55 && !pickedUp )
 			PickupBattery( user );
 
 		(user as Pawn)!.SetAnimParameter( "grabitem", true );
+		return false;
 	}
 
 	/// <summary>
@@ -150,8 +152,9 @@ public partial class LampBatteryItem : DelayedUseItem
 	/// <param name="user">The entity that is doing the interaction.</param>
 	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
 	/// <param name="timeInAnim">The time in seconds that this animation has been going for,</param>
-	private void PushBattery( Entity user, bool firstTime, float timeInAnim )
+	private bool PushBattery( Entity user, bool firstTime, float timeInAnim )
 	{
 		(user as Pawn)!.SetAnimParameter( "pushbattery", true );
+		return false;
 	}
 }
