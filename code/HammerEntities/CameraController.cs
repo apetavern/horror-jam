@@ -23,11 +23,6 @@ public partial class CameraController : InteractableEntity
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
 	}
 
-	public override void ClientSpawn()
-	{
-		//base.ClientSpawn();
-	}
-
 	protected override void OnDestroy()
 	{
 		base.OnDestroy();
@@ -76,8 +71,8 @@ public partial class CameraController : InteractableEntity
 
 		User = user;
 		TimeSinceUsed = 0;
-		
-		if( Host.IsServer )
+
+		if ( Host.IsServer )
 		{
 			// Disable the players controller.
 			player.Controller = null;
@@ -105,7 +100,7 @@ public partial class CameraController : InteractableEntity
 		// Give the player a controller again.
 		player.Controller = new MovementController();
 
-		if( Host.IsClient )
+		if ( Host.IsClient )
 		{
 			ScenePortal?.Delete();
 			ScenePortal = null;
