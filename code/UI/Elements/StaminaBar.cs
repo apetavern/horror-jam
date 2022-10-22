@@ -15,8 +15,6 @@ internal class StaminaBar : Panel
 		var right = Add.Panel( "right" );
 		var bar = right.Add.Panel( "bar" );
 		FillPanel = bar.Add.Panel( "fill" );
-
-		_ = right.Add.Label( "Stamina", "label" );
 	}
 
 	public override void Tick()
