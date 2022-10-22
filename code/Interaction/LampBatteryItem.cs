@@ -77,7 +77,7 @@ public partial class LampBatteryItem : DelayedUseItem
 	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
 	private void PickupItem( Entity user, bool firstTime )
 	{
-		if ( firstTime )
+		if ( IsServer && firstTime )
 			DropOldBattery( user );
 
 		(user as Pawn)!.SetAnimParameter( "grabitem", true );
