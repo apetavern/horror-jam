@@ -24,25 +24,6 @@ public sealed partial class Pawn : AnimatedEntity
 		}
 	}
 
-	private bool batteryInserted;
-
-	public bool BatteryInserted
-	{
-		get => batteryInserted;
-		set 
-		{
-			batteryInserted = value;
-			if ( value )
-			{
-				Helmet.SetBodyGroup( 0, 0 );
-			}
-			else
-			{
-				Helmet.SetBodyGroup( 0, 1 );
-			}
-		}
-	}
-
 	/// <summary>
 	/// The active controller for the pawn.
 	/// </summary>

@@ -24,25 +24,50 @@ public partial class Pawn
 		get => Lamp.Enabled;
 		private set
 		{
-			if ( BatteryInserted )
-			{
-				Lamp.Enabled = value;
-			}
-			else
-			{
-				Lamp.Enabled = false;
-			}
+			if ( LampEnabled == value )
+				return;
+
+			Lamp.Enabled = value;
 			if ( !value )
 			{
 				TimeSinceLampOff = 0;
 				Sound.FromEntity( "flashlight_click_off", this );
 			}
 			else
-			{
 				Sound.FromEntity( "flashlight_click_on", this );
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets whether or not a battery is inserted to the pawns helmet.
+	/// </summary>
+	public bool BatteryInserted
+	{
+		get => batteryInserted;
+		set
+		{
+			if ( BatteryInserted == value )
+				return;
+
+			batteryInserted = value;
+			if ( value )
+			{
+				LampPower = LampMaxPower;
+				Helmet.SetBodyGroup( 0, 0 );
+			}
+			else
+			{
+				LampEnabled = false;
+				LampPower = 0;
+				Helmet.SetBodyGroup( 0, 1 );
 			}
 		}
 	}
+	/// <summary>
+	/// See <see cref="BatteryInserted"/>.
+	/// </summary>
+	[Net, Predicted]
+	private bool batteryInserted { get; set; } = true;
 
 	/// <summary>
 	/// The current amount of power in the lamp.
@@ -71,13 +96,5 @@ public partial class Pawn
 			LampEnabled = false;
 
 		Lamp.Brightness = LampPower / 100;
-	}
-
-	/// <summary>
-	/// Resets the lamps battery level to full.
-	/// </summary>
-	public void InsertNewLampBattery()
-	{
-		LampPower = LampMaxPower;
 	}
 }

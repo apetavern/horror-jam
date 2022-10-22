@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using GvarJam.Utility;
 
 namespace GvarJam.Interactions;
 
@@ -14,6 +14,15 @@ public partial class LampBatteryItem : DelayedUseItem
 	public override float TimeToUse => 2.6f;
 	/// <inheritdoc/>
 	protected override bool DeleteOnUse => true;
+
+	/// <summary>
+	/// Whether or not the old battery in the users helmet was dropped.
+	/// </summary>
+	private bool droppedBattery;
+	/// <summary>
+	/// Whether or not the battery was picked up.
+	/// </summary>
+	private bool pickedUp;
 
 	/// <inheritdoc/>
 	public override void Spawn()
@@ -42,9 +51,27 @@ public partial class LampBatteryItem : DelayedUseItem
 		if ( user is not Pawn pawn )
 			return;
 
-		pawn.InsertNewLampBattery();
+		pawn.BatteryInserted = true;
+		if ( IsServer )
+			Delete();
+	}
 
-		Log.Info( $"Battery level replenished for {user.Name}" );
+	/// <inheritdoc/>
+	public override void Reset()
+	{
+		droppedBattery = false;
+
+		if ( pickedUp )
+		{
+			SetParent( null );
+			Position = Trace.Ray( Position, Position - Vector3.Up * 100f )
+				.WorldOnly()
+				.Run().EndPosition;
+			Rotation = Rotation.Identity;
+			pickedUp = false;
+		}
+
+		base.Reset();
 	}
 
 	/// <summary>
@@ -52,26 +79,35 @@ public partial class LampBatteryItem : DelayedUseItem
 	/// </summary>
 	/// <param name="user">The entity that is doing the interaction.</param>
 	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
-	private void PullBattery( Entity user, bool firstTime )
+	/// <param name="timeInAnim">The time in seconds that this animation has been going for,</param>
+	private void PullBattery( Entity user, bool firstTime, float timeInAnim )
 	{
-		if (IsServer && firstTime )
-		{
+		if ( IsServer && timeInAnim >= 0.52 && !droppedBattery )
 			DropOldBattery( user );
-		}
+
 		(user as Pawn)!.SetAnimParameter( "pullbattery", true );
 	}
 
-	private async void DropOldBattery( Entity user )
+	/// <summary>
+	/// Drops the old battery inside the helmet.
+	/// </summary>
+	/// <param name="user">The entity that is doing the interaction.</param>
+	private void DropOldBattery( Entity user )
 	{
-		await Task.DelaySeconds( 0.52f );
-		(user as Pawn)!.BatteryInserted = false;
-		ModelEntity modl = new ModelEntity( "models/items/battery/battery.vmdl" );
+		droppedBattery = true;
+
+		var pawn = (user as Pawn)!;
+		var modl = new ModelEntity( "models/items/battery/battery.vmdl" )
+		{
+			Transform = pawn.GetBoneTransform( "hold_L" ).WithScale( 0.6f ),
+			Velocity = user.Rotation.Left * 100f,
+			RenderColor = Color.Red
+		};
 		modl.Tags.Add( "camignore" );
 		modl.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
-		modl.Transform = (user as AnimatedEntity).GetBoneTransform( "hold_L" ).WithScale(0.6f);
-		modl.Velocity = user.Rotation.Left * 100f;
-		modl.RenderColor = Color.Red;
-		modl.DeleteAsync( 2.5f );
+		pawn.BatteryInserted = false;
+
+		_ = modl.DeleteAfterSecondsAndNotVisible( 2.5f );
 	}
 
 	/// <summary>
@@ -79,26 +115,26 @@ public partial class LampBatteryItem : DelayedUseItem
 	/// </summary>
 	/// <param name="user">The entity that is doing the interaction.</param>
 	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
-	private void PickupItem( Entity user, bool firstTime )
+	/// <param name="timeInAnim">The time in seconds that this animation has been going for,</param>
+	private void PickupItem( Entity user, bool firstTime, float timeInAnim )
 	{
-		if ( IsServer && firstTime )
-		{
-			DelayedPickup( user );
-		}
+		if ( IsServer && timeInAnim >= 0.7 && !pickedUp )
+			PickupBattery( user );
 
 		(user as Pawn)!.SetAnimParameter( "grabitem", true );
 	}
 
-	private async void DelayedPickup(Entity user )
+	/// <summary>
+	/// Picks up the new battery.
+	/// </summary>
+	/// <param name="user">The entity that is doing the interaction.</param>
+	private void PickupBattery(Entity user )
 	{
-		await Task.DelaySeconds( 0.8f );
-		if ( User != null )
-		{
-			Tags.Add( "camignore" );
+		pickedUp = true;
 
-			SetParent( user, true );
-			Scale = 0.6f;
-		}
+		Tags.Add( "camignore" );
+		SetParent( user, true );
+		Scale = 0.6f;
 	}
 
 	/// <summary>
@@ -106,28 +142,9 @@ public partial class LampBatteryItem : DelayedUseItem
 	/// </summary>
 	/// <param name="user">The entity that is doing the interaction.</param>
 	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
-	private void PushBattery( Entity user, bool firstTime )
+	/// <param name="timeInAnim">The time in seconds that this animation has been going for,</param>
+	private void PushBattery( Entity user, bool firstTime, float timeInAnim )
 	{
-		if ( IsServer && firstTime )
-		{
-			DisableRender( user );
-		}
 		(user as Pawn)!.SetAnimParameter( "pushbattery", true );
-	}
-
-	private async void DisableRender( Entity user )
-	{
-		await Task.DelaySeconds( 1f );
-		if ( User != null )
-		{
-			(user as Pawn)!.BatteryInserted = true;
-			EnableDrawing = false;
-		}
-		else
-		{
-			SetParent( null );
-			Position = Trace.Ray(Position, Position - Vector3.Up * 100f ).Ignore(user).Run().EndPosition;
-			Rotation = Rotation.Identity;
-		}
 	}
 }
