@@ -27,8 +27,12 @@ public partial class Pawn
 			if ( Camera is not PawnCamera camera )
 				return;
 
-			if ( IsInteracting && interactedEntity is DelayedUseItem )
+			if ( IsInteracting && InteractedEntity is DelayedUseItem )
+			{
 				camera.GoToThirdPerson();
+				var rotation = Rotation.LookAt( (InteractedEntity.Position - Position).Normal );
+				Rotation = new Rotation( 0, 0, rotation.z, rotation.w );
+			}
 			else
 				camera.GoToFirstPerson();
 		}

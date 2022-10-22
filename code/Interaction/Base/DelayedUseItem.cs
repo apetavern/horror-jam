@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GvarJam.Interactions;
+﻿namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an item that takes time to use.
