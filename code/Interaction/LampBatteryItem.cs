@@ -82,10 +82,14 @@ public partial class LampBatteryItem : DelayedUseItem
 	/// <param name="timeInAnim">The time in seconds that this animation has been going for,</param>
 	private void PullBattery( Entity user, bool firstTime, float timeInAnim )
 	{
+		var pawn = (user as Pawn)!;
+		if ( !pawn.BatteryInserted )
+			return;
+
 		if ( IsServer && timeInAnim >= 0.52 && !droppedBattery )
 			DropOldBattery( user );
 
-		(user as Pawn)!.SetAnimParameter( "pullbattery", true );
+		pawn.SetAnimParameter( "pullbattery", true );
 	}
 
 	/// <summary>
