@@ -10,5 +10,6 @@ public partial class Hud : HudEntity<RootPanel>
 		RootPanel.StyleSheet.Load( "/UI/Hud.scss" );
 		RootPanel.AddChild( new StaminaBar() );
 		RootPanel.AddChild( new BatteryLevel() );
+		RootPanel.AddChild( new InteractionProgress() );
 	}
 }

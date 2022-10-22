@@ -49,7 +49,7 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 	/// <param name="user">The entity that is using the item.</param>
 	protected virtual void OnUseTick( Entity user )
 	{
-		DebugOverlay.Text( $"Use: {MathX.Floor(CurrentUseTime / TimeToUse * 100)}%\nUser: {user}", Position );
+		DebugOverlay.Text( $"Use: {MathX.Floor( CurrentUseTime / TimeToUse * 100 )}%\nUser: {user}", Position );
 	}
 
 	/// <summary>
@@ -98,5 +98,13 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 		CurrentUseTime = 0;
 		if ( IsServer )
 			User = null;
+	}
+
+	/// <summary>
+	/// Returns current interaction progress from 0 .. 1
+	/// </summary>
+	public float GetInteractionProgress()
+	{
+		return CurrentUseTime / TimeToUse;
 	}
 }
