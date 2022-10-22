@@ -1,0 +1,115 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:modeldoc29:version{3cec427c-1b0e-4d48-a90a-0436f33a6041} -->
+{
+	rootNode = 
+	{
+		_class = "RootNode"
+		children = 
+		[
+			{
+				_class = "WeightListList"
+				children = 
+				[
+					{
+						_class = "WeightList"
+						name = "UpperBody_NoEyes"
+						default_weight = 0.0
+						weights = 
+						[
+							{
+								bone = "eye_L"
+								weight = 0.0
+							},
+							{
+								bone = "eye_R"
+								weight = 0.0
+							},
+							{
+								bone = "face_lid_lower_L"
+								weight = 0.0
+							},
+							{
+								bone = "face_lid_lower_R"
+								weight = 0.0
+							},
+							{
+								bone = "face_lid_upper_L"
+								weight = 0.0
+							},
+							{
+								bone = "face_lid_upper_R"
+								weight = 0.0
+							},
+							{
+								bone = "spine_0"
+								weight = 0.5
+							},
+							{
+								bone = "spine_1"
+								weight = 0.75
+							},
+							{
+								bone = "spine_2"
+								weight = 1.0
+							},
+						]
+						master_morph_weight = -1.0
+						morph_weights = [  ]
+					},
+				]
+			},
+			{
+				_class = "AnimationList"
+				children = 
+				[
+					{
+						_class = "AnimFile"
+						name = "pull_battery"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/player/animations/pull_battery.fbx"
+						start_frame = -1
+						end_frame = 20
+						framerate = 25.0
+						take = 0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "push_battery"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/player/animations/pull_battery.fbx"
+						start_frame = -1
+						end_frame = 20
+						framerate = 25.0
+						take = 0
+						reverse = true
+					},
+				]
+				default_root_bone_name = ""
+			},
+		]
+		model_archetype = ""
+		primary_associated_entity = ""
+		anim_graph_name = "models/player/playermodel.vanmgrph"
+		base_model_name = "models/citizen/citizen.vmdl"
+	}
+}
