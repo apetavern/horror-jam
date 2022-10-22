@@ -8,6 +8,8 @@ public partial class PawnCamera : CameraMode
 
 	private const float ModeSwitchSpeed = 2.0f;
 
+	private Vector3 lastPos;
+
 	public override void Activated()
 	{
 		var pawn = Local.Pawn;
@@ -15,6 +17,8 @@ public partial class PawnCamera : CameraMode
 
 		Position = pawn.EyePosition;
 		Rotation = pawn.EyeRotation;
+
+		lastPos = Position;
 	}
 
 	public override void Update()
@@ -61,7 +65,9 @@ public partial class PawnCamera : CameraMode
 			+ pawn.EyeRotation.Right * 16;
 
 		var tr = Trace.Ray( pawn.EyePosition, targetPos ).Ignore( pawn ).Radius( 24f ).Run();
-		return tr.EndPosition;
+		targetPos = tr.EndPosition;
+
+		return InterpolatePosition( targetPos );
 	}
 
 	private Vector3 UpdateFirstPerson( Entity pawn )
@@ -69,7 +75,30 @@ public partial class PawnCamera : CameraMode
 		var eyePos = pawn.EyePosition;
 		var targetPos = eyePos;
 
-		return targetPos + GetAdditiveNoise();
+		return InterpolatePosition( targetPos ) + GetAdditiveNoise();
+	}
+
+	/// <summary>
+	/// Interpolate a position on the z-axis, useful for making things
+	/// like crouching look much smoother.
+	/// </summary>
+	/// <param name="targetPos"></param>
+	/// <returns></returns>
+	private Vector3 InterpolatePosition( Vector3 targetPos )
+	{
+		//
+		// We're doing this here (and calling this in the UpdateXPerson functions)
+		// in order to prevent it from being affected by the transitions between
+		// first & third person.
+		// Not super elegant.. too bad!
+		//
+
+		if ( targetPos.Distance( lastPos ) < 300 )
+			targetPos = Vector3.Lerp( targetPos.WithZ( lastPos.z ), targetPos, 20.0f * Time.Delta );
+
+		lastPos = targetPos;
+
+		return targetPos;
 	}
 
 	/// <summary>
