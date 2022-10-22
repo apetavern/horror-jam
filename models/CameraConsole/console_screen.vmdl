@@ -14,16 +14,8 @@
 						remaps = 
 						[
 							{
-								from = "glass.vmat"
-								to = "materials/glass/sbox_glass.vmat"
-							},
-							{
-								from = "phong1.vmat"
-								to = "dev/helper/testgrid.vmat"
-							},
-							{
 								from = "monitor.vmat"
-								to = "models/sbox_props/road_signs/road_sign_give_way.vmat"
+								to = "models/cameraconsole/materials/monitor.vmat"
 							},
 						]
 						use_global_default = false
@@ -37,7 +29,6 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						name = "NoScreen"
 						filename = "models/cameraconsole/console.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
@@ -51,29 +42,6 @@
 							exclude_by_default = true
 							exception_list = 
 							[
-								"pCube1",
-								"pCube2",
-							]
-						}
-					},
-					{
-						_class = "RenderMeshFile"
-						name = "Screen"
-						filename = "models/cameraconsole/console.fbx"
-						import_translation = [ 0.0, 0.0, 0.0 ]
-						import_rotation = [ 0.0, 0.0, 0.0 ]
-						import_scale = 1.0
-						align_origin_x_type = "None"
-						align_origin_y_type = "None"
-						align_origin_z_type = "None"
-						parent_bone = ""
-						import_filter = 
-						{
-							exclude_by_default = true
-							exception_list = 
-							[
-								"pCube1",
-								"pCube2",
 								"pCube3",
 							]
 						}
@@ -91,34 +59,6 @@
 						collision_tags = "solid"
 						faceMergeAngle = 20.0
 						maxHullVertices = 32
-					},
-				]
-			},
-			{
-				_class = "BodyGroupList"
-				children = 
-				[
-					{
-						_class = "BodyGroup"
-						name = "screen"
-						children = 
-						[
-							{
-								_class = "BodyGroupChoice"
-								meshes = 
-								[
-									"Screen",
-								]
-							},
-							{
-								_class = "BodyGroupChoice"
-								meshes = 
-								[
-									"NoScreen",
-								]
-							},
-						]
-						hidden_in_tools = false
 					},
 				]
 			},

@@ -15,6 +15,26 @@ public partial class MountedCamera : AnimatedEntity
 	public bool IsUsable { get; set; } = true;
 
 	/// <summary>
+	/// Field of view in degrees
+	/// </summary>
+	[Property] public float Fov { get; set; } = 120.0f;
+
+	/// <summary>
+	/// Distance to the near plane
+	/// </summary>
+	[Property] public float ZNear { get; set; } = 4.0f;
+
+	/// <summary>
+	/// Distance to the far plane
+	/// </summary>
+	[Property] public float ZFar { get; set; } = 10000.0f;
+
+	/// <summary>
+	/// Aspect ratio
+	/// </summary>
+	[Property] public float Aspect { get; set; } = 1.0f;
+
+	/// <summary>
 	/// Whether or not the camera should follow players that are moving around.
 	/// </summary>
 	private bool IsControlledManually { get; set; }
@@ -28,6 +48,8 @@ public partial class MountedCamera : AnimatedEntity
 		base.Spawn();
 
 		SetModel( "models/mountedcamera/mountedcamera.vmdl" );
+
+		Transmit = TransmitType.Always;
 	}
 
 	[Event.Tick.Server]

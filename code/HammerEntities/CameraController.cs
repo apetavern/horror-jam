@@ -3,17 +3,63 @@ namespace GvarJam.HammerEntities;
 [Category( "Environment" )]
 [Library( "ent_cameracontroller" )]
 [HammerEntity]
-[EditorModel( "models/editor/camera.vmdl" )]
+[EditorModel( "models/cameraconsole/console.vmdl" )]
 public partial class CameraController : InteractableEntity
 {
 	private TimeSince TimeSinceUsed { get; set; }
+
+	[Net]
+	public MountedCamera? TargetCamera { get; set; }
+
+	private ScenePortal? ScenePortal;
 
 	public override void Spawn()
 	{
 		base.Spawn();
 
-		SetModel( "models/editor/camera.vmdl" );
+		Name = "Camera Console";
+
+		SetModel( "models/cameraconsole/console.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
+	}
+
+	public override void ClientSpawn()
+	{
+		//base.ClientSpawn();
+	}
+
+	protected override void OnDestroy()
+	{
+		base.OnDestroy();
+
+		StopUsing();
+	}
+
+	[Event.Frame]
+	private void OnFrame()
+	{
+		if ( !IsClient )
+			return;
+
+		if ( ScenePortal == null || !ScenePortal.IsValid )
+			return;
+
+		ScenePortal.Transform = Transform;
+
+		if ( !TargetCamera.IsValid() )
+			return;
+
+		var attachment = TargetCamera.GetAttachment( "lens_position" );
+
+		if ( attachment is null )
+			return;
+
+		ScenePortal.ViewPosition = attachment.Value.Position;
+		ScenePortal.ViewRotation = attachment.Value.Rotation;
+		ScenePortal.FieldOfView = TargetCamera.Fov;
+		ScenePortal.ZNear = TargetCamera.ZNear;
+		ScenePortal.ZFar = TargetCamera.ZFar;
+		ScenePortal.Aspect = TargetCamera.Aspect;
 	}
 
 	public override bool IsUsable( Entity user )
@@ -25,47 +71,52 @@ public partial class CameraController : InteractableEntity
 	{
 		base.OnUsed( user );
 
-		if ( Host.IsClient )
-			return;
-
 		if ( user is not Pawn player )
 			return;
 
 		User = user;
 		TimeSinceUsed = 0;
+		
+		if( Host.IsServer )
+		{
+			var usableCameras = FindUsableMountedCameras();
+			var targetCamera = usableCameras.FirstOrDefault();
 
-		var usableCameras = FindUsableMountedCameras();
-		var targetCamera = usableCameras.FirstOrDefault();
+			if ( targetCamera is null )
+				return;
 
-		if ( targetCamera is null )
+			TargetCamera = targetCamera;
+
+			return;
+		}
+
+		SetBodyGroup( 0, 1 );
+		ScenePortal = new ScenePortal( Map.Scene, Model.Load( "models/cameraconsole/console_screen.vmdl" ), Transform );
+	}
+
+	public void StopUsing()
+	{
+		User = null;
+
+		if ( Host.IsServer )
 			return;
 
-		var camera = new ControllableCamera().SetupFromMountedCamera( targetCamera );
+		ScenePortal?.Delete();
+		ScenePortal = null;
 
-		player.Camera = camera;
-		player.Controller = null;
+		SetBodyGroup( 0, 0 );
+	}
+
+	[Event.Tick]
+	public void Tick()
+	{
+		if ( TimeSinceUsed > 10 )
+			StopUsing();
 	}
 
 	protected List<MountedCamera> FindUsableMountedCameras()
 	{
 		return All.OfType<MountedCamera>().Where( x => x.IsUsable ).ToList();
-	}
-
-	[Event.Tick.Server]
-	public void Tick()
-	{
-		// Remove this later
-		//if ( TimeSinceUsed > 1 )
-		//User = null;
-
-		if ( TimeSinceUsed > 10 && User is Pawn player )
-		{
-			player.Camera = new PawnCamera();
-			player.Controller = new MovementController();
-
-			User = null;
-		}
-			
 	}
 }
 
