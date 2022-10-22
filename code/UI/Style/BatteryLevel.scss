@@ -7,6 +7,7 @@ BatteryLevel {
     transform: translate( -50% );
     width: 49px;
     height: 32px;
+    mix-blend-mode: lighten;
 
     &.danger {
         .frame {

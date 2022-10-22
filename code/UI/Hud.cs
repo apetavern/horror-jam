@@ -11,5 +11,6 @@ public partial class Hud : HudEntity<RootPanel>
 		RootPanel.AddChild( new StaminaBar() );
 		RootPanel.AddChild( new BatteryLevel() );
 		RootPanel.AddChild( new InteractionProgress() );
+		RootPanel.AddChild( new Crosshair() );
 	}
 }

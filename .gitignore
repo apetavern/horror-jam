@@ -396,3 +396,8 @@ FodyWeavers.xsd
 # S&box
 [Pp]roperties
 gvar_jam.csproj
+
+# All compiled files
+*.*_c
+*.vanmgraph_c
+*.*_c

@@ -11,20 +11,9 @@ namespace GvarJam.Interactions;
 public partial class LampBatteryItem : DelayedUseItem
 {
 	/// <inheritdoc/>
-	public override float TimeToUse => 2.2f;
+	public override float TimeToUse => 2.6f;
 	/// <inheritdoc/>
 	protected override bool DeleteOnUse => true;
-	/// <inheritdoc/>
-	protected override List<(float, Action<Entity>)> Actions => actions;
-	/// <summary>
-	/// The list of animations to play while interacting with the item.
-	/// </summary>
-	private readonly List<(float, Action<Entity>)> actions = new()
-	{
-		(0.8f, PullBattery),
-		(0.6f, PickupItem),
-		(0.8f, PushBattery)
-	};
 
 	/// <inheritdoc/>
 	public override void Spawn()
@@ -34,8 +23,17 @@ public partial class LampBatteryItem : DelayedUseItem
 		Name = "Battery";
 
 		SetModel( "models/items/battery/battery.vmdl" );
-
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
+	}
+
+	/// <inheritdoc/>
+	protected override void CreateActions()
+	{
+		base.CreateActions();
+
+		Actions.Add( (0.8f, PullBattery) );
+		Actions.Add( (0.6f, PickupItem) );
+		Actions.Add( (0.8f, PushBattery) );
 	}
 
 	/// <inheritdoc/>
@@ -53,28 +51,44 @@ public partial class LampBatteryItem : DelayedUseItem
 	/// The first animation, pulls the battery out of the helmet.
 	/// </summary>
 	/// <param name="user">The entity that is doing the interaction.</param>
-	private static void PullBattery( Entity user )
+	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
+	private void PullBattery( Entity user, bool firstTime )
 	{
 		(user as Pawn)!.SetAnimParameter( "pullbattery", true );
+	}
+
+	/// <summary>
+	/// The first animation, pulls the battery out of the helmet.
+	/// </summary>
+	/// <param name="user">The entity that is doing the interaction.</param>
+	private static void DropOldBattery( Entity user )
+	{
+		ModelEntity modl = new ModelEntity( "models/items/battery/battery.vmdl" );
+		modl.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+		modl.Transform = (user as AnimatedEntity).GetBoneTransform( "hold_L" ).WithScale(0.6f);
+		modl.RenderColor = Color.Red;
+		modl.DeleteAsync( 2.5f );
 	}
 
 	/// <summary>
 	/// The second animation, picks up the battery item.
 	/// </summary>
 	/// <param name="user">The entity that is doing the interaction.</param>
-	private static void PickupItem( Entity user )
+	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
+	private void PickupItem( Entity user, bool firstTime )
 	{
-		var pawn = (user as Pawn)!;
-		pawn.SetAnimParameter( "holdtype", 1 );
-		pawn.SetAnimParameter( "holdtype_handedness", 1 );
-		pawn.SetAnimParameter( "b_attack", true );
+		if ( firstTime )
+			DropOldBattery( user );
+
+		(user as Pawn)!.SetAnimParameter( "grabitem", true );
 	}
 
 	/// <summary>
 	/// The third animation, pushes the new battery into the helmet.
 	/// </summary>
 	/// <param name="user">The entity that is doing the interaction.</param>
-	private static void PushBattery( Entity user )
+	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
+	private void PushBattery( Entity user, bool firstTime )
 	{
 		(user as Pawn)!.SetAnimParameter( "pushbattery", true );
 	}
