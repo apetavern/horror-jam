@@ -12,7 +12,9 @@ public partial class Pawn
 	private const float LampDischargePerTick = 0.1f;
 
 	/// <summary>
+	/// Gets the 0-1 percentage of the batteries power left.
 	/// </summary>
+	public float BatteryPercentage => LampPower / LampMaxPower;
 
 	/// <summary>
 	/// Gets or sets whether or not the lamp is enabled.
