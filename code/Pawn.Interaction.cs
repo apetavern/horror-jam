@@ -94,10 +94,23 @@ public partial class Pawn
 			.Run();
 
 		var entity = tr.Entity;
-		while ( entity.IsValid() && !IsValidInteractableEntity( entity ) )
+		while ( entity is not null && entity.IsValid && !IsValidInteractableEntity( entity ) )
 			entity = entity.Parent;
 
-		return entity;
+		if ( IsValidInteractableEntity( entity ) )
+			return entity;
+
+		tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 100 )
+			.WithoutTags( "trigger" )
+			.Radius( 2 )
+			.Ignore( this )
+			.Run();
+
+		entity = tr.Entity;
+		while ( entity is not null && entity.IsValid && !IsValidInteractableEntity( entity ) )
+			entity = entity.Parent;
+
+		return IsValidInteractableEntity( entity ) ? entity : null;
 	}
 
 	private bool IsValidInteractableEntity( Entity? entity )
