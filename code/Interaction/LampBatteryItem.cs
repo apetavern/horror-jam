@@ -5,7 +5,7 @@
 /// </summary>
 [Category( "Interactables" )]
 [HammerEntity]
-[EditorModel( "models/sbox_props/watermelon/watermelon.vmdl" )]
+[EditorModel( "models/items/battery/battery.vmdl" )]
 public partial class LampBatteryItem : DelayedUseItem
 {
 	public override float TimeToUse => 1;
@@ -15,7 +15,7 @@ public partial class LampBatteryItem : DelayedUseItem
 	{
 		base.Spawn();
 
-		SetModel( "models/sbox_props/watermelon/watermelon.vmdl" );
+		SetModel( "models/items/battery/battery.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
 	}
 
