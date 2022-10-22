@@ -127,8 +127,8 @@ public sealed partial class Pawn : AnimatedEntity
 	/// <summary>
 	/// Sets the alpha on the pawns render color before the game renders.
 	/// </summary>
-	[Event.PreRender]
-	public void OnPreRender()
+	[Event.Frame]
+	public void OnFrame()
 	{
 		//
 		// CACHING THE CHILDREN will definitely become a problem later!!
