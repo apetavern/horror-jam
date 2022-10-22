@@ -13,3 +13,13 @@ text, label {
 icon, iconpanel {
     font-family: MaterialIcons-Regular;
 }
+
+.auto-hide {
+    opacity: 0;
+    transition: opacity 1000ms ease;
+
+    &.visible {
+        transition: opacity 100ms ease;
+        opacity: 1;
+    }
+}

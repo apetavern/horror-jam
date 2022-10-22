@@ -7,6 +7,8 @@ internal class BatteryLevel : Panel
 
 	public BatteryLevel()
 	{
+		AddClass( "auto-hide" );
+
 		FramePanel = Add.Panel( "frame" );
 		FillPanel = Add.Panel( "fill" );
 	}

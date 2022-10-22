@@ -6,14 +6,7 @@ StaminaBar {
     left: 50%;
     width: 250px;
     transform: translate( -50% );
-    opacity: 0;
-    transition: opacity 1000ms ease;
 
-    &.visible {
-        transition: opacity 100ms ease;
-        opacity: 1;
-    }
-    
     flex-direction: row;
 }
 

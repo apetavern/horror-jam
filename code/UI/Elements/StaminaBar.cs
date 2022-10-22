@@ -6,6 +6,8 @@ internal class StaminaBar : Panel
 
 	public StaminaBar()
 	{
+		AddClass( "auto-hide" );
+
 		//
 		// Might move this to html?
 		//

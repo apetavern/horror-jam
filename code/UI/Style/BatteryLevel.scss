@@ -5,15 +5,8 @@ BatteryLevel {
     top: 64px;
     left: 50%;
     transform: translate( -50% );
-    opacity: 0;
-    transition: opacity 1000ms ease;
     width: 49px;
     height: 32px;
-
-    &.visible {
-        transition: opacity 100ms ease;
-        opacity: 1;
-    }
 
     &.danger {
         .frame {
