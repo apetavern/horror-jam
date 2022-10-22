@@ -87,7 +87,10 @@ public partial class LampBatteryItem : DelayedUseItem
 			return;
 
 		if ( IsServer && timeInAnim >= 0.52 && !droppedBattery )
+		{
 			DropOldBattery( user );
+			Sound.FromEntity( "replace_battery", user );
+		}
 
 		pawn.SetAnimParameter( "pullbattery", true );
 	}
