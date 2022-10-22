@@ -3,6 +3,7 @@
 internal class Crosshair : Panel
 {
 	public const float Size = 4f;
+	public const float JiggleAmount = 0.1f;
 
 	public override void DrawBackground( ref RenderState state )
 	{
@@ -16,8 +17,11 @@ internal class Crosshair : Panel
 
 		var targetPos = CurrentView.Position + CurrentView.Rotation.Forward * 32f;
 
+		//
+		// Try to preserve some camera motion, makes things look more natural
+		//
 		var cameraOffset = player.EyePosition - CurrentView.Position;
-		targetPos += cameraOffset * 0.1f;
+		targetPos += cameraOffset * JiggleAmount;
 
 		var screenPos = targetPos.ToScreen( Screen.Size ) ?? 0;
 		var rect = new Rect( screenPos, Size );
