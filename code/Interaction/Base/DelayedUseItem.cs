@@ -1,4 +1,6 @@
-﻿namespace GvarJam.Interactions;
+﻿using System.Collections.Generic;
+
+namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an item that takes time to use.
@@ -21,6 +23,11 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 	/// <remarks>This will be irrelevant if <see cref="DeleteOnUse"/> is true.</remarks>
 	/// </summary>
 	protected virtual bool ResetOnUse => true;
+
+	/// <summary>
+	/// The list of animations to play on the user when interacting with this item.
+	/// </summary>
+	protected virtual List<(float, Action<Entity>)> Actions => new();
 
 	/// <summary>
 	/// The entity that is currently using the item.
@@ -49,7 +56,27 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 	/// <param name="user">The entity that is using the item.</param>
 	protected virtual void OnUseTick( Entity user )
 	{
-		DebugOverlay.Text( $"Use: {MathX.Floor( CurrentUseTime / TimeToUse * 100 )}%\nUser: {user}", Position );
+		for ( var i = 0; i < Actions.Count; i++ )
+		{
+			var totalTime = 0f;
+			for ( var j = i; j > 0; j-- )
+				totalTime += Actions[j].Item1;
+
+			var nextTime = 0f;
+			for ( var j = i + 1; j > 0; j-- )
+			{
+				if ( j >= Actions.Count )
+				{
+					nextTime = TimeToUse;
+					break;
+				}
+
+				nextTime += Actions[j].Item1;
+			}
+
+			if ( CurrentUseTime >= totalTime && CurrentUseTime < nextTime )
+				Actions[i].Item2( user );
+		}
 	}
 
 	public override bool IsUsable( Entity user )
