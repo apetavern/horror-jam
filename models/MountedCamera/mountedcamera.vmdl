@@ -153,7 +153,22 @@
 					},
 					{
 						_class = "AnimFile"
-						name = "MountedCameraRotationAnim"
+						name = "RotateLeft"
+						children = 
+						[
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND"
+								event_frame = 0
+								event_keys = 
+								{
+									name = "camera_whirring_start_stop"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+						]
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
@@ -166,11 +181,47 @@
 						anim_markup_ordered = false
 						disable_compression = false
 						source_filename = "models/MountedCamera/MountedCameraRotationAnim.fbx"
-						start_frame = -1
-						end_frame = -1
-						framerate = -1.0
+						start_frame = 15
+						end_frame = 44
+						framerate = 10.0
 						take = 0
 						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "RotateRight"
+						children = 
+						[
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND"
+								event_frame = 0
+								event_keys = 
+								{
+									name = "camera_whirring_start_stop"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.0
+						fade_out_time = 0.0
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/MountedCamera/MountedCameraRotationAnim.fbx"
+						start_frame = 15
+						end_frame = 44
+						framerate = 10.0
+						take = 0
+						reverse = true
 					},
 				]
 				default_root_bone_name = ""
