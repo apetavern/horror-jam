@@ -4,6 +4,9 @@ Layer0
 {
 	shader "complex.vfx"
 
+	//---- Color ----
+	F_TINT_MASK 1
+
 	//---- PBR ----
 	F_SELF_ILLUM 1
 	F_SPECULAR 1
@@ -15,8 +18,9 @@ Layer0
 
 	//---- Color ----
 	g_flModelTintAmount "1.000"
-	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
+	g_vColorTint "[0.031373 1.000000 0.000000 0.000000]"
 	TextureColor "models/cosmetics/materials/spacehelmet_color.psd"
+	TextureTintMask "models/cosmetics/materials/spacehelmet_tint.psd"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -39,8 +43,8 @@ Layer0
 
 	//---- Self Illum ----
 	g_flSelfIllumAlbedoFactor "1.000"
-	g_flSelfIllumBrightness "10.000"
-	g_flSelfIllumScale "0.052"
+	g_flSelfIllumBrightness "4.098"
+	g_flSelfIllumScale "16.000"
 	g_vSelfIllumScrollSpeed "[0.000 0.000]"
 	g_vSelfIllumTint "[1.000000 1.000000 1.000000 0.000000]"
 	TextureSelfIllumMask "models/cosmetics/materials/spacehelmet_illum.psd"

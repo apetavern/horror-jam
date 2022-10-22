@@ -25,6 +25,10 @@
 								from = "phong1.vmat"
 								to = "models/cosmetics/materials/spacehelmet.vmat"
 							},
+							{
+								from = "models/cosmetics/materials/spacehelmet.vmat"
+								to = "models/cosmetics/materials/spacehelmet_nobatttery.vmat"
+							},
 						]
 						use_global_default = false
 						global_default_material = ""
@@ -52,6 +56,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
+						name = "battery"
 						filename = "models/cosmetics/helmet.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
@@ -65,6 +70,51 @@
 							exclude_by_default = false
 							exception_list = [  ]
 						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "nobattery"
+						filename = "models/cosmetics/helmet_nobattery.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+				]
+			},
+			{
+				_class = "BodyGroupList"
+				children = 
+				[
+					{
+						_class = "BodyGroup"
+						name = "battery"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"battery",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"nobattery",
+								]
+							},
+						]
+						hidden_in_tools = false
 					},
 				]
 			},
