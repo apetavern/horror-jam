@@ -52,13 +52,14 @@ public partial class Pawn
 
 		if ( entity is InteractableEntity interactableEntity )
 		{
+			if ( LastInteractable != interactableEntity )
+				LastInteractable?.ShowInteractionPrompt( false );
+
 			interactableEntity.ShowInteractionPrompt( true );
 			LastInteractable = interactableEntity;
 		}
 		else
-		{
 			LastInteractable?.ShowInteractionPrompt( false );
-		}
 
 		if ( InteractedEntity is not null && !InteractedEntity.IsValid )
 			InteractedEntity = null;
