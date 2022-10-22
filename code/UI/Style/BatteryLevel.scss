@@ -1,0 +1,47 @@
+﻿$accent: #F2D933;
+
+BatteryLevel {
+    position: absolute;
+    top: 64px;
+    left: 50%;
+    transform: translate( -50% );
+    opacity: 0;
+    transition: opacity 1000ms ease;
+    width: 49px;
+    height: 32px;
+
+    &.visible {
+        transition: opacity 100ms ease;
+        opacity: 1;
+    }
+
+    &.danger {
+        .frame {
+            background-image-tint: red;
+        }
+
+        .fill {
+            background-color: red;
+        }
+    }
+}
+
+.fill {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    bottom: 4px;
+
+    background-color: white;
+}
+
+.frame {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 64px;
+    height: 64px;
+    background: url( /ui/battery/battery-frame.png );
+    background-size: contain;
+    background-repeat: no-repeat;
+}

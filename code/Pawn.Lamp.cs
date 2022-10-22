@@ -75,8 +75,6 @@ public partial class Pawn
 			LampEnabled = false;
 
 		Lamp.Brightness = LampPower / 100;
-
-		DebugOverlay.ScreenText( $"Lamp Power: {LampPower / LampMaxPower * 100}", 1 );
 	}
 
 	/// <summary>

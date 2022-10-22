@@ -24,6 +24,7 @@ internal class StaminaBar : Panel
 		if ( Local.Pawn is not Pawn { Controller: MovementController controller } )
 			return;
 
+		// LampPower is in range 0 .. 1
 		FillPanel.Style.Width = Length.Fraction( controller.Stamina );
 		SetClass( "visible", !controller.Stamina.AlmostEqual( 1 ) );
 	}
