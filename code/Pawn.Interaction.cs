@@ -18,6 +18,9 @@ public partial class Pawn
 		get => interactedEntity;
 		private set
 		{
+			if ( InteractedEntity == value )
+				return;
+
 			interactedEntity = value;
 			IsInteracting = value is not null;
 
