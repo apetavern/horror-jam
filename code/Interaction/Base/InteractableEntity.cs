@@ -1,7 +1,13 @@
 ﻿namespace GvarJam.Interactions;
 
-public class InteractableEntity : ModelEntity, IInteractable
+public partial class InteractableEntity : ModelEntity, IInteractable
 {
+	/// <summary>
+	/// The entity that is currently using the item.
+	/// </summary>
+	[Net]
+	public Entity? User { get; protected set; }
+
 	public virtual Color GlowColor { get; set; } = Color.Orange;
 
 	protected InteractionPromptPanel? InteractionPromptPanel { get; set; }
@@ -27,10 +33,7 @@ public class InteractableEntity : ModelEntity, IInteractable
 		return true;
 	}
 
-	public virtual void Reset()
-	{
-		
-	}
+	public virtual void Reset() {}
 
 	/// <summary>
 	/// Enable or disable the interaction prompt on this entity.

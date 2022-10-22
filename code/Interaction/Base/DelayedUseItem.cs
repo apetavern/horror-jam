@@ -30,12 +30,6 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 	protected List<(float, Action<Entity, bool>)> Actions = new();
 
 	/// <summary>
-	/// The entity that is currently using the item.
-	/// </summary>
-	[Net]
-	public Entity? User { get; protected set; }
-
-	/// <summary>
 	/// The current time that the item has been used for.
 	/// </summary>
 	[Net, Predicted]

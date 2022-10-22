@@ -24,7 +24,7 @@ public partial class Pawn
 			if ( Camera is not PawnCamera camera )
 				return;
 
-			if ( IsInteracting )
+			if ( IsInteracting && interactedEntity is DelayedUseItem )
 				camera.GoToThirdPerson();
 			else
 				camera.GoToFirstPerson();

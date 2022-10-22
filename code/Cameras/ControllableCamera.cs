@@ -2,34 +2,25 @@
 
 public partial class ControllableCamera : CameraMode
 {
-	private Vector3 StartPosition { get; set; }
-	private Rotation StartRotation { get; set; }
+	[Net]
+	public Entity? ControlFromEntity { get; set; }
 
-	public ControllableCamera ( Entity controlFrom )
+	public CameraMode SetupFromEntity( Entity entity )
 	{
-		StartPosition = controlFrom.Position;
-		StartRotation = controlFrom.Rotation;
-	}
+		ControlFromEntity = entity;
 
-	public override void Activated()
-	{
-		var pawn = Local.Pawn;
-		if ( pawn == null ) return;
+		Position = entity.Position;
+		Rotation = entity.Rotation;
 
-		Position = StartPosition;
-		Rotation = StartRotation;
+		return this;
 	}
 
 	public override void Update()
 	{
-		var pawn = Local.Pawn;
-
-		if ( pawn is null ) 
+		if ( ControlFromEntity is null )
 			return;
 
-		//Position = Position.LerpTo( targetPos, ModeSwitchProgress * ModeSwitchSpeed );
-		//Rotation = pawn.EyeRotation;
-
-		Viewer = null;
+		Position = ControlFromEntity.Position;
+		Rotation = ControlFromEntity.Rotation;
 	}
 }
