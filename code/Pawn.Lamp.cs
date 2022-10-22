@@ -32,7 +32,14 @@ public partial class Pawn
 		get => Lamp.Enabled;
 		private set
 		{
-			Lamp.Enabled = value;
+			if ( BatteryInserted )
+			{
+				Lamp.Enabled = value;
+			}
+			else
+			{
+				Lamp.Enabled = false;
+			}
 			if ( !value )
 			{
 				TimeSinceLampOff = 0;

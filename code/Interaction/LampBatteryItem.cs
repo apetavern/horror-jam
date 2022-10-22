@@ -64,6 +64,7 @@ public partial class LampBatteryItem : DelayedUseItem
 	private async void DropOldBattery( Entity user )
 	{
 		await Task.DelaySeconds( 0.52f );
+		(user as Pawn)!.BatteryInserted = false;
 		ModelEntity modl = new ModelEntity( "models/items/battery/battery.vmdl" );
 		modl.Tags.Add( "camignore" );
 		modl.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
@@ -91,10 +92,13 @@ public partial class LampBatteryItem : DelayedUseItem
 	private async void DelayedPickup(Entity user )
 	{
 		await Task.DelaySeconds( 0.8f );
-		Tags.Add( "camignore" );
-		
-		SetParent( user, true );
-		Scale = 0.6f;
+		if ( User != null )
+		{
+			Tags.Add( "camignore" );
+
+			SetParent( user, true );
+			Scale = 0.6f;
+		}
 	}
 
 	/// <summary>
@@ -106,14 +110,24 @@ public partial class LampBatteryItem : DelayedUseItem
 	{
 		if ( IsServer && firstTime )
 		{
-			DisableRender();
+			DisableRender( user );
 		}
 		(user as Pawn)!.SetAnimParameter( "pushbattery", true );
 	}
 
-	private async void DisableRender()
+	private async void DisableRender( Entity user )
 	{
 		await Task.DelaySeconds( 1f );
-		EnableDrawing = false;
+		if ( User != null )
+		{
+			(user as Pawn)!.BatteryInserted = true;
+			EnableDrawing = false;
+		}
+		else
+		{
+			SetParent( null );
+			Position = Trace.Ray(Position, Position - Vector3.Up * 100f ).Ignore(user).Run().EndPosition;
+			Rotation = Rotation.Identity;
+		}
 	}
 }
