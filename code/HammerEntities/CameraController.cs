@@ -79,6 +79,9 @@ public partial class CameraController : InteractableEntity
 		
 		if( Host.IsServer )
 		{
+			// Disable the players controller.
+			player.Controller = null;
+
 			var usableCameras = FindUsableMountedCameras();
 			var targetCamera = usableCameras.FirstOrDefault();
 
@@ -96,15 +99,21 @@ public partial class CameraController : InteractableEntity
 
 	public void StopUsing()
 	{
-		User = null;
-
-		if ( Host.IsServer )
+		if ( User is not Pawn player )
 			return;
 
-		ScenePortal?.Delete();
-		ScenePortal = null;
+		// Give the player a controller again.
+		player.Controller = new MovementController();
 
-		SetBodyGroup( 0, 0 );
+		if( Host.IsClient )
+		{
+			ScenePortal?.Delete();
+			ScenePortal = null;
+
+			SetBodyGroup( 0, 0 );
+		}
+
+		User = null;
 	}
 
 	[Event.Tick]
