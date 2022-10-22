@@ -1,4 +1,3 @@
-using GvarJam.HammerEntities;
 using System.Collections.Generic;
 
 namespace GvarJam;
@@ -63,7 +62,8 @@ public sealed partial class Pawn : AnimatedEntity
 		Lamp = new SpotLightEntity
 		{
 			Parent = Helmet,
-			Transform = Helmet.GetAttachment( "light" )!.Value
+			Transform = Helmet.GetAttachment( "light" )!.Value,
+			LightCookie = Texture.Load( FileSystem.Mounted, "materials/effects/lightcookie.vtex" )
 		};
 
 		Lamp.OuterConeAngle *= 0.4f;
