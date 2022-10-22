@@ -54,16 +54,18 @@ public partial class LampBatteryItem : DelayedUseItem
 	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
 	private void PullBattery( Entity user, bool firstTime )
 	{
+		if (IsServer && firstTime )
+		{
+			DropOldBattery( user );
+		}
 		(user as Pawn)!.SetAnimParameter( "pullbattery", true );
 	}
 
-	/// <summary>
-	/// The first animation, pulls the battery out of the helmet.
-	/// </summary>
-	/// <param name="user">The entity that is doing the interaction.</param>
-	private static void DropOldBattery( Entity user )
+	private async void DropOldBattery( Entity user )
 	{
+		await Task.DelaySeconds( 0.52f );
 		ModelEntity modl = new ModelEntity( "models/items/battery/battery.vmdl" );
+		modl.Tags.Add( "camignore" );
 		modl.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 		modl.Transform = (user as AnimatedEntity).GetBoneTransform( "hold_L" ).WithScale(0.6f);
 		modl.RenderColor = Color.Red;
@@ -78,9 +80,18 @@ public partial class LampBatteryItem : DelayedUseItem
 	private void PickupItem( Entity user, bool firstTime )
 	{
 		if ( IsServer && firstTime )
-			DropOldBattery( user );
+		{
+			DelayedPickup( user );
+		}
 
 		(user as Pawn)!.SetAnimParameter( "grabitem", true );
+	}
+
+	private async void DelayedPickup(Entity user )
+	{
+		await Task.DelaySeconds( 0.8f );
+		Tags.Add( "camignore" );
+		SetParent( user, true );
 	}
 
 	/// <summary>
@@ -90,6 +101,16 @@ public partial class LampBatteryItem : DelayedUseItem
 	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
 	private void PushBattery( Entity user, bool firstTime )
 	{
+		if ( IsServer && firstTime )
+		{
+			DisableRender();
+		}
 		(user as Pawn)!.SetAnimParameter( "pushbattery", true );
+	}
+
+	private async void DisableRender()
+	{
+		await Task.DelaySeconds( 0.8f );
+		EnableDrawing = false;
 	}
 }
