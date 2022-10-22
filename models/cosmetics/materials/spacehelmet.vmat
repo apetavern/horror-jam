@@ -18,7 +18,7 @@ Layer0
 
 	//---- Color ----
 	g_flModelTintAmount "1.000"
-	g_vColorTint "[0.031373 1.000000 0.000000 0.000000]"
+	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
 	TextureColor "models/cosmetics/materials/spacehelmet_color.psd"
 	TextureTintMask "models/cosmetics/materials/spacehelmet_tint.psd"
 
