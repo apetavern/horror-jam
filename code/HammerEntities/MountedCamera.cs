@@ -1,5 +1,4 @@
 using GvarJam.Utility;
-using SandboxEditor;
 
 namespace GvarJam.HammerEntities;
 
@@ -10,14 +9,15 @@ namespace GvarJam.HammerEntities;
 public partial class MountedCamera : AnimatedEntity
 {
 	/// <summary>
+	/// Whether or not this camera is controllable by the player.
+	/// </summary>
+	[Net, Property]
+	public bool IsUsable { get; set; } = true;
+
+	/// <summary>
 	/// Whether or not the camera should follow players that are moving around.
 	/// </summary>
 	private bool IsControlledManually { get; set; }
-
-	/// <summary>
-	/// The CameraMode that the player was using prior to operating this camera.
-	/// </summary>
-	private CameraMode PlayersLastCamera { get; set; }
 
 	private Vector3 LookPos;
 	private Rotation LookRot;
@@ -32,7 +32,7 @@ public partial class MountedCamera : AnimatedEntity
 
 	public void StartManualControl( Pawn player ) 
 	{
-		player.Camera = new ControllableCamera( this );
+		
 	}
 
 	public void EndManualControl( Pawn player ) 

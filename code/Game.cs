@@ -66,4 +66,13 @@ public partial class MyGame : Sandbox.Game
 
 		_ = new LampBatteryItem() { Position = ConsoleSystem.Caller.Pawn.Position };
 	}
+
+	[ConCmd.Admin( "spawn_cameracontroller" )]
+	public static void SpawnCameraController()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		_ = new CameraController() { Position = ConsoleSystem.Caller.Pawn.Position };
+	}
 }
