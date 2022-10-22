@@ -68,6 +68,7 @@ public partial class LampBatteryItem : DelayedUseItem
 		modl.Tags.Add( "camignore" );
 		modl.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 		modl.Transform = (user as AnimatedEntity).GetBoneTransform( "hold_L" ).WithScale(0.6f);
+		modl.Velocity = user.Rotation.Left * 100f;
 		modl.RenderColor = Color.Red;
 		modl.DeleteAsync( 2.5f );
 	}
@@ -91,7 +92,9 @@ public partial class LampBatteryItem : DelayedUseItem
 	{
 		await Task.DelaySeconds( 0.8f );
 		Tags.Add( "camignore" );
+		
 		SetParent( user, true );
+		Scale = 0.6f;
 	}
 
 	/// <summary>
@@ -110,7 +113,7 @@ public partial class LampBatteryItem : DelayedUseItem
 
 	private async void DisableRender()
 	{
-		await Task.DelaySeconds( 0.8f );
+		await Task.DelaySeconds( 1f );
 		EnableDrawing = false;
 	}
 }
