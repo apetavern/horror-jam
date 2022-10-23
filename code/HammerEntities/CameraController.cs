@@ -131,7 +131,7 @@ public partial class CameraController : LockedUseItem
 
 	public override void Simulate()
 	{
-		if ( TimeSinceUsed < 2 )
+		if ( TimeSinceUsed < 1 )
 			return;
 
 		if ( Input.Released( InputButton.Use ) )
