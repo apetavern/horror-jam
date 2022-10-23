@@ -45280,5 +45280,9 @@
 			m_name = "models/cosmetics/spacehelmet.vmdl"
 			m_bEnabled = true
 		},
+		{
+			m_name = "models/sci-fitable/scifitable.vmdl"
+			m_bEnabled = false
+		},
 	]
 }

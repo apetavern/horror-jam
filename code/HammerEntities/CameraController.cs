@@ -34,18 +34,38 @@ public sealed partial class CameraController : LockedUseItem
 	/// <inheritdoc/>
 	public override void Simulate()
 	{
+
+		if ( User is Pawn player && GetAttachment( "rhand_attach" ).HasValue )
+		{
+			player.SetAnimParameter( "right_hand_ik", GetAttachment( "rhand_attach" ).Value );
+		}
+
+		if ( User is Pawn player2 && GetAttachment( "lhand_attach" ).HasValue )
+		{
+			player2.SetAnimParameter( "left_hand_ik", GetAttachment( "lhand_attach" ).Value );
+		}
+
 		if ( TimeSinceUsed < 1 )
 			return;
 
 		if ( Input.Released( InputButton.Use ) )
 		{
 			StopUsing();
+			SetBodyGroup( 0, 0 );
 			return;
+		}
+
+
+		if(User is not null )
+		{
+			SetBodyGroup( 0, 1 );
 		}
 
 		if ( Input.Released( InputButton.Right ) )
 		{
 			var cameras = FindUsableMountedCameras();
+
+			SetAnimParameter( "right", true );
 
 			if ( CurrentCameraIndex + 1 > NumberOfUsableCameras )
 				CurrentCameraIndex = 0;
@@ -60,6 +80,8 @@ public sealed partial class CameraController : LockedUseItem
 		if ( Input.Released( InputButton.Left ) )
 		{
 			var cameras = FindUsableMountedCameras();
+
+			SetAnimParameter( "left", true );
 
 			if ( CurrentCameraIndex - 1 <= 0 )
 				CurrentCameraIndex = NumberOfUsableCameras;
@@ -90,6 +112,19 @@ public sealed partial class CameraController : LockedUseItem
 
 		player.InteractedEntity = this;
 
+		if ( GetAttachment( "rhand_attach" ).HasValue )
+		{
+			player.SetAnimParameter( "b_IKright", true );
+		}
+
+		if ( GetAttachment( "lhand_attach" ).HasValue )
+		{
+			player.SetAnimParameter( "b_IKleft", true );
+		}
+
+		player.SetAnimLookAt( "aim_head", Position + Vector3.Up * 68f );
+		player.SetAnimLookAt( "aim_eyes", Position + Vector3.Up * 68f );
+
 		SnapPlayerToUsePosition( player, 45 );
 
 		TimeSinceUsed = 0;
@@ -110,7 +145,6 @@ public sealed partial class CameraController : LockedUseItem
 
 			return;
 		}
-
 		SetBodyGroup( 0, 1 );
 		ScenePortal = new ScenePortal( Map.Scene, Model.Load( "models/cameraconsole/console_screen.vmdl" ), Transform );
 	}
@@ -123,6 +157,9 @@ public sealed partial class CameraController : LockedUseItem
 		if ( player is not null )
 		{
 			player.InteractedEntity = null;
+
+			player.SetAnimParameter( "b_IKleft", false );
+			player.SetAnimParameter( "b_IKright", false );
 
 			ReleasePlayer( player );
 		}
