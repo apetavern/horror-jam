@@ -4,12 +4,19 @@ namespace GvarJam.HammerEntities;
 [Library( "ent_cameracontroller" )]
 [HammerEntity]
 [EditorModel( "models/cameraconsole/console.vmdl" )]
-public partial class CameraController : InteractableEntity
+public partial class CameraController : LockedUseItem
 {
-	private TimeSince TimeSinceUsed { get; set; }
+	[Net, Predicted]
+	public TimeSince TimeSinceUsed { get; set; }
 
 	[Net]
 	public MountedCamera? TargetCamera { get; set; }
+
+	[Net]
+	public int NumberOfUsableCameras { get; set; }
+
+	[Net]
+	public int CurrentCameraIndex { get; set; }
 
 	private ScenePortal? ScenePortal;
 
@@ -69,11 +76,15 @@ public partial class CameraController : InteractableEntity
 		if ( user is not Pawn player )
 			return;
 
-		User = user;
+		player.InteractedEntity = this;
+
 		TimeSinceUsed = 0;
 
 		if ( Host.IsServer )
 		{
+			// Set the user
+			User = player;
+
 			// Disable the players controller.
 			player.Controller = null;
 
@@ -84,6 +95,7 @@ public partial class CameraController : InteractableEntity
 				return;
 
 			TargetCamera = targetCamera;
+			CurrentCameraIndex = 0;
 
 			return;
 		}
@@ -92,13 +104,17 @@ public partial class CameraController : InteractableEntity
 		ScenePortal = new ScenePortal( Map.Scene, Model.Load( "models/cameraconsole/console_screen.vmdl" ), Transform );
 	}
 
-	public void StopUsing()
+	public override void StopUsing()
 	{
-		if ( User is not Pawn player )
-			return;
+		var player = User as Pawn;
 
-		// Give the player a controller again.
-		player.Controller = new MovementController();
+		if ( player is not null )
+		{
+			player.InteractedEntity = null;
+
+			if ( Host.IsServer )
+				player.Controller = new MovementController();			
+		}
 
 		if ( Host.IsClient )
 		{
@@ -111,16 +127,52 @@ public partial class CameraController : InteractableEntity
 		User = null;
 	}
 
-	[Event.Tick]
-	public void Tick()
+	public override void Simulate()
 	{
-		if ( TimeSinceUsed > 10 )
+		if ( TimeSinceUsed < 1 )
+			return;
+
+		if ( Input.Released( InputButton.Use ) )
+		{
 			StopUsing();
+			return;
+		}
+
+		if ( Input.Released( InputButton.Right ) )
+		{
+			var cameras = FindUsableMountedCameras();
+
+			if ( CurrentCameraIndex + 1 > NumberOfUsableCameras )
+				CurrentCameraIndex = 0;
+			else
+				CurrentCameraIndex += 1;
+
+			TargetCamera = cameras[CurrentCameraIndex];
+
+			return;
+		}
+
+		if ( Input.Released( InputButton.Left ) )
+		{
+			var cameras = FindUsableMountedCameras();
+
+			if ( CurrentCameraIndex - 1 <= 0 )
+				CurrentCameraIndex = NumberOfUsableCameras;
+			else
+				CurrentCameraIndex -= 1;
+
+			TargetCamera = cameras[CurrentCameraIndex];
+
+			return;
+		}
 	}
 
 	protected List<MountedCamera> FindUsableMountedCameras()
 	{
-		return All.OfType<MountedCamera>().Where( x => x.IsUsable ).ToList();
+		var cameras = All.OfType<MountedCamera>().Where( x => x.IsUsable ).ToList();
+		NumberOfUsableCameras = cameras.Count - 1;
+
+		return cameras;
 	}
 }
 

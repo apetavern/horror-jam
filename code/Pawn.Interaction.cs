@@ -16,7 +16,7 @@ public partial class Pawn
 	public Entity? InteractedEntity
 	{
 		get => interactedEntity;
-		private set
+		set
 		{
 			if ( InteractedEntity == value )
 				return;
@@ -27,9 +27,10 @@ public partial class Pawn
 			if ( Camera is not PawnCamera camera )
 				return;
 
-			if ( IsInteracting && InteractedEntity is DelayedUseItem )
+			if ( IsInteracting && (InteractedEntity is DelayedUseItem || InteractedEntity is LockedUseItem))
 			{
 				camera.GoToThirdPerson();
+
 				var rotation = Rotation.LookAt( (InteractedEntity.Position - Position).Normal );
 				Rotation = new Rotation( 0, 0, rotation.z, rotation.w );
 			}
@@ -64,6 +65,12 @@ public partial class Pawn
 		if ( InteractedEntity is not null && !InteractedEntity.IsValid )
 			InteractedEntity = null;
 
+		if( InteractedEntity is LockedUseItem lockedUseItem )
+		{
+			lockedUseItem.Simulate();
+			return;
+		}
+
 		if ( Input.Down( InputButton.Use ) )
 		{
 			if ( entity is not null )
@@ -81,12 +88,16 @@ public partial class Pawn
 					InteractedEntity = null;
 			}
 		}
-		else if ( Input.Released( InputButton.Use ) && InteractedEntity is not null )
+		else if ( Input.Released( InputButton.Use ) )
 		{
-			if ( InteractedEntity.IsValid && InteractedEntity is IInteractable interactable )
-				interactable.Reset();
+			if( InteractedEntity is not null )
+			{
+				if ( InteractedEntity.IsValid && InteractedEntity is IInteractable interactable )
+					interactable.Reset();
 
-			InteractedEntity = null;
+				if( InteractedEntity is not LockedUseItem )
+					InteractedEntity = null;
+			}
 		}
 	}
 

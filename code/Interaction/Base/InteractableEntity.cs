@@ -12,6 +12,13 @@ public partial class InteractableEntity : ModelEntity, IInteractable
 
 	protected InteractionPromptPanel? InteractionPromptPanel { get; set; }
 
+	public override void Spawn()
+	{
+		base.Spawn();
+
+		Transmit = TransmitType.Always;
+	}
+
 	public virtual bool IsUsable( Entity user )
 	{
 		return user.Position.Distance( Position ) < 100;
