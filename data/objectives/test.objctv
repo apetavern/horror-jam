@@ -13,8 +13,10 @@
 		ObjectiveEndConditions = 
 		[
 			{
+				Type = "OnInteractWithType"
 				TriggerName = ""
 				InteractableName = "tutorial_camera_controller"
+				TypeName = "CameraController"
 			},
 		]
 		ObjectiveStartEvents = 
