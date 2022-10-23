@@ -15,7 +15,7 @@
 						[
 							{
 								from = "phong1.vmat"
-								to = "dev/helper/testgrid.vmat"
+								to = "models/cameraconsole/materials/cameraconsole.vmat"
 							},
 							{
 								from = "monitor.vmat"
