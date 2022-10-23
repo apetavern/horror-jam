@@ -85,12 +85,7 @@ public partial class CameraController : LockedUseItem
 			// Set the user
 			User = player;
 
-			// Position the player
-			player.Position = Position - Rotation.Forward * Model.RenderBounds.Size.y;
-			player.Rotation = Rotation.From( Vector3.VectorAngle( Position - player.Position ) );
-			player.EyeRotation = player.Rotation;
-
-			player.ResetInterpolation();
+			SnapPlayerToUsePosition( player );
 
 			// Disable the players controller.
 			player.Controller = null;
@@ -136,7 +131,7 @@ public partial class CameraController : LockedUseItem
 
 	public override void Simulate()
 	{
-		if ( TimeSinceUsed < 1 )
+		if ( TimeSinceUsed < 2 )
 			return;
 
 		if ( Input.Released( InputButton.Use ) )
