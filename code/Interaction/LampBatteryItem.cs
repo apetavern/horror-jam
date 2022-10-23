@@ -81,6 +81,12 @@ public sealed partial class LampBatteryItem : DelayedUseItem
 	private bool PullBattery( Entity user, bool firstTime, float timeInAnim )
 	{
 		var pawn = (user as Pawn)!;
+		if ( firstTime )
+		{
+			var rotation = Rotation.LookAt( (pawn.InteractedEntity!.Position - pawn.Position).Normal );
+			pawn.Rotation = new Rotation( 0, 0, rotation.z, rotation.w );
+		}
+
 		if ( !pawn.BatteryInserted )
 			return true;
 

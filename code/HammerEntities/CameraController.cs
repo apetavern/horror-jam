@@ -32,17 +32,52 @@ public sealed partial class CameraController : LockedUseItem
 	}
 
 	/// <inheritdoc/>
+	public override void Simulate()
+	{
+		if ( TimeSinceUsed < 1 )
+			return;
+
+		if ( Input.Released( InputButton.Use ) )
+		{
+			StopUsing();
+			return;
+		}
+
+		if ( Input.Released( InputButton.Right ) )
+		{
+			var cameras = FindUsableMountedCameras();
+
+			if ( CurrentCameraIndex + 1 > NumberOfUsableCameras )
+				CurrentCameraIndex = 0;
+			else
+				CurrentCameraIndex += 1;
+
+			TargetCamera = cameras[CurrentCameraIndex];
+
+			return;
+		}
+
+		if ( Input.Released( InputButton.Left ) )
+		{
+			var cameras = FindUsableMountedCameras();
+
+			if ( CurrentCameraIndex - 1 <= 0 )
+				CurrentCameraIndex = NumberOfUsableCameras;
+			else
+				CurrentCameraIndex -= 1;
+
+			TargetCamera = cameras[CurrentCameraIndex];
+
+			return;
+		}
+	}
+
+	/// <inheritdoc/>
 	protected override void OnDestroy()
 	{
 		base.OnDestroy();
 
 		StopUsing();
-	}
-
-	/// <inheritdoc/>
-	public override bool IsUsable( Entity user )
-	{
-		return base.IsUsable( user ) && User is null;
 	}
 
 	/// <inheritdoc/>
@@ -89,7 +124,7 @@ public sealed partial class CameraController : LockedUseItem
 		{
 			player.InteractedEntity = null;
 
-			ReleasePlayer( player );		
+			ReleasePlayer( player );
 		}
 
 		if ( IsClient )
@@ -104,44 +139,17 @@ public sealed partial class CameraController : LockedUseItem
 	}
 
 	/// <inheritdoc/>
-	public override void Simulate()
+	public override bool IsUsable( Entity user )
 	{
-		if ( TimeSinceUsed < 1 )
-			return;
+		return base.IsUsable( user ) && User is null;
+	}
 
-		if ( Input.Released( InputButton.Use ) )
-		{
-			StopUsing();
-			return;
-		}
+	/// <inheritdoc/>
+	public override bool OnUse( Entity user )
+	{
+		base.OnUse( user );
 
-		if ( Input.Released( InputButton.Right ) )
-		{
-			var cameras = FindUsableMountedCameras();
-
-			if ( CurrentCameraIndex + 1 > NumberOfUsableCameras )
-				CurrentCameraIndex = 0;
-			else
-				CurrentCameraIndex += 1;
-
-			TargetCamera = cameras[CurrentCameraIndex];
-
-			return;
-		}
-
-		if ( Input.Released( InputButton.Left ) )
-		{
-			var cameras = FindUsableMountedCameras();
-
-			if ( CurrentCameraIndex - 1 <= 0 )
-				CurrentCameraIndex = NumberOfUsableCameras;
-			else
-				CurrentCameraIndex -= 1;
-
-			TargetCamera = cameras[CurrentCameraIndex];
-
-			return;
-		}
+		return true;
 	}
 
 	protected List<MountedCamera> FindUsableMountedCameras()

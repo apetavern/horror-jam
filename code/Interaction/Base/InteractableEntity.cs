@@ -80,7 +80,7 @@ public partial class InteractableEntity : ModelEntity, IInteractable
 	/// <inheritdoc/>
 	public virtual bool IsUsable( Entity user )
 	{
-		return user.Position.Distance( Position ) < UseDistance;
+		return user.Position.Distance( Position ) < UseDistance && user.GroundEntity is not null && user.Velocity.IsNearZeroLength;
 	}
 
 	/// <inheritdoc/>

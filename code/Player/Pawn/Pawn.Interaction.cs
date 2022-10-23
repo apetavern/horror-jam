@@ -26,9 +26,7 @@ public partial class Pawn
 				return;
 
 			if ( IsInteracting && (InteractedEntity is DelayedUseItem || InteractedEntity is LockedUseItem))
-			{
 				camera.GoToThirdPerson();
-			}
 			else
 				camera.GoToFirstPerson();
 		}
