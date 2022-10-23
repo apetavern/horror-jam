@@ -80,7 +80,7 @@ public partial class Pawn
 					else
 						InteractedEntity = null;
 				}
-				else if ( IsServer && entity is IUse use )
+				else if ( IsServer && entity is IUse use && Input.Pressed( InputButton.Use ) )
 					use.OnUse( this );
 				else
 					InteractedEntity = null;
