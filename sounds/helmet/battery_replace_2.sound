@@ -7,13 +7,13 @@
 		VolumeRandom = 0
 		Pitch = 1
 		PitchRandom = 0
-		Decibels = 125
+		Decibels = 90
 		Sounds = 
 		[
-			resource:"sounds/helmet/replace_battery.vsnd",
+			resource:"sounds/helmet/battery_replace_2.vsnd",
 		]
 		SelectionMode = "Random"
-		MaximumDistance = 3577.7063
-		MinimumDistance = 178.88531
+		MaximumDistance = 1870.0942
+		MinimumDistance = 93.504715
 	}
 }

@@ -29,6 +29,10 @@ public sealed partial class LampBatteryItem : DelayedUseItem
 	/// Whether or not the battery was picked up.
 	/// </summary>
 	private bool pickedUp;
+	/// <summary>
+	/// Whether or not the battery was pushed in.
+	/// </summary>
+	private bool pushed;
 
 	/// <inheritdoc/>
 	public override void Spawn()
@@ -144,7 +148,7 @@ public sealed partial class LampBatteryItem : DelayedUseItem
 			_ = modl.DeleteAfterSecondsAndNotVisible( 2.5f );
 		}
 		pawn.BatteryInserted = false;
-		Sound.FromEntity( "replace_battery", user );
+		Sound.FromEntity( "battery_replace_1", user );
 	}
 
 	/// <summary>
@@ -183,6 +187,12 @@ public sealed partial class LampBatteryItem : DelayedUseItem
 	/// <param name="timeInAnim">The time in seconds that this animation has been going for,</param>
 	private bool PushBattery( Entity user, bool firstTime, float timeInAnim )
 	{
+		if ( IsServer && timeInAnim >= 0.799 && !pushed )
+		{
+			pushed = true;
+			Sound.FromEntity( "battery_replace_2", user );
+		}
+
 		(user as Pawn)!.SetAnimParameter( "pushbattery", true );
 		return false;
 	}
