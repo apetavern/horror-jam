@@ -3,8 +3,7 @@
 /// <summary>
 /// Represents an item that takes time to use.
 /// </summary>
-[Category( "Interactables" )]
-public partial class DelayedUseItem : InteractableEntity, IInteractable
+public partial class DelayedUseItem : InteractableEntity
 {
 	/// <summary>
 	/// The amount of time it takes to use the item.
@@ -64,6 +63,14 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 	}
 
 	/// <summary>
+	/// Returns current interaction progress from 0 .. 1
+	/// </summary>
+	public float GetInteractionProgress()
+	{
+		return CurrentUseTime / TimeToUse;
+	}
+
+	/// <summary>
 	/// Invoked to create any required actions for the interaction.
 	/// </summary>
 	protected virtual void CreateActions()
@@ -98,6 +105,7 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 		CurrentActionIndex++;
 	}
 
+	/// <inheritdoc/>
 	public override bool IsUsable( Entity user )
 	{
 		if ( User is not null && User != user )
@@ -106,6 +114,7 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 		return user.Position.Distance( Position ) < 100;
 	}
 
+	/// <inheritdoc/>
 	public override bool OnUse( Entity user )
 	{
 		if ( IsServer )
@@ -128,6 +137,7 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 		return !used;
 	}
 
+	/// <inheritdoc/>
 	public override void Reset()
 	{
 		CurrentUseTime = 0;
@@ -135,13 +145,5 @@ public partial class DelayedUseItem : InteractableEntity, IInteractable
 		firstTimeActions.Clear();
 		if ( IsServer )
 			User = null;
-	}
-
-	/// <summary>
-	/// Returns current interaction progress from 0 .. 1
-	/// </summary>
-	public float GetInteractionProgress()
-	{
-		return CurrentUseTime / TimeToUse;
 	}
 }

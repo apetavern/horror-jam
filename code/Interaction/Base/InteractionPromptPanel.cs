@@ -1,6 +1,9 @@
 ﻿namespace GvarJam.Interactions;
 
-public class InteractionPromptPanel : WorldPanel
+/// <summary>
+/// The UI world panel for interaction prompts.
+/// </summary>
+public sealed class InteractionPromptPanel : WorldPanel
 {
 	public InteractionPromptPanel( InteractableEntity entity )
 	{

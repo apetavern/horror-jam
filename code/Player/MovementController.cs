@@ -1,9 +1,10 @@
 ﻿namespace GvarJam.Player;
 
+/// <summary>
+/// The controller for the pawn.
+/// </summary>
 public sealed partial class MovementController : WalkController
 {
-	private TimeSince timeSinceStaminaUsed;
-
 	/// <summary>
 	/// The current stamina the pawn has.
 	/// </summary>
@@ -15,6 +16,11 @@ public sealed partial class MovementController : WalkController
 	/// </summary>
 	[Net, Predicted]
 	public bool IsSprinting { get; set; }
+
+	/// <summary>
+	/// The time since stamina was last used.
+	/// </summary>
+	private TimeSince timeSinceStaminaUsed;
 
 	/// <summary>
 	/// Per second, while sprinting.

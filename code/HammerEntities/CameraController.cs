@@ -57,7 +57,7 @@ public sealed partial class CameraController : LockedUseItem
 
 		TimeSinceUsed = 0;
 
-		if ( Host.IsServer )
+		if ( IsServer )
 		{
 			// Set the user
 			User = player;
@@ -92,7 +92,7 @@ public sealed partial class CameraController : LockedUseItem
 			ReleasePlayer( player );		
 		}
 
-		if ( Host.IsClient )
+		if ( IsClient )
 		{
 			ScenePortal?.Delete();
 			ScenePortal = null;

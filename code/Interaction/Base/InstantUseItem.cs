@@ -3,14 +3,14 @@
 /// <summary>
 /// Represents an item that has an instant use.
 /// </summary>
-[Category( "Interactables" )]
-public class InstantUseItem : InteractableEntity, IInteractable
+public class InstantUseItem : InteractableEntity
 {
 	/// <summary>
 	/// Whether or not to delete the entity after it has been used.
 	/// </summary>
 	protected virtual bool DeleteOnUse => true;
 
+	/// <inheritdoc/>
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -19,6 +19,7 @@ public class InstantUseItem : InteractableEntity, IInteractable
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
 	}
 
+	/// <inheritdoc/>
 	public override bool OnUse( Entity user )
 	{
 		OnUsed( user );
@@ -29,6 +30,7 @@ public class InstantUseItem : InteractableEntity, IInteractable
 		return false;
 	}
 
+	/// <inheritdoc/>
 	public override void Reset()
 	{
 		throw new NotSupportedException();
