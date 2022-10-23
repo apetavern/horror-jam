@@ -34,10 +34,7 @@ public partial class MountedCamera : AnimatedEntity
 	/// </summary>
 	[Property] public float Aspect { get; set; } = 1.0f;
 
-	/// <summary>
-	/// Whether or not the camera should follow players that are moving around.
-	/// </summary>
-	private bool IsControlledManually { get; set; }
+	private float CameraTrackingReachUnits = 300f;
 
 	private Vector3 LookPos;
 	private Rotation LookRot;
@@ -55,12 +52,16 @@ public partial class MountedCamera : AnimatedEntity
 	[Event.Tick.Server]
 	public void Tick()
 	{
-		if ( IsControlledManually )
-			return;
-
 		var player = All.OfType<Pawn>().GetClosestOrDefault( this );
 
 		if ( player is null )
+			return;
+
+		var shouldTrack = Vector3.DistanceBetween( player.Position, Position ) < CameraTrackingReachUnits;
+
+		SetAnimParameter( "tracking", shouldTrack );
+
+		if ( !shouldTrack )
 			return;
 
 		float playerdist = Vector3.DistanceBetween( Position - Vector3.Up * 15f, player.EyePosition )/200f;
