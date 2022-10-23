@@ -4,6 +4,9 @@ public class Objective
 {
 	public ObjectiveResource Resource { get; set; }
 
+	private TimeSince TimeSinceObjectiveStart;
+	private TimeSince TimeSinceObjectiveEnd;
+
 	public override bool Equals( object? obj )
 	{
 		if ( obj is not Objective objective )
@@ -55,10 +58,14 @@ public class Objective
 	public void InvokeStartEvents( Pawn pawn )
 	{
 		Resource.ObjectiveStartEvents?.ForEach( x => x.Invoke( pawn ) );
+
+		TimeSinceObjectiveStart = 0;
 	}
 
 	public void InvokeEndEvents( Pawn pawn )
 	{
 		Resource.ObjectiveEndEvents?.ForEach( x => x.Invoke( pawn ) );
+
+		TimeSinceObjectiveEnd = 0;
 	}
 }

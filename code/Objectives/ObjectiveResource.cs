@@ -3,6 +3,12 @@
 [GameResource( "Objective", "objctv", "Gvar Jam Objective" )]
 public partial class ObjectiveResource : GameResource
 {
+	[Category( "Metadata" )]
+	public string Name { get; set; } = "My Cool Objective";
+
+	[Category( "Metadata" )]
+	public string Description { get; set; } = "Lorem Ipsum Dolor Sit Amet";
+
 	[Title( "Conditions" ), Category( "Objective Start" )]
 	public List<ObjectiveStartCondition> ObjectiveStartConditions { get; set; }
 
@@ -15,7 +21,4 @@ public partial class ObjectiveResource : GameResource
 	[Title( "Events" ), Category( "Objective End" )]
 	public List<ObjectiveEvent> ObjectiveEndEvents { get; set; }
 
-	public string Id { get; set; } = "my_objective";
-	public string Name { get; set; } = "My Cool Objective";
-	public string Description { get; set; } = "Lorem Ipsum Dolor Sit Amet";
 }

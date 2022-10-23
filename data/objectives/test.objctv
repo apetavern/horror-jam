@@ -2,6 +2,8 @@
 {
 	data = 
 	{
+		Name = "Tutorial: Interacting"
+		Description = "Locate and interact with a camera controller."
 		ObjectiveStartConditions = 
 		[
 			{
@@ -13,7 +15,7 @@
 		ObjectiveEndConditions = 
 		[
 			{
-				Type = "OnInteractWithType"
+				Type = "InteractWithType"
 				TriggerName = ""
 				InteractableName = "tutorial_camera_controller"
 				TypeName = "CameraController"
@@ -25,9 +27,11 @@
 				SoundName = resource:"sounds/easteregg/welcome_m.sound"
 			},
 		]
-		ObjectiveEndEvents = null
-		Id = "tutorial_interact"
-		Name = "Tutorial: Interacting"
-		Description = "Locate and interact with a camera controller."
+		ObjectiveEndEvents = 
+		[
+			{
+				SoundName = resource:"sounds/easteregg/welcome_f.sound"
+			},
+		]
 	}
 }

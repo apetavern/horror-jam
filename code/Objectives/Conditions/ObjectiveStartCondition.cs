@@ -10,7 +10,7 @@ public struct ObjectiveStartCondition
 
 	public ConditionType Type { get; set; }
 
-	[ShowIf( nameof( Type ), ConditionType.PreviousObjectiveComplete ), Icon( "done" )]
+	[ShowIf( nameof( Type ), ConditionType.PreviousObjectiveComplete ), Icon( "done" ), ResourceType( "objctv" )]
 	public string ObjectiveName { get; set; }
 
 	[ShowIf( nameof( Type ), ConditionType.PlayerEnteredTrigger ), Icon( "view_in_ar" )]
@@ -26,10 +26,15 @@ public struct ObjectiveStartCondition
 					if ( entity is not ObjectiveTrigger trigger )
 						return false;
 
-					if ( trigger.TouchingEntities.Contains( pawn ) )
-						return true;
+					return trigger.TouchingEntities.Contains( pawn );
 				}
-				break;
+			case ConditionType.PreviousObjectiveComplete:
+				{
+					var objectiveSystem = ObjectiveSystem.Current;
+					var objectiveName = ObjectiveName;
+
+					return !objectiveSystem.PendingObjectives.Any( x => x.Resource.ResourcePath == objectiveName );
+				}
 		}
 
 		return false;

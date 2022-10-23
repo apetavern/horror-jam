@@ -4,31 +4,31 @@ public struct ObjectiveEndCondition
 {
 	public enum ConditionType
 	{
-		OnInteractWithEntity,
-		OnInteractWithType,
-		OnTrigger,
-		OnTimer
+		InteractWithEntity,
+		InteractWithType,
+		PlayerEnteredTrigger,
+		Timer
 	}
 
 	public ConditionType Type { get; set; }
 
-	[ShowIf( nameof( Type ), ConditionType.OnTrigger )]
+	[ShowIf( nameof( Type ), ConditionType.PlayerEnteredTrigger )]
 	public string TriggerName { get; set; }
 
-	[ShowIf( nameof( Type ), ConditionType.OnInteractWithEntity )]
+	[ShowIf( nameof( Type ), ConditionType.InteractWithEntity )]
 	public string InteractableName { get; set; }
 
-	[ShowIf( nameof( Type ), ConditionType.OnInteractWithType )]
+	[ShowIf( nameof( Type ), ConditionType.InteractWithType )]
 	public string TypeName { get; set; }
 
-	[ShowIf( nameof( Type ), ConditionType.OnTimer )]
+	[ShowIf( nameof( Type ), ConditionType.Timer )]
 	public float TimeDelay { get; set; }
 
 	public bool IsMet( Pawn pawn )
 	{
 		switch ( Type )
 		{
-			case ConditionType.OnInteractWithEntity:
+			case ConditionType.InteractWithEntity:
 				{
 					var entity = Entity.FindByName( InteractableName );
 
@@ -37,12 +37,22 @@ public struct ObjectiveEndCondition
 
 					return false;
 				}
-			case ConditionType.OnInteractWithType:
+			case ConditionType.InteractWithType:
 				{
 					if ( pawn.IsInteracting && pawn.InteractedEntity?.GetType().Name == TypeName )
 						return true;
 
 					return false;
+				}
+			case ConditionType.PlayerEnteredTrigger:
+				{
+					var entity = Entity.FindByName( TriggerName );
+					if ( entity is not ObjectiveTrigger trigger )
+						return false;
+
+					if ( trigger.TouchingEntities.Contains( pawn ) )
+						return true;
+					break;
 				}
 		}
 		return false;

@@ -21,12 +21,12 @@ public class ObjectiveSystem
 	/// <summary>
 	/// Which objectives haven't been completed yet?
 	/// </summary>
-	private List<Objective> PendingObjectives { get; } = ResourceLibrary.GetAll<ObjectiveResource>().Select( x => new Objective() { Resource = x } ).ToList();
+	public List<Objective> PendingObjectives { get; } = ResourceLibrary.GetAll<ObjectiveResource>().Select( x => new Objective() { Resource = x } ).ToList();
 
 	/// <summary>
 	/// Which objectives are the player/s doing?
 	/// </summary>
-	private List<Objective> ActiveObjectives { get; } = new();
+	public List<Objective> ActiveObjectives { get; } = new();
 
 	public ObjectiveSystem()
 	{
