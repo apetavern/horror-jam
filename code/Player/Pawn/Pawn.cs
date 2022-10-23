@@ -1,4 +1,4 @@
-namespace GvarJam;
+namespace GvarJam.Player;
 
 /// <summary>
 /// The players pawn.
@@ -79,6 +79,7 @@ public sealed partial class Pawn : AnimatedEntity
 		EnableShadowInFirstPerson = true;
 	}
 
+	/// <inheritdoc/>
 	public override void ClientSpawn()
 	{
 		base.ClientSpawn();

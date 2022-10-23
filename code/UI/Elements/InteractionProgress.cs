@@ -1,16 +1,18 @@
-﻿using GvarJam.Utility;
+﻿namespace GvarJam.UI.Elements;
 
-namespace GvarJam.UI.Elements;
-
-internal class InteractionProgress : Panel
+/// <summary>
+/// The circular progress meter for interactions.
+/// </summary>
+public sealed class InteractionProgress : Panel
 {
-	private float Thickness => 4f;
+	private const float Thickness = 4f;
 
 	public InteractionProgress()
 	{
 		AddClass( "auto-hide" );
 	}
 
+	/// <inheritdoc/>
 	public override void Tick()
 	{
 		if ( Local.Pawn is not Pawn player )
@@ -19,6 +21,7 @@ internal class InteractionProgress : Panel
 		SetClass( "visible", player.IsInteracting && player.InteractedEntity is DelayedUseItem item );
 	}
 
+	/// <inheritdoc/>
 	public override void DrawBackground( ref RenderState state )
 	{
 		base.DrawBackground( ref state );

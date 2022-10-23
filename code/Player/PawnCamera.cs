@@ -1,15 +1,22 @@
-﻿namespace GvarJam.Cameras;
+﻿namespace GvarJam.Player;
 
-public partial class PawnCamera : CameraMode
+/// <summary>
+/// The camera for the pawn.
+/// </summary>
+public sealed partial class PawnCamera : CameraMode
 {
+	/// <summary>
+	/// The current view mode of the camera.
+	/// </summary>
 	[Net, Predicted]
 	public ViewModeType ViewMode { get; private set; }
-	private float ModeSwitchProgress { get; set; }
 
 	private const float ModeSwitchSpeed = 2.0f;
 
+	private float modeSwitchProgress = 0;
 	private Vector3 lastPos;
 
+	/// <inheritdoc/>
 	public override void Activated()
 	{
 		var pawn = Local.Pawn;
@@ -21,12 +28,13 @@ public partial class PawnCamera : CameraMode
 		lastPos = Position;
 	}
 
+	/// <inheritdoc/>
 	public override void Update()
 	{
 		var pawn = Local.Pawn;
 		if ( pawn == null ) return;
 
-		ModeSwitchProgress += Time.Delta;
+		modeSwitchProgress += Time.Delta;
 
 		var targetPos = ViewMode switch
 		{
@@ -35,29 +43,40 @@ public partial class PawnCamera : CameraMode
 			_ => (Vector3)0,
 		};
 
-		Position = Position.LerpTo( targetPos, ModeSwitchProgress * ModeSwitchSpeed );
+		Position = Position.LerpTo( targetPos, modeSwitchProgress * ModeSwitchSpeed );
 		Rotation = pawn.EyeRotation;
 		Viewer = null;
 	}
 
+	/// <summary>
+	/// Sets the <see cref="ViewMode"/> to <see cref="ViewModeType.FirstPerson"/>.
+	/// </summary>
 	public void GoToFirstPerson()
 	{
 		if ( ViewMode == ViewModeType.FirstPerson )
 			return;
 
 		ViewMode = ViewModeType.FirstPerson;
-		ModeSwitchProgress = 0;
+		modeSwitchProgress = 0;
 	}
 
+	/// <summary>
+	/// Sets the <see cref="ViewMode"/> to <see cref="ViewModeType.ThirdPerson"/>.
+	/// </summary>
 	public void GoToThirdPerson()
 	{
 		if ( ViewMode == ViewModeType.ThirdPerson )
 			return;
 
 		ViewMode = ViewModeType.ThirdPerson;
-		ModeSwitchProgress = 0;
+		modeSwitchProgress = 0;
 	}
 
+	/// <summary>
+	/// Updates the third person view.
+	/// </summary>
+	/// <param name="pawn">The pawn that owns the camera.</param>
+	/// <returns>The new position of the camera.</returns>
 	private Vector3 UpdateThirdPerson( Entity pawn )
 	{
 		var targetPos = pawn.EyePosition
@@ -70,6 +89,11 @@ public partial class PawnCamera : CameraMode
 		return InterpolatePosition( targetPos );
 	}
 
+	/// <summary>
+	/// Updates the first person view.
+	/// </summary>
+	/// <param name="pawn">The pawn that owns the camera.</param>
+	/// <returns>The new position of the camera.</returns>
 	private Vector3 UpdateFirstPerson( Entity pawn )
 	{
 		var eyePos = pawn.EyePosition;
@@ -82,8 +106,8 @@ public partial class PawnCamera : CameraMode
 	/// Interpolate a position on the z-axis, useful for making things
 	/// like crouching look much smoother.
 	/// </summary>
-	/// <param name="targetPos"></param>
-	/// <returns></returns>
+	/// <param name="targetPos">The position to lerp to.</param>
+	/// <returns>The lerped pos.</returns>
 	private Vector3 InterpolatePosition( Vector3 targetPos )
 	{
 		//
@@ -92,12 +116,10 @@ public partial class PawnCamera : CameraMode
 		// first & third person.
 		// Not super elegant.. too bad!
 		//
-
 		if ( targetPos.Distance( lastPos ) < 300 )
 			targetPos = Vector3.Lerp( targetPos.WithZ( lastPos.z ), targetPos, 20.0f * Time.Delta );
 
 		lastPos = targetPos;
-
 		return targetPos;
 	}
 
@@ -106,7 +128,7 @@ public partial class PawnCamera : CameraMode
 	/// </summary>
 	/// <param name="offset"></param>
 	/// <param name="speed"></param>
-	/// <returns></returns>
+	/// <returns>The noise that was generated.</returns>
 	private float GetNoise( float offset, float speed )
 	{
 		var noise = Noise.Perlin( offset, offset, Time.Now * speed );
@@ -122,7 +144,7 @@ public partial class PawnCamera : CameraMode
 	/// depending on how close a player is to the monster
 	/// (i.e. some sort of 'sanity' value)
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>The noise that was generated.</returns>
 	private Vector3 GetAdditiveNoise()
 	{
 		var noise = GetNoise( 0.1f, 8f ) * Rotation.Up
@@ -132,6 +154,10 @@ public partial class PawnCamera : CameraMode
 		return noise * 4f;
 	}
 
+	/// <summary>
+	/// Gets the alpha value that something related to the player should be rendered at.
+	/// </summary>
+	/// <returns>The alpha value that something related to the player should be rendered at.</returns>
 	public float GetPlayerAlpha()
 	{
 		//
@@ -141,7 +167,7 @@ public partial class PawnCamera : CameraMode
 		// player look really ugly. I will look into this later
 		//
 
-		float baseAlpha = ModeSwitchProgress * ModeSwitchSpeed * 4.0f;
+		float baseAlpha = modeSwitchProgress * ModeSwitchSpeed * 4.0f;
 		baseAlpha = baseAlpha.Clamp( 0, 1 );
 
 		return ViewMode switch

@@ -1,6 +1,4 @@
-﻿using GvarJam.Utility;
-
-namespace GvarJam.Interactions;
+﻿namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an item that takes time to use.
@@ -8,7 +6,7 @@ namespace GvarJam.Interactions;
 [Category( "Interactables" )]
 [HammerEntity]
 [EditorModel( "models/items/battery/battery.vmdl" )]
-public partial class LampBatteryItem : DelayedUseItem
+public sealed partial class LampBatteryItem : DelayedUseItem
 {
 	/// <inheritdoc/>
 	public override float TimeToUse => 2.6f;

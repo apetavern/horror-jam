@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿namespace GvarJam.Utility;
 
-namespace GvarJam.Utility;
-
+/// <summary>
+/// Extension class for <see cref="Graphics"/>.
+/// </summary>
 public static class GraphicsExtensions
 {
 	public static void CircleEx( in Vector2 center, float outer, float inner, Color color, int points = 32, float startAngle = 0f, float endAngle = 360f )

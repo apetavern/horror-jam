@@ -1,6 +1,9 @@
 ﻿namespace GvarJam.UI.Elements;
 
-internal class BatteryLevel : Panel
+/// <summary>
+/// The battery meter.
+/// </summary>
+public sealed class BatteryLevel : Panel
 {
 	private Panel FramePanel;
 	private Panel FillPanel;
@@ -13,6 +16,7 @@ internal class BatteryLevel : Panel
 		FillPanel = Add.Panel( "fill" );
 	}
 
+	/// <inheritdoc/>
 	public override void Tick()
 	{
 		if ( Local.Pawn is not Pawn player )

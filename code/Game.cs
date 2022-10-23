@@ -8,12 +8,17 @@ global using System.Linq;
 global using System.Collections.Generic;
 global using GvarJam.Interactions;
 global using GvarJam.HammerEntities;
+global using GvarJam.Player;
 global using GvarJam.SoundManager;
-global using GvarJam.Cameras;
+global using GvarJam.Utility;
+using GvarJam.UI;
 
 namespace GvarJam;
 
-public partial class MyGame : Sandbox.Game
+/// <summary>
+/// The game class.
+/// </summary>
+public sealed partial class MyGame : Sandbox.Game
 {
 	public MyGame()
 	{
@@ -49,15 +54,9 @@ public partial class MyGame : Sandbox.Game
 		}
 	}
 
-	[ConCmd.Admin( "spawn_instant_item" )]
-	public static void SpawnInstantItem()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null )
-			return;
-
-		_ = new InstantUseItem() { Position = ConsoleSystem.Caller.Pawn.Position };
-	}
-
+	/// <summary>
+	/// Debug command to spawn a battery.
+	/// </summary>
 	[ConCmd.Admin( "spawn_battery" )]
 	public static void SpawnBatteryItem()
 	{
@@ -67,6 +66,9 @@ public partial class MyGame : Sandbox.Game
 		_ = new LampBatteryItem() { Position = ConsoleSystem.Caller.Pawn.Position };
 	}
 
+	/// <summary>
+	/// Debug command to spawn the camera controller.
+	/// </summary>
 	[ConCmd.Admin( "spawn_cameracontroller" )]
 	public static void SpawnCameraController()
 	{

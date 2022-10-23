@@ -1,4 +1,4 @@
-﻿namespace GvarJam;
+﻿namespace GvarJam.Player;
 
 //
 // Camera effects (leaning, bobbing, etc.) that rely on player movement

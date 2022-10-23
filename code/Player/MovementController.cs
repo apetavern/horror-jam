@@ -1,45 +1,47 @@
-﻿namespace GvarJam;
+﻿namespace GvarJam.Player;
 
-public partial class MovementController : WalkController
+public sealed partial class MovementController : WalkController
 {
 	private TimeSince timeSinceStaminaUsed;
 
 	/// <summary>
-	/// 0 to 1
+	/// The current stamina the pawn has.
 	/// </summary>
-	[Net, Predicted] public float Stamina { get; set; }
+	[Net, Predicted]
+	public float Stamina { get; set; }
 
 	/// <summary>
-	/// Is the player currently sprinting?
+	/// Whether or not the pawn is sprinting.
 	/// </summary>
-	[Net, Predicted] public bool IsSprinting { get; set; }
+	[Net, Predicted]
+	public bool IsSprinting { get; set; }
 
 	/// <summary>
-	/// Per second, while sprinting
+	/// Per second, while sprinting.
 	/// </summary>
-	private float StaminaReductionRate => 0.5f;
+	private const float StaminaReductionRate = 0.5f;
 
 	/// <summary>
-	/// Per second, while not sprinting for over StaminaReplenishDelay
+	/// Per second, while not sprinting for over <see cref="StaminaReplenishDelay"/>.
 	/// </summary>
-	private float StaminaReplenishRate => 0.5f;
+	private const float StaminaReplenishRate = 0.5f;
 
 	/// <summary>
 	/// How long (in seconds) before stamina replenishes?
 	/// </summary>
-	// Seconds
-	private float StaminaReplenishDelay => 1.0f;
+	private const float StaminaReplenishDelay = 1.0f;
 
 	/// <summary>
 	/// How much stamina is required to engage sprint?
 	/// </summary>
-	public float MinimumStaminaForSprint => 0.3f;
+	private const float MinimumStaminaForSprint = 0.3f;
 
 	/// <summary>
 	/// How much stamina does jumping cost? (Applied instantly)
 	/// </summary>
-	public float JumpStaminaReduction => 0.2f;
+	private const float JumpStaminaReduction = 0.2f;
 
+	/// <inheritdoc/>
 	public override void Simulate()
 	{
 		base.Simulate();
@@ -79,6 +81,7 @@ public partial class MovementController : WalkController
 		Stamina = Stamina.Clamp( 0, 1 );
 	}
 
+	/// <inheritdoc/>
 	public override float GetWishSpeed()
 	{
 		if ( (Pawn as Pawn)!.IsInteracting )
@@ -93,6 +96,7 @@ public partial class MovementController : WalkController
 		return DefaultSpeed;
 	}
 
+	/// <inheritdoc/>
 	public override void CheckJumpButton()
 	{
 		if ( (Pawn as Pawn)!.IsInteracting )

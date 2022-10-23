@@ -1,6 +1,11 @@
 ﻿using GvarJam.UI.Elements;
 
-public partial class Hud : HudEntity<RootPanel>
+namespace GvarJam.UI;
+
+/// <summary>
+/// The hud entity.
+/// </summary>
+public sealed partial class Hud : HudEntity<RootPanel>
 {
 	public Hud()
 	{

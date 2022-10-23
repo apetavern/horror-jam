@@ -1,4 +1,4 @@
-﻿namespace GvarJam;
+﻿namespace GvarJam.Player;
 
 public partial class Pawn
 {
@@ -7,8 +7,6 @@ public partial class Pawn
 	/// </summary>
 	[Net, Predicted]
 	public bool IsInteracting { get; private set; }
-
-	private InteractableEntity? LastInteractable { get; set; }
 
 	/// <summary>
 	/// The entity that the pawn is interacting with.
@@ -40,6 +38,11 @@ public partial class Pawn
 	/// </summary>
 	[Net, Predicted]
 	private Entity? interactedEntity { get; set; } = null!;
+
+	/// <summary>
+	/// The last interactable entity that was looked at.
+	/// </summary>
+	private InteractableEntity? LastInteractable { get; set; }
 
 	/// <summary>
 	/// Simulates the interaction system.
@@ -132,6 +135,11 @@ public partial class Pawn
 		return IsValidInteractableEntity( entity ) ? entity : null;
 	}
 
+	/// <summary>
+	/// Returns whether or not the entity is a valid interactable entity.
+	/// </summary>
+	/// <param name="entity">The entity to check if it is interactable.</param>
+	/// <returns>Whether or not the entity is a valid interactable entity.</returns>
 	private bool IsValidInteractableEntity( Entity? entity )
 	{
 		if ( entity is null ) return false;

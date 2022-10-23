@@ -1,12 +1,10 @@
-using GvarJam.Utility;
-
 namespace GvarJam.HammerEntities;
 
 [Category( "Environment" )]
 [Library( "ent_mountedcamera" )]
 [HammerEntity]
 [EditorModel( "models/mountedcamera/mountedcamera.vmdl" )]
-public partial class MountedCamera : AnimatedEntity
+public sealed partial class MountedCamera : AnimatedEntity
 {
 	/// <summary>
 	/// Whether or not this camera is viewable on the camera console.
@@ -40,6 +38,7 @@ public partial class MountedCamera : AnimatedEntity
 	private Rotation LookRot;
 	private Rotation FlatLookRot;
 
+	/// <inheritdoc/>
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -50,7 +49,7 @@ public partial class MountedCamera : AnimatedEntity
 	}
 
 	[Event.Tick.Server]
-	public void Tick()
+	private void Tick()
 	{
 		var player = All.OfType<Pawn>().GetClosestOrDefault( this );
 

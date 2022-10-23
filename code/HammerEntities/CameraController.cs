@@ -4,7 +4,7 @@ namespace GvarJam.HammerEntities;
 [Library( "ent_cameracontroller" )]
 [HammerEntity]
 [EditorModel( "models/cameraconsole/console.vmdl" )]
-public partial class CameraController : LockedUseItem
+public sealed partial class CameraController : LockedUseItem
 {
 	[Net, Predicted]
 	public TimeSince TimeSinceUsed { get; set; }
@@ -20,6 +20,7 @@ public partial class CameraController : LockedUseItem
 
 	private ScenePortal? ScenePortal;
 
+	/// <inheritdoc/>
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -30,6 +31,7 @@ public partial class CameraController : LockedUseItem
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
 	}
 
+	/// <inheritdoc/>
 	protected override void OnDestroy()
 	{
 		base.OnDestroy();
@@ -37,38 +39,13 @@ public partial class CameraController : LockedUseItem
 		StopUsing();
 	}
 
-	[Event.Frame]
-	private void OnFrame()
-	{
-		if ( !IsClient )
-			return;
-
-		if ( ScenePortal == null || !ScenePortal.IsValid )
-			return;
-
-		ScenePortal.Transform = Transform;
-
-		if ( !TargetCamera.IsValid() )
-			return;
-
-		var attachment = TargetCamera.GetAttachment( "lens_position" );
-
-		if ( attachment is null )
-			return;
-
-		ScenePortal.ViewPosition = attachment.Value.Position;
-		ScenePortal.ViewRotation = attachment.Value.Rotation;
-		ScenePortal.FieldOfView = TargetCamera.Fov;
-		ScenePortal.ZNear = TargetCamera.ZNear;
-		ScenePortal.ZFar = TargetCamera.ZFar;
-		ScenePortal.Aspect = TargetCamera.Aspect;
-	}
-
+	/// <inheritdoc/>
 	public override bool IsUsable( Entity user )
 	{
 		return base.IsUsable( user ) && User is null;
 	}
 
+	/// <inheritdoc/>
 	protected override void OnUsed( Entity user )
 	{
 		base.OnUsed( user );
@@ -103,6 +80,7 @@ public partial class CameraController : LockedUseItem
 		ScenePortal = new ScenePortal( Map.Scene, Model.Load( "models/cameraconsole/console_screen.vmdl" ), Transform );
 	}
 
+	/// <inheritdoc/>
 	public override void StopUsing()
 	{
 		var player = User as Pawn;
@@ -125,6 +103,7 @@ public partial class CameraController : LockedUseItem
 		User = null;
 	}
 
+	/// <inheritdoc/>
 	public override void Simulate()
 	{
 		if ( TimeSinceUsed < 1 )
@@ -171,6 +150,33 @@ public partial class CameraController : LockedUseItem
 		NumberOfUsableCameras = cameras.Count - 1;
 
 		return cameras;
+	}
+
+	[Event.Frame]
+	private void OnFrame()
+	{
+		if ( !IsClient )
+			return;
+
+		if ( ScenePortal == null || !ScenePortal.IsValid )
+			return;
+
+		ScenePortal.Transform = Transform;
+
+		if ( !TargetCamera.IsValid() )
+			return;
+
+		var attachment = TargetCamera.GetAttachment( "lens_position" );
+
+		if ( attachment is null )
+			return;
+
+		ScenePortal.ViewPosition = attachment.Value.Position;
+		ScenePortal.ViewRotation = attachment.Value.Rotation;
+		ScenePortal.FieldOfView = TargetCamera.Fov;
+		ScenePortal.ZNear = TargetCamera.ZNear;
+		ScenePortal.ZFar = TargetCamera.ZFar;
+		ScenePortal.Aspect = TargetCamera.Aspect;
 	}
 }
 

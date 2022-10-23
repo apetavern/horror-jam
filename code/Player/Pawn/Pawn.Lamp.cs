@@ -1,4 +1,4 @@
-﻿namespace GvarJam;
+﻿namespace GvarJam.Player;
 
 public partial class Pawn
 {
@@ -6,6 +6,7 @@ public partial class Pawn
 	/// The maximum amount of power that the lamp can hold.
 	/// </summary>
 	private const float LampMaxPower = 100;
+
 	/// <summary>
 	/// The amount of power that is discharged per tick.
 	/// </summary>

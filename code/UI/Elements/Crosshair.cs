@@ -1,10 +1,14 @@
 ﻿namespace GvarJam.UI.Elements;
 
-internal class Crosshair : Panel
+/// <summary>
+/// A basic crosshair.
+/// </summary>
+public sealed class Crosshair : Panel
 {
 	public const float Size = 4f;
 	public const float JiggleAmount = 0.05f;
 
+	/// <inheritdoc/>
 	public override void DrawBackground( ref RenderState state )
 	{
 		base.DrawBackground( ref state );
@@ -26,10 +30,5 @@ internal class Crosshair : Panel
 		var screenPos = targetPos.ToScreen( Screen.Size ) ?? 0;
 		var rect = new Rect( screenPos, Size );
 		Graphics.DrawRoundedRectangle( rect, Color.White, new( Size ) );
-	}
-
-	public override void Tick()
-	{
-		base.Tick();
 	}
 }

@@ -1,8 +1,11 @@
 ﻿namespace GvarJam.UI.Elements;
 
-internal class StaminaBar : Panel
+/// <summary>
+/// The stamina bar.
+/// </summary>
+public sealed class StaminaBar : Panel
 {
-	private Panel FillPanel;
+	private readonly Panel FillPanel;
 
 	public StaminaBar()
 	{
@@ -19,6 +22,7 @@ internal class StaminaBar : Panel
 		FillPanel = bar.Add.Panel( "fill" );
 	}
 
+	/// <inheritdoc/>
 	public override void Tick()
 	{
 		base.Tick();
