@@ -18,6 +18,9 @@ public sealed partial class CameraController : LockedUseItem
 	[Net]
 	public int CurrentCameraIndex { get; set; }
 
+	[Net]
+	protected ModelEntity Screen { get; set; }
+
 	private ScenePortal? ScenePortal;
 
 	/// <inheritdoc/>
@@ -27,6 +30,9 @@ public sealed partial class CameraController : LockedUseItem
 
 		SetModel( "models/cameraconsole/console.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
+
+		Screen = new ModelEntity( "models/cameraconsole/console_screen.vmdl", this );
+		Screen.SetMaterialGroup( 1 );
 	}
 
 	/// <inheritdoc/>
@@ -138,7 +144,10 @@ public sealed partial class CameraController : LockedUseItem
 			return;
 		}
 
-		SetBodyGroup( 0, 1 );
+		// Hide the screen when it's being used.
+		if ( Screen is not null && Host.IsClient )
+			Screen.RenderColor = Color.Transparent;
+
 		ScenePortal = new ScenePortal( Map.Scene, Model.Load( "models/cameraconsole/console_screen.vmdl" ), Transform );
 	}
 
@@ -162,7 +171,8 @@ public sealed partial class CameraController : LockedUseItem
 			ScenePortal?.Delete();
 			ScenePortal = null;
 
-			SetBodyGroup( 0, 0 );
+			if( Screen is not null ) 
+				Screen.RenderColor = Color.White;
 		}
 
 		User = null;
