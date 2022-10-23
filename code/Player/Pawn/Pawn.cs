@@ -43,6 +43,12 @@ public sealed partial class Pawn : AnimatedEntity
 	private List<ModelEntity> PlayerAndChildren { get; set; } = null!;
 
 	/// <summary>
+	/// This will block movement vector, crouching, and jumping in
+	/// <see cref="BuildInput(InputBuilder)" />.
+	/// </summary>
+	public bool BlockMovement { get; set; } = false;
+
+	/// <summary>
 	/// Called when the entity is first created 
 	/// </summary>
 	public override void Spawn()
@@ -191,5 +197,17 @@ public sealed partial class Pawn : AnimatedEntity
 	public float FootstepVolume()
 	{
 		return Velocity.WithZ( 0 ).Length.LerpInverse( 0.0f, 200.0f );
+	}
+
+	public override void BuildInput( InputBuilder inputBuilder )
+	{
+		base.BuildInput( inputBuilder );
+
+		if ( BlockMovement )
+		{
+			inputBuilder.AnalogMove = 0;
+			inputBuilder.ClearButton( InputButton.Duck );
+			inputBuilder.ClearButton( InputButton.Jump );
+		}
 	}
 }

@@ -54,7 +54,7 @@ public sealed partial class CameraController : LockedUseItem
 		}
 
 
-		if(User is not null )
+		if ( User is not null )
 		{
 			SetBodyGroup( 0, 1 );
 		}
