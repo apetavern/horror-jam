@@ -85,6 +85,13 @@ public partial class CameraController : LockedUseItem
 			// Set the user
 			User = player;
 
+			// Position the player
+			player.Position = Position - Rotation.Forward * Model.RenderBounds.Size.y;
+			player.Rotation = Rotation.From( Vector3.VectorAngle( Position - player.Position ) );
+			player.EyeRotation = player.Rotation;
+
+			player.ResetInterpolation();
+
 			// Disable the players controller.
 			player.Controller = null;
 

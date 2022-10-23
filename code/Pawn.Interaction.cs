@@ -30,9 +30,6 @@ public partial class Pawn
 			if ( IsInteracting && (InteractedEntity is DelayedUseItem || InteractedEntity is LockedUseItem))
 			{
 				camera.GoToThirdPerson();
-
-				var rotation = Rotation.LookAt( (InteractedEntity.Position - Position).Normal );
-				Rotation = new Rotation( 0, 0, rotation.z, rotation.w );
 			}
 			else
 				camera.GoToFirstPerson();
