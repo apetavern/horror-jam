@@ -15,9 +15,10 @@ public sealed partial class StorageLocker : InstantUseItem
 	/// <inheritdoc/>
 	public override void Spawn()
 	{
-		base.Spawn();
-
 		SetModel( "models/scifilocker/scifilocker.vmdl" );
+		SetupPhysicsFromModel( PhysicsMotionType.Static );
+
+		Name = "Storage Locker";
 
 		Transmit = TransmitType.Always;
 	}
