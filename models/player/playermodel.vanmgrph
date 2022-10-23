@@ -45266,7 +45266,7 @@
 		},
 		{
 			m_name = "models/citizen_clothes/hair/scruffy_beard/models/scruffy_beard_brown.vmdl"
-			m_bEnabled = true
+			m_bEnabled = false
 		},
 		{
 			m_name = "models/citizen_clothes/shoes/smartshoes/smartshoes.vmdl"
@@ -45274,15 +45274,15 @@
 		},
 		{
 			m_name = "models/citizen_clothes/shirt/tanktop/models/tanktop.vmdl"
-			m_bEnabled = true
+			m_bEnabled = false
 		},
 		{
 			m_name = "models/cosmetics/spacehelmet.vmdl"
-			m_bEnabled = true
+			m_bEnabled = false
 		},
 		{
-			m_name = "models/sci-fitable/scifitable.vmdl"
-			m_bEnabled = false
+			m_name = "models/enemy/basic_splitizen.vmdl"
+			m_bEnabled = true
 		},
 	]
 }
