@@ -18,7 +18,7 @@ public sealed partial class LampBatteryItem : DelayedUseItem
 	/// <summary>
 	/// The power stored in the battery.
 	/// </summary>
-	[Property]
+	[Net, Property]
 	public float BatteryPower { get; set; } = 100;
 
 	/// <summary>
