@@ -4,7 +4,7 @@
 /// Represents an interactable entity.
 /// </summary>
 [Category( "Interactables" )]
-public partial class InteractableEntity : ModelEntity, IInteractable
+public partial class InteractableEntity : AnimatedEntity, IInteractable
 {
 	/// <summary>
 	/// The entity that is currently using the item.
