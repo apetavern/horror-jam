@@ -16,7 +16,7 @@ public partial class DelayedUseItem : InteractableEntity
 	protected virtual bool DeleteOnUse => true;
 
 	/// <summary>
-	/// Whether or not to reset the <see cref="CurrentUseTime"/> once the item has been used.
+	/// Whether or not to reset the interaction once the item has been used.
 	/// <remarks>This will be irrelevant if <see cref="DeleteOnUse"/> is true.</remarks>
 	/// </summary>
 	protected virtual bool ResetOnUse => true;
