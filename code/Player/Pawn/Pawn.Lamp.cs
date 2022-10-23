@@ -74,7 +74,7 @@ public partial class Pawn
 	/// The current amount of power in the lamp.
 	/// </summary>
 	[Net, Predicted]
-	public float LampPower { get; private set; } = LampMaxPower;
+	public float LampPower { get; set; } = LampMaxPower;
 
 	/// <summary>
 	/// The time since the lamp was turned off.

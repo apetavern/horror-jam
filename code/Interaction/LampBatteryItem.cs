@@ -1,4 +1,6 @@
-﻿namespace GvarJam.Interactions;
+﻿using Sandbox;
+
+namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an item that takes time to use.
@@ -12,6 +14,12 @@ public sealed partial class LampBatteryItem : DelayedUseItem
 	public override float TimeToUse => 2.6f;
 	/// <inheritdoc/>
 	protected override bool DeleteOnUse => true;
+
+	/// <summary>
+	/// The power stored in the battery.
+	/// </summary>
+	[Property]
+	public float BatteryPower { get; set; } = 100;
 
 	/// <summary>
 	/// Whether or not the old battery in the users helmet was dropped.
@@ -50,6 +58,7 @@ public sealed partial class LampBatteryItem : DelayedUseItem
 			return;
 
 		pawn.BatteryInserted = true;
+		pawn.LampPower = BatteryPower;
 		if ( IsServer )
 			Delete();
 	}
@@ -91,10 +100,7 @@ public sealed partial class LampBatteryItem : DelayedUseItem
 			return true;
 
 		if ( IsServer && timeInAnim >= 0.6 && !droppedBattery )
-		{
 			DropOldBattery( user );
-			Sound.FromEntity( "replace_battery", user );
-		}
 
 		pawn.SetAnimParameter( "pullbattery", true );
 		return false;
@@ -106,20 +112,39 @@ public sealed partial class LampBatteryItem : DelayedUseItem
 	/// <param name="user">The entity that is doing the interaction.</param>
 	private void DropOldBattery( Entity user )
 	{
-		droppedBattery = true;
-
 		var pawn = (user as Pawn)!;
-		var modl = new ModelEntity( "models/items/battery/battery.vmdl" )
-		{
-			Transform = pawn.GetBoneTransform( "hold_L" ).WithScale( 0.6f ),
-			Velocity = user.Rotation.Left * 100f,
-			RenderColor = new Color( 1 - pawn.BatteryPercentage, pawn.BatteryPercentage, 0 )
-		};
-		modl.Tags.Add( "camignore" );
-		modl.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
-		pawn.BatteryInserted = false;
+		if ( !pawn.BatteryInserted )
+			return;
 
-		_ = modl.DeleteAfterSecondsAndNotVisible( 2.5f );
+		droppedBattery = true;
+		
+		if ( pawn.LampPower > 0 )
+		{
+			var battery = new LampBatteryItem()
+			{
+				Transform = pawn.GetBoneTransform( "hold_L" ).WithScale( 0.6f ),
+				Velocity = user.Rotation.Left * 100f,
+				RenderColor = new Color( 1 - pawn.BatteryPercentage, pawn.BatteryPercentage, 0 )
+			};
+			battery.Tags.Add( "camignore" );
+			battery.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+			battery.BatteryPower = pawn.LampPower;
+		}
+		else
+		{
+			var modl = new ModelEntity( "models/items/battery/battery.vmdl" )
+			{
+				Transform = pawn.GetBoneTransform( "hold_L" ).WithScale( 0.6f ),
+				Velocity = user.Rotation.Left * 100f,
+				RenderColor = new Color( 1 - pawn.BatteryPercentage, pawn.BatteryPercentage, 0 )
+			};
+			modl.Tags.Add( "camignore" );
+			modl.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+
+			_ = modl.DeleteAfterSecondsAndNotVisible( 2.5f );
+		}
+		pawn.BatteryInserted = false;
+		Sound.FromEntity( "replace_battery", user );
 	}
 
 	/// <summary>
