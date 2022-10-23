@@ -17,8 +17,15 @@
 				InteractableName = "tutorial_camera_controller"
 			},
 		]
+		ObjectiveStartEvents = 
+		[
+			{
+				SoundName = resource:"sounds/easteregg/welcome_m.sound"
+			},
+		]
+		ObjectiveEndEvents = null
 		Id = "tutorial_interact"
-		Name = "Find a Door"
-		Description = "Interact with the camera controller."
+		Name = "Tutorial: Interacting"
+		Description = "Locate and interact with a camera controller."
 	}
 }

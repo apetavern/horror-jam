@@ -21,12 +21,12 @@ public class ObjectiveSystem
 	/// <summary>
 	/// Which objectives haven't been completed yet?
 	/// </summary>
-	private List<ObjectiveResource> PendingObjectives { get; } = ResourceLibrary.GetAll<ObjectiveResource>().ToList();
+	private List<Objective> PendingObjectives { get; } = ResourceLibrary.GetAll<ObjectiveResource>().Select( x => new Objective() { Resource = x } ).ToList();
 
 	/// <summary>
 	/// Which objectives are the player/s doing?
 	/// </summary>
-	private List<ObjectiveResource> ActiveObjectives { get; } = new();
+	private List<Objective> ActiveObjectives { get; } = new();
 
 	public ObjectiveSystem()
 	{
@@ -38,10 +38,10 @@ public class ObjectiveSystem
 	public void OnServerTick()
 	{
 		int line = 5;
-		void PrintObjective( ObjectiveResource objective )
+		void PrintObjective( Objective objective )
 		{
-			DebugOverlay.ScreenText( $"Objective: {objective.Name}", line++ );
-			DebugOverlay.ScreenText( $"{objective.Description}", line++ );
+			DebugOverlay.ScreenText( $"Objective: {objective.Resource.Name}", line++ );
+			DebugOverlay.ScreenText( $"{objective.Resource.Description}", line++ );
 		}
 
 		DebugOverlay.ScreenText( $"Objectives:", line++ );
@@ -68,20 +68,11 @@ public class ObjectiveSystem
 	{
 		foreach ( var objective in PendingObjectives.ToList() )
 		{
-			bool conditionsMet = true;
-
-			foreach ( var condition in objective.ObjectiveStartConditions )
-			{
-				if ( !condition.IsMet( pawn ) )
-				{
-					conditionsMet = false;
-					break;
-				}
-			}
-
-			if ( conditionsMet )
+			if ( objective.CheckStart( pawn ) )
 			{
 				Log.Trace( $"Start objective {objective}" );
+
+				objective.InvokeStartEvents( pawn );
 
 				ActiveObjectives.Add( objective );
 				PendingObjectives.Remove( objective );
@@ -97,20 +88,11 @@ public class ObjectiveSystem
 	{
 		foreach ( var objective in ActiveObjectives.ToList() )
 		{
-			bool conditionsMet = true;
-
-			foreach ( var condition in objective.ObjectiveEndConditions )
-			{
-				if ( !condition.IsMet( pawn ) )
-				{
-					conditionsMet = false;
-					break;
-				}
-			}
-
-			if ( conditionsMet )
+			if ( objective.CheckEnd( pawn ) )
 			{
 				Log.Trace( $"End objective {objective}" );
+
+				objective.InvokeEndEvents( pawn );
 
 				ActiveObjectives.Remove( objective );
 			}
