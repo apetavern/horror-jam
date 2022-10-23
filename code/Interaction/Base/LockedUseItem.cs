@@ -7,11 +7,10 @@ public partial class LockedUseItem : InteractableEntity
 		User = null;
 	}
 
-	public virtual void SnapPlayerToUsePosition( Pawn player )
+	public virtual void SnapPlayerToUsePosition( Pawn player, float numberOfUnitsInfront )
 	{
-		player.Position = Position - Rotation.Forward * Model.RenderBounds.Size.y;
+		player.Position = Position + Rotation.Backward * numberOfUnitsInfront;
 		player.Rotation = Rotation.From( Vector3.VectorAngle( Position - player.Position ) );
-		player.EyeRotation = player.Rotation;
 
 		player.Controller = null;
 
@@ -23,12 +22,24 @@ public partial class LockedUseItem : InteractableEntity
 		// Stop camera bob
 		player.Velocity = 0;
 
+		if ( player.Camera is PawnCamera camera )
+		{
+			var cameraPos = player.EyePosition + Vector3.Up * 12 + player.Rotation.Right * 35 + player.Rotation.Backward * 25;
+			var cameraRot = Rotation.LookAt( ( Position + Vector3.Up * Model.RenderBounds.Size.z/2 ) - cameraPos, Vector3.Up );
+
+			camera.OverrideTransform( new Transform() { Position = cameraPos, Rotation = cameraRot} );
+		}
+			
+
 		player.ResetInterpolation();
 	}
 
 	public virtual void ReleasePlayer ( Pawn player )
 	{
 		player.Controller = new WalkController();
+
+		if ( player.Camera is PawnCamera camera )
+			camera.DisableTransformOverride();
 	}
 
 	public virtual void Simulate() { }

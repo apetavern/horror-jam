@@ -90,14 +90,14 @@ public sealed partial class CameraController : LockedUseItem
 
 		player.InteractedEntity = this;
 
+		SnapPlayerToUsePosition( player, 45 );
+
 		TimeSinceUsed = 0;
 
 		if ( IsServer )
 		{
 			// Set the user
 			User = player;
-
-			SnapPlayerToUsePosition( player );
 
 			var usableCameras = FindUsableMountedCameras();
 			var targetCamera = usableCameras.FirstOrDefault();
@@ -152,7 +152,7 @@ public sealed partial class CameraController : LockedUseItem
 		return true;
 	}
 
-	protected List<MountedCamera> FindUsableMountedCameras()
+	private List<MountedCamera> FindUsableMountedCameras()
 	{
 		var cameras = All.OfType<MountedCamera>().Where( x => x.IsViewable ).ToList();
 		NumberOfUsableCameras = cameras.Count - 1;

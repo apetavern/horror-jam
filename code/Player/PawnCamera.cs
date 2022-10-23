@@ -16,6 +16,9 @@ public sealed partial class PawnCamera : CameraMode
 	private float modeSwitchProgress = 0;
 	private Vector3 lastPos;
 
+	private bool shouldOverrideTransform;
+	private Transform overrideTransform;
+
 	/// <inheritdoc/>
 	public override void Activated()
 	{
@@ -26,6 +29,17 @@ public sealed partial class PawnCamera : CameraMode
 		Rotation = pawn.EyeRotation;
 
 		lastPos = Position;
+	}
+
+	public void OverrideTransform( Transform transform )
+	{
+		shouldOverrideTransform = true;
+		overrideTransform = transform;
+	}
+
+	public void DisableTransformOverride()
+	{
+		shouldOverrideTransform = false;
 	}
 
 	/// <inheritdoc/>
@@ -43,8 +57,17 @@ public sealed partial class PawnCamera : CameraMode
 			_ => (Vector3)0,
 		};
 
+		var targetRot = pawn.EyeRotation;
+
+		if ( shouldOverrideTransform )
+		{
+			targetPos = overrideTransform.Position;
+			targetRot = overrideTransform.Rotation;
+		}
+
 		Position = Position.LerpTo( targetPos, modeSwitchProgress * ModeSwitchSpeed );
-		Rotation = pawn.EyeRotation;
+		Rotation = targetRot;
+
 		Viewer = null;
 	}
 
