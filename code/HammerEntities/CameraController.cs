@@ -49,14 +49,8 @@ public sealed partial class CameraController : LockedUseItem
 		if ( Input.Released( InputButton.Use ) )
 		{
 			StopUsing();
-			SetBodyGroup( 0, 0 );
+
 			return;
-		}
-
-
-		if ( User is not null )
-		{
-			SetBodyGroup( 0, 1 );
 		}
 
 		if ( Input.Released( InputButton.Right ) )
@@ -143,6 +137,7 @@ public sealed partial class CameraController : LockedUseItem
 
 			return;
 		}
+
 		SetBodyGroup( 0, 1 );
 		ScenePortal = new ScenePortal( Map.Scene, Model.Load( "models/cameraconsole/console_screen.vmdl" ), Transform );
 	}

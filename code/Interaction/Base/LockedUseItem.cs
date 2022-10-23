@@ -2,6 +2,8 @@
 
 public partial class LockedUseItem : InteractableEntity
 {
+	private Vector3 preUsePosition { get; set; }
+
 	public virtual void StopUsing()
 	{
 		User = null;
@@ -9,6 +11,8 @@ public partial class LockedUseItem : InteractableEntity
 
 	public virtual void SnapPlayerToUsePosition( Pawn player, float numberOfUnitsInfront )
 	{
+		preUsePosition = player.Position;
+
 		player.Position = Position + Rotation.Backward * numberOfUnitsInfront;
 		player.Rotation = Rotation.From( Vector3.VectorAngle( Position - player.Position ) );
 
@@ -30,6 +34,8 @@ public partial class LockedUseItem : InteractableEntity
 			camera.OverrideTransform( new Transform() { Position = cameraPos, Rotation = cameraRot } );
 		}
 
+		// Dirty fix to stop the player colliding with this entity whilst using it.
+		Tags.Add( "trigger" );
 
 		player.ResetInterpolation();
 	}
@@ -40,6 +46,11 @@ public partial class LockedUseItem : InteractableEntity
 
 		if ( player.Camera is PawnCamera camera )
 			camera.DisableTransformOverride();
+
+		player.Position = preUsePosition;
+		player.ResetInterpolation();
+
+		Tags.Remove( "trigger" );
 	}
 
 	public virtual void Simulate() { }

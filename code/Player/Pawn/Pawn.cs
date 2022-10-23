@@ -28,7 +28,7 @@ public sealed partial class Pawn : AnimatedEntity
 	/// The active controller for the pawn.
 	/// </summary>
 	[Net]
-	public BasePlayerController? Controller { get; set; } = null;
+	public MovementController? Controller { get; set; } = null;
 
 	/// <summary>
 	/// The pawns helmet.
