@@ -167,7 +167,7 @@ public partial class CameraController : LockedUseItem
 
 	protected List<MountedCamera> FindUsableMountedCameras()
 	{
-		var cameras = All.OfType<MountedCamera>().Where( x => x.IsUsable ).ToList();
+		var cameras = All.OfType<MountedCamera>().Where( x => x.IsViewable ).ToList();
 		NumberOfUsableCameras = cameras.Count - 1;
 
 		return cameras;

@@ -9,10 +9,10 @@ namespace GvarJam.HammerEntities;
 public partial class MountedCamera : AnimatedEntity
 {
 	/// <summary>
-	/// Whether or not this camera is controllable by the player.
+	/// Whether or not this camera is viewable on the camera console.
 	/// </summary>
 	[Net, Property]
-	public bool IsUsable { get; set; } = true;
+	public bool IsViewable { get; set; } = true;
 
 	/// <summary>
 	/// Field of view in degrees
