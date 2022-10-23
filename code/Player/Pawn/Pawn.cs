@@ -49,6 +49,8 @@ public sealed partial class Pawn : AnimatedEntity
 	{
 		base.Spawn();
 
+		Tags.Add( "player" );
+
 		SetModel( "models/player/playermodel.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 

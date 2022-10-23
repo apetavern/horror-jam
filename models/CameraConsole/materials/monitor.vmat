@@ -21,7 +21,7 @@ Layer0
 	g_flPixelOpacityMin "0.250"
 	g_vAnimationScroll "[0.000 0.000]"
 	g_vPixelSize "[100.000 100.000]"
-	g_vScreenResolution "[312.000 312.000]"
+	g_vScreenResolution "[128.000 256.000]"
 	PixelTexture "models/cameraconsole/materials/subpixels.psd"
 
 	//---- Material ----

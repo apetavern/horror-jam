@@ -1,16 +1,16 @@
-﻿global using Sandbox;
-global using SandboxEditor;
+﻿global using GvarJam.HammerEntities;
+global using GvarJam.Interactions;
+global using GvarJam.Objectives;
+global using GvarJam.Player;
+global using GvarJam.Utility;
+global using Sandbox;
+global using Sandbox.Component;
 global using Sandbox.UI;
 global using Sandbox.UI.Construct;
-global using Sandbox.Component;
+global using SandboxEditor;
 global using System;
-global using System.Linq;
 global using System.Collections.Generic;
-global using GvarJam.Interactions;
-global using GvarJam.HammerEntities;
-global using GvarJam.Player;
-global using GvarJam.SoundManager;
-global using GvarJam.Utility;
+global using System.Linq;
 using GvarJam.UI;
 
 namespace GvarJam;
@@ -20,11 +20,14 @@ namespace GvarJam;
 /// </summary>
 public sealed partial class MyGame : Sandbox.Game
 {
+	private ObjectiveSystem ObjectiveSystem { get; set; }
+
 	public MyGame()
 	{
 		if ( IsServer )
 		{
 			_ = new Hud();
+			ObjectiveSystem = new();
 		}
 	}
 

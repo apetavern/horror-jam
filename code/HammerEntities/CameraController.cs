@@ -25,8 +25,6 @@ public sealed partial class CameraController : LockedUseItem
 	{
 		base.Spawn();
 
-		Name = "Camera Console";
-
 		SetModel( "models/cameraconsole/console.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
 	}
