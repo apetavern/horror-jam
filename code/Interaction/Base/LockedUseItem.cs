@@ -15,6 +15,14 @@ public partial class LockedUseItem : InteractableEntity
 
 		player.Controller = null;
 
+		// Stop animation playback
+		player.SetAnimParameter( "move_x", 0 );
+		player.SetAnimParameter( "move_y", 0 );
+		player.SetAnimParameter( "move_z", 0 );
+
+		// Stop camera bob
+		player.Velocity = 0;
+
 		player.ResetInterpolation();
 	}
 
