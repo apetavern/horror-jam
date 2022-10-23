@@ -87,9 +87,6 @@ public partial class CameraController : LockedUseItem
 
 			SnapPlayerToUsePosition( player );
 
-			// Disable the players controller.
-			player.Controller = null;
-
 			var usableCameras = FindUsableMountedCameras();
 			var targetCamera = usableCameras.FirstOrDefault();
 
@@ -114,8 +111,7 @@ public partial class CameraController : LockedUseItem
 		{
 			player.InteractedEntity = null;
 
-			if ( Host.IsServer )
-				player.Controller = new MovementController();			
+			ReleasePlayer( player );		
 		}
 
 		if ( Host.IsClient )
