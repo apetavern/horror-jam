@@ -22,13 +22,67 @@
 				children = 
 				[
 					{
-						_class = "PhysicsShapeBox"
-						parent_bone = "Root"
+						_class = "PhysicsHullFile"
+						name = "SciFiLockeRigged"
+						parent_bone = "Hinge"
 						surface_prop = "default"
 						collision_tags = "solid"
-						origin = [ 8.0, 20.0, 0.0 ]
+						recenter_on_parent_bone = false
+						offset_origin = [ 0.0, 0.0, 0.0 ]
+						offset_angles = [ 0.0, 0.0, 0.0 ]
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						filename = "models/SciFiLocker/SciFiLockeRigged.fbx"
+						import_scale = 1.0
+						faceMergeAngle = 10.0
+						maxHullVertices = 0
+						import_mode = "SingleHull"
+						optimization_algorithm = "QEM"
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = 
+							[
+								"MainLocker_low",
+							]
+						}
+					},
+					{
+						_class = "PhysicsShapeBox"
+						parent_bone = ""
+						surface_prop = "default"
+						collision_tags = "solid"
+						origin = [ -0.2751, 6.004284, 0.49046 ]
 						angles = [ 0.0, 0.0, 0.0 ]
-						dimensions = [ 18.0, 40.0, 26.0 ]
+						dimensions = [ 25.380781, 13.253503, 1.139656 ]
+					},
+					{
+						_class = "PhysicsShapeBox"
+						parent_bone = ""
+						surface_prop = "default"
+						collision_tags = "solid"
+						origin = [ -0.2751, 6.004284, 38.860119 ]
+						angles = [ 0.0, 0.0, 0.0 ]
+						dimensions = [ 25.380781, 13.253503, 1.027412 ]
+					},
+					{
+						_class = "PhysicsShapeBox"
+						parent_bone = ""
+						surface_prop = "default"
+						collision_tags = "solid"
+						origin = [ 11.662805, 6.004284, 19.630276 ]
+						angles = [ 0.0, 0.0, 0.0 ]
+						dimensions = [ 1.704954, 13.253503, 39.487083 ]
+					},
+					{
+						_class = "PhysicsShapeBox"
+						parent_bone = ""
+						surface_prop = "default"
+						collision_tags = "solid"
+						origin = [ -12.175553, 6.004284, 19.630276 ]
+						angles = [ 0.0, 0.0, 0.0 ]
+						dimensions = [ 1.704954, 13.253503, 39.487083 ]
 					},
 				]
 			},
@@ -63,18 +117,8 @@
 						parent_bone = ""
 						import_filter = 
 						{
-							exclude_by_default = true
-							exception_list = 
-							[
-								"MainLocker_high",
-								"FrontVentHolder_high",
-								"Handle_high",
-								"Hinge_high",
-								"Vent_high",
-								"Door_high",
-								"Hinge_low",
-								"MainLocker_low",
-							]
+							exclude_by_default = false
+							exception_list = [  ]
 						}
 					},
 				]
