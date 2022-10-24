@@ -59,6 +59,22 @@ public sealed partial class MyGame : Sandbox.Game
 	}
 
 	/// <summary>
+	/// Debug command to spawn a Janitor key.
+	/// </summary>
+	[ConCmd.Admin( "spawn_janitorkey" )]
+	public static void SpawnJanitorKey()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		_ = new InventoryItem()
+		{
+			ItemType = ItemType.JanitorKey,
+			Position = ConsoleSystem.Caller.Pawn.Position
+		};
+	}
+
+	/// <summary>
 	/// Debug command to spawn a level 1 keycard.
 	/// </summary>
 	[ConCmd.Admin( "spawn_keycardlvl1" )]
@@ -67,9 +83,9 @@ public sealed partial class MyGame : Sandbox.Game
 		if ( ConsoleSystem.Caller?.Pawn is null )
 			return;
 
-		_ = new Item()
+		_ = new InventoryItem()
 		{
-			ItemType = Inventory.ItemType.KeycardLvl1,
+			ItemType = ItemType.KeycardLvl1,
 			Position = ConsoleSystem.Caller.Pawn.Position
 		};
 	}
@@ -83,9 +99,9 @@ public sealed partial class MyGame : Sandbox.Game
 		if ( ConsoleSystem.Caller?.Pawn is null )
 			return;
 
-		_ = new Item()
+		_ = new InventoryItem()
 		{
-			ItemType = Inventory.ItemType.KeycardLvl2,
+			ItemType = ItemType.KeycardLvl2,
 			Position = ConsoleSystem.Caller.Pawn.Position
 		};
 	}
@@ -99,9 +115,9 @@ public sealed partial class MyGame : Sandbox.Game
 		if ( ConsoleSystem.Caller?.Pawn is null )
 			return;
 
-		_ = new Item()
+		_ = new InventoryItem()
 		{
-			ItemType = Inventory.ItemType.KeycardLvl3,
+			ItemType = ItemType.KeycardLvl3,
 			Position = ConsoleSystem.Caller.Pawn.Position
 		};
 	}
@@ -115,7 +131,7 @@ public sealed partial class MyGame : Sandbox.Game
 		if ( ConsoleSystem.Caller?.Pawn is null )
 			return;
 
-		_ = new LampBatteryItem() { Position = ConsoleSystem.Caller.Pawn.Position };
+		_ = new LampBattery() { Position = ConsoleSystem.Caller.Pawn.Position };
 	}
 
 	/// <summary>

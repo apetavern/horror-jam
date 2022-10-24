@@ -6,6 +6,10 @@
 public enum ItemType
 {
 	/// <summary>
+	/// A key used to unlock locked lockers.
+	/// </summary>
+	JanitorKey,
+	/// <summary>
 	/// A basic level 1 keycard.
 	/// </summary>
 	KeycardLvl1,

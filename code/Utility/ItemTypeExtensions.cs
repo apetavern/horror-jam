@@ -14,6 +14,7 @@ public static class ItemTypeExtensions
 	{
 		return itemType switch
 		{
+			ItemType.JanitorKey => "models/items/battery/battery.vmdl",
 			ItemType.KeycardLvl1 => "models/items/battery/battery.vmdl",
 			ItemType.KeycardLvl2 => "models/items/battery/battery.vmdl",
 			ItemType.KeycardLvl3 => "models/items/battery/battery.vmdl",

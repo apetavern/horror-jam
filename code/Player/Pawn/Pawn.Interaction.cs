@@ -40,6 +40,7 @@ public partial class Pawn
 	/// <summary>
 	/// The last interactable entity that was looked at.
 	/// </summary>
+	[Net, Predicted]
 	private InteractableEntity? LastInteractable { get; set; }
 
 	/// <summary>
@@ -51,6 +52,7 @@ public partial class Pawn
 
 		if ( entity is InteractableEntity interactableEntity )
 		{
+			Log.Info( Log.Name );
 			if ( LastInteractable != interactableEntity )
 				LastInteractable?.ShowInteractionPrompt( false );
 

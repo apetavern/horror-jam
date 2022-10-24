@@ -1,13 +1,12 @@
-﻿using GvarJam.Inventory;
-
-namespace GvarJam.Interactions;
+﻿namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an obtainable item.
 /// </summary>
+[Library( "ent_item" )]
 [HammerEntity]
 [EditorModel( "models/items/battery/battery.vmdl" )]
-public sealed partial class Item : DelayedUseItem
+public sealed partial class InventoryItem : DelayedUseItem
 {
 	/// <inheritdoc/>
 	public override float TimeToUse => 0.6f;

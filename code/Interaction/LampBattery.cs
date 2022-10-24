@@ -1,13 +1,12 @@
-﻿using Sandbox;
-
-namespace GvarJam.Interactions;
+﻿namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an item that takes time to use.
 /// </summary>
+[Library( "ent_battery" )]
 [HammerEntity]
 [EditorModel( "models/items/battery/battery.vmdl" )]
-public sealed partial class LampBatteryItem : DelayedUseItem
+public sealed partial class LampBattery : DelayedUseItem
 {
 	/// <inheritdoc/>
 	public override float TimeToUse => 2.6f;
@@ -89,7 +88,8 @@ public sealed partial class LampBatteryItem : DelayedUseItem
 	/// </summary>
 	/// <param name="user">The entity that is doing the interaction.</param>
 	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
-	/// <param name="timeInAnim">The time in seconds that this animation has been going for,</param>
+	/// <param name="timeInAnim">The time in seconds that this animation has been going for.</param>
+	/// <returns>Whether or not to skip this animation.</returns>
 	private bool PullBattery( Entity user, bool firstTime, float timeInAnim )
 	{
 		var pawn = (user as Pawn)!;
@@ -123,7 +123,7 @@ public sealed partial class LampBatteryItem : DelayedUseItem
 		
 		if ( pawn.LampPower > 0 )
 		{
-			var battery = new LampBatteryItem()
+			var battery = new LampBattery()
 			{
 				Transform = pawn.GetBoneTransform( "hold_L" ).WithScale( 0.6f ),
 				Velocity = user.Rotation.Left * 100f,
@@ -155,7 +155,8 @@ public sealed partial class LampBatteryItem : DelayedUseItem
 	/// </summary>
 	/// <param name="user">The entity that is doing the interaction.</param>
 	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
-	/// <param name="timeInAnim">The time in seconds that this animation has been going for,</param>
+	/// <param name="timeInAnim">The time in seconds that this animation has been going for.</param>
+	/// <returns>Whether or not to skip this animation.</returns>
 	private bool PickupItem( Entity user, bool firstTime, float timeInAnim )
 	{
 		if ( IsServer && timeInAnim >= 0.55 && !pickedUp )
@@ -183,7 +184,8 @@ public sealed partial class LampBatteryItem : DelayedUseItem
 	/// </summary>
 	/// <param name="user">The entity that is doing the interaction.</param>
 	/// <param name="firstTime">Whether or not this has been invoked for the first time.</param>
-	/// <param name="timeInAnim">The time in seconds that this animation has been going for,</param>
+	/// <param name="timeInAnim">The time in seconds that this animation has been going for.</param>
+	/// <returns>Whether or not to skip this animation.</returns>
 	private bool PushBattery( Entity user, bool firstTime, float timeInAnim )
 	{
 		if ( IsServer && timeInAnim >= 0.799 && !pushed )
