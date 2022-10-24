@@ -19,7 +19,7 @@ partial class Pawn
 	float LeanMax => LeanDegrees * 2f;
 	float LeanSmooth => 15.0f;
 	float MinSpeed => 0f;
-	float MaxSpeed => 320f;
+	float MaxSpeed => Controller?.SprintSpeed ?? 320f;
 	float FOVIncrease => 5f;
 	float FOVSpeed => 10f;
 	float BobStrength => 25f;
@@ -54,9 +54,17 @@ partial class Pawn
 		//
 		// Apply everything
 		//
-		camSetup.Position += up * MathF.Sin( Bobbing ) * speed * 2;
-		camSetup.Position += left * MathF.Sin( Bobbing * 0.5f ) * speed * 1;
+		float x = MathF.Sin( Bobbing * 0.5f ) * speed * 1;
+		float y = MathF.Sin( Bobbing ) * speed * 2;
+		camSetup.Position += left * x;
+		camSetup.Position += up * y;
 		camSetup.Rotation *= Rotation.From( 0, 0, Roll );
 		camSetup.FieldOfView += FOV;
+
+		var tx = new PanelTransform();
+		tx.AddTranslate( x, y );
+
+		Local.Hud.Style.Transform = tx;
+		Local.Hud.Style.Dirty();
 	}
 }
