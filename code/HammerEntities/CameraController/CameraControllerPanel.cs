@@ -19,7 +19,7 @@ public sealed class CameraControllerPanel : WorldPanel
 		Style.FontSize = 26;
 		Style.JustifyContent = Justify.FlexEnd;
 
-		label = Add.Label( "bla bla" );
+		label = Add.Label( controller.TargetCamera?.ZoneName.ToUpper() );
 	}
 
 	public void UpdateName(string name) 
