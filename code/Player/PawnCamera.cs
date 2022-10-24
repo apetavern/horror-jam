@@ -69,6 +69,7 @@ public sealed partial class PawnCamera : CameraMode
 		Rotation = targetRot;
 
 		Viewer = null;
+		FieldOfView = 90;
 	}
 
 	/// <summary>
@@ -106,7 +107,7 @@ public sealed partial class PawnCamera : CameraMode
 			+ pawn.EyeRotation.Backward * 64
 			+ pawn.EyeRotation.Right * 16;
 
-		var tr = Trace.Ray( pawn.EyePosition, targetPos ).Ignore( pawn ).WithoutTags("camignore").Radius( 24f ).Run();
+		var tr = Trace.Ray( pawn.EyePosition, targetPos ).Ignore( pawn ).WithoutTags( "camignore" ).Radius( 24f ).Run();
 		targetPos = tr.EndPosition;
 
 		return InterpolatePosition( targetPos );
