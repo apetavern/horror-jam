@@ -62,8 +62,6 @@ public sealed partial class CameraController : LockedUseItem
 
 		if ( Input.Released( InputButton.Right ) )
 		{
-			var cameras = FindUsableMountedCameras();
-
 			SetAnimParameter( "right", true );
 
 			if ( CurrentCameraIndex + 1 > NumberOfUsableCameras )
@@ -71,18 +69,12 @@ public sealed partial class CameraController : LockedUseItem
 			else
 				CurrentCameraIndex += 1;
 
-			TargetCamera = cameras[CurrentCameraIndex];
-
-			if ( Host.IsClient && zoneName is not null )
-				zoneName.UpdateName( TargetCamera.ZoneName.ToUpper() );
-
+			SwitchCameraView();
 			return;
 		}
 
 		if ( Input.Released( InputButton.Left ) )
 		{
-			var cameras = FindUsableMountedCameras();
-
 			SetAnimParameter( "left", true );
 
 			if ( CurrentCameraIndex - 1 <= 0 )
@@ -90,13 +82,20 @@ public sealed partial class CameraController : LockedUseItem
 			else
 				CurrentCameraIndex -= 1;
 
-			TargetCamera = cameras[CurrentCameraIndex];
-
-			if ( Host.IsClient && zoneName is not null )
-				zoneName.UpdateName( TargetCamera.ZoneName.ToUpper() );
-
+			SwitchCameraView();
 			return;
 		}
+	}
+
+	private void SwitchCameraView()
+	{
+		var cameras = FindUsableMountedCameras();
+		TargetCamera = cameras[CurrentCameraIndex];
+
+		if ( Host.IsClient && zoneName is not null )
+			zoneName.UpdateName( TargetCamera.ZoneName.ToUpper() );
+
+		Sound.FromEntity( "joystick_click", this );
 	}
 
 	/// <inheritdoc/>
