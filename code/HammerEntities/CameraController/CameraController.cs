@@ -34,6 +34,16 @@ public sealed partial class CameraController : LockedUseItem
 
 		Screen = new ModelEntity( "models/cameraconsole/console_screen.vmdl", this );
 		Screen.SetMaterialGroup( 1 );
+
+		// Set initial camera
+		var usableCameras = FindUsableMountedCameras();
+		var targetCamera = usableCameras.FirstOrDefault();
+
+		if ( targetCamera is null )
+			return;
+
+		TargetCamera = targetCamera;
+		CurrentCameraIndex = 0;
 	}
 
 	/// <inheritdoc/>
@@ -139,20 +149,11 @@ public sealed partial class CameraController : LockedUseItem
 			// Set the user
 			User = player;
 
-			var usableCameras = FindUsableMountedCameras();
-			var targetCamera = usableCameras.FirstOrDefault();
-
-			if ( targetCamera is null )
-				return;
-
-			TargetCamera = targetCamera;
-			CurrentCameraIndex = 0;
-
 			return;
 		}
 
 		// Hide the screen when it's being used.
-		if ( Screen is not null && Host.IsClient )
+		if ( Screen is not null )
 			Screen.RenderColor = Color.Transparent;
 
 		if ( IsClient )
