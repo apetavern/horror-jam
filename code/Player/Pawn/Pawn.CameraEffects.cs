@@ -1,4 +1,6 @@
-﻿namespace GvarJam.Player;
+﻿using Sandbox.Effects;
+
+namespace GvarJam.Player;
 
 //
 // Camera effects (leaning, bobbing, etc.) that rely on player movement
@@ -66,5 +68,31 @@ partial class Pawn
 
 		Local.Hud.Style.Transform = tx;
 		Local.Hud.Style.Dirty();
+	}
+
+	public void ApplyVignetteAmount( float amount )
+	{
+		var effects = Map.Camera.FindOrCreateHook<ScreenEffects>();
+		effects.Vignette.Intensity = amount;
+		effects.Vignette.Smoothness = 1f;
+		effects.Vignette.Roundness = 0.3f;
+	}
+
+	public void ApplyBrightnessAmount( float amount )
+	{
+		var effects = Map.Camera.FindOrCreateHook<ScreenEffects>();
+		effects.Brightness = amount;
+	}
+
+	public void ApplyMotionBlur( float amount )
+	{
+		var effects = Map.Camera.FindOrCreateHook<ScreenEffects>();
+		effects.MotionBlur.Scale = amount;
+	}
+
+	public void ApplyFilmGrain( float amount )
+	{
+		var effects = Map.Camera.FindOrCreateHook<ScreenEffects>();
+		effects.FilmGrain.Intensity = amount;
 	}
 }
