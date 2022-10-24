@@ -67,8 +67,8 @@
 						_class = "Attachment"
 						name = "handle"
 						parent_bone = "Hinge"
-						relative_origin = [ 7.0, 4.0, -21.0 ]
-						relative_angles = [ 0.0, 0.0, 0.0 ]
+						relative_origin = [ 7.0, 3.999999, -21.0 ]
+						relative_angles = [ -78.365395, -0.000184, 0.00016 ]
 						weight = 1.0
 						ignore_rotation = false
 					},
