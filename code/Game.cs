@@ -1,5 +1,6 @@
 ﻿global using GvarJam.HammerEntities;
 global using GvarJam.Interactions;
+global using GvarJam.Inventory;
 global using GvarJam.Objectives;
 global using GvarJam.Player;
 global using GvarJam.Utility;
@@ -55,6 +56,54 @@ public sealed partial class MyGame : Sandbox.Game
 			tx.Position += Vector3.Up * 50.0f; // raise it up
 			pawn.Transform = tx;
 		}
+	}
+
+	/// <summary>
+	/// Debug command to spawn a level 1 keycard.
+	/// </summary>
+	[ConCmd.Admin( "spawn_keycardlvl1" )]
+	public static void SpawnKeycardLevel1()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		_ = new Item()
+		{
+			ItemType = Inventory.ItemType.KeycardLvl1,
+			Position = ConsoleSystem.Caller.Pawn.Position
+		};
+	}
+
+	/// <summary>
+	/// Debug command to spawn a level 2 keycard.
+	/// </summary>
+	[ConCmd.Admin( "spawn_keycardlvl2" )]
+	public static void SpawnKeycardLevel2()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		_ = new Item()
+		{
+			ItemType = Inventory.ItemType.KeycardLvl2,
+			Position = ConsoleSystem.Caller.Pawn.Position
+		};
+	}
+
+	/// <summary>
+	/// Debug command to spawn a level 3 keycard.
+	/// </summary>
+	[ConCmd.Admin( "spawn_keycardlvl3" )]
+	public static void SpawnKeycardLevel3()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		_ = new Item()
+		{
+			ItemType = Inventory.ItemType.KeycardLvl3,
+			Position = ConsoleSystem.Caller.Pawn.Position
+		};
 	}
 
 	/// <summary>

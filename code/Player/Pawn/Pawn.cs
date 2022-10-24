@@ -1,3 +1,5 @@
+using GvarJam.Inventory;
+
 namespace GvarJam.Player;
 
 /// <summary>
@@ -85,6 +87,9 @@ public sealed partial class Pawn : AnimatedEntity
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
+
+		foreach ( var itemType in Enum.GetValues<ItemType>() )
+			Items.Add( itemType, 0 );
 	}
 
 	/// <inheritdoc/>
@@ -120,6 +125,13 @@ public sealed partial class Pawn : AnimatedEntity
 		Controller?.Simulate( cl, this, Animator );
 		if ( IsInteracting )
 			Rotation = rotation;
+
+		var i = 0;
+		foreach ( var value in Enum.GetValues<ItemType>() )
+		{
+			DebugOverlay.ScreenText( $"{value}: {Items[value]}", 15 + i );
+			i++;
+		}
 	}
 
 	/// <inheritdoc/>

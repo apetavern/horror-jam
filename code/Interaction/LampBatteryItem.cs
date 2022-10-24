@@ -5,7 +5,6 @@ namespace GvarJam.Interactions;
 /// <summary>
 /// Represents an item that takes time to use.
 /// </summary>
-[Category( "Interactables" )]
 [HammerEntity]
 [EditorModel( "models/items/battery/battery.vmdl" )]
 public sealed partial class LampBatteryItem : DelayedUseItem
