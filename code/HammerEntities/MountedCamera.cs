@@ -12,25 +12,32 @@ public sealed partial class MountedCamera : AnimatedEntity
 	[Net, Property]
 	public bool IsViewable { get; set; } = true;
 
+	[Property]
+	public string ZoneName { get; set; } = "UNKNOWN";
+
 	/// <summary>
 	/// Field of view in degrees
 	/// </summary>
-	[Property] public float Fov { get; set; } = 120.0f;
+	[Property] 
+	public float Fov { get; set; } = 120.0f;
 
 	/// <summary>
 	/// Distance to the near plane
 	/// </summary>
-	[Property] public float ZNear { get; set; } = 4.0f;
+	[Property]
+	public float ZNear { get; set; } = 4.0f;
 
 	/// <summary>
 	/// Distance to the far plane
 	/// </summary>
-	[Property] public float ZFar { get; set; } = 10000.0f;
+	[Property] 
+	public float ZFar { get; set; } = 10000.0f;
 
 	/// <summary>
 	/// Aspect ratio
 	/// </summary>
-	[Property] public float Aspect { get; set; } = 1.0f;
+	[Property] 
+	public float Aspect { get; set; } = 1.0f;
 
 	private float CameraTrackingReachUnits = 300f;
 

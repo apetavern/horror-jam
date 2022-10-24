@@ -21,7 +21,8 @@ public sealed partial class CameraController : LockedUseItem
 	[Net]
 	protected ModelEntity Screen { get; set; }
 
-	private ScenePortal? ScenePortal;
+	private ScenePortal? scenePortal;
+	private CameraControllerPanel? zoneName { get; set; }
 
 	/// <inheritdoc/>
 	public override void Spawn()
@@ -72,6 +73,9 @@ public sealed partial class CameraController : LockedUseItem
 
 			TargetCamera = cameras[CurrentCameraIndex];
 
+			if ( Host.IsClient && zoneName is not null )
+				zoneName.UpdateName( TargetCamera.ZoneName.ToUpper() );
+
 			return;
 		}
 
@@ -87,6 +91,9 @@ public sealed partial class CameraController : LockedUseItem
 				CurrentCameraIndex -= 1;
 
 			TargetCamera = cameras[CurrentCameraIndex];
+
+			if ( Host.IsClient && zoneName is not null )
+				zoneName.UpdateName( TargetCamera.ZoneName.ToUpper() );
 
 			return;
 		}
@@ -148,7 +155,19 @@ public sealed partial class CameraController : LockedUseItem
 		if ( Screen is not null && Host.IsClient )
 			Screen.RenderColor = Color.Transparent;
 
-		ScenePortal = new ScenePortal( Map.Scene, Model.Load( "models/cameraconsole/console_screen.vmdl" ), Transform );
+		if ( IsClient )
+		{
+			var attachment = GetAttachment( "zonename" );
+
+			if ( attachment is null )
+				return;
+
+			zoneName = new CameraControllerPanel( this );
+			zoneName.Position = attachment.Value.Position;
+			zoneName.Rotation = attachment.Value.Rotation;
+		}
+
+		scenePortal = new ScenePortal( Map.Scene, Model.Load( "models/cameraconsole/console_screen.vmdl" ), Transform );
 	}
 
 	/// <inheritdoc/>
@@ -168,11 +187,14 @@ public sealed partial class CameraController : LockedUseItem
 
 		if ( IsClient )
 		{
-			ScenePortal?.Delete();
-			ScenePortal = null;
+			scenePortal?.Delete();
+			scenePortal = null;
 
 			if( Screen is not null ) 
 				Screen.RenderColor = Color.White;
+
+			if ( zoneName is not null )
+				zoneName.Delete();
 		}
 
 		User = null;
@@ -206,10 +228,10 @@ public sealed partial class CameraController : LockedUseItem
 		if ( !IsClient )
 			return;
 
-		if ( ScenePortal == null || !ScenePortal.IsValid )
+		if ( scenePortal == null || !scenePortal.IsValid )
 			return;
 
-		ScenePortal.Transform = Transform;
+		scenePortal.Transform = Transform;
 
 		if ( !TargetCamera.IsValid() )
 			return;
@@ -219,12 +241,12 @@ public sealed partial class CameraController : LockedUseItem
 		if ( attachment is null )
 			return;
 
-		ScenePortal.ViewPosition = attachment.Value.Position;
-		ScenePortal.ViewRotation = attachment.Value.Rotation;
-		ScenePortal.FieldOfView = TargetCamera.Fov;
-		ScenePortal.ZNear = TargetCamera.ZNear;
-		ScenePortal.ZFar = TargetCamera.ZFar;
-		ScenePortal.Aspect = TargetCamera.Aspect;
+		scenePortal.ViewPosition = attachment.Value.Position;
+		scenePortal.ViewRotation = attachment.Value.Rotation;
+		scenePortal.FieldOfView = TargetCamera.Fov;
+		scenePortal.ZNear = TargetCamera.ZNear;
+		scenePortal.ZFar = TargetCamera.ZFar;
+		scenePortal.Aspect = TargetCamera.Aspect;
 	}
 }
 
