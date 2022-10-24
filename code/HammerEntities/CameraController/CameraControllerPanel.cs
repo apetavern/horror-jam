@@ -15,7 +15,7 @@ public sealed class CameraControllerPanel : WorldPanel
 		PanelBounds = new Rect( -250, -75, 500, 75 );
 
 		Style.FontColor = Color.White;
-		Style.Opacity = 1;
+		Style.Opacity = 0.5f;
 		Style.FontSize = 26;
 		Style.JustifyContent = Justify.FlexEnd;
 
