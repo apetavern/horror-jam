@@ -24,7 +24,13 @@ public sealed partial class Item : DelayedUseItem
 		set
 		{
 			itemType = value;
+			Name = value.ToString();
+
+			if ( !IsServer )
+				return;
+
 			SetModel( value.GetModel() );
+			SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 		}
 	}
 	/// <summary>
@@ -49,10 +55,7 @@ public sealed partial class Item : DelayedUseItem
 	{
 		base.Spawn();
 
-		Name = ItemType.ToString();
-
-		SetModel( ItemType.GetModel() );
-		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+		ItemType = itemType;
 	}
 
 	/// <inheritdoc/>
