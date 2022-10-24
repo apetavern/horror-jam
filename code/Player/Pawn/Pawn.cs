@@ -218,6 +218,7 @@ public sealed partial class Pawn : AnimatedEntity
 		if ( BlockMovement )
 		{
 			inputBuilder.AnalogMove = 0;
+			inputBuilder.ViewAngles = Angles.Zero;
 			inputBuilder.ClearButton( InputButton.Duck );
 			inputBuilder.ClearButton( InputButton.Jump );
 		}
