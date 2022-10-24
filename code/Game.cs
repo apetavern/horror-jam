@@ -145,4 +145,16 @@ public sealed partial class MyGame : Sandbox.Game
 
 		_ = new CameraController() { Position = ConsoleSystem.Caller.Pawn.Position };
 	}
+
+	/// <summary>
+	/// Debug command to spawn the storage locker.
+	/// </summary>
+	[ConCmd.Admin( "spawn_storagelocker" )]
+	public static void SpawnStorageLocker()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		_ = new StorageLocker() { Position = ConsoleSystem.Caller.Pawn.Position };
+	}
 }
