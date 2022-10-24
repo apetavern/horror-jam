@@ -47,6 +47,9 @@ public sealed partial class StorageLocker : DelayedUseItem
 	/// </summary>
 	private Transform StartDoorTransform;
 
+	[Net, Predicted]
+	ModelEntity Door { get; set; }
+
 	/// <inheritdoc/>
 	public override void Spawn()
 	{
@@ -57,7 +60,15 @@ public sealed partial class StorageLocker : DelayedUseItem
 		SetModel( "models/scifilocker/scifilocker.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
 
-		StartDoorTransform = GetBoneTransform( GetBoneIndex( "Hinge" ) );
+		Door = new ModelEntity( "models/scifilocker/scifilocker_door.vmdl" );
+		Door.Position = GetAttachment( "doorhinge" ).Value.Position;
+		Door.Rotation = Rotation;
+		Door.Tags.Add( "camignore" );
+		Door.SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
+
+		Door.SetParent( this );
+
+		StartDoorTransform = Door.Transform;//GetBoneTransform( GetBoneIndex( "Hinge" ) );
 
 		ModelEntity entity;
 		if ( RandomItem )
@@ -69,6 +80,7 @@ public sealed partial class StorageLocker : DelayedUseItem
 		// TODO: Attachment point locker for items?
 		entity.Position = Position + (Vector3.Up * 2) + (Rotation.Left.Normal * 10);
 		entity.Rotation = Rotation.FromYaw( 90 );
+
 	}
 
 	/// <inheritdoc/>
@@ -110,7 +122,7 @@ public sealed partial class StorageLocker : DelayedUseItem
 	{
 		base.Reset();
 
-		SetBone( GetBoneIndex( "Hinge" ), StartDoorTransform );
+		Door.Transform = StartDoorTransform; //SetBone( GetBoneIndex( "Hinge" ), StartDoorTransform );
 		Opened = false;
 	}
 
@@ -129,7 +141,15 @@ public sealed partial class StorageLocker : DelayedUseItem
 		if ( IsServer && timeInAnim >= 0.55 )
 			IsLocked = false;
 
-		(user as Pawn)!.SetAnimParameter( "grabitem", true );
+		TraceResult floortrace = Trace.Ray( GetAttachment( "openstandpos" ).Value.Position, GetAttachment( "openstandpos" ).Value.Position - Vector3.Up * 100f ).WithoutTags( "camignore" ).Ignore( user ).Run();
+
+		DebugOverlay.Sphere( floortrace.EndPosition, 1f, Color.Red );
+
+		user.Position = floortrace.EndPosition;
+		user.Rotation = Rotation.LookAt( (Position- user.Position).WithZ(0), Vector3.Up );
+
+		( user as Pawn)!.SetAnimParameter( "b_IKleft", true );
+		(user as Pawn)!.SetAnimParameter( "left_hand_ik", Door.GetAttachment("handle").Value );
 		return false;
 	}
 
@@ -143,14 +163,26 @@ public sealed partial class StorageLocker : DelayedUseItem
 	private bool OpenLockerDoor( Entity user, bool firstTime, float timeInAnim )
 	{
 		if ( Opened )
+		{
 			return true;
+		}
 
-		var boneIndex = GetBoneIndex( "Hinge" );
-		var boneTransform = GetBoneTransform( boneIndex );
-		var targetTransform = boneTransform;
-		targetTransform.Rotation *= (Rotation)Quaternion.CreateFromAxisAngle( new Vector3( 0, 1, 0 ), -90 );
+		if ( IsServer )
+		{
+			(user as Pawn)!.SetAnimParameter( "b_IKleft", true );
+			(user as Pawn)!.SetAnimParameter( "left_hand_ik", Door.GetAttachment( "handle" ).Value );
+			var targetTransform = Transform;
+			targetTransform.Rotation *= (Rotation)Quaternion.CreateFromAxisAngle( new Vector3( 0, 0, 1 ), -90 );
 
-		SetBone( boneIndex, Transform.Lerp( boneTransform, targetTransform, timeInAnim / 0.5f, false ) );
+			Door.Owner = user;
+
+			Door.Rotation = Rotation.Lerp( Door.Rotation, targetTransform.Rotation, timeInAnim / 0.5f, false );
+			if ( timeInAnim > 0.45f )
+			{
+				(user as Pawn)!.SetAnimParameter( "b_IKleft", false );
+			}
+		}
+
 		return false;
 	}
 
