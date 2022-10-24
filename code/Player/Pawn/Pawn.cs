@@ -1,5 +1,3 @@
-using GvarJam.Inventory;
-
 namespace GvarJam.Player;
 
 /// <summary>
@@ -82,7 +80,12 @@ public sealed partial class Pawn : AnimatedEntity
 
 		Animator = new StandardPlayerAnimator();
 		Camera = new PawnCamera();
-		Controller = new MovementController();
+		Controller = new MovementController()
+		{
+			SprintSpeed = 240.0f,
+			WalkSpeed = 150.0f,
+			DefaultSpeed = 150.0f
+		};
 
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
