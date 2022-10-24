@@ -128,9 +128,11 @@ public sealed partial class Pawn : AnimatedEntity
 
 		SimulateLamp();
 		SimulateInteraction();
+		SimulateSanity();
 
 		var rotation = Rotation;
 		Controller?.Simulate( cl, this, Animator );
+
 		if ( IsInteracting )
 			Rotation = rotation;
 
