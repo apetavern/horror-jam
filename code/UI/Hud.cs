@@ -17,5 +17,14 @@ public sealed partial class Hud : HudEntity<RootPanel>
 		RootPanel.AddChild( new BatteryLevel() );
 		RootPanel.AddChild( new InteractionProgress() );
 		RootPanel.AddChild( new Crosshair() );
+		RootPanel.AddChild( new LetterboxBars() );
+
+		RootPanel.BindClass( "in-cutscene", () =>
+		{
+			if ( Local.Pawn is Pawn pawn )
+				return pawn.InCutscene;
+
+			return false;
+		} );
 	}
 }

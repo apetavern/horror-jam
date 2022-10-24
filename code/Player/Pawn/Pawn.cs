@@ -54,6 +54,11 @@ public sealed partial class Pawn : AnimatedEntity
 	public bool BlockLook { get; set; } = false;
 
 	/// <summary>
+	/// Is the player currently in a cutscene? Use <see cref="StartCutscene(ModelEntity, string)"/> to set this.
+	/// </summary>
+	public bool InCutscene { get; private set; } = false;
+
+	/// <summary>
 	/// Called when the entity is first created 
 	/// </summary>
 	public override void Spawn()
@@ -232,7 +237,54 @@ public sealed partial class Pawn : AnimatedEntity
 			inputBuilder.ClearButton( InputButton.Jump );
 		}
 
-		if( BlockLook )
+		if ( BlockLook )
 			inputBuilder.ViewAngles = Angles.Zero;
+	}
+
+	/// <summary>
+	/// Start a cutscene from the perspective of an entity with an attachment.
+	/// </summary>
+	public void StartCutscene( ModelEntity targetEntity, string targetAttachment )
+	{
+		// No checking if we're already in a cutscene here, in case we want to
+		// move entity
+
+		Camera = new CutsceneCamera( targetEntity, targetAttachment );
+		BlockMovement = true;
+		InCutscene = true;
+	}
+
+	/// <summary>
+	/// End a cutscene if in one
+	/// </summary>
+	public void EndCutscene()
+	{
+		if ( !InCutscene )
+			return;
+
+		Camera = new PawnCamera();
+		BlockMovement = false;
+		InCutscene = false;
+	}
+
+	[ConCmd.Client( "test_cutscene_camera" )]
+	public static void TestCutsceneCamera()
+	{
+		var caller = ConsoleSystem.Caller.Pawn;
+		if ( caller is not Pawn pawn )
+			return;
+
+		var nearestCamera = Entity.All.OfType<MountedCamera>().GetClosestOrDefault( pawn );
+		pawn.StartCutscene( nearestCamera, "lens_position" );
+	}
+
+	[ConCmd.Client( "test_cutscene_end" )]
+	public static void TestCutsceneEnd()
+	{
+		var caller = ConsoleSystem.Caller.Pawn;
+		if ( caller is not Pawn pawn )
+			return;
+
+		pawn.EndCutscene();
 	}
 }

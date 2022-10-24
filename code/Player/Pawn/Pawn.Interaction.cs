@@ -64,7 +64,7 @@ public partial class Pawn
 		if ( InteractedEntity is not null && !InteractedEntity.IsValid )
 			InteractedEntity = null;
 
-		if( InteractedEntity is LockedUseItem lockedUseItem )
+		if ( InteractedEntity is LockedUseItem lockedUseItem )
 		{
 			lockedUseItem.Simulate();
 			return;
@@ -89,12 +89,12 @@ public partial class Pawn
 		}
 		else if ( Input.Released( InputButton.Use ) )
 		{
-			if( InteractedEntity is not null )
+			if ( InteractedEntity is not null )
 			{
 				if ( InteractedEntity.IsValid && InteractedEntity is IInteractable interactable )
 					interactable.Reset();
 
-				if( InteractedEntity is not LockedUseItem )
+				if ( InteractedEntity is not LockedUseItem )
 					InteractedEntity = null;
 			}
 		}

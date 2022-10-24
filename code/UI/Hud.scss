@@ -3,9 +3,18 @@
 @import "/UI/Style/BatteryLevel.scss";
 @import "/UI/Style/WorldPanels.scss";
 @import "/UI/Style/Crosshair.scss";
+@import "/UI/Style/LetterboxBars.scss";
 
-Hud {
+RootPanel {
+    &.in-cutscene {
+        StaminaBar, InteractionProgress, BatteryLevel, Crosshair {
+            display: none;
+        }
 
+        LetterboxBars {
+            display: flex;
+        }
+    }
 }
 
 text, label {
