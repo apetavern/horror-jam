@@ -52,7 +52,6 @@ public partial class Pawn
 
 		if ( entity is InteractableEntity interactableEntity )
 		{
-			Log.Info( Log.Name );
 			if ( LastInteractable != interactableEntity )
 				LastInteractable?.ShowInteractionPrompt( false );
 
