@@ -61,6 +61,15 @@
 						weight = 1.0
 						ignore_rotation = false
 					},
+					{
+						_class = "Attachment"
+						name = "openstandpos"
+						parent_bone = "Hinge"
+						relative_origin = [ 24.124025, 0.0, -28.506889 ]
+						relative_angles = [ -0.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
 				]
 			},
 			{
