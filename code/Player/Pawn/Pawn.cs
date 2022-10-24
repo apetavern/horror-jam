@@ -49,6 +49,11 @@ public sealed partial class Pawn : AnimatedEntity
 	public bool BlockMovement { get; set; } = false;
 
 	/// <summary>
+	/// This will block the player from being able to look around.
+	/// </summary>
+	public bool BlockLook { get; set; } = false;
+
+	/// <summary>
 	/// Called when the entity is first created 
 	/// </summary>
 	public override void Spawn()
@@ -221,9 +226,11 @@ public sealed partial class Pawn : AnimatedEntity
 		if ( BlockMovement )
 		{
 			inputBuilder.AnalogMove = 0;
-			inputBuilder.ViewAngles = Angles.Zero;
 			inputBuilder.ClearButton( InputButton.Duck );
 			inputBuilder.ClearButton( InputButton.Jump );
 		}
+
+		if( BlockLook )
+			inputBuilder.ViewAngles = Angles.Zero;
 	}
 }
