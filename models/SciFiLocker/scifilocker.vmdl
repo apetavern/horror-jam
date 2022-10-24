@@ -54,9 +54,9 @@
 				[
 					{
 						_class = "Attachment"
-						name = "handle"
+						name = "doorhinge"
 						parent_bone = "Hinge"
-						relative_origin = [ 7.0, 4.0, -21.0 ]
+						relative_origin = [ 0.0, 0.0, 0.0 ]
 						relative_angles = [ 0.0, 0.0, 0.0 ]
 						weight = 1.0
 						ignore_rotation = false
