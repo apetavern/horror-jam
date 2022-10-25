@@ -122,6 +122,9 @@ public sealed partial class MyGame : Sandbox.Game
 		new ModelEntity( "models/citizen_clothes/jacket/longsleeve/models/jeans.vmdl" ).SetParent( cit, true );
 		new ModelEntity( "models/citizen_clothes/jacket/longsleeve/models/jeans.vmdl" ).SetParent( cit2, true );
 
+		cit2.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+		cit2.UseAnimGraph = false;
+		cit2.PhysicsBody.Velocity = Vector3.Random * 500f;
 		//split.SetAnimParameter( "split", true );
 		//mon.SetAnimParameter( "split", true );
 	}
