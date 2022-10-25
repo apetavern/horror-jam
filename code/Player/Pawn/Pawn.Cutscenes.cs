@@ -29,7 +29,7 @@ partial class Pawn
 	/// Start a cutscene from the perspective of an entity with an attachment.
 	/// Use a duration of -1 if you don't want it to end automatically.
 	/// </summary>
-	public void StartCutscene( ModelEntity targetEntity, string targetAttachment, float duration = -1.0f )
+	public void StartCutscene( AnimatedEntity targetEntity, string targetAttachment, float duration = -1.0f )
 	{
 		// No checking if we're already in a cutscene here, in case we want to
 		// move entity

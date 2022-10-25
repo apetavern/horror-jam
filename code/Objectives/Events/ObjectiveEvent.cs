@@ -37,12 +37,12 @@ public struct ObjectiveEvent
 				Sound.FromScreen( SoundName );
 				break;
 			case EventType.PlayCutscene:
-				var targetEntity = Entity.FindByName( TargetEntityName ) as ModelEntity;
+				var targetEntity = Entity.FindByName( TargetEntityName ) as AnimatedEntity;
 				pawn.StartCutscene( targetEntity, TargetAttachment, Duration );
 				break;
 			case EventType.PlayInstantiatedCutscene:
 				var infoTarget = Entity.FindByName( InfoTarget );
-				var modelEntity = new ModelEntity( TargetModel );
+				var modelEntity = new AnimatedEntity( TargetModel );
 				modelEntity.Transform = infoTarget.Transform;
 
 				pawn.StartCutscene( modelEntity, TargetAttachment, Duration );
