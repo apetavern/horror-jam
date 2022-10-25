@@ -29,6 +29,9 @@ public struct ObjectiveEvent
 	[HideIf( nameof( Type ), EventType.PlaySound )]
 	public float Duration { get; set; }
 
+	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene ), ResourceType( "vmdl" )]
+	public List<string> AdditionalSceneModels { get; set; }
+
 	public void Invoke( Pawn pawn )
 	{
 		switch ( Type )
@@ -46,6 +49,15 @@ public struct ObjectiveEvent
 				var animEntity = new AnimatedEntity( TargetModel );
 				animEntity.Transform = infoTarget.Transform;
 
+				if( AdditionalSceneModels is not null )
+				{
+					foreach ( var model in AdditionalSceneModels )
+					{
+						var animEnt = new AnimatedEntity( model );
+						animEnt.Transform = infoTarget.Transform;
+					}
+				}
+				
 				pawn.StartCutscene( animEntity, TargetAttachment, Duration );
 				break;
 		}
