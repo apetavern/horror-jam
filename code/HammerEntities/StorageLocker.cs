@@ -18,6 +18,13 @@ public sealed partial class StorageLocker : DelayedUseItem
 	/// <inheritdoc/>
 	protected override bool ResetOnUse => false;
 
+	/// <inheritdoc/>
+	public override IReadOnlyDictionary<ItemType, int> RequiredItems => requiredItems;
+	/// <summary>
+	/// The required items to use the storage locker.
+	/// </summary>
+	private readonly Dictionary<ItemType, int> requiredItems = new();
+
 	/// <summary>
 	/// Whether or not this locker is locked.
 	/// </summary>
@@ -70,6 +77,9 @@ public sealed partial class StorageLocker : DelayedUseItem
 
 		StartDoorTransform = Door.Transform;//GetBoneTransform( GetBoneIndex( "Hinge" ) );
 
+		if ( IsLocked )
+			requiredItems.Add( ItemType.JanitorKey, 1 );
+
 		ModelEntity entity;
 		if ( RandomItem )
 			entity = PickRandomItem();
@@ -89,6 +99,9 @@ public sealed partial class StorageLocker : DelayedUseItem
 		base.ClientSpawn();
 
 		StartDoorTransform = GetBoneTransform( GetBoneIndex( "Hinge" ) );
+
+		if ( IsLocked )
+			requiredItems.Add( ItemType.JanitorKey, 1 );
 	}
 
 	/// <inheritdoc/>
@@ -111,10 +124,7 @@ public sealed partial class StorageLocker : DelayedUseItem
 	/// <inheritdoc/>
 	public override bool IsUsable( Entity user )
 	{
-		return !Opened &&
-			((!IsLocked && base.IsUsable( user ))
-			||
-			(IsLocked && (user as Pawn)!.HasItem( ItemType.JanitorKey ) && base.IsUsable( user )));
+		return !Opened && base.IsUsable( user );
 	}
 
 	/// <inheritdoc/>

@@ -18,6 +18,12 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	public virtual Color GlowColor { get; set; } = Color.Orange;
 
 	/// <summary>
+	/// A dictionary of the items that are required to interact with this entity.
+	/// </summary>
+	public virtual IReadOnlyDictionary<ItemType, int> RequiredItems => requiredItems;
+	private readonly Dictionary<ItemType, int> requiredItems = new();
+
+	/// <summary>
 	/// The UI prompt panel for this entity.
 	/// </summary>
 	protected InteractionPromptPanel? InteractionPromptPanel { get; set; }
@@ -80,6 +86,13 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	/// <inheritdoc/>
 	public virtual bool IsUsable( Entity user )
 	{
+		var pawn = (user as Pawn)!;
+		foreach ( var (item, amount) in RequiredItems )
+		{
+			if ( !pawn.HasItem( item, amount ) )
+				return false;
+		}
+
 		return user.Position.Distance( Position ) < UseDistance && user.GroundEntity is not null && user.Velocity.IsNearZeroLength;
 	}
 
