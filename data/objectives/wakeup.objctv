@@ -1,0 +1,37 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	data = 
+	{
+		Name = "Wake Up"
+		Description = "Wake up from cryo sleep"
+		ObjectiveStartConditions = 
+		[
+			{
+				Type = "PlayerEnteredTrigger"
+				TriggerName = "tutorial_objective_trigger"
+			},
+		]
+		ObjectiveEndConditions = 
+		[
+			{
+				Type = "Timer"
+				TriggerName = ""
+				InteractableName = ""
+				TypeName = ""
+				TimeDelay = 10
+			},
+		]
+		ObjectiveStartEvents = 
+		[
+			{
+				Type = "PlayInstantiatedCutscene"
+				TargetEntityName = ""
+				TargetModel = resource:"models/cutscenes/cryo/cryarms.vmdl"
+				InfoTarget = "cryo_sleep_pos"
+				TargetAttachment = "camPos"
+				Duration = 10
+			},
+		]
+		ObjectiveEndEvents = [  ]
+	}
+}
