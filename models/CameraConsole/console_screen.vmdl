@@ -28,7 +28,7 @@
 						[
 							{
 								from = "models/cameraconsole/materials/monitor.vmat"
-								to = "dev/helper/testgrid_morph.vmat"
+								to = "models/cameraconsole/materials/monitoroff.vmat"
 							},
 						]
 					},

@@ -25,7 +25,7 @@ Layer0
 	PixelTexture "models/cameraconsole/materials/subpixels.psd"
 
 	//---- Material ----
-	TextureColor "dev/helper/testgrid_color.tga"
+	TextureColor "models/cameraconsole/materials/monitoroff.png"
 	TextureTintMask "materials/default/default.tga"
 
 	//---- Texture Coordinates ----
