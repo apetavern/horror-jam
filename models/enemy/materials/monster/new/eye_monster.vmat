@@ -4,10 +4,13 @@ Layer0
 {
 	shader "simple.vfx"
 
+	//---- Animation ----
+	F_MORPH_SUPPORTED 1
+
 	//---- Color ----
 	g_flModelTintAmount "1.000"
 	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureColor "materials/Monster/citizen_eyes_Base_color.png"
+	TextureColor "models/enemy/materials/monster/new/citizen_eyes_base_color_new.psd"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -23,10 +26,10 @@ Layer0
 	g_flMetalness "0.000"
 
 	//---- Normal ----
-	TextureNormal "materials/Monster/citizen_eyes_Normal_OpenGL.png"
+	TextureNormal "models/enemy/materials/monster/new/citizen_eyes_normal_opengl.png"
 
 	//---- Roughness ----
-	TextureRoughness "materials/Monster/citizen_eyes_Roughness.png"
+	TextureRoughness "models/enemy/materials/monster/new/citizen_eyes_roughness.png"
 
 	//---- Texture Coordinates ----
 	g_nScaleTexCoordUByModelScaleAxis "0"
