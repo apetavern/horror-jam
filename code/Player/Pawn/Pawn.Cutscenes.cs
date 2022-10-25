@@ -5,6 +5,7 @@ partial class Pawn
 	/// <summary>
 	/// Is the player currently in a cutscene? Use <see cref="StartCutscene(AnimatedEntity, string)"/> to set this.
 	/// </summary>
+	[Net]
 	public bool InCutscene { get; private set; } = false;
 
 	private float CutsceneDuration { get; set; }
@@ -40,6 +41,7 @@ partial class Pawn
 		TimeSinceCutsceneStart = 0;
 
 		BlockMovement = true;
+		BlockLook = true;
 		InCutscene = true;
 	}
 
@@ -54,6 +56,7 @@ partial class Pawn
 		Camera = new PawnCamera();
 
 		BlockMovement = false;
+		BlockLook = false;
 		InCutscene = false;
 	}
 
