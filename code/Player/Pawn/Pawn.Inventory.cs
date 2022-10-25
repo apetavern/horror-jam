@@ -22,10 +22,11 @@ public partial class Pawn
 	/// Returns whether or not the pawn has an item.
 	/// </summary>
 	/// <param name="item">The item to check if the pawn has.</param>
+	/// <param name="amount">The amount of the item the pawn has.</param>
 	/// <returns>Whether or not the pawn has the item.</returns>
-	public bool HasItem( ItemType item )
+	public bool HasItem( ItemType item, int amount = 1 )
 	{
-		return Items[item] > 0;
+		return Items[item] >= amount;
 	}
 
 	/// <summary>
