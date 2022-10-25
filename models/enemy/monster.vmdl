@@ -15,11 +15,11 @@
 						[
 							{
 								from = "phong1.vmat"
-								to = "models/enemy/materials/monster/monster_skin.vmat"
+								to = "monster.vmat"
 							},
 							{
 								from = "citizen_eyes.vmat"
-								to = "models/citizen/skin/citizen_eyes_advanced03.vmat"
+								to = "materials/monster/eye_monster.vmat"
 							},
 						]
 						use_global_default = false
@@ -33,7 +33,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "models/enemy/monster.fbx"
+						filename = "models/monster_low.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
 						import_scale = 1.0
@@ -47,8 +47,8 @@
 							exception_list = 
 							[
 								"monster",
-								"eye",
 								"teeth",
+								"eye",
 							]
 						}
 					},
