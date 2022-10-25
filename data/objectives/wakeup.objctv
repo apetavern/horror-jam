@@ -27,6 +27,10 @@
 				Type = "PlayInstantiatedCutscene"
 				TargetEntityName = ""
 				TargetModel = resource:"models/cutscenes/cryo/cryarms.vmdl"
+				SceneModels = 
+				[
+					resource:"weapons/rust_pistol/rust_pistol_fparms_rescale.vmdl",
+				]
 				InfoTarget = "cryo_sleep_pos"
 				TargetAttachment = "camPos"
 				Duration = 10
