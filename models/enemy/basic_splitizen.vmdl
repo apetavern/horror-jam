@@ -63,7 +63,7 @@
 				[
 					{
 						_class = "AnimFile"
-						name = "testanim"
+						name = "idle"
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
@@ -76,8 +76,29 @@
 						anim_markup_ordered = false
 						disable_compression = false
 						source_filename = "models/enemy/basic_splitizen.fbx"
-						start_frame = 0
-						end_frame = -1
+						start_frame = 5
+						end_frame = 25
+						framerate = 2.0
+						take = 0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "split"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/enemy/animations/splitizen_split.fbx"
+						start_frame = 5
+						end_frame = 75
 						framerate = -1.0
 						take = 0
 						reverse = false

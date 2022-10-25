@@ -52,7 +52,7 @@
 					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_tagSpans = [  ]
-					m_sequenceName = "testanim"
+					m_sequenceName = "idle"
 					m_playbackSpeed = 1.0
 					m_bLoop = false
 				}
@@ -108,5 +108,11 @@
 	[
 		"models/enemy/basic_splitizen.vmdl",
 	]
-	m_boneMergeModels = [  ]
+	m_boneMergeModels = 
+	[
+		{
+			m_name = "models/enemy/monster.vmdl"
+			m_bEnabled = true
+		},
+	]
 }
