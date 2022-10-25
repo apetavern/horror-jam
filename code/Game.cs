@@ -59,6 +59,25 @@ public sealed partial class MyGame : Sandbox.Game
 	}
 
 	/// <summary>
+	/// Debug command to spawn a monster model.
+	/// </summary>
+	[ConCmd.Admin( "spawn_monstermodel" )]
+	public static void SpawnMonsterModel()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		Pawn pawn = ConsoleSystem.Caller.Pawn as Pawn;
+
+		_ = new AnimatedEntity( "models/enemy/monster.vmdl" )
+		{
+			Position = pawn.Position + pawn.Rotation.Forward * 150f,
+			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
+
+		};
+	}
+
+	/// <summary>
 	/// Debug command to spawn a Janitor key.
 	/// </summary>
 	[ConCmd.Admin( "spawn_janitorkey" )]
