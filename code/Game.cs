@@ -70,12 +70,107 @@ public sealed partial class MyGame : Sandbox.Game
 
 		Pawn pawn = ConsoleSystem.Caller.Pawn as Pawn;
 
-		_ = new AnimatedEntity( "models/enemy/monster.vmdl" )
+		AnimatedEntity split = new AnimatedEntity( "models/enemy/basic_splitizen.vmdl" )
 		{
 			Position = pawn.Position + pawn.Rotation.Forward * 150f,
 			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
 
 		};
+
+		AnimatedEntity mon = new AnimatedEntity( "models/enemy/monster.vmdl" )
+		{
+			Position = pawn.Position + pawn.Rotation.Forward * 150f,
+			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
+
+		};
+
+		AnimatedEntity mon2 = new AnimatedEntity( "models/enemy/monster.vmdl" )
+		{
+			Position = pawn.Position + pawn.Rotation.Forward * 150f - pawn.Rotation.Left * 32f,
+			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
+
+		};
+
+		mon2.SetAnimParameter( "idle", true );
+
+		mon.SetParent( split, true );
+
+		AnimatedEntity cit = new AnimatedEntity( "models/player/playermodel.vmdl" )
+		{
+			Position = pawn.Position + pawn.Rotation.Forward * 150f,
+			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
+
+		};
+
+		AnimatedEntity cit2 = new AnimatedEntity( "models/player/playermodel.vmdl" )
+		{
+			Position = pawn.Position + pawn.Rotation.Forward * 150f + pawn.Rotation.Left * 32f,
+			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
+
+		};
+
+		cit.SetMaterialOverride( "models/enemy/materials/citizen/splitizen_skin.vmat" );
+		cit.SetBodyGroup( 0, 1 );
+		cit.SetBodyGroup( 1, 1 );
+		cit.SetBodyGroup( 3, 1 );
+
+		cit2.SetMaterialOverride( Material.Load( "models/enemy/materials/citizen/splitizen_skin_nosplit.vmat" ), "skin" );
+		cit2.SetMaterialOverride( Material.Load( "models/enemy/materials/citizen/splitizen_eyes.vmat" ), "eyes" );
+
+		split.SetParent( cit, true );
+
+		new ModelEntity( "models/citizen_clothes/jacket/longsleeve/models/jeans.vmdl" ).SetParent( cit, true );
+		new ModelEntity( "models/citizen_clothes/jacket/longsleeve/models/jeans.vmdl" ).SetParent( cit2, true );
+
+		//split.SetAnimParameter( "split", true );
+		//mon.SetAnimParameter( "split", true );
+	}
+
+	/// <summary>
+	/// Debug command to spawn a monster model.
+	/// </summary>
+	[ConCmd.Admin( "spawn_monstermodelsplitting" )]
+	public static void SpawnMonsterModelSplitting()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		Pawn pawn = ConsoleSystem.Caller.Pawn as Pawn;
+
+		AnimatedEntity split = new AnimatedEntity( "models/enemy/basic_splitizen.vmdl" )
+		{
+			Position = pawn.Position + pawn.Rotation.Forward * 150f,
+			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
+
+		};
+
+		AnimatedEntity mon = new AnimatedEntity( "models/enemy/monster.vmdl" )
+		{
+			Position = pawn.Position + pawn.Rotation.Forward * 150f,
+			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
+
+		};
+
+		mon.SetParent( split, true );
+
+		AnimatedEntity cit = new AnimatedEntity( "models/player/playermodel.vmdl" )
+		{
+			Position = pawn.Position + pawn.Rotation.Forward * 150f,
+			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
+
+		};
+
+		cit.SetMaterialOverride( "models/enemy/materials/citizen/splitizen_skin.vmat" );
+		cit.SetBodyGroup( 0, 1 );
+		cit.SetBodyGroup( 1, 1 );
+		cit.SetBodyGroup( 3, 1 );
+
+		split.SetParent( cit, true );
+
+		new ModelEntity( "models/citizen_clothes/jacket/longsleeve/models/jeans.vmdl" ).SetParent( cit, true );
+
+		split.SetAnimParameter( "split", true );
+		mon.SetAnimParameter( "split", true );
 	}
 
 	/// <summary>
