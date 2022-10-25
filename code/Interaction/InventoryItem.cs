@@ -25,7 +25,7 @@ public sealed partial class InventoryItem : DelayedUseItem
 			itemType = value;
 			Name = value.ToString();
 
-			if ( !IsServer )
+			if ( !IsServer || !spawned )
 				return;
 
 			SetModel( value.GetModel() );
@@ -49,12 +49,20 @@ public sealed partial class InventoryItem : DelayedUseItem
 	/// </summary>
 	private bool pickedUp;
 
+	/// <summary>
+	/// Server variable for whether or not the spawn method has finished.
+	/// </summary>
+	private bool spawned;
+
 	/// <inheritdoc/>
 	public override void Spawn()
 	{
 		base.Spawn();
 
 		ItemType = itemType;
+		SetModel( ItemType.GetModel() );
+		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+		spawned = true;
 	}
 
 	/// <inheritdoc/>
