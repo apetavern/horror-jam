@@ -86,13 +86,16 @@ public partial class Pawn
 	/// The pawns lamp.
 	/// </summary>
 	[Net]
-	private SpotLightEntity Lamp { get; set; } = null!;
+	private SpotLightEntity? Lamp { get; set; } = null;
 
 	/// <summary>
 	/// Simulates the lamp system.
 	/// </summary>
 	private void SimulateLamp()
 	{
+		if ( Helmet is null || Lamp is null )
+			return;
+
 		if ( Input.Pressed( InputButton.Flashlight ) && LampPower > 0 )
 			LampEnabled = !LampEnabled;
 

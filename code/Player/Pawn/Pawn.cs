@@ -34,7 +34,7 @@ public sealed partial class Pawn : AnimatedEntity
 	/// The pawns helmet.
 	/// </summary>
 	[Net]
-	private ModelEntity Helmet { get; set; } = null!;
+	public ModelEntity? Helmet { get; private set; } = null;
 
 	/// <summary>
 	/// This is a list of stuff we apply the alpha change to
@@ -64,24 +64,6 @@ public sealed partial class Pawn : AnimatedEntity
 
 		SetModel( "models/player/playermodel.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
-
-		Helmet = new ModelEntity( "models/cosmetics/spacehelmet.vmdl" )
-		{
-			EnableHideInFirstPerson = true
-		};
-
-		Lamp = new SpotLightEntity
-		{
-			Parent = Helmet,
-			Transform = Helmet.GetAttachment( "light" )!.Value,
-			LightCookie = Texture.Load( FileSystem.Mounted, "materials/effects/lightcookie.vtex" )
-		};
-
-		Lamp.OuterConeAngle *= 0.4f;
-		Lamp.InnerConeAngle *= 0.1f;
-		Lamp.Brightness = 0.5f;
-
-		Helmet.SetParent( this, true );
 
 		Animator = new StandardPlayerAnimator();
 		Camera = new PawnCamera();
@@ -154,6 +136,35 @@ public sealed partial class Pawn : AnimatedEntity
 		Controller?.FrameSimulate( cl, this, Animator );
 		if ( IsInteracting )
 			Rotation = rotation;
+	}
+
+	/// <summary>
+	/// Equips the helmet on the player.
+	/// </summary>
+	public void EquipHelmet()
+	{
+		Host.AssertServer();
+		Assert.True( Helmet is null );
+
+		Helmet = new ModelEntity( "models/cosmetics/spacehelmet.vmdl" )
+		{
+			EnableHideInFirstPerson = true
+		};
+
+		Lamp = new SpotLightEntity
+		{
+			Parent = Helmet,
+			Transform = Helmet.GetAttachment( "light" )!.Value,
+			LightCookie = Texture.Load( FileSystem.Mounted, "materials/effects/lightcookie.vtex" )
+		};
+
+		Lamp.Enabled = false;
+		Lamp.OuterConeAngle *= 0.4f;
+		Lamp.InnerConeAngle *= 0.1f;
+		Lamp.Brightness = 0.5f;
+
+		Helmet.SetParent( this, true );
+		AddHelmetChild( To.Single( Client ), Helmet );
 	}
 
 	/// <summary>
@@ -237,5 +248,15 @@ public sealed partial class Pawn : AnimatedEntity
 
 		if ( BlockLook )
 			inputBuilder.ViewAngles = Angles.Zero;
+	}
+
+	/// <summary>
+	/// Adds the helmet entity to the player and children to hide in first person.
+	/// </summary>
+	/// <param name="helmet">The helmet entity.</param>
+	[ClientRpc]
+	private void AddHelmetChild( ModelEntity helmet )
+	{
+		PlayerAndChildren.Add( helmet );
 	}
 }

@@ -12,6 +12,7 @@ global using SandboxEditor;
 global using System;
 global using System.Collections.Generic;
 global using System.Linq;
+using GvarJam.Interaction;
 using GvarJam.UI;
 
 namespace GvarJam;
@@ -75,6 +76,18 @@ public sealed partial class MyGame : Sandbox.Game
 			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
 
 		};
+	}
+
+	/// <summary>
+	/// Debug command to spawn a helmet.
+	/// </summary>
+	[ConCmd.Admin( "spawn_helmet" )]
+	public static void SpawnHelmet()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		_ = new Helmet() { Position = ConsoleSystem.Caller.Pawn.Position };
 	}
 
 	/// <summary>
