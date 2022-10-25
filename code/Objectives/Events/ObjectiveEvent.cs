@@ -5,7 +5,8 @@ public struct ObjectiveEvent
 	public enum EventType
 	{
 		PlaySound,
-		PlayCutscene
+		PlayCutscene,
+		PlayInstantiatedCutscene
 	}
 
 	public EventType Type { get; set; }
@@ -16,10 +17,16 @@ public struct ObjectiveEvent
 	[ShowIf( nameof( Type ), EventType.PlayCutscene )]
 	public string TargetEntityName { get; set; }
 
-	[ShowIf( nameof( Type ), EventType.PlayCutscene )]
-	public string TargetEntityAttachment { get; set; }
+	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene ), ResourceType( "vmdl" )]
+	public string TargetModel { get; set; }
 
-	[ShowIf( nameof( Type ), EventType.PlayCutscene )]
+	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene )]
+	public string InfoTarget { get; set; }
+
+	[HideIf( nameof( Type ), EventType.PlaySound )]
+	public string TargetAttachment { get; set; }
+
+	[HideIf( nameof( Type ), EventType.PlaySound )]
 	public float Duration { get; set; }
 
 	public void Invoke( Pawn pawn )
@@ -31,7 +38,14 @@ public struct ObjectiveEvent
 				break;
 			case EventType.PlayCutscene:
 				var targetEntity = Entity.FindByName( TargetEntityName ) as ModelEntity;
-				pawn.StartCutscene( targetEntity, TargetEntityAttachment, Duration );
+				pawn.StartCutscene( targetEntity, TargetAttachment, Duration );
+				break;
+			case EventType.PlayInstantiatedCutscene:
+				var infoTarget = Entity.FindByName( InfoTarget );
+				var modelEntity = new ModelEntity( TargetModel );
+				modelEntity.Transform = infoTarget.Transform;
+
+				pawn.StartCutscene( modelEntity, TargetAttachment, Duration );
 				break;
 		}
 	}
