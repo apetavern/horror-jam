@@ -47,7 +47,7 @@ public sealed partial class CameraController : LockedUseItem
 	}
 
 	/// <inheritdoc/>
-	public override void Simulate()
+	public override void Simulate( Client cl )
 	{
 
 		if ( User is Pawn player && GetAttachment( "rhand_attach" ).HasValue )

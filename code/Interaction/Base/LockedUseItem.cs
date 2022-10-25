@@ -52,7 +52,5 @@ public partial class LockedUseItem : InteractableEntity
 
 		Tags.Remove( "trigger" );
 	}
-
-	public virtual void Simulate() { }
 }
 
