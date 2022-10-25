@@ -237,8 +237,6 @@ public sealed partial class Pawn : AnimatedEntity
 	{
 		base.BuildInput( inputBuilder );
 
-		Log.Trace( BlockMovement );
-
 		if ( BlockMovement )
 		{
 			inputBuilder.AnalogMove = 0;
