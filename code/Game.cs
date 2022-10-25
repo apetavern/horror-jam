@@ -12,6 +12,7 @@ global using SandboxEditor;
 global using System;
 global using System.Collections.Generic;
 global using System.Linq;
+using GvarJam.Interaction;
 using GvarJam.UI;
 
 namespace GvarJam;
@@ -56,6 +57,37 @@ public sealed partial class MyGame : Sandbox.Game
 			tx.Position += Vector3.Up * 50.0f; // raise it up
 			pawn.Transform = tx;
 		}
+	}
+
+	/// <summary>
+	/// Debug command to spawn a monster model.
+	/// </summary>
+	[ConCmd.Admin( "spawn_monstermodel" )]
+	public static void SpawnMonsterModel()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		Pawn pawn = ConsoleSystem.Caller.Pawn as Pawn;
+
+		_ = new AnimatedEntity( "models/enemy/monster.vmdl" )
+		{
+			Position = pawn.Position + pawn.Rotation.Forward * 150f,
+			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
+
+		};
+	}
+
+	/// <summary>
+	/// Debug command to spawn a helmet.
+	/// </summary>
+	[ConCmd.Admin( "spawn_helmet" )]
+	public static void SpawnHelmet()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		_ = new Helmet() { Position = ConsoleSystem.Caller.Pawn.Position };
 	}
 
 	/// <summary>

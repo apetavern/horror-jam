@@ -1,0 +1,29 @@
+﻿$accent: #F2D933;
+
+LetterboxBars {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transform: scale( 1.5 );
+
+    display: none;
+
+    .bar {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 25%;
+        background-color: #000;
+        transition: height 150ms ease;
+    }
+
+    .top {
+        top: 0;
+    }
+
+    .bottom {
+        bottom: 0;
+    }
+}

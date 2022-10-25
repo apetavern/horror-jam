@@ -19,7 +19,7 @@ public partial class Pawn
 	{
 		DebugOverlay.ScreenText( $"Insanity level: {InsanityLevel}" );
 
-		if ( !Lamp.Enabled )
+		if ( Lamp is not null && !Lamp.Enabled )
 			InsanityLevel += sanityDrainPerSecond / Global.TickRate;
 		else
 			InsanityLevel -= sanityGainPerSecond / Global.TickRate;

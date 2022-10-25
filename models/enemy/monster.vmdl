@@ -15,11 +15,11 @@
 						[
 							{
 								from = "phong1.vmat"
-								to = "models/enemy/materials/monster/monster_skin.vmat"
+								to = "models/enemy/materials/monster/new/monster.vmat"
 							},
 							{
 								from = "citizen_eyes.vmat"
-								to = "models/citizen/skin/citizen_eyes_advanced03.vmat"
+								to = "models/enemy/materials/monster/new/eye_monster.vmat"
 							},
 						]
 						use_global_default = false
@@ -43,21 +43,44 @@
 						parent_bone = ""
 						import_filter = 
 						{
-							exclude_by_default = true
-							exception_list = 
-							[
-								"monster",
-								"eye",
-								"teeth",
-							]
+							exclude_by_default = false
+							exception_list = [  ]
 						}
 					},
 				]
 			},
+			{
+				_class = "AnimationList"
+				children = 
+				[
+					{
+						_class = "AnimFile"
+						name = "dormant"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/enemy/monster.fbx"
+						start_frame = 10
+						end_frame = 11
+						framerate = -1.0
+						take = 0
+						reverse = false
+					},
+				]
+				default_root_bone_name = ""
+			},
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
-		anim_graph_name = ""
+		anim_graph_name = "models/enemy/monster.vanmgrph"
 		base_model_name = ""
 	}
 }

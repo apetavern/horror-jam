@@ -25,12 +25,18 @@
 		[
 			{
 				SoundName = resource:"sounds/easteregg/welcome_m.sound"
+				TargetEntityName = ""
+				InfoTarget = ""
+				TargetAttachment = ""
 			},
 		]
 		ObjectiveEndEvents = 
 		[
 			{
 				SoundName = resource:"sounds/easteregg/welcome_f.sound"
+				TargetEntityName = ""
+				InfoTarget = ""
+				TargetAttachment = ""
 			},
 		]
 	}
