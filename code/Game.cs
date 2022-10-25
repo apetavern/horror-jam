@@ -344,4 +344,11 @@ public sealed partial class HorrorGame : Game
 
 		_ = new Note() { Position = ConsoleSystem.Caller.Pawn.Position };
 	}
+		
+	[ConCmd.Admin( "spawn_monster" )]
+	public static void SpawnMonster()
+	{
+		var monster = new MonsterEntity();
+		Game.Current.MoveToSpawnpoint( monster );
+	}
 }
