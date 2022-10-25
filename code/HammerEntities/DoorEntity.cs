@@ -27,6 +27,9 @@ public partial class DoorEntity : KeyframeEntity, IUse
 		//StartUnbreakable = 524288,
 	}
 
+	[Property]
+	public ItemType ItemRequiredToOpen { get; set; }
+
 	/// <summary>
 	/// Settings that are only applicable when the entity spawns
 	/// </summary>
@@ -291,7 +294,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 
 	public virtual bool OnUse( Entity user )
 	{
-		if ( Locked )
+		if ( Locked && !(user as Pawn)!.HasItem(ItemRequiredToOpen) )
 		{
 			PlaySound( LockedSound );
 			SetAnimParameter( "locked", true );
@@ -299,7 +302,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 			return false;
 		}
 
-		if ( SpawnSettings.HasFlag( Flags.UseOpens ) )
+		if ( (user as Pawn)!.HasItem( ItemRequiredToOpen ) )
 		{
 			Toggle( user );
 		}
@@ -395,8 +398,16 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	[Input]
 	public void Toggle( Entity activator = null )
 	{
-		if ( State == DoorState.Open || State == DoorState.Opening ) Close( activator );
-		else if ( State == DoorState.Closed || State == DoorState.Closing ) Open( activator );
+		if ( State == DoorState.Open || State == DoorState.Opening )
+		{
+			Close( activator );
+			Locked = true;
+		}
+		else if ( State == DoorState.Closed || State == DoorState.Closing )
+		{
+			Locked = false;
+			Open( activator );
+		}	
 	}
 
 	/// <summary>
