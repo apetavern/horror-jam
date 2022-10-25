@@ -11,6 +11,8 @@ partial class Pawn
 	private float CutsceneDuration { get; set; }
 	private TimeSince TimeSinceCutsceneStart { get; set; }
 
+	private List<AnimatedEntity> EntitiesToCleanup { get; set; }
+
 	private void SimulateCutscenes()
 	{
 		if ( !InCutscene )
@@ -46,6 +48,20 @@ partial class Pawn
 	}
 
 	/// <summary>
+	/// Start a cutscene from the perspective of an entity with an attachment.
+	/// Use a duration of -1 if you don't want it to end automatically. Deletes entities once cutscene ends.
+	/// </summary>
+	public void StartCutsceneWithPostCleanup( AnimatedEntity targetEntity, List<AnimatedEntity> sceneModels, string targetAttachment, float duration = -1.0f )
+	{
+		StartCutscene( targetEntity, targetAttachment, duration );
+
+		// Store references to the entities we need to clean up once the cutscene ends.
+		EntitiesToCleanup = new();
+		EntitiesToCleanup.Add( targetEntity );
+		EntitiesToCleanup.AddRange( sceneModels );
+	}
+
+	/// <summary>
 	/// End a cutscene if in one
 	/// </summary>
 	public void EndCutscene()
@@ -58,6 +74,13 @@ partial class Pawn
 		BlockMovement = false;
 		BlockLook = false;
 		InCutscene = false;
+
+		// Cleanup the cutscene entities
+		if ( EntitiesToCleanup is null )
+			return;
+
+		foreach ( var ent in EntitiesToCleanup )
+			ent.Delete();
 	}
 
 	[ConCmd.Client( "test_cutscene_camera" )]

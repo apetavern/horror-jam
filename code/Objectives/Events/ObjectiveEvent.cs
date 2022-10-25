@@ -1,4 +1,6 @@
-﻿namespace GvarJam.Objectives;
+﻿using System.Runtime.CompilerServices;
+
+namespace GvarJam.Objectives;
 
 public struct ObjectiveEvent
 {
@@ -49,16 +51,20 @@ public struct ObjectiveEvent
 				var animEntity = new AnimatedEntity( TargetModel );
 				animEntity.Transform = infoTarget.Transform;
 
+				// Spawn additional models
+				var sceneModels = new List<AnimatedEntity>();
+
 				if( AdditionalSceneModels is not null )
 				{
 					foreach ( var model in AdditionalSceneModels )
 					{
 						var animEnt = new AnimatedEntity( model );
 						animEnt.Transform = infoTarget.Transform;
+						sceneModels.Add( animEnt );
 					}
 				}
 				
-				pawn.StartCutscene( animEntity, TargetAttachment, Duration );
+				pawn.StartCutsceneWithPostCleanup( animEntity, sceneModels, TargetAttachment, Duration );
 				break;
 		}
 	}
