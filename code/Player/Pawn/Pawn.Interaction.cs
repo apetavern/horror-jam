@@ -85,6 +85,8 @@ public partial class Pawn
 
 			interactableEntity.ShowInteractionPrompt( true );
 			LastInteractable = interactableEntity;
+
+			return;
 		}
 		else
 			LastInteractable?.ShowInteractionPrompt( false );
@@ -93,6 +95,8 @@ public partial class Pawn
 		{
 			if ( IsServer && entity is IUse use && Input.Pressed( InputButton.Use ) )
 				use.OnUse( this );
+			else
+				PlaySound( "player_use_fail" );
 		}
 	}
 
