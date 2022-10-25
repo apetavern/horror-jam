@@ -122,7 +122,8 @@ public sealed partial class StorageLocker : DelayedUseItem
 	{
 		base.Reset();
 
-		Door.Transform = StartDoorTransform; //SetBone( GetBoneIndex( "Hinge" ), StartDoorTransform );
+		if ( IsServer )
+			Door.Transform = StartDoorTransform; //SetBone( GetBoneIndex( "Hinge" ), StartDoorTransform );
 		Opened = false;
 	}
 

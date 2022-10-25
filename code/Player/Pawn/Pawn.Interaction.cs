@@ -11,7 +11,7 @@ public partial class Pawn
 	/// <summary>
 	/// The entity that the pawn is interacting with.
 	/// </summary>
-	public Entity? InteractedEntity
+	public InteractableEntity? InteractedEntity
 	{
 		get => interactedEntity;
 		set
@@ -20,6 +20,7 @@ public partial class Pawn
 				return;
 
 			interactedEntity = value;
+			InteractedEntity?.ShowInteractionPrompt( false );
 			IsInteracting = value is not null;
 
 			if ( Camera is not PawnCamera camera )
@@ -35,7 +36,7 @@ public partial class Pawn
 	/// See <see cref="InteractedEntity"/>.
 	/// </summary>
 	[Net, Predicted]
-	private Entity? interactedEntity { get; set; } = null!;
+	private InteractableEntity? interactedEntity { get; set; } = null!;
 
 	/// <summary>
 	/// The last interactable entity that was looked at.
@@ -46,12 +47,39 @@ public partial class Pawn
 	/// <summary>
 	/// Simulates the interaction system.
 	/// </summary>
-	private void SimulateInteraction()
+	private void SimulateInteraction( Client cl )
 	{
-		var entity = FindInteractableEntity();
+		if ( InteractedEntity is not null && InteractedEntity.IsValid )
+		{
+			InteractedEntity.ShowInteractionPrompt( false );
 
+			if ( Input.Down( InputButton.Use ) )
+			{
+				if ( !InteractedEntity.OnUse( this ) )
+					InteractedEntity = null;
+			}
+			else if ( InteractedEntity is LockedUseItem )
+			{
+				InteractedEntity.Simulate( cl );
+			}
+			else if ( Input.Released( InputButton.Use ) )
+			{
+				InteractedEntity.Reset();
+				InteractedEntity = null;
+			}
+		}
+		else
+			InteractedEntity = null;
+
+		if ( InteractedEntity is not null )
+			return;
+
+		var entity = FindInteractableEntity();
 		if ( entity is InteractableEntity interactableEntity )
 		{
+			if ( Input.Down( InputButton.Use ) )
+				InteractedEntity = interactableEntity;
+
 			if ( LastInteractable != interactableEntity )
 				LastInteractable?.ShowInteractionPrompt( false );
 
@@ -61,42 +89,10 @@ public partial class Pawn
 		else
 			LastInteractable?.ShowInteractionPrompt( false );
 
-		if ( InteractedEntity is not null && !InteractedEntity.IsValid )
-			InteractedEntity = null;
-
-		if ( InteractedEntity is LockedUseItem lockedUseItem )
+		if ( Input.Pressed( InputButton.Use ) )
 		{
-			lockedUseItem.Simulate();
-			return;
-		}
-
-		if ( Input.Down( InputButton.Use ) )
-		{
-			if ( entity is not null )
-			{
-				if ( entity is IInteractable interactable )
-				{
-					if ( interactable.OnUse( this ) )
-						InteractedEntity = entity;
-					else
-						InteractedEntity = null;
-				}
-				else if ( IsServer && entity is IUse use && Input.Pressed( InputButton.Use ) )
-					use.OnUse( this );
-				else
-					InteractedEntity = null;
-			}
-		}
-		else if ( Input.Released( InputButton.Use ) )
-		{
-			if ( InteractedEntity is not null )
-			{
-				if ( InteractedEntity.IsValid && InteractedEntity is IInteractable interactable )
-					interactable.Reset();
-
-				if ( InteractedEntity is not LockedUseItem )
-					InteractedEntity = null;
-			}
+			if ( IsServer && entity is IUse use && Input.Pressed( InputButton.Use ) )
+				use.OnUse( this );
 		}
 	}
 

@@ -109,7 +109,7 @@ public sealed partial class Pawn : AnimatedEntity
 		}
 
 		SimulateLamp();
-		SimulateInteraction();
+		SimulateInteraction( cl );
 		SimulateSanity();
 		SimulateCutscenes();
 
