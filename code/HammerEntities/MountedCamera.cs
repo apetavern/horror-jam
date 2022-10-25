@@ -12,7 +12,7 @@ public sealed partial class MountedCamera : AnimatedEntity
 	[Net, Property]
 	public bool IsViewable { get; set; } = true;
 
-	[Property]
+	[Net, Property]
 	public string ZoneName { get; set; } = "UNKNOWN";
 
 	/// <summary>
