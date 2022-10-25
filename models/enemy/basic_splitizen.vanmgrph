@@ -20,7 +20,7 @@
 					{
 						m_id = 386477365
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_inputConnection = 
 					{
@@ -49,7 +49,7 @@
 					{
 						m_id = 1548441907
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_states = 
 					[
@@ -73,32 +73,6 @@
 												m_nType = 1
 												m_data = true
 											}
-										},
-									]
-									m_blendDuration = 0.2
-									m_destState = 
-									{
-										m_id = 541430680
-									}
-									m_bReset = true
-									m_resetCycleOption = "Beginning"
-									m_flFixedCycleValue = 0.0
-									m_blendCurve = 
-									{
-										m_vControlPoint1 = [ 0.5, 0.0 ]
-										m_vControlPoint2 = [ 0.5, 1.0 ]
-									}
-									m_bForceFootPlant = false
-									m_bDisabled = false
-								},
-								{
-									_class = "CAnimStateTransition"
-									m_conditions = 
-									[
-										{
-											_class = "CTimeCondition"
-											m_comparisonOp = 3
-											m_comparisonValue = 10.0
 										},
 									]
 									m_blendDuration = 0.2
@@ -190,7 +164,7 @@
 					{
 						m_id = 1632595505
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "split"
@@ -212,7 +186,7 @@
 					{
 						m_id = 1948711434
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "idle"
@@ -287,15 +261,5 @@
 	[
 		"models/enemy/basic_splitizen.vmdl",
 	]
-	m_boneMergeModels = 
-	[
-		{
-			m_name = "models/enemy/monster.vmdl"
-			m_bEnabled = true
-		},
-		{
-			m_name = "models/enemy/monster.vmdl"
-			m_bEnabled = true
-		},
-	]
+	m_boneMergeModels = [  ]
 }

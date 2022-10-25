@@ -20,7 +20,7 @@
 					{
 						m_id = 1099662391
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "CrawlOut"
@@ -42,7 +42,7 @@
 					{
 						m_id = 1324921450
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "idle"
@@ -64,7 +64,7 @@
 					{
 						m_id = 1364920785
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "dormant"
@@ -86,7 +86,7 @@
 					{
 						m_id = 1548441907
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_states = 
 					[
@@ -150,32 +150,6 @@
 									m_destState = 
 									{
 										m_id = 1227111524
-									}
-									m_bReset = true
-									m_resetCycleOption = "Beginning"
-									m_flFixedCycleValue = 0.0
-									m_blendCurve = 
-									{
-										m_vControlPoint1 = [ 0.5, 0.0 ]
-										m_vControlPoint2 = [ 0.5, 1.0 ]
-									}
-									m_bForceFootPlant = false
-									m_bDisabled = false
-								},
-								{
-									_class = "CAnimStateTransition"
-									m_conditions = 
-									[
-										{
-											_class = "CTimeCondition"
-											m_comparisonOp = 3
-											m_comparisonValue = 10.0
-										},
-									]
-									m_blendDuration = 0.2
-									m_destState = 
-									{
-										m_id = 541430680
 									}
 									m_bReset = true
 									m_resetCycleOption = "Beginning"
@@ -289,7 +263,7 @@
 					{
 						m_id = 2134446273
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_inputConnection = 
 					{
