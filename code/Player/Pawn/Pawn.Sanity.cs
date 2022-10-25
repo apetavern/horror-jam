@@ -31,7 +31,7 @@ public partial class Pawn
 			pawn.ApplyFilmGrain( (InsanityLevel / 50).Clamp( 0, 0.02f ) );
 
 			if ( InsanityLevel > 0.90f )
-				pawn.ApplyMotionBlur( InsanityLevel.Clamp( 0, 0.15f ) );
+				pawn.ApplyMotionBlur( InsanityLevel.Clamp( 0, 0.25f ) );
 			else
 				pawn.ApplyMotionBlur( 0 );
 		}
