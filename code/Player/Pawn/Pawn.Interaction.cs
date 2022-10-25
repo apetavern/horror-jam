@@ -53,7 +53,7 @@ public partial class Pawn
 		{
 			InteractedEntity.ShowInteractionPrompt( false );
 
-			if ( Input.Down( InputButton.Use ) )
+			if ( Input.Down( InputButton.Use ) && InteractedEntity is not LockedUseItem )
 			{
 				if ( !InteractedEntity.OnUse( this ) )
 					InteractedEntity = null;
@@ -77,7 +77,7 @@ public partial class Pawn
 		var entity = FindInteractableEntity();
 		if ( entity is InteractableEntity interactableEntity )
 		{
-			if ( Input.Down( InputButton.Use ) )
+			if ( Input.Down( InputButton.Use ) && interactableEntity.OnUse( this ) )
 				InteractedEntity = interactableEntity;
 
 			if ( LastInteractable != interactableEntity )
