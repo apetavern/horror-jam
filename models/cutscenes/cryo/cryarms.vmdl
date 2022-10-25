@@ -29,7 +29,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "models/player/FirstPerson/CryoArmRig.fbx"
+						filename = "models/cutscenes/cryo/CryoArmRig.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
 						import_scale = 1.0
@@ -51,7 +51,7 @@
 				[
 					{
 						_class = "AnimFile"
-						name = "CryoArmRig"
+						name = "HitDoor"
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
@@ -63,32 +63,32 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
-						source_filename = "models/player/FirstPerson/CryoArmRig.fbx"
-						start_frame = -1
-						end_frame = -1
-						framerate = -1.0
-						take = 0
-						reverse = false
-					},
-					{
-						_class = "AnimFile"
-						name = "CryoArmRig1"
-						activity_name = ""
-						activity_weight = 1
-						weight_list_name = ""
-						fade_in_time = 0.2
-						fade_out_time = 0.2
-						looping = false
-						delta = false
-						worldSpace = false
-						hidden = false
-						anim_markup_ordered = false
-						disable_compression = false
-						source_filename = "models/player/FirstPerson/CryoArmRig.fbx"
+						source_filename = "models/cutscenes/cryo/CryoArmRig.fbx"
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
 						take = 1
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "Fallout"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/cutscenes/cryo/CryoArmRig.fbx"
+						start_frame = -1
+						end_frame = -1
+						framerate = -1.0
+						take = 0
 						reverse = false
 					},
 				]
