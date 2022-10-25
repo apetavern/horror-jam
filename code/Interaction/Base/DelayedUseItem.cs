@@ -111,7 +111,7 @@ public partial class DelayedUseItem : InteractableEntity
 		if ( User is not null && User != user )
 			return false;
 
-		return user.Position.Distance( Position ) < 100;
+		return base.IsUsable( user );
 	}
 
 	/// <inheritdoc/>
