@@ -150,7 +150,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	/// Whether this door is locked or not.
 	/// </summary>
 	[Net]
-	public bool Locked { get; set; }
+	public bool Locked { get; set; } = true;
 
 	/// <summary>
 	/// The easing function for both movement and rotation
