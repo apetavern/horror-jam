@@ -1,14 +1,11 @@
 ﻿namespace GvarJam.Player;
 
-public class CutsceneCamera : CameraMode
+public partial class CutsceneCamera : CameraMode
 {
-	public CutsceneCamera( AnimatedEntity targetEntity, string targetAttachment )
-	{
-		TargetEntity = targetEntity;
-		TargetAttachment = targetAttachment;
-	}
-
+	[Net]
 	public AnimatedEntity TargetEntity { get; set; }
+
+	[Net]
 	public string TargetAttachment { get; set; }
 
 	public override void Update()

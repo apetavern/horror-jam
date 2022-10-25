@@ -34,7 +34,7 @@ partial class Pawn
 		// No checking if we're already in a cutscene here, in case we want to
 		// move entity
 
-		Camera = new CutsceneCamera( targetEntity, targetAttachment );
+		Camera = new CutsceneCamera() { TargetEntity = targetEntity, TargetAttachment = targetAttachment };
 
 		CutsceneDuration = duration;
 		TimeSinceCutsceneStart = 0;

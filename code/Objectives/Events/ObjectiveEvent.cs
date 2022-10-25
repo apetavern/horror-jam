@@ -42,6 +42,7 @@ public struct ObjectiveEvent
 				break;
 			case EventType.PlayInstantiatedCutscene:
 				var infoTarget = Entity.FindByName( InfoTarget );
+
 				var animEntity = new AnimatedEntity( TargetModel );
 				animEntity.Transform = infoTarget.Transform;
 
