@@ -2,13 +2,13 @@
 
 public class CutsceneCamera : CameraMode
 {
-	public CutsceneCamera( ModelEntity targetEntity, string targetAttachment )
+	public CutsceneCamera( AnimatedEntity targetEntity, string targetAttachment )
 	{
 		TargetEntity = targetEntity;
 		TargetAttachment = targetAttachment;
 	}
 
-	public ModelEntity TargetEntity { get; set; }
+	public AnimatedEntity TargetEntity { get; set; }
 	public string TargetAttachment { get; set; }
 
 	public override void Update()

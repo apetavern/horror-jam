@@ -42,10 +42,10 @@ public struct ObjectiveEvent
 				break;
 			case EventType.PlayInstantiatedCutscene:
 				var infoTarget = Entity.FindByName( InfoTarget );
-				var modelEntity = new AnimatedEntity( TargetModel );
-				modelEntity.Transform = infoTarget.Transform;
+				var animEntity = new AnimatedEntity( TargetModel );
+				animEntity.Transform = infoTarget.Transform;
 
-				pawn.StartCutscene( modelEntity, TargetAttachment, Duration );
+				pawn.StartCutscene( animEntity, TargetAttachment, Duration );
 				break;
 		}
 	}

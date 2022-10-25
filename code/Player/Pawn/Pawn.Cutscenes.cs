@@ -3,7 +3,7 @@
 partial class Pawn
 {
 	/// <summary>
-	/// Is the player currently in a cutscene? Use <see cref="StartCutscene(ModelEntity, string)"/> to set this.
+	/// Is the player currently in a cutscene? Use <see cref="StartCutscene(AnimatedEntity, string)"/> to set this.
 	/// </summary>
 	public bool InCutscene { get; private set; } = false;
 
