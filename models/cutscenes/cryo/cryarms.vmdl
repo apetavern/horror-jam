@@ -40,7 +40,10 @@
 						import_filter = 
 						{
 							exclude_by_default = false
-							exception_list = [  ]
+							exception_list = 
+							[
+								"Cube",
+							]
 						}
 					},
 				]
