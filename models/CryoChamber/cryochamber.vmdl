@@ -119,6 +119,18 @@
 								translation = [ -20.0, 0.0, -15.0 ]
 								rotation_xyz = [ 0.0, 0.0, 0.0 ]
 							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND"
+								event_frame = 2
+								event_keys = 
+								{
+									name = "cryo_tank_open"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
 						]
 						activity_name = ""
 						activity_weight = 1
@@ -134,7 +146,7 @@
 						source_filename = "models/CryoChamber/CryoChamber.fbx"
 						start_frame = -1
 						end_frame = -1
-						framerate = -1.0
+						framerate = 35.0
 						take = 1
 						reverse = false
 					},
