@@ -79,7 +79,8 @@ public struct ObjectiveEvent
 				pawn.StartCutscene( targetEntity, TargetAttachment, Duration );
 				break;
 			case EventType.PlayInstantiatedCutscene:
-				var infoTarget = Entity.FindByName( InfoTarget );
+				var infoTargetName = InfoTarget;
+				var infoTarget = Entity.All.FirstOrDefault( x => x.Name.Contains( infoTargetName ) );
 
 				var animEntity = new AnimatedEntity( TargetModel )
 				{
