@@ -1,4 +1,6 @@
-﻿namespace GvarJam.Objectives;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace GvarJam.Objectives;
 
 /// <summary>
 /// Contains information for a start condition in an objective.
@@ -48,7 +50,9 @@ public struct ObjectiveStartCondition
 		{
 			case ConditionType.PlayerEnteredTrigger:
 				{
-					var entity = Entity.FindByName( TriggerName );
+					var triggerName = TriggerName;
+					var entity = Entity.All.OfType<ObjectiveTrigger>().Where( x => x.Name.Contains( triggerName )).FirstOrDefault();
+
 					if ( entity is not ObjectiveTrigger trigger )
 						return false;
 
