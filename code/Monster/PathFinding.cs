@@ -2,7 +2,7 @@
 
 public class PathFinding
 {
-	public float Speed => 100f;
+	public float Speed { get; set; } = 100f;
 	public float Accel => 100f;
 	private Vector3 CurrentPosition => Monster.Position;
 

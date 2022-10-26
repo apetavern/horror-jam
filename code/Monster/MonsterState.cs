@@ -1,6 +1,6 @@
 ﻿namespace GvarJam.Monster;
 
-enum MonsterState
+public enum States
 {
 	/// <summary>
 	/// In this state, the monster is effectively moved out of the map.

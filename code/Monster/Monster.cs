@@ -1,6 +1,6 @@
 ﻿namespace GvarJam.Monster;
 
-public class MonsterEntity : AnimatedEntity
+public partial class MonsterEntity : AnimatedEntity
 {
 	[ConVar.Replicated( "debug_monster" )]
 	public static bool DebugEnabled { get; set; }
@@ -23,7 +23,7 @@ public class MonsterEntity : AnimatedEntity
 		PathFinding = new( this );
 	}
 
-	private void SetPath( Vector3 target )
+	public void SetPath( Vector3 target )
 	{
 		PathFinding.SetPath( target );
 	}
@@ -42,6 +42,7 @@ public class MonsterEntity : AnimatedEntity
 			}
 
 			TickMove();
+			TickState();
 		}
 		else
 		{
@@ -59,6 +60,12 @@ public class MonsterEntity : AnimatedEntity
 			$"speed: {Velocity.Length}\n";
 
 		DebugOverlay.Text( info, pos, 0, Color.White, 0 );
+
+		var stateInfo =
+			$"state: {State}\n" +
+			$"time in state: {TimeInState}\n";
+
+		DebugOverlay.ScreenText( stateInfo, 25, 0 );
 	}
 
 	private void TickMove()
@@ -106,17 +113,7 @@ public class MonsterEntity : AnimatedEntity
 
 	private void TickAnimator()
 	{
-		var dir = Velocity;
-		var forward = Rotation.Forward.Dot( dir );
-		var sideward = Rotation.Right.Dot( dir );
-		var angle = MathF.Atan2( sideward, forward ).RadianToDegree().NormalizeDegrees();
-
-		SetAnimParameter( "move_direction", angle );
-		SetAnimParameter( "move_speed", Velocity.Length * 0.5f );
-		SetAnimParameter( "move_groundspeed", Velocity.WithZ( 0 ).Length * 0.5f );
-		SetAnimParameter( "move_y", sideward );
-		SetAnimParameter( "move_x", forward );
-		SetAnimParameter( "move_z", Velocity.z );
+		SetAnimParameter( "idle", true );
 	}
 
 	/// <summary>
@@ -158,6 +155,18 @@ public class MonsterEntity : AnimatedEntity
 		foreach ( var monster in Entity.All.OfType<MonsterEntity>() )
 		{
 			monster.SetPath( targetPos );
+		}
+	}
+
+	[ConCmd.Admin( "set_monster_state" )]
+	public static void SetState( States newState )
+	{
+		var caller = ConsoleSystem.Caller;
+		var pawn = caller.Pawn;
+
+		foreach ( var monster in Entity.All.OfType<MonsterEntity>() )
+		{
+			monster.State = newState;
 		}
 	}
 }
