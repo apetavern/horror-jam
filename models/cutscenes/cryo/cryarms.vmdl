@@ -115,7 +115,7 @@
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
-		anim_graph_name = ""
+		anim_graph_name = "models/cutscenes/cryo/cryarms.vanmgrph"
 		base_model_name = ""
 	}
 }
