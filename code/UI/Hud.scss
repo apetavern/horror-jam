@@ -4,6 +4,7 @@
 @import "/UI/Style/WorldPanels.scss";
 @import "/UI/Style/Crosshair.scss";
 @import "/UI/Style/LetterboxBars.scss";
+@import "/UI/Style/SpaceToStart.scss";
 
 RootPanel {
     &.in-cutscene {
@@ -12,6 +13,16 @@ RootPanel {
         }
 
         LetterboxBars {
+            display: flex;
+        }
+    }
+
+    &.in-delayed-cutscene {
+        StaminaBar, InteractionProgress, BatteryLevel, Crosshair {
+            display: none;
+        }
+
+        SpaceToStart {
             display: flex;
         }
     }
