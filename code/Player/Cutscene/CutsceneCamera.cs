@@ -16,6 +16,9 @@ public sealed partial class CutsceneCamera : CameraMode
 
 	public bool AreAnimsPlaying { get; set; }
 
+	[Net]
+	public bool AwaitingInput { get; set; }
+
 	/// <summary>
 	/// The target attachment on the <see cref="TargetEntity"/>.
 	/// </summary>
@@ -30,7 +33,7 @@ public sealed partial class CutsceneCamera : CameraMode
 		Position = transform.Position;
 		Rotation = transform.Rotation;
 
-		if( !AreAnimsPlaying )
+		if( !AreAnimsPlaying && !AwaitingInput )
 		{
 			TargetEntity?.SetAnimParameter( "Open", true );
 

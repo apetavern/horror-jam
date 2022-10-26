@@ -2,7 +2,7 @@
 {
 	data = 
 	{
-		ObjectiveName = "My Cool Objective"
+		ObjectiveName = "Wake Up"
 		Description = "Wake up from cryo sleep"
 		ObjectiveStartConditions = 
 		[
@@ -11,16 +11,7 @@
 				TriggerName = "tutorial_objective_trigger"
 			},
 		]
-		ObjectiveEndConditions = 
-		[
-			{
-				Type = "Timer"
-				InteractableName = ""
-				TypeName = ""
-				TriggerName = ""
-				TimeDelay = 15
-			},
-		]
+		ObjectiveEndConditions = [  ]
 		ObjectiveStartEvents = 
 		[
 			{
@@ -33,7 +24,8 @@
 					resource:"models/cryochamber/cryochamber.vmdl",
 				]
 				TargetAttachment = "camPos"
-				Duration = 15
+				InputRequiredToStart = true
+				Duration = 20
 			},
 		]
 		ObjectiveEndEvents = [  ]
