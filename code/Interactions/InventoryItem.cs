@@ -102,6 +102,7 @@ public sealed partial class InventoryItem : DelayedUseItem
 	/// <param name="user">The entity that is doing the interaction.</param>
 	private void PickupItemEntity( Entity user )
 	{
+		Sound.FromEntity( "item_pickup", user );
 		pickedUp = true;
 
 		Tags.Add( "camignore" );
