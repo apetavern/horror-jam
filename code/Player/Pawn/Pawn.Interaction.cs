@@ -77,7 +77,9 @@ partial class Pawn
 		var entity = FindInteractableEntity();
 		if ( entity is InteractableEntity interactableEntity )
 		{
-			if ( Input.Down( InputButton.Use ) && interactableEntity.IsUsable( this ) && interactableEntity.OnUse( this ) )
+			if ( Input.Down( InputButton.Use ) &&
+				GroundEntity is not null && Velocity.IsNearZeroLength &&
+				interactableEntity.IsUsable( this ) && interactableEntity.OnUse( this ) )
 				InteractedEntity = interactableEntity;
 
 			if ( LastInteractable != interactableEntity )
