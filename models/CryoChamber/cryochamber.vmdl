@@ -23,7 +23,7 @@
 							},
 							{
 								from = "windows.vmat"
-								to = "materials/glass/sbox_glass.vmat"
+								to = "models/cryochamber/textures/cryodoor_glass.vmat"
 							},
 						]
 						use_global_default = false
@@ -37,6 +37,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
+						name = "door"
 						filename = "models/CryoChamber/CryoChamberSeperateWindows.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
@@ -49,6 +50,28 @@
 						{
 							exclude_by_default = false
 							exception_list = [  ]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "nodoor"
+						filename = "models/CryoChamber/CryoChamberSeperateWindows.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = 
+							[
+								"Door",
+								"Windows",
+								"HingePlate",
+							]
 						}
 					},
 				]
@@ -115,6 +138,35 @@
 						take = 1
 						reverse = false
 					},
+					{
+						_class = "AnimFile"
+						name = "opened"
+						children = 
+						[
+							{
+								_class = "AnimOffset"
+								translation = [ -20.0, 0.0, -16.0 ]
+								rotation_xyz = [ 0.0, 0.0, 0.0 ]
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/CryoChamber/CryoChamber.fbx"
+						start_frame = 119
+						end_frame = -1
+						framerate = -1.0
+						take = 1
+						reverse = false
+					},
 				]
 				default_root_bone_name = ""
 			},
@@ -148,6 +200,34 @@
 						origin = [ 3.399523, -36.845921, 17.539265 ]
 						angles = [ 0.0, 0.0, 0.0 ]
 						dimensions = [ 57.66684, 83.691841, 18.215324 ]
+					},
+				]
+			},
+			{
+				_class = "BodyGroupList"
+				children = 
+				[
+					{
+						_class = "BodyGroup"
+						name = "door"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"door",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"nodoor",
+								]
+							},
+						]
+						hidden_in_tools = false
 					},
 				]
 			},
