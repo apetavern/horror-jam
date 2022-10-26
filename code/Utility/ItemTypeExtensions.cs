@@ -14,10 +14,10 @@ public static class ItemTypeExtensions
 	{
 		return itemType switch
 		{
-			ItemType.JanitorKey => "models/items/battery/battery.vmdl",
-			ItemType.KeycardLvl1 => "models/items/battery/battery.vmdl",
-			ItemType.KeycardLvl2 => "models/items/battery/battery.vmdl",
-			ItemType.KeycardLvl3 => "models/items/battery/battery.vmdl",
+			ItemType.JanitorKey => "models/keycards/keycard.vmdl",
+			ItemType.KeycardLvl1 => "models/keycards/keycard.vmdl",
+			ItemType.KeycardLvl2 => "models/keycards/keycard.vmdl",
+			ItemType.KeycardLvl3 => "models/keycards/keycard.vmdl",
 			_ => throw new ArgumentException( null, nameof(itemType) )
 		};
 	}
