@@ -6,7 +6,7 @@
 public sealed class Helmet : DelayedUseItem
 {
 	/// <inheritdoc/>
-	public override float TimeToUse => 1.4f;
+	public override float TimeToUse => 2.2f;
 	/// <inheritdoc/>
 	protected override bool DeleteOnUse => true;
 
@@ -30,7 +30,7 @@ public sealed class Helmet : DelayedUseItem
 		base.CreateActions();
 
 		Actions.Add( (0.6f, PickupHelmet) );
-		Actions.Add( (0.8f, EquipHelmet) );
+		Actions.Add( (1.6f, EquipHelmet) );
 	}
 
 	/// <inheritdoc/>
@@ -101,7 +101,7 @@ public sealed class Helmet : DelayedUseItem
 	/// <returns>Whether or not to skip this animation.</returns>
 	private bool EquipHelmet( Entity user, bool firstTime, float timeInAnim )
 	{
-		(user as Pawn)!.SetAnimParameter( "pushbattery", true );
+		(user as Pawn)!.SetAnimParameter( "puthelmet", true );
 		return false;
 	}
 }
