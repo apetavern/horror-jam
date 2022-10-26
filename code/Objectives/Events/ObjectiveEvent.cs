@@ -47,6 +47,12 @@ public struct ObjectiveEvent
 	public string TargetAttachment { get; set; }
 
 	/// <summary>
+	/// Whether or not the cutscene requires an input to start playing.
+	/// </summary>
+	[HideIf( nameof( Type ), EventType.PlaySound )]
+	public bool InputRequiredToStart { get; set; }
+
+	/// <summary>
 	/// The duration of the cutscene.
 	/// </summary>
 	[HideIf( nameof( Type ), EventType.PlaySound )]
@@ -95,7 +101,7 @@ public struct ObjectiveEvent
 					}
 				}
 				
-				pawn.StartCutsceneWithPostCleanup( animEntity, sceneModels, TargetAttachment, Duration );
+				pawn.StartCutsceneWithPostCleanup( animEntity, sceneModels, TargetAttachment, Duration, InputRequiredToStart );
 				break;
 		}
 	}

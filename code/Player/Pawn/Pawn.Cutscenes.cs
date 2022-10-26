@@ -11,17 +11,21 @@ partial class Pawn
 	/// <summary>
 	/// The duration of the current cutscene in seconds.
 	/// </summary>
-	private float CutsceneDuration { get; set; }
-	
+	public float CutsceneDuration { get; set; }
+
 	/// <summary>
 	/// The time since the cutscene was started.
 	/// </summary>
-	private TimeSince TimeSinceCutsceneStart { get; set; }
+	public TimeSince TimeSinceCutsceneStart { get; set; }
 
 	/// <summary>
 	/// A list of the entities to cleanup once the cutscene has finished.
 	/// </summary>
 	private List<AnimatedEntity> EntitiesToCleanup { get; set; } = null!;
+
+	private bool RequiresInputToStart { get; set; }
+
+	private float DurationAfterDelay { get; set; }
 
 	/// <summary>
 	/// Start a cutscene from the perspective of an entity with an attachment.
@@ -36,6 +40,7 @@ partial class Pawn
 
 		CutsceneDuration = duration;
 		TimeSinceCutsceneStart = 0;
+		RequiresInputToStart = false;
 
 		BlockMovement = true;
 		BlockLook = true;
@@ -46,16 +51,25 @@ partial class Pawn
 	/// Start a cutscene from the perspective of an entity with an attachment.
 	/// Use a duration of -1 if you don't want it to end automatically. Deletes entities once cutscene ends.
 	/// </summary>
-	public void StartCutsceneWithPostCleanup( AnimatedEntity targetEntity, List<AnimatedEntity> sceneModels, string targetAttachment, float duration = -1.0f )
+	public void StartCutsceneWithPostCleanup( AnimatedEntity targetEntity, List<AnimatedEntity> sceneModels, string targetAttachment, float duration = -1.0f, bool requiresInputToStart = false )
 	{
-		Camera = new CutsceneCamera() { TargetEntity = targetEntity, TargetAttachment = targetAttachment, AdditionalEntities = sceneModels };
+		Camera = new CutsceneCamera() { TargetEntity = targetEntity, TargetAttachment = targetAttachment, AdditionalEntities = sceneModels, AwaitingInput = requiresInputToStart };
 
 		CutsceneDuration = duration;
 		TimeSinceCutsceneStart = 0;
 
+		RequiresInputToStart = requiresInputToStart;
+
 		BlockMovement = true;
 		BlockLook = true;
 		InCutscene = true;
+
+		if ( RequiresInputToStart )
+		{
+			CutsceneDuration = -1;
+			DurationAfterDelay = duration;
+		}
+			
 
 		// Store references to the entities we need to clean up once the cutscene ends.
 		EntitiesToCleanup = new();
@@ -94,6 +108,13 @@ partial class Pawn
 	{
 		if ( !InCutscene )
 			return;
+
+		if( RequiresInputToStart && Input.Released( InputButton.Jump ) )
+		{
+			(Camera as CutsceneCamera)!.AwaitingInput = false;
+			CutsceneDuration = DurationAfterDelay;
+			TimeSinceCutsceneStart = 0;
+		}
 
 		if ( CutsceneDuration <= 0f )
 			return;
