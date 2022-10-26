@@ -15,12 +15,12 @@
 				{
 					_class = "CRootAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ 291.856659, 114.812363 ]
+					m_vecPosition = [ 192.0, 48.0 ]
 					m_nNodeID = 
 					{
 						m_id = 584363222
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_inputConnection = 
 					{
@@ -238,7 +238,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -400.0, -16.0 ]
+					m_vecPosition = [ -416.0, -16.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1099100064
@@ -287,7 +287,7 @@
 					m_id = 1531900379
 				}
 				m_previewButton = "ANIMPARAM_BUTTON_NONE"
-				m_bNetwork = true
+				m_bNetwork = false
 				m_bUseMostRecentValue = false
 				m_bAutoReset = false
 				m_bPredicted = false

@@ -18,7 +18,7 @@
 				InteractableName = ""
 				TypeName = ""
 				TriggerName = ""
-				TimeDelay = 10
+				TimeDelay = 15
 			},
 		]
 		ObjectiveStartEvents = 
@@ -33,7 +33,7 @@
 					resource:"models/cryochamber/cryochamber.vmdl",
 				]
 				TargetAttachment = "camPos"
-				Duration = 10
+				Duration = 15
 			},
 		]
 		ObjectiveEndEvents = [  ]
