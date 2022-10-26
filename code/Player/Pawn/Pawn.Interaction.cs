@@ -20,7 +20,7 @@ partial class Pawn
 				return;
 
 			interactedEntity = value;
-			InteractedEntity?.ShowInteractionPrompt( false );
+			InteractedEntity?.ShowInteractionPrompt( this, false );
 			IsInteracting = value is not null;
 
 			if ( Camera is not PawnCamera camera )
@@ -51,7 +51,7 @@ partial class Pawn
 	{
 		if ( InteractedEntity is not null && InteractedEntity.IsValid )
 		{
-			InteractedEntity.ShowInteractionPrompt( false );
+			InteractedEntity.ShowInteractionPrompt(  this, false );
 
 			if ( Input.Down( InputButton.Use ) && InteractedEntity is not LockedUseItem )
 			{
@@ -77,19 +77,19 @@ partial class Pawn
 		var entity = FindInteractableEntity();
 		if ( entity is InteractableEntity interactableEntity )
 		{
-			if ( Input.Down( InputButton.Use ) && interactableEntity.OnUse( this ) )
+			if ( Input.Down( InputButton.Use ) && interactableEntity.IsUsable( this ) && interactableEntity.OnUse( this ) )
 				InteractedEntity = interactableEntity;
 
 			if ( LastInteractable != interactableEntity )
-				LastInteractable?.ShowInteractionPrompt( false );
+				LastInteractable?.ShowInteractionPrompt( this, false );
 
-			interactableEntity.ShowInteractionPrompt( true );
+			interactableEntity.ShowInteractionPrompt( this, true );
 			LastInteractable = interactableEntity;
 
 			return;
 		}
 		else
-			LastInteractable?.ShowInteractionPrompt( false );
+			LastInteractable?.ShowInteractionPrompt( this, false );
 
 		if ( Input.Pressed( InputButton.Use ) )
 		{
@@ -143,7 +143,6 @@ partial class Pawn
 	{
 		if ( entity is null ) return false;
 		if ( entity is not IUse use ) return false;
-		if ( !use.IsUsable( this ) ) return false;
 
 		return true;
 	}
