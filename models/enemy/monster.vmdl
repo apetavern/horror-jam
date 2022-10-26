@@ -149,7 +149,81 @@
 						source_filename = "models/enemy/monster_blendshapes.fbx"
 						start_frame = 121
 						end_frame = 261
-						framerate = 120.0
+						framerate = 35.0
+						take = 0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "slither"
+						children = 
+						[
+							{
+								_class = "AnimSmoothLoop"
+								frames_from_start = 10
+								frames_from_end = 10
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/enemy/animations/monster_slither.fbx"
+						start_frame = 0
+						end_frame = 20
+						framerate = 20.0
+						take = 0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "run"
+						children = 
+						[
+							{
+								_class = "AnimSmoothLoop"
+								frames_from_start = 5
+								frames_from_end = 5
+							},
+							{
+								_class = "ExtractMotion"
+								extract_tx = true
+								extract_ty = true
+								extract_tz = false
+								extract_rz = false
+								linear = false
+								quadratic = false
+								root_bone_name = ""
+								motion_type = "Uniform"
+							},
+							{
+								_class = "AnimOffset"
+								translation = [ -50.0, 3.0, 0.0 ]
+								rotation_xyz = [ 0.0, 0.0, 0.0 ]
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/enemy/animations/monster_run.fbx"
+						start_frame = 20
+						end_frame = 60
+						framerate = 65.0
 						take = 0
 						reverse = false
 					},
