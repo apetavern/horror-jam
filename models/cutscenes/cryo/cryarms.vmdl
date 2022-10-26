@@ -15,7 +15,7 @@
 						[
 							{
 								from = "citizen_skin.vmat"
-								to = "models/citizen/skin/citizen_skin06.vmat"
+								to = "models/citizen/skin/citizen_skin.vmat"
 							},
 						]
 						use_global_default = false
@@ -55,6 +55,14 @@
 					{
 						_class = "AnimFile"
 						name = "HitDoor"
+						children = 
+						[
+							{
+								_class = "AnimOffset"
+								translation = [ 15.0, 0.0, 20.0 ]
+								rotation_xyz = [ 0.0, 0.0, 0.0 ]
+							},
+						]
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
@@ -105,8 +113,8 @@
 						_class = "Attachment"
 						name = "camPos"
 						parent_bone = "Head"
-						relative_origin = [ 0.0, 0.0, 0.0 ]
-						relative_angles = [ -90.0, -90.0, 0.0 ]
+						relative_origin = [ -0.000475, 0.000992, 5.654844 ]
+						relative_angles = [ -90.0, -90.000031, 0.0 ]
 						weight = 1.0
 						ignore_rotation = false
 					},
