@@ -12,6 +12,13 @@ public partial class Note : InstantUseItem
 	[Net, Property]
 	public string NoteContents { get; set; }
 
+	public override void Spawn()
+	{
+		base.Spawn();
+
+		Name = "Note";
+	}
+
 	protected override void OnUsed( Entity user )
 	{
 		base.OnUsed( user );
