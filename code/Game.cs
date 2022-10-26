@@ -332,4 +332,16 @@ public sealed partial class HorrorGame : Game
 		var monster = new MonsterEntity();
 		Game.Current.MoveToSpawnpoint( monster );
 	}
+	
+	/// <summary>
+	/// Debug command to spawn the storage locker.
+	/// </summary>
+	[ConCmd.Admin( "spawn_note" )]
+	public static void SpawnNote()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null )
+			return;
+
+		_ = new Note() { Position = ConsoleSystem.Caller.Pawn.Position };
+	}
 }

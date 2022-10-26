@@ -9,8 +9,14 @@
 
 public partial class Note : InstantUseItem
 {
+	protected override bool DeleteOnUse => false;
+
 	[Net, Property]
-	public string NoteContents { get; set; }
+	public string NoteContents { get; set; } = "this is a note";
+
+	private TimeSince TimeSinceUsed { get; set; }
+
+	private int TimeBetweenUses { get; set; } = 5;
 
 	public override void Spawn()
 	{
@@ -23,7 +29,12 @@ public partial class Note : InstantUseItem
 	{
 		base.OnUsed( user );
 
-		Log.Info( NoteContents );
+		// This is dirty, but it saves us having to check whether or not the note is still open or not.
+		if ( TimeSinceUsed < TimeBetweenUses )
+			return;
+
+		Hud.Instance?.ShowNote( NoteContents );
+		TimeSinceUsed = 0;
 	}
 }
 

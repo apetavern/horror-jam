@@ -7,6 +7,8 @@ namespace GvarJam.UI;
 /// </summary>
 public sealed partial class Hud : HudEntity<RootPanel>
 {
+	public static Hud Instance { get; set; }
+
 	public Hud()
 	{
 		if ( !IsClient )
@@ -35,5 +37,14 @@ public sealed partial class Hud : HudEntity<RootPanel>
 
 			return false;
 		} );
+
+		Instance = this;
+	}
+
+	[ConCmd.Server]
+	public void ShowNote( string contents )
+	{
+		// TODO: Display a panel with the note contents
+		Log.Info( contents );
 	}
 }
