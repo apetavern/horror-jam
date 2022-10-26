@@ -5,6 +5,12 @@
 /// </summary>
 public enum ViewModeType
 {
+	/// <summary>
+	/// First person, duh.
+	/// </summary>
 	FirstPerson,
+	/// <summary>
+	/// Third person, duh.
+	/// </summary>
 	ThirdPerson
 }

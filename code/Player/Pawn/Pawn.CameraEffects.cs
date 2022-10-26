@@ -10,22 +10,62 @@ namespace GvarJam.Player;
 //
 partial class Pawn
 {
-	float Bobbing { get; set; }
-	float Roll { get; set; }
-	float FOV { get; set; }
+	/// <summary>
+	/// The step of roll rotation in degrees.
+	/// </summary>
+	private const float LeanDegrees = 0.5f;
 
-	//
-	//
-	//
-	float LeanDegrees => 0.5f;
-	float LeanMax => LeanDegrees * 2f;
-	float LeanSmooth => 15.0f;
-	float MinSpeed => 0f;
-	float MaxSpeed => Controller?.SprintSpeed ?? 320f;
-	float FOVIncrease => 5f;
-	float FOVSpeed => 10f;
-	float BobStrength => 25f;
+	/// <summary>
+	/// The maximum amount of roll rotation to have.
+	/// </summary>
+	private const float LeanMax = LeanDegrees * 2f;
 
+	/// <summary>
+	/// The amount of smoothing to apply to the camera roll.
+	/// </summary>
+	private const float LeanSmooth = 15.0f;
+
+	/// <summary>
+	/// The minimum speed the pawn can move at.
+	/// </summary>
+	private const float MinSpeed = 0f;
+
+	/// <summary>
+	/// The maximum speed the pawn can move at.
+	/// </summary>
+	private float MaxSpeed => Controller?.SprintSpeed ?? 320f;
+
+	/// <summary>
+	/// Unknown, FIXME.
+	/// </summary>
+	private const float FOVIncrease = 5f;
+
+	/// <summary>
+	/// The speed at which to lerp camera FOV.
+	/// </summary>
+	private const float FOVSpeed = 10f;
+
+	/// <summary>
+	/// The strength of the view bobbing.
+	/// </summary>
+	private const float BobStrength = 25f;
+
+	/// <summary>
+	/// The current amount of view bobbing on the camera.
+	/// </summary>
+	private float Bobbing { get; set; }
+
+	/// <summary>
+	/// The current roll component rotation on the camera.
+	/// </summary>
+	private float Roll { get; set; }
+
+	/// <summary>
+	/// The current camera FOV.
+	/// </summary>
+	private float FOV { get; set; }
+
+	/// <inheritdoc/>
 	public override void PostCameraSetup( ref CameraSetup camSetup )
 	{
 		var speed = Velocity.Length.LerpInverse( MinSpeed, MaxSpeed );
@@ -70,6 +110,10 @@ partial class Pawn
 		Local.Hud.Style.Dirty();
 	}
 
+	/// <summary>
+	/// Applies an amount of the vignette screen effect.
+	/// </summary>
+	/// <param name="amount">The amount of the effect to apply.</param>
 	public void ApplyVignetteAmount( float amount )
 	{
 		var effects = Map.Camera.FindOrCreateHook<ScreenEffects>();
@@ -78,18 +122,30 @@ partial class Pawn
 		effects.Vignette.Roundness = 0.3f;
 	}
 
+	/// <summary>
+	/// Applies an amount of the brightness screen effect.
+	/// </summary>
+	/// <param name="amount">The amount of the effect to apply.</param>
 	public void ApplyBrightnessAmount( float amount )
 	{
 		var effects = Map.Camera.FindOrCreateHook<ScreenEffects>();
 		effects.Brightness = amount;
 	}
 
+	/// <summary>
+	/// Applies an amount of the motion blue effect.
+	/// </summary>
+	/// <param name="amount">The amount of the effect to apply.</param>
 	public void ApplyMotionBlur( float amount )
 	{
 		var effects = Map.Camera.FindOrCreateHook<ScreenEffects>();
 		effects.MotionBlur.Scale = amount;
 	}
 
+	/// <summary>
+	/// Applies an amount of the film grain effect.
+	/// </summary>
+	/// <param name="amount">The amount of the effect to apply.</param>
 	public void ApplyFilmGrain( float amount )
 	{
 		var effects = Map.Camera.FindOrCreateHook<ScreenEffects>();

@@ -1,10 +1,13 @@
 ﻿namespace GvarJam.Interactions;
 
 /// <summary>
-/// The UI world panel for the Camera Controller.
+/// The world panel UI for the Camera Controller.
 /// </summary>
 public sealed class CameraControllerPanel : WorldPanel
 {
+	/// <summary>
+	/// The label that has the name of the zone the current camera is viewing.
+	/// </summary>
 	private Label? label;
 
 	public CameraControllerPanel( CameraController controller )
@@ -22,6 +25,10 @@ public sealed class CameraControllerPanel : WorldPanel
 		label = Add.Label( controller.TargetCamera?.ZoneName.ToUpper() );
 	}
 
+	/// <summary>
+	/// Updates the name label on the controller.
+	/// </summary>
+	/// <param name="name">The new name to put on the label.</param>
 	public void UpdateName(string name) 
 	{
 		if ( label is null )

@@ -1,18 +1,21 @@
 ﻿namespace GvarJam.Interactions;
 
 /// <summary>
-/// The UI world panel for interaction prompts.
+/// The world panel UI for interaction prompts.
 /// </summary>
 public sealed class InteractionPromptPanel : WorldPanel
 {
+	/// <summary>
+	/// The interactable entity the prompt is showing.
+	/// </summary>
 	private readonly InteractableEntity interactableEntity;
+	/// <summary>
+	/// The label showing the interactable entitys name.
+	/// </summary>
 	private readonly Label label;
 
 	public InteractionPromptPanel( InteractableEntity entity )
 	{
-		if ( entity is null )
-			return;
-
 		interactableEntity = entity;
 
 		PanelBounds = new Rect( -250, -150, 500, 150 );
@@ -23,6 +26,7 @@ public sealed class InteractionPromptPanel : WorldPanel
 		label = Add.Label( entity.Name );
 	}
 
+	/// <inheritdoc/>
 	public override void Tick()
 	{
 		base.Tick();

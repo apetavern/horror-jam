@@ -1,6 +1,6 @@
 ﻿namespace GvarJam.Player;
 
-public partial class Pawn
+partial class Pawn
 {
 	/// <summary>
 	/// Whether or not the pawn is interacting with something.

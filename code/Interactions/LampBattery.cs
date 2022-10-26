@@ -65,6 +65,7 @@ public sealed partial class LampBattery : DelayedUseItem
 			Delete();
 	}
 
+	/// <inheritdoc/>
 	public override bool IsUsable( Entity user )
 	{
 		return (user as Pawn)!.Helmet is not null && base.IsUsable( user );

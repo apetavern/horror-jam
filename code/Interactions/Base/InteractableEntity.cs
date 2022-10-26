@@ -21,6 +21,9 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	/// A dictionary of the items that are required to interact with this entity.
 	/// </summary>
 	public virtual IReadOnlyDictionary<ItemType, int> RequiredItems => requiredItems;
+	/// <summary>
+	/// See <see cref="RequiredItems"/>.
+	/// </summary>
 	private readonly Dictionary<ItemType, int> requiredItems = new();
 
 	/// <summary>
@@ -44,7 +47,7 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	/// <summary>
 	/// Enable or disable the interaction prompt on this entity.
 	/// </summary>
-	/// <param name="shouldShow"></param>
+	/// <param name="shouldShow">Whether or not to show the prompt.</param>
 	public void ShowInteractionPrompt( bool shouldShow )
 	{
 		var component = Components.GetOrCreate<Glow>();

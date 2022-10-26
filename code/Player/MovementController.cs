@@ -6,23 +6,6 @@
 public sealed partial class MovementController : WalkController
 {
 	/// <summary>
-	/// The current stamina the pawn has.
-	/// </summary>
-	[Net, Predicted]
-	public float Stamina { get; set; }
-
-	/// <summary>
-	/// Whether or not the pawn is sprinting.
-	/// </summary>
-	[Net, Predicted]
-	public bool IsSprinting { get; set; }
-
-	/// <summary>
-	/// The time since stamina was last used.
-	/// </summary>
-	private TimeSince timeSinceStaminaUsed;
-
-	/// <summary>
 	/// Per second, while sprinting.
 	/// </summary>
 	private const float StaminaReductionRate = 0.5f;
@@ -46,6 +29,23 @@ public sealed partial class MovementController : WalkController
 	/// How much stamina does jumping cost? (Applied instantly)
 	/// </summary>
 	private const float JumpStaminaReduction = 0.2f;
+
+	/// <summary>
+	/// The current stamina the pawn has.
+	/// </summary>
+	[Net, Predicted]
+	public float Stamina { get; set; }
+
+	/// <summary>
+	/// Whether or not the pawn is sprinting.
+	/// </summary>
+	[Net, Predicted]
+	public bool IsSprinting { get; set; }
+
+	/// <summary>
+	/// The time since stamina was last used.
+	/// </summary>
+	private TimeSince timeSinceStaminaUsed;
 
 	/// <inheritdoc/>
 	public override void Simulate()

@@ -3,30 +3,25 @@
 partial class Pawn
 {
 	/// <summary>
-	/// Is the player currently in a cutscene? Use <see cref="StartCutscene(AnimatedEntity, string)"/> to set this.
+	/// Is the player currently in a cutscene? Use <see cref="StartCutscene(AnimatedEntity, string, float)"/> to set this.
 	/// </summary>
 	[Net]
 	public bool InCutscene { get; private set; } = false;
 
+	/// <summary>
+	/// The duration of the current cutscene in seconds.
+	/// </summary>
 	private float CutsceneDuration { get; set; }
+	
+	/// <summary>
+	/// The time since the cutscene was started.
+	/// </summary>
 	private TimeSince TimeSinceCutsceneStart { get; set; }
 
-	private List<AnimatedEntity> EntitiesToCleanup { get; set; }
-
-	private void SimulateCutscenes()
-	{
-		if ( !InCutscene )
-			return;
-
-		if ( CutsceneDuration <= 0f )
-			return;
-
-		//
-		// Auto-end cutscene
-		//
-		if ( TimeSinceCutsceneStart > CutsceneDuration )
-			EndCutscene();
-	}
+	/// <summary>
+	/// A list of the entities to cleanup once the cutscene has finished.
+	/// </summary>
+	private List<AnimatedEntity> EntitiesToCleanup { get; set; } = null!;
 
 	/// <summary>
 	/// Start a cutscene from the perspective of an entity with an attachment.
@@ -83,24 +78,21 @@ partial class Pawn
 			ent.Delete();
 	}
 
-	[ConCmd.Client( "test_cutscene_camera" )]
-	public static void TestCutsceneCamera()
+	/// <summary>
+	/// Simulates the pawns end of the cutscene system.
+	/// </summary>
+	private void SimulateCutscenes()
 	{
-		var caller = ConsoleSystem.Caller.Pawn;
-		if ( caller is not Pawn pawn )
+		if ( !InCutscene )
 			return;
 
-		var nearestCamera = Entity.All.OfType<MountedCamera>().GetClosestOrDefault( pawn );
-		pawn.StartCutscene( nearestCamera, "lens_position" );
-	}
-
-	[ConCmd.Client( "test_cutscene_end" )]
-	public static void TestCutsceneEnd()
-	{
-		var caller = ConsoleSystem.Caller.Pawn;
-		if ( caller is not Pawn pawn )
+		if ( CutsceneDuration <= 0f )
 			return;
 
-		pawn.EndCutscene();
+		//
+		// Auto-end cutscene
+		//
+		if ( TimeSinceCutsceneStart > CutsceneDuration )
+			EndCutscene();
 	}
 }
