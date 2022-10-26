@@ -230,6 +230,284 @@
 				]
 				default_root_bone_name = ""
 			},
+			{
+				_class = "Softbody"
+				children = 
+				[
+					{
+						_class = "ClothChain"
+						root_bone = "tail1"
+						chain = 
+						{
+							joints = 
+							[
+								{
+									joint_name = "tail1"
+									simulate = false
+									goal_strength = 0.5
+								},
+								{
+									joint_name = "tail2"
+									joint_parent = "tail1"
+									goal_strength = 0.5
+									simulate = false
+								},
+								{
+									joint_name = "tail3"
+									joint_parent = "tail2"
+									goal_strength = 0.35
+								},
+								{
+									joint_name = "tail4"
+									joint_parent = "tail3"
+									goal_strength = 0.35
+								},
+								{
+									joint_name = "tail5"
+									joint_parent = "tail4"
+									goal_strength = 0.35
+								},
+								{
+									joint_name = "tail6"
+									joint_parent = "tail5"
+									goal_strength = 0.35
+								},
+								{
+									joint_name = "tail7"
+									joint_parent = "tail6"
+									goal_strength = 0.35
+								},
+								{
+									joint_name = "tail8"
+									joint_parent = "tail7"
+									goal_strength = 0.35
+								},
+								{
+									joint_name = "tail9"
+									joint_parent = "tail8"
+									goal_strength = 0.35
+								},
+								{
+									joint_name = "tail10"
+									joint_parent = "tail9"
+									goal_strength = 0.35
+								},
+								{
+									joint_name = "tail11"
+									joint_parent = "tail10"
+									goal_strength = 0.35
+								},
+								{
+									joint_name = "tail12"
+									joint_parent = "tail11"
+									goal_strength = 0.35
+								},
+								{
+									joint_name = "tail13"
+									joint_parent = "tail12"
+									goal_strength = 0.35
+								},
+								{
+									joint_name = "tail14"
+									joint_parent = "tail13"
+									goal_strength = 0.35
+								},
+								{
+									joint_name = "tail15"
+									joint_parent = "tail14"
+									goal_strength = 0.35
+								},
+							]
+							attrs = 
+							{
+								joint_name = 
+								{
+									display = "Joint Name"
+									show = true
+									ui_order = 0
+									default = ""
+									lock = true
+								}
+								joint_parent = 
+								{
+									display = "Parent Joint"
+									show = true
+									ui_order = 1
+									default = ""
+									lock = true
+								}
+								simulate = 
+								{
+									display = "Simulate"
+									show = true
+									ui_order = 2
+									default = true
+								}
+								allow_rotation = 
+								{
+									display = "Allow Rotation"
+									show = false
+									ui_order = 26
+									default = true
+								}
+								stretch_spring = 
+								{
+									display = "Stretch Spring"
+									show = false
+									ui_order = 27
+									default = true
+								}
+								bend_spring = 
+								{
+									display = "Bend Spring"
+									show = false
+									ui_order = 28
+									default = true
+								}
+								torsion_spring = 
+								{
+									display = "Torsion Spring"
+									show = false
+									ui_order = 29
+									default = false
+								}
+								goal_strength = 
+								{
+									display = "Goal Strength"
+									show = true
+									ui_order = 3
+									default = 0.0
+									min = 0.0
+									max = 1.0
+								}
+								goal_damping = 
+								{
+									display = "Goal Damping"
+									show = false
+									ui_order = 31
+									default = 0.0
+									min = 0.0
+									max = 1.0
+								}
+								drag = 
+								{
+									display = "Extra Drag"
+									show = false
+									ui_order = 32
+									default = 0.0
+									min = 0.0
+									max = 1.0
+								}
+								mass = 
+								{
+									display = "Mass"
+									show = false
+									ui_order = 33
+									default = 1.0
+									min = 0.0
+								}
+								gravity_z = 
+								{
+									display = "Gravity"
+									show = false
+									ui_order = 34
+									default = 1.0
+								}
+								collision_radius = 
+								{
+									display = "Collision Radius"
+									show = false
+									ui_order = 35
+									default = 0.0
+									min = 0.0
+								}
+								lock_translation = 
+								{
+									display = "Lock Translation"
+									show = false
+									ui_order = 36
+									default = false
+								}
+								suspender = 
+								{
+									display = "Suspender Spring"
+									show = false
+									ui_order = 37
+									default = false
+								}
+								stray_radius = 
+								{
+									display = "Stray Radius"
+									show = false
+									ui_order = 38
+									default = 0.0
+									min = 0.0
+								}
+								stray_radius_stretchiness = 
+								{
+									display = "Stray Radius Stretchiness"
+									show = false
+									ui_order = 39
+									default = 0.0
+									min = 0.0
+								}
+								friction = 
+								{
+									display = "Friction"
+									show = false
+									ui_order = 40
+									default = 0.0
+									min = 0.0
+									max = 1.0
+								}
+								vertex_map = 
+								{
+									display = "Vertex Map"
+									show = false
+									ui_order = 41
+									default = ""
+									verify = "vertex_map"
+								}
+								end_effector = 
+								{
+									display = "End Effector"
+									show = false
+									ui_order = 42
+									default = 0.0
+									lock_default_value = true
+								}
+								extrude_sides = 
+								{
+									display = "Extrude Sides"
+									show = false
+									ui_order = 43
+									default = 0
+									min = 0
+									max = 4
+								}
+								extrude_radius = 
+								{
+									display = "Extrude Radius"
+									show = false
+									ui_order = 44
+									default = 5.0
+									min = 0.0
+								}
+								extrude_twist = 
+								{
+									display = "Extrude Twist"
+									show = false
+									ui_order = 45
+									default = 0.0
+								}
+							}
+							version = 0
+						}
+					},
+				]
+				stiffness_on_ragdoll = 0.0
+				cloth_sleep_enabled = false
+			},
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
