@@ -11,6 +11,11 @@ public sealed partial class CutsceneCamera : CameraMode
 	[Net]
 	public AnimatedEntity? TargetEntity { get; set; }
 
+	[Net]
+	public List<AnimatedEntity> AdditionalEntities { get; set; } = new();
+
+	public bool AreAnimsPlaying { get; set; }
+
 	/// <summary>
 	/// The target attachment on the <see cref="TargetEntity"/>.
 	/// </summary>
@@ -25,6 +30,16 @@ public sealed partial class CutsceneCamera : CameraMode
 		Position = transform.Position;
 		Rotation = transform.Rotation;
 
+		if( !AreAnimsPlaying )
+		{
+			TargetEntity?.SetAnimParameter( "HitDoor", true );
+
+			foreach ( var ent in AdditionalEntities )
+				ent.SetAnimParameter( "HitDoor", true );
+
+			AreAnimsPlaying = true;
+		}
+		
 		Viewer = null;
 	}
 }

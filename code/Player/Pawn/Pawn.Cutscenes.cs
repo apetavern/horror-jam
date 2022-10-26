@@ -48,7 +48,14 @@ partial class Pawn
 	/// </summary>
 	public void StartCutsceneWithPostCleanup( AnimatedEntity targetEntity, List<AnimatedEntity> sceneModels, string targetAttachment, float duration = -1.0f )
 	{
-		StartCutscene( targetEntity, targetAttachment, duration );
+		Camera = new CutsceneCamera() { TargetEntity = targetEntity, TargetAttachment = targetAttachment, AdditionalEntities = sceneModels };
+
+		CutsceneDuration = duration;
+		TimeSinceCutsceneStart = 0;
+
+		BlockMovement = true;
+		BlockLook = true;
+		InCutscene = true;
 
 		// Store references to the entities we need to clean up once the cutscene ends.
 		EntitiesToCleanup = new();
