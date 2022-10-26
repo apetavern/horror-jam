@@ -14,12 +14,12 @@
 						remaps = 
 						[
 							{
-								from = "can.vmat"
-								to = "models/sodacan/can_base.vmat"
+								from = "leaf.vmat"
+								to = "models/leafvase/leaf.vmat"
 							},
 							{
-								from = "sodatype.vmat"
-								to = "models/sodacan/can_type1.vmat"
+								from = "plant_holder.vmat"
+								to = "models/leafvase/leafvase.vmat"
 							},
 						]
 						use_global_default = false
@@ -33,10 +33,10 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "models/SodaCan/CanLow.fbx"
+						filename = "models/LeafVase/Leaf_vase.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
-						import_scale = 0.15
+						import_scale = 0.05
 						align_origin_x_type = "None"
 						align_origin_y_type = "None"
 						align_origin_z_type = "None"
@@ -46,7 +46,7 @@
 							exclude_by_default = true
 							exception_list = 
 							[
-								"can_mesh",
+								"leaf_vase",
 							]
 						}
 					},
