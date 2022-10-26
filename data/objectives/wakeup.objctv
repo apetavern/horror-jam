@@ -8,7 +8,7 @@
 		[
 			{
 				Type = "PlayerEnteredTrigger"
-				TriggerName = "tutorial_objective_trigger"
+				TriggerName = "wakeup_intro_trigger"
 			},
 		]
 		ObjectiveEndConditions = [  ]
