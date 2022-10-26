@@ -85,6 +85,85 @@
 					{
 						_class = "AnimFile"
 						name = "split"
+						children = 
+						[
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_CREATE_PARTICLE_EFFECT"
+								event_frame = 22
+								event_keys = 
+								{
+									name = resource:"particles/impact.flesh.vpcf"
+									detach_from_owner = false
+									always_run = false
+									stop_on_seq_change = false
+									stop_immediately = false
+									use_layer_sequence = false
+									tags = ""
+									attachment_point = "blood"
+									attachment_type = "point_follow"
+									attachment_point_cp1 = "blood"
+									attachment_type_cp1 = "point_follow"
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_CREATE_PARTICLE_EFFECT"
+								event_frame = 43
+								event_keys = 
+								{
+									name = resource:"particles/impact.flesh.vpcf"
+									detach_from_owner = false
+									always_run = false
+									stop_on_seq_change = false
+									stop_immediately = false
+									use_layer_sequence = false
+									tags = ""
+									attachment_point = "blood2"
+									attachment_type = "point_follow"
+									attachment_point_cp1 = "blood2"
+									attachment_type_cp1 = "point_follow"
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_CREATE_PARTICLE_EFFECT"
+								event_frame = 34
+								event_keys = 
+								{
+									name = resource:"particles/impact.flesh.vpcf"
+									detach_from_owner = false
+									always_run = false
+									stop_on_seq_change = false
+									stop_immediately = false
+									use_layer_sequence = false
+									tags = ""
+									attachment_point = "blood2"
+									attachment_type = "point_follow"
+									attachment_point_cp1 = "blood2"
+									attachment_type_cp1 = "point_follow"
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_CREATE_PARTICLE_EFFECT"
+								event_frame = 15
+								event_keys = 
+								{
+									name = resource:"particles/impact.flesh.vpcf"
+									detach_from_owner = false
+									always_run = false
+									stop_on_seq_change = false
+									stop_immediately = false
+									use_layer_sequence = false
+									tags = ""
+									attachment_point = "blood"
+									attachment_type = "point_follow"
+									attachment_point_cp1 = "blood"
+									attachment_type_cp1 = "point_follow"
+								}
+							},
+						]
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
@@ -105,6 +184,30 @@
 					},
 				]
 				default_root_bone_name = ""
+			},
+			{
+				_class = "AttachmentList"
+				children = 
+				[
+					{
+						_class = "Attachment"
+						name = "blood"
+						parent_bone = "split_clavicle_L"
+						relative_origin = [ -1.056802, -0.262004, -6.152374 ]
+						relative_angles = [ 66.919113, -137.047821, -109.029907 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+					{
+						_class = "Attachment"
+						name = "blood2"
+						parent_bone = "spine_2_L"
+						relative_origin = [ 0.0, 0.0, 0.0 ]
+						relative_angles = [ 22.452679, -0.001607, 0.016649 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+				]
 			},
 		]
 		model_archetype = ""

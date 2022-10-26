@@ -134,6 +134,25 @@
 									StringData = ""
 								}
 							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_CREATE_PARTICLE_EFFECT"
+								event_frame = 25
+								event_keys = 
+								{
+									name = resource:"particles/impact.flesh-big.vpcf"
+									detach_from_owner = false
+									always_run = false
+									stop_on_seq_change = false
+									stop_immediately = false
+									use_layer_sequence = false
+									tags = ""
+									attachment_point = "blood"
+									attachment_type = "point_follow"
+									attachment_point_cp1 = "blood"
+									attachment_type_cp1 = "point_follow"
+								}
+							},
 						]
 						activity_name = ""
 						activity_weight = 1
@@ -507,6 +526,21 @@
 				]
 				stiffness_on_ragdoll = 0.0
 				cloth_sleep_enabled = false
+			},
+			{
+				_class = "AttachmentList"
+				children = 
+				[
+					{
+						_class = "Attachment"
+						name = "blood"
+						parent_bone = "pelvis"
+						relative_origin = [ 0.0, 0.0, 0.0 ]
+						relative_angles = [ 0.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+				]
 			},
 		]
 		model_archetype = ""
