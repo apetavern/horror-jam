@@ -18,6 +18,11 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	public virtual Color GlowColor { get; set; } = Color.Orange;
 
 	/// <summary>
+	/// The color that the entity will glow when being looked at but not usable.
+	/// </summary>
+	public virtual Color UnusableGlowColor { get; set; } = Color.Red;
+
+	/// <summary>
 	/// A dictionary of the items that are required to interact with this entity.
 	/// </summary>
 	public virtual IReadOnlyDictionary<ItemType, int> RequiredItems => requiredItems;
@@ -47,12 +52,13 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	/// <summary>
 	/// Enable or disable the interaction prompt on this entity.
 	/// </summary>
+	/// <param name="user">The entity that is looking at this entity.</param>
 	/// <param name="shouldShow">Whether or not to show the prompt.</param>
-	public void ShowInteractionPrompt( bool shouldShow )
+	public void ShowInteractionPrompt( Entity user, bool shouldShow )
 	{
 		var component = Components.GetOrCreate<Glow>();
 
-		component.Color = GlowColor;
+		component.Color = IsUsable( user ) ? GlowColor : UnusableGlowColor;
 		component.ObscuredColor = Color.Transparent;
 
 		component.Enabled = shouldShow;
