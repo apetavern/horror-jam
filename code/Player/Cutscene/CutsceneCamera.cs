@@ -35,7 +35,11 @@ public sealed partial class CutsceneCamera : CameraMode
 			TargetEntity?.SetAnimParameter( "HitDoor", true );
 
 			foreach ( var ent in AdditionalEntities )
-				ent.SetAnimParameter( "HitDoor", true );
+			{
+				Log.Info( $"Playing anim for {ent}" );
+				ent.SetAnimParameter( "Open", true );
+			}
+				
 
 			AreAnimsPlaying = true;
 		}
