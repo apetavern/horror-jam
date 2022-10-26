@@ -53,7 +53,9 @@ partial class Pawn
 		// Store references to the entities we need to clean up once the cutscene ends.
 		EntitiesToCleanup = new();
 		EntitiesToCleanup.Add( targetEntity );
-		EntitiesToCleanup.AddRange( sceneModels );
+
+		// Commented out because we want to keep hold of the created items for now. If this changes we need to rethink it.
+		// EntitiesToCleanup.AddRange( sceneModels );
 	}
 
 	/// <summary>
