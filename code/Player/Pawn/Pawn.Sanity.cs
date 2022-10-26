@@ -16,7 +16,7 @@ partial class Pawn
 	/// Whether or not the post processing for the sanity system is enabled.
 	/// </summary>
 	[ConVar.Client( "SanityPostEnabled" )]
-	public bool SanityPostEnabled { get; set; } = false;
+	public bool SanityPostEnabled { get; set; } = true;
 
 	/// <summary>
 	/// The current sanity level of the player.
@@ -38,7 +38,7 @@ partial class Pawn
 
 		if ( IsClient && SanityPostEnabled )
 		{
-			ApplyVignetteAmount( InsanityLevel.Clamp( 0.2f, 0.70f ) );
+			ApplyVignetteAmount( InsanityLevel.Clamp( 0.2f, 0.80f ) );
 			ApplyBrightnessAmount( 1 - InsanityLevel.Clamp( 0f, 0.90f ) );
 			ApplyFilmGrain( (InsanityLevel / 50).Clamp( 0, 0.02f ) );
 
