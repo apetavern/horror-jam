@@ -146,7 +146,7 @@
 						source_filename = "models/CryoChamber/CryoChamber.fbx"
 						start_frame = -1
 						end_frame = -1
-						framerate = -1.0
+						framerate = 35.0
 						take = 1
 						reverse = false
 					},
