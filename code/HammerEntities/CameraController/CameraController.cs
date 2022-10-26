@@ -60,6 +60,8 @@ public sealed partial class CameraController : LockedUseItem
 		Screen = new ModelEntity( "models/cameraconsole/console_screen.vmdl", this );
 		Screen.SetMaterialGroup( 1 );
 
+		Name = "Camera Controller";
+
 		// Set initial camera
 		var usableCameras = FindUsableMountedCameras();
 		var targetCamera = usableCameras.FirstOrDefault();
