@@ -23,7 +23,8 @@ partial class Pawn
 	/// </summary>
 	private List<AnimatedEntity> EntitiesToCleanup { get; set; } = null!;
 
-	private bool RequiresInputToStart { get; set; }
+	[Net]
+	public bool RequiresInputToStart { get; set; }
 
 	private float DurationAfterDelay { get; set; }
 
@@ -114,6 +115,7 @@ partial class Pawn
 			(Camera as CutsceneCamera)!.AwaitingInput = false;
 			CutsceneDuration = DurationAfterDelay;
 			TimeSinceCutsceneStart = 0;
+			RequiresInputToStart = false;
 		}
 
 		if ( CutsceneDuration <= 0f )
