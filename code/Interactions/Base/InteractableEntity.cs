@@ -15,7 +15,7 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	/// <summary>
 	/// The color that the entity will glow when being looked at.
 	/// </summary>
-	public virtual Color GlowColor { get; set; } = Color.Orange;
+	public virtual Color GlowColor { get; set; } = Color.Green;
 
 	/// <summary>
 	/// The color that the entity will glow when being looked at but not usable.
@@ -58,7 +58,10 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	{
 		var component = Components.GetOrCreate<Glow>();
 
-		component.Color = IsUsable( user ) ? GlowColor : UnusableGlowColor;
+		if ( user.GroundEntity is null || !user.Velocity.IsNearZeroLength )
+			component.Color = IsUsable( user ) ? Color.Yellow : UnusableGlowColor;
+		else
+			component.Color = IsUsable( user ) ? GlowColor : UnusableGlowColor;
 		component.ObscuredColor = Color.Transparent;
 
 		component.Enabled = shouldShow;
@@ -102,7 +105,7 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 				return false;
 		}
 
-		return user.Position.Distance( Position ) < UseDistance && user.GroundEntity is not null && user.Velocity.IsNearZeroLength;
+		return user.Position.Distance( Position ) < UseDistance;
 	}
 
 	/// <inheritdoc/>
