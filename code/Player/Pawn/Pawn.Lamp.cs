@@ -1,6 +1,6 @@
 ﻿namespace GvarJam.Player;
 
-public partial class Pawn
+partial class Pawn
 {
 	/// <summary>
 	/// The maximum amount of power that the lamp can hold.
@@ -22,10 +22,16 @@ public partial class Pawn
 	/// </summary>
 	public bool LampEnabled
 	{
-		get => Lamp.Enabled;
+		get
+		{
+			if ( Lamp is null )
+				return false;
+
+			return Lamp.Enabled;
+		}
 		private set
 		{
-			if ( LampEnabled == value )
+			if ( Lamp is null || LampEnabled == value )
 				return;
 
 			Lamp.Enabled = value;
@@ -47,7 +53,7 @@ public partial class Pawn
 		get => batteryInserted;
 		set
 		{
-			if ( BatteryInserted == value )
+			if ( Helmet is null || BatteryInserted == value )
 				return;
 
 			batteryInserted = value;

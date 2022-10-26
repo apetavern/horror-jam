@@ -1,4 +1,4 @@
-﻿namespace GvarJam.Interaction;
+﻿namespace GvarJam.Interactions;
 
 [Library( "ent_helmet" )]
 [HammerEntity]
@@ -42,6 +42,7 @@ public sealed class Helmet : DelayedUseItem
 			(user as Pawn)!.EquipHelmet();
 	}
 
+	/// <inheritdoc/>
 	public override bool IsUsable( Entity user )
 	{
 		return (user as Pawn)!.Helmet is null && base.IsUsable( user );

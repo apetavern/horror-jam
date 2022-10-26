@@ -1,14 +1,28 @@
 ﻿namespace GvarJam.Interactions;
 
+/// <summary>
+/// Represents an item that locks the pawn in place for interaction.
+/// </summary>
 public partial class LockedUseItem : InteractableEntity
 {
+	/// <summary>
+	/// The position of the pawn before they were locked into this interaction.
+	/// </summary>
 	private Vector3 preUsePosition { get; set; }
 
+	/// <summary>
+	/// Stops using the entity.
+	/// </summary>
 	public virtual void StopUsing()
 	{
 		User = null;
 	}
 
+	/// <summary>
+	/// Moves the pawn to its use position.
+	/// </summary>
+	/// <param name="player">The pawn to move.</param>
+	/// <param name="numberOfUnitsInfront">The units to place the pawn in front of.</param>
 	public virtual void SnapPlayerToUsePosition( Pawn player, float numberOfUnitsInfront )
 	{
 		preUsePosition = player.Position;
@@ -40,6 +54,10 @@ public partial class LockedUseItem : InteractableEntity
 		player.ResetInterpolation();
 	}
 
+	/// <summary>
+	/// Releases the player from being locked.
+	/// </summary>
+	/// <param name="player">The pawn to free.</param>
 	public virtual void ReleasePlayer( Pawn player )
 	{
 		player.BlockMovement = false;

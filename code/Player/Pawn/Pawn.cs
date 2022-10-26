@@ -54,8 +54,11 @@ public sealed partial class Pawn : AnimatedEntity
 	public bool BlockLook { get; set; } = false;
 
 	/// <summary>
-	/// Called when the entity is first created 
+	/// The time since the last footstep the pawn made.
 	/// </summary>
+	private TimeSince timeSinceLastFootstep = 0;
+
+	/// <inheritdoc/>
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -138,6 +141,48 @@ public sealed partial class Pawn : AnimatedEntity
 			Rotation = rotation;
 	}
 
+	/// <inheritdoc/>
+	public override void OnAnimEventFootstep( Vector3 pos, int foot, float volume )
+	{
+		if ( LifeState != LifeState.Alive )
+			return;
+
+		if ( !IsClient )
+			return;
+
+		if ( timeSinceLastFootstep < 0.2f )
+			return;
+
+		volume *= FootstepVolume();
+
+		timeSinceLastFootstep = 0;
+
+		var tr = Trace.Ray( pos, pos + Vector3.Down * 20 )
+			.Radius( 1 )
+			.Ignore( this )
+			.Run();
+
+		if ( !tr.Hit ) return;
+
+		tr.Surface.DoFootstep( this, tr, foot, volume );
+	}
+
+	/// <inheritdoc/>
+	public override void BuildInput( InputBuilder inputBuilder )
+	{
+		base.BuildInput( inputBuilder );
+
+		if ( BlockMovement )
+		{
+			inputBuilder.AnalogMove = 0;
+			inputBuilder.ClearButton( InputButton.Duck );
+			inputBuilder.ClearButton( InputButton.Jump );
+		}
+
+		if ( BlockLook )
+			inputBuilder.ViewAngles = Angles.Zero;
+	}
+
 	/// <summary>
 	/// Equips the helmet on the player.
 	/// </summary>
@@ -168,18 +213,12 @@ public sealed partial class Pawn : AnimatedEntity
 	}
 
 	/// <summary>
-	/// Sets the alpha on the pawns render color before the game renders.
+	/// Allows override of footstep sound volume.
 	/// </summary>
-	[Event.Frame]
-	public void OnFrame()
+	/// <returns>The new footstep volume, where 1 is full volume.</returns>
+	public float FootstepVolume()
 	{
-		//
-		// CACHING THE CHILDREN will definitely become a problem later!!
-		// This is a fast but probably not elegant solution
-		// If you need this changing or fixing, find Alex
-		//
-		var alpha = GetAlpha();
-		PlayerAndChildren?.ForEach( x => x.RenderColor = x.RenderColor.WithAlpha( alpha ) );
+		return Velocity.WithZ( 0 ).Length.LerpInverse( 0.0f, 200.0f );
 	}
 
 	/// <summary>
@@ -194,58 +233,19 @@ public sealed partial class Pawn : AnimatedEntity
 		return 1.0f;
 	}
 
-	TimeSince timeSinceLastFootstep = 0;
-
 	/// <summary>
-	/// A footstep has arrived!
+	/// Sets the alpha on the pawns render color before the game renders.
 	/// </summary>
-	public override void OnAnimEventFootstep( Vector3 pos, int foot, float volume )
+	[Event.Frame]
+	private void OnFrame()
 	{
-		if ( LifeState != LifeState.Alive )
-			return;
-
-		if ( !IsClient )
-			return;
-
-		if ( timeSinceLastFootstep < 0.2f )
-			return;
-
-		volume *= FootstepVolume();
-
-		timeSinceLastFootstep = 0;
-
-		var tr = Trace.Ray( pos, pos + Vector3.Down * 20 )
-			.Radius( 1 )
-			.Ignore( this )
-			.Run();
-
-		if ( !tr.Hit ) return;
-
-		tr.Surface.DoFootstep( this, tr, foot, volume );
-	}
-
-	/// <summary>
-	/// Allows override of footstep sound volume.
-	/// </summary>
-	/// <returns>The new footstep volume, where 1 is full volume.</returns>
-	public float FootstepVolume()
-	{
-		return Velocity.WithZ( 0 ).Length.LerpInverse( 0.0f, 200.0f );
-	}
-
-	public override void BuildInput( InputBuilder inputBuilder )
-	{
-		base.BuildInput( inputBuilder );
-
-		if ( BlockMovement )
-		{
-			inputBuilder.AnalogMove = 0;
-			inputBuilder.ClearButton( InputButton.Duck );
-			inputBuilder.ClearButton( InputButton.Jump );
-		}
-
-		if ( BlockLook )
-			inputBuilder.ViewAngles = Angles.Zero;
+		//
+		// CACHING THE CHILDREN will definitely become a problem later!!
+		// This is a fast but probably not elegant solution
+		// If you need this changing or fixing, find Alex
+		//
+		var alpha = GetAlpha();
+		PlayerAndChildren?.ForEach( x => x.RenderColor = x.RenderColor.WithAlpha( alpha ) );
 	}
 
 	/// <summary>

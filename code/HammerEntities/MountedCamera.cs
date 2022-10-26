@@ -1,5 +1,8 @@
 namespace GvarJam.HammerEntities;
 
+/// <summary>
+/// A mounted camera that views a room.
+/// </summary>
 [Category( "Environment" )]
 [Library( "ent_mountedcamera" )]
 [HammerEntity]
@@ -12,6 +15,9 @@ public sealed partial class MountedCamera : AnimatedEntity
 	[Net, Property]
 	public bool IsViewable { get; set; } = true;
 
+	/// <summary>
+	/// The name of the zone it is monitoring.
+	/// </summary>
 	[Net, Property]
 	public string ZoneName { get; set; } = "UNKNOWN";
 
@@ -39,10 +45,24 @@ public sealed partial class MountedCamera : AnimatedEntity
 	[Property] 
 	public float Aspect { get; set; } = 1.0f;
 
-	private float CameraTrackingReachUnits = 300f;
+	/// <summary>
+	/// The maximum distance the camera can track a pawn at.
+	/// </summary>
+	private const float CameraTrackingReachUnits = 300f;
 
+	/// <summary>
+	/// The current look position of the cameras pawn tracking.
+	/// </summary>
 	private Vector3 LookPos;
+
+	/// <summary>
+	/// The current look rotation of the cameras pawn tracking.
+	/// </summary>
 	private Rotation LookRot;
+
+	/// <summary>
+	/// ???
+	/// </summary>
 	private Rotation FlatLookRot;
 
 	/// <inheritdoc/>
@@ -55,11 +75,13 @@ public sealed partial class MountedCamera : AnimatedEntity
 		Transmit = TransmitType.Always;
 	}
 
+	/// <summary>
+	/// The server tick of the camera to stare at a pawn if it is close enough.
+	/// </summary>
 	[Event.Tick.Server]
 	private void Tick()
 	{
 		var player = All.OfType<Pawn>().GetClosestOrDefault( this );
-
 		if ( player is null )
 			return;
 

@@ -41,8 +41,8 @@ public static class GraphicsExtensions
 			angle += MathF.PI;
 			angleFrac += MathF.PI;
 
-			Vector2 x = new Vector2( MathF.Sin( 0f - angle ), MathF.Cos( 0f - angle ) );
-			Vector2 y = new Vector2( MathF.Sin( 0f - angleFrac ), MathF.Cos( 0f - angleFrac ) );
+			Vector2 x = new( MathF.Sin( 0f - angle ), MathF.Cos( 0f - angle ) );
+			Vector2 y = new( MathF.Sin( 0f - angleFrac ), MathF.Cos( 0f - angleFrac ) );
 
 			Vector2 uv2 = x / 2f + 0.5;
 			Vector2 uv3 = y / 2f + 0.5;

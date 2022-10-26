@@ -54,8 +54,11 @@ public sealed partial class StorageLocker : DelayedUseItem
 	/// </summary>
 	private Transform StartDoorTransform;
 
+	/// <summary>
+	/// The door of the locker.
+	/// </summary>
 	[Net, Predicted]
-	ModelEntity Door { get; set; }
+	ModelEntity Door { get; set; } = null!;
 
 	/// <inheritdoc/>
 	public override void Spawn()
@@ -67,9 +70,11 @@ public sealed partial class StorageLocker : DelayedUseItem
 		SetModel( "models/scifilocker/scifilocker.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
 
-		Door = new ModelEntity( "models/scifilocker/scifilocker_door.vmdl" );
-		Door.Position = GetAttachment( "doorhinge" ).Value.Position;
-		Door.Rotation = Rotation;
+		Door = new( "models/scifilocker/scifilocker_door.vmdl" )
+		{
+			Position = GetAttachment( "doorhinge" )!.Value.Position,
+			Rotation = Rotation
+		};
 		Door.Tags.Add( "camignore" );
 		Door.SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
@@ -152,7 +157,10 @@ public sealed partial class StorageLocker : DelayedUseItem
 		if ( IsServer && timeInAnim >= 0.55 )
 			IsLocked = false;
 
-		TraceResult floortrace = Trace.Ray( GetAttachment( "openstandpos" ).Value.Position, GetAttachment( "openstandpos" ).Value.Position - Vector3.Up * 100f ).WithoutTags( "camignore" ).Ignore( user ).Run();
+		TraceResult floortrace = Trace.Ray( GetAttachment( "openstandpos" )!.Value.Position, GetAttachment( "openstandpos" )!.Value.Position - Vector3.Up * 100f )
+			.WithoutTags( "camignore" )
+			.Ignore( user )
+			.Run();
 
 		DebugOverlay.Sphere( floortrace.EndPosition, 1f, Color.Red );
 
@@ -160,7 +168,7 @@ public sealed partial class StorageLocker : DelayedUseItem
 		user.Rotation = Rotation.LookAt( (Position- user.Position).WithZ(0), Vector3.Up );
 
 		( user as Pawn)!.SetAnimParameter( "b_IKleft", true );
-		(user as Pawn)!.SetAnimParameter( "left_hand_ik", Door.GetAttachment("handle").Value );
+		(user as Pawn)!.SetAnimParameter( "left_hand_ik", Door.GetAttachment("handle")!.Value );
 		return false;
 	}
 
@@ -181,7 +189,7 @@ public sealed partial class StorageLocker : DelayedUseItem
 		if ( IsServer )
 		{
 			(user as Pawn)!.SetAnimParameter( "b_IKleft", true );
-			(user as Pawn)!.SetAnimParameter( "left_hand_ik", Door.GetAttachment( "handle" ).Value );
+			(user as Pawn)!.SetAnimParameter( "left_hand_ik", Door.GetAttachment( "handle" )!.Value );
 			var targetTransform = Transform;
 			targetTransform.Rotation *= (Rotation)Quaternion.CreateFromAxisAngle( new Vector3( 0, 0, 1 ), -90 );
 

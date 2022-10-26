@@ -11,12 +11,15 @@
 // to the client informing them of this, and the UI gets changed
 // accordingly.
 //
-
-public class ObjectiveSystem
+/// <summary>
+/// The system to control objectives and handle their lifetime/completion.
+/// </summary>
+public sealed class ObjectiveSystem
 {
+	/// <summary>
+	/// The only instance of this system in existence.
+	/// </summary>
 	public static ObjectiveSystem Current { get; set; }
-
-	public IEnumerable<Pawn> Pawns => Client.All.Select( x => x.Pawn ).OfType<Pawn>();
 
 	/// <summary>
 	/// Which objectives haven't been completed yet?
@@ -32,32 +35,6 @@ public class ObjectiveSystem
 	{
 		Current = this;
 		Event.Register( this );
-	}
-
-	[Event.Tick.Server]
-	public void OnServerTick()
-	{
-		int line = 5;
-		void PrintObjective( Objective objective )
-		{
-			DebugOverlay.ScreenText( $"Objective: {objective.Resource.Name}", line++ );
-			DebugOverlay.ScreenText( $"{objective.Resource.Description}", line++ );
-		}
-
-		DebugOverlay.ScreenText( $"Objectives:", line++ );
-		foreach ( var objective in ActiveObjectives )
-		{
-			PrintObjective( objective );
-		}
-
-		DebugOverlay.ScreenText( $"Pending objective count: {PendingObjectives.Count}", line++ );
-		DebugOverlay.ScreenText( $"Active objective count: {ActiveObjectives.Count}", line++ );
-
-		foreach ( var pawn in Pawns )
-		{
-			CheckStartObjectives( pawn );
-			CheckEndObjectives( pawn );
-		}
 	}
 
 	/// <summary>
@@ -96,6 +73,39 @@ public class ObjectiveSystem
 
 				ActiveObjectives.Remove( objective );
 			}
+		}
+	}
+
+	/// <summary>
+	/// Debug method to print objective state.
+	/// </summary>
+	/// <param name="objective">The objective to output debug info from.</param>
+	/// <param name="line">The line number to start at with screen text overlay.</param>
+	private void PrintObjective( Objective objective, ref int line )
+	{
+		DebugOverlay.ScreenText( $"Objective: {objective.Resource.ObjectiveName}", line++ );
+		DebugOverlay.ScreenText( $"{objective.Resource.Description}", line++ );
+	}
+
+	/// <summary>
+	/// Ticks the objective system.
+	/// </summary>
+	[Event.Tick.Server]
+	private void OnServerTick()
+	{
+		int line = 5;
+
+		DebugOverlay.ScreenText( $"Objectives:", line++ );
+		foreach ( var objective in ActiveObjectives )
+			PrintObjective( objective, ref line );
+
+		DebugOverlay.ScreenText( $"Pending objective count: {PendingObjectives.Count}", line++ );
+		DebugOverlay.ScreenText( $"Active objective count: {ActiveObjectives.Count}", line++ );
+
+		foreach ( var pawn in Client.All.Select( x => x.Pawn ).OfType<Pawn>() )
+		{
+			CheckStartObjectives( pawn );
+			CheckEndObjectives( pawn );
 		}
 	}
 }

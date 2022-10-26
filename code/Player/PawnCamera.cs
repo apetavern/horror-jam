@@ -6,17 +6,34 @@
 public sealed partial class PawnCamera : CameraMode
 {
 	/// <summary>
+	/// The speed at which to switch between <see cref="ViewMode"/>s.
+	/// </summary>
+	private const float ModeSwitchSpeed = 2.0f;
+
+	/// <summary>
 	/// The current view mode of the camera.
 	/// </summary>
 	[Net, Predicted]
 	public ViewModeType ViewMode { get; private set; }
 
-	private const float ModeSwitchSpeed = 2.0f;
+	/// <summary>
+	/// The progress of switching between different modes.
+	/// </summary>
+	private float modeSwitchProgress;
 
-	private float modeSwitchProgress = 0;
+	/// <summary>
+	/// The last position of the camera.
+	/// </summary>
 	private Vector3 lastPos;
 
+	/// <summary>
+	/// Whether or not to override the transform of the camera.
+	/// </summary>
 	private bool shouldOverrideTransform;
+
+	/// <summary>
+	/// The value of the overriden transform.
+	/// </summary>
 	private Transform overrideTransform;
 
 	/// <inheritdoc/>
@@ -29,17 +46,6 @@ public sealed partial class PawnCamera : CameraMode
 		Rotation = pawn.EyeRotation;
 
 		lastPos = Position;
-	}
-
-	public void OverrideTransform( Transform transform )
-	{
-		shouldOverrideTransform = true;
-		overrideTransform = transform;
-	}
-
-	public void DisableTransformOverride()
-	{
-		shouldOverrideTransform = false;
 	}
 
 	/// <inheritdoc/>
@@ -70,6 +76,48 @@ public sealed partial class PawnCamera : CameraMode
 
 		Viewer = null;
 		FieldOfView = 90;
+	}
+
+	/// <summary>
+	/// Overrides the transform of the camera.
+	/// </summary>
+	/// <param name="transform">The transform for the camera to be at.</param>
+	public void OverrideTransform( Transform transform )
+	{
+		shouldOverrideTransform = true;
+		overrideTransform = transform;
+	}
+
+	/// <summary>
+	/// Disables the current override on the transform.
+	/// </summary>
+	public void DisableTransformOverride()
+	{
+		shouldOverrideTransform = false;
+	}
+
+	/// <summary>
+	/// Gets the alpha value that something related to the player should be rendered at.
+	/// </summary>
+	/// <returns>The alpha value that something related to the player should be rendered at.</returns>
+	public float GetPlayerAlpha()
+	{
+		//
+		// TODO: It might be worth scaling this by the inverse distance
+		// between the player and the camera, so that the third person
+		// camera colliding with a wall doesn't fuck us and make the
+		// player look really ugly. I will look into this later
+		//
+
+		float baseAlpha = modeSwitchProgress * ModeSwitchSpeed * 4.0f;
+		baseAlpha = baseAlpha.Clamp( 0, 1 );
+
+		return ViewMode switch
+		{
+			ViewModeType.FirstPerson => 1.0f - baseAlpha,
+			ViewModeType.ThirdPerson => baseAlpha,
+			_ => 1.0f,
+		};
 	}
 
 	/// <summary>
@@ -176,29 +224,5 @@ public sealed partial class PawnCamera : CameraMode
 				  + GetNoise( 16f, 8f ) * Rotation.Right;
 
 		return noise * 4f;
-	}
-
-	/// <summary>
-	/// Gets the alpha value that something related to the player should be rendered at.
-	/// </summary>
-	/// <returns>The alpha value that something related to the player should be rendered at.</returns>
-	public float GetPlayerAlpha()
-	{
-		//
-		// TODO: It might be worth scaling this by the inverse distance
-		// between the player and the camera, so that the third person
-		// camera colliding with a wall doesn't fuck us and make the
-		// player look really ugly. I will look into this later
-		//
-
-		float baseAlpha = modeSwitchProgress * ModeSwitchSpeed * 4.0f;
-		baseAlpha = baseAlpha.Clamp( 0, 1 );
-
-		return ViewMode switch
-		{
-			ViewModeType.FirstPerson => 1.0f - baseAlpha,
-			ViewModeType.ThirdPerson => baseAlpha,
-			_ => 1.0f,
-		};
 	}
 }

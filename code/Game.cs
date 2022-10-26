@@ -3,6 +3,7 @@ global using GvarJam.Interactions;
 global using GvarJam.Inventory;
 global using GvarJam.Objectives;
 global using GvarJam.Player;
+global using GvarJam.UI;
 global using GvarJam.Utility;
 global using Sandbox;
 global using Sandbox.Component;
@@ -12,25 +13,26 @@ global using SandboxEditor;
 global using System;
 global using System.Collections.Generic;
 global using System.Linq;
-using GvarJam.Interaction;
-using GvarJam.UI;
 
 namespace GvarJam;
 
 /// <summary>
 /// The game class.
 /// </summary>
-public sealed partial class MyGame : Sandbox.Game
+public sealed partial class HorrorGame : Game
 {
-	private ObjectiveSystem ObjectiveSystem { get; set; }
+	/// <summary>
+	/// The instance of the objective system.
+	/// </summary>
+	private ObjectiveSystem ObjectiveSystem { get; set; } = null!;
 
-	public MyGame()
+	public HorrorGame()
 	{
-		if ( IsServer )
-		{
-			_ = new Hud();
-			ObjectiveSystem = new();
-		}
+		if ( !IsServer )
+			return;
+		
+		_ = new Hud();
+		ObjectiveSystem = new();
 	}
 
 	/// <summary>
@@ -60,6 +62,50 @@ public sealed partial class MyGame : Sandbox.Game
 	}
 
 	/// <summary>
+	/// Debug command to start testing the cutscene camera.
+	/// </summary>
+	[ConCmd.Client( "test_cutscene_camera" )]
+	public static void TestCutsceneCamera()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null || ConsoleSystem.Caller.Pawn is not Pawn pawn )
+			return;
+
+		var nearestCamera = All.OfType<MountedCamera>().GetClosestOrDefault( pawn );
+		if ( nearestCamera is not null )
+			pawn.StartCutscene( nearestCamera, "lens_position" );
+	}
+
+	/// <summary>
+	/// Debug command to stop testing the cutscene camera.
+	/// </summary>
+	[ConCmd.Client( "test_cutscene_end" )]
+	public static void TestCutsceneEnd()
+	{
+		if ( ConsoleSystem.Caller?.Pawn is null || ConsoleSystem.Caller.Pawn is not Pawn pawn )
+			return;
+
+		pawn.EndCutscene();
+	}
+
+	/// <summary>
+	/// Debug command to play the "welcome_f" sound.
+	/// </summary>
+	[ConCmd.Admin( "welcomef" )]
+	public static void PlayWelcomeF()
+	{
+		Sound.FromScreen( "welcome_f" );
+	}
+
+	/// <summary>
+	/// Debug command to play the "welcome_m" sound.
+	/// </summary>
+	[ConCmd.Admin( "welcomem" )]
+	public static void PlayWelcomeM()
+	{
+		Sound.FromScreen( "welcome_m" );
+	}
+
+	/// <summary>
 	/// Debug command to spawn a monster model.
 	/// </summary>
 	[ConCmd.Admin( "spawn_monstermodel" )]
@@ -68,45 +114,39 @@ public sealed partial class MyGame : Sandbox.Game
 		if ( ConsoleSystem.Caller?.Pawn is null )
 			return;
 
-		Pawn pawn = ConsoleSystem.Caller.Pawn as Pawn;
+		var pawn = ConsoleSystem.Caller.Pawn;
 
-		AnimatedEntity split = new AnimatedEntity( "models/enemy/basic_splitizen.vmdl" )
+		AnimatedEntity split = new( "models/enemy/basic_splitizen.vmdl" )
 		{
 			Position = pawn.Position + pawn.Rotation.Forward * 150f,
 			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-
 		};
 
-		AnimatedEntity mon = new AnimatedEntity( "models/enemy/monster.vmdl" )
+		AnimatedEntity mon = new( "models/enemy/monster.vmdl" )
 		{
 			Position = pawn.Position + pawn.Rotation.Forward * 150f,
 			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-
 		};
 
-		AnimatedEntity mon2 = new AnimatedEntity( "models/enemy/monster.vmdl" )
+		AnimatedEntity mon2 = new( "models/enemy/monster.vmdl" )
 		{
 			Position = pawn.Position + pawn.Rotation.Forward * 150f - pawn.Rotation.Left * 32f,
 			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-
 		};
 
+		mon.SetParent( split, true );
 		mon2.SetAnimParameter( "idle", true );
 
-		mon.SetParent( split, true );
-
-		AnimatedEntity cit = new AnimatedEntity( "models/player/playermodel.vmdl" )
+		AnimatedEntity cit = new( "models/player/playermodel.vmdl" )
 		{
 			Position = pawn.Position + pawn.Rotation.Forward * 150f,
 			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-
 		};
 
-		AnimatedEntity cit2 = new AnimatedEntity( "models/player/playermodel.vmdl" )
+		AnimatedEntity cit2 = new( "models/player/playermodel.vmdl" )
 		{
 			Position = pawn.Position + pawn.Rotation.Forward * 150f + pawn.Rotation.Left * 32f,
 			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-
 		};
 
 		cit.SetMaterialOverride( "models/enemy/materials/citizen/splitizen_skin.vmat" );
@@ -125,8 +165,8 @@ public sealed partial class MyGame : Sandbox.Game
 		cit2.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 		cit2.UseAnimGraph = false;
 		cit2.PhysicsBody.Velocity = Vector3.Random * 500f;
-		//split.SetAnimParameter( "split", true );
-		//mon.SetAnimParameter( "split", true );
+		// split.SetAnimParameter( "split", true );
+		// mon.SetAnimParameter( "split", true );
 	}
 
 	/// <summary>
@@ -138,29 +178,26 @@ public sealed partial class MyGame : Sandbox.Game
 		if ( ConsoleSystem.Caller?.Pawn is null )
 			return;
 
-		Pawn pawn = ConsoleSystem.Caller.Pawn as Pawn;
+		var pawn = ConsoleSystem.Caller.Pawn;
 
-		AnimatedEntity split = new AnimatedEntity( "models/enemy/basic_splitizen.vmdl" )
+		AnimatedEntity split = new( "models/enemy/basic_splitizen.vmdl" )
 		{
 			Position = pawn.Position + pawn.Rotation.Forward * 150f,
 			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-
 		};
 
-		AnimatedEntity mon = new AnimatedEntity( "models/enemy/monster.vmdl" )
+		AnimatedEntity mon = new( "models/enemy/monster.vmdl" )
 		{
 			Position = pawn.Position + pawn.Rotation.Forward * 150f,
 			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-
 		};
 
 		mon.SetParent( split, true );
 
-		AnimatedEntity cit = new AnimatedEntity( "models/player/playermodel.vmdl" )
+		AnimatedEntity cit = new( "models/player/playermodel.vmdl" )
 		{
 			Position = pawn.Position + pawn.Rotation.Forward * 150f,
 			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-
 		};
 
 		cit.SetMaterialOverride( "models/enemy/materials/citizen/splitizen_skin.vmat" );

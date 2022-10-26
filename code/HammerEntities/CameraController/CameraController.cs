@@ -1,27 +1,52 @@
 namespace GvarJam.HammerEntities;
 
+/// <summary>
+/// A controller to view camera feeds.
+/// </summary>
 [Category( "Environment" )]
 [Library( "ent_cameracontroller" )]
 [HammerEntity]
 [EditorModel( "models/cameraconsole/console.vmdl" )]
 public sealed partial class CameraController : LockedUseItem
 {
+	/// <summary>
+	/// The time since this controller was interacted with.
+	/// </summary>
 	[Net, Predicted]
 	public TimeSince TimeSinceUsed { get; set; }
 
+	/// <summary>
+	/// The currently viewed camera.
+	/// </summary>
 	[Net]
 	public MountedCamera? TargetCamera { get; set; }
 
+	/// <summary>
+	/// The number of usable cameras.
+	/// </summary>
 	[Net]
 	public int NumberOfUsableCameras { get; set; }
 
+	/// <summary>
+	/// The index of the currently viewed camera.
+	/// </summary>
 	[Net]
 	public int CurrentCameraIndex { get; set; }
 
+	/// <summary>
+	/// The screen model entity.
+	/// </summary>
 	[Net]
-	protected ModelEntity Screen { get; set; }
+	private ModelEntity Screen { get; set; } = null!;
 
+	/// <summary>
+	/// The scene portal to the view of the currently viewed camera.
+	/// </summary>
 	private ScenePortal? scenePortal;
+
+	/// <summary>
+	/// The world UI panel for the zone name.
+	/// </summary>
 	private CameraControllerPanel? zoneName { get; set; }
 
 	/// <inheritdoc/>
@@ -52,12 +77,12 @@ public sealed partial class CameraController : LockedUseItem
 
 		if ( User is Pawn player && GetAttachment( "rhand_attach" ).HasValue )
 		{
-			player.SetAnimParameter( "right_hand_ik", GetAttachment( "rhand_attach" ).Value );
+			player.SetAnimParameter( "right_hand_ik", GetAttachment( "rhand_attach" )!.Value );
 		}
 
 		if ( User is Pawn player2 && GetAttachment( "lhand_attach" ).HasValue )
 		{
-			player2.SetAnimParameter( "left_hand_ik", GetAttachment( "lhand_attach" ).Value );
+			player2.SetAnimParameter( "left_hand_ik", GetAttachment( "lhand_attach" )!.Value );
 		}
 
 		if ( TimeSinceUsed < 1 )
@@ -95,17 +120,6 @@ public sealed partial class CameraController : LockedUseItem
 			SwitchCameraView();
 			return;
 		}
-	}
-
-	private void SwitchCameraView()
-	{
-		var cameras = FindUsableMountedCameras();
-		TargetCamera = cameras[CurrentCameraIndex];
-
-		if ( Host.IsClient && zoneName is not null )
-			zoneName.UpdateName( TargetCamera.ZoneName.ToUpper() );
-
-		Sound.FromEntity( "joystick_click", this );
 	}
 
 	/// <inheritdoc/>
@@ -214,6 +228,24 @@ public sealed partial class CameraController : LockedUseItem
 		return true;
 	}
 
+	/// <summary>
+	/// Switches the camera that is being viewed.
+	/// </summary>
+	private void SwitchCameraView()
+	{
+		var cameras = FindUsableMountedCameras();
+		TargetCamera = cameras[CurrentCameraIndex];
+
+		if ( IsClient && zoneName is not null )
+			zoneName.UpdateName( TargetCamera.ZoneName.ToUpper() );
+
+		Sound.FromEntity( "joystick_click", this );
+	}
+
+	/// <summary>
+	/// Finds all viewable cameras.
+	/// </summary>
+	/// <returns>All viewable cameras.</returns>
 	private List<MountedCamera> FindUsableMountedCameras()
 	{
 		var cameras = All.OfType<MountedCamera>().Where( x => x.IsViewable ).ToList();
@@ -222,6 +254,9 @@ public sealed partial class CameraController : LockedUseItem
 		return cameras;
 	}
 
+	/// <summary>
+	/// Updates the scene portal in the camera controllers screen.
+	/// </summary>
 	[Event.Frame]
 	private void OnFrame()
 	{

@@ -1,18 +1,38 @@
 ﻿namespace GvarJam.Objectives;
 
-public class Objective
+/// <summary>
+/// Represents an objective in the game to complete.
+/// </summary>
+public sealed class Objective
 {
-	public ObjectiveResource Resource { get; set; }
+	/// <summary>
+	/// The underlying resource of the objective.
+	/// </summary>
+	public ObjectiveResource Resource { get; set; } = null!;
 
+	/// <summary>
+	/// The time since the objective was started.
+	/// </summary>
 	private TimeSince TimeSinceObjectiveStart;
+
+	/// <summary>
+	/// The time since the objective was finished.
+	/// </summary>
 	private TimeSince TimeSinceObjectiveEnd;
 
+	/// <inheritdoc/>
 	public override bool Equals( object? obj )
 	{
 		if ( obj is not Objective objective )
 			return false;
 
 		return Resource == objective.Resource;
+	}
+
+	/// <inheritdoc/>
+	public override int GetHashCode()
+	{
+		return Resource.GetHashCode();
 	}
 
 	/// <summary>
@@ -55,6 +75,10 @@ public class Objective
 		return conditionsMet;
 	}
 
+	/// <summary>
+	/// Invokes the event methods for pawns to start the objective.
+	/// </summary>
+	/// <param name="pawn">The pawn to invoke the event methods for.</param>
 	public void InvokeStartEvents( Pawn pawn )
 	{
 		Resource.ObjectiveStartEvents?.ForEach( x => x.Invoke( pawn ) );
@@ -62,6 +86,10 @@ public class Objective
 		TimeSinceObjectiveStart = 0;
 	}
 
+	/// <summary>
+	/// Invokes the event methods for pawns to finish the objective.
+	/// </summary>
+	/// <param name="pawn">The pawn to invoke the event methods for.</param>
 	public void InvokeEndEvents( Pawn pawn )
 	{
 		Resource.ObjectiveEndEvents?.ForEach( x => x.Invoke( pawn ) );

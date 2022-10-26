@@ -1,6 +1,6 @@
 ﻿namespace GvarJam.Player;
 
-public partial class Pawn
+partial class Pawn
 {
 	/// <summary>
 	/// The items that the pawn currently has.

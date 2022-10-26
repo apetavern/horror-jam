@@ -1,7 +1,20 @@
 ﻿namespace GvarJam.Player;
 
-public partial class Pawn
+partial class Pawn
 {
+	/// <summary>
+	/// The amount of sanity to drain per second.
+	/// </summary>
+	private const float SanityDrainPerSecond = 0.02f;
+
+	/// <summary>
+	/// The amount fo sanity to gain per second.
+	/// </summary>
+	private const float SanityGainPerSecond = 0.08f;
+
+	/// <summary>
+	/// Whether or not the post processing for the sanity system is enabled.
+	/// </summary>
 	[ConVar.Client( "SanityPostEnabled" )]
 	public bool SanityPostEnabled { get; set; } = false;
 
@@ -11,29 +24,28 @@ public partial class Pawn
 	[Net, Predicted]
 	public float InsanityLevel { get; set; } = 0;
 
-	private float sanityDrainPerSecond { get; set; } = 0.02f;
-
-	private float sanityGainPerSecond { get; set; } = 0.08f;
-
+	/// <summary>
+	/// Simulates the sanity system.
+	/// </summary>
 	public void SimulateSanity()
 	{
 		DebugOverlay.ScreenText( $"Insanity level: {InsanityLevel}" );
 
 		if ( Lamp is not null && !Lamp.Enabled )
-			InsanityLevel += sanityDrainPerSecond / Global.TickRate;
+			InsanityLevel += SanityDrainPerSecond / Global.TickRate;
 		else
-			InsanityLevel -= sanityGainPerSecond / Global.TickRate;
+			InsanityLevel -= SanityGainPerSecond / Global.TickRate;
 
-		if ( Host.IsClient && SanityPostEnabled && Local.Pawn is Pawn pawn )
+		if ( IsClient && SanityPostEnabled )
 		{
-			pawn.ApplyVignetteAmount( InsanityLevel.Clamp( 0.2f, 0.70f ) );
-			pawn.ApplyBrightnessAmount( 1 - InsanityLevel.Clamp( 0f, 0.90f ) );
-			pawn.ApplyFilmGrain( (InsanityLevel / 50).Clamp( 0, 0.02f ) );
+			ApplyVignetteAmount( InsanityLevel.Clamp( 0.2f, 0.70f ) );
+			ApplyBrightnessAmount( 1 - InsanityLevel.Clamp( 0f, 0.90f ) );
+			ApplyFilmGrain( (InsanityLevel / 50).Clamp( 0, 0.02f ) );
 
 			if ( InsanityLevel > 0.90f )
-				pawn.ApplyMotionBlur( InsanityLevel.Clamp( 0, 0.25f ) );
+				ApplyMotionBlur( InsanityLevel.Clamp( 0, 0.25f ) );
 			else
-				pawn.ApplyMotionBlur( 0 );
+				ApplyMotionBlur( 0 );
 		}
 			
 

@@ -1,6 +1,9 @@
 ﻿namespace GvarJam.UI.Elements;
 
-internal class LetterboxBars : Panel
+/// <summary>
+/// Some cinematic letter box bars.
+/// </summary>
+public sealed class LetterboxBars : Panel
 {
 	public LetterboxBars()
 	{

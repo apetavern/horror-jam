@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GvarJam.HammerEntities;
@@ -15,6 +14,9 @@ namespace GvarJam.HammerEntities;
 [Title( "Door" ), Category( "Gameplay" ), Icon( "door_front" )]
 public partial class DoorEntity : KeyframeEntity, IUse
 {
+	/// <summary>
+	/// The doors flags.
+	/// </summary>
 	[Flags]
 	public enum Flags
 	{
@@ -27,6 +29,9 @@ public partial class DoorEntity : KeyframeEntity, IUse
 		//StartUnbreakable = 524288,
 	}
 
+	/// <summary>
+	/// The item that is required to open the door.
+	/// </summary>
 	[Property]
 	public ItemType ItemRequiredToOpen { get; set; }
 
@@ -48,6 +53,9 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	[Property( "movedir_islocal", Title = "Move Direction is Expressed in Local Space" )]
 	public bool MoveDirIsLocal { get; set; } = true;
 
+	/// <summary>
+	/// Represents the way the door should move.
+	/// </summary>
 	public enum DoorMoveType
 	{
 		Moving,
@@ -144,7 +152,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	/// Used to override the open/close animation of moving and rotating doors. X axis (input, left to right) is the animation, Y axis (output, bottom to top) is how open the door is at that point in the animation.
 	/// </summary>
 	[Property( "open_ease", Title = "Ease Function" )]
-	public FGDCurve OpenCurve { get; set; }
+	public FGDCurve OpenCurve { get; set; } = null!;
 
 	/// <summary>
 	/// Whether this door is locked or not.
@@ -165,6 +173,9 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	Rotation RotationB_Normal;
 	Rotation RotationB_Opposite;
 
+	/// <summary>
+	/// Represents a state that the door is in.
+	/// </summary>
 	public enum DoorState
 	{
 		Open,
@@ -179,6 +190,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	[Net]
 	public DoorState State { get; protected set; } = DoorState.Open;
 
+	/// <inheritdoc/>
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -230,6 +242,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 		}
 	}
 
+	/// <inheritdoc/>
 	protected override void OnDestroy()
 	{
 		if ( MoveSoundInstance.HasValue )
@@ -245,7 +258,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	/// Sets the door's position to given percentage. The expected input range is 0..1
 	/// </summary>
 	[Input]
-	void SetPosition( float progress )
+	private void SetPosition( float progress )
 	{
 		if ( MoveDirType == DoorMoveType.Moving ) { LocalPosition = PositionA.LerpTo( PositionB, progress ); }
 		else if ( MoveDirType == DoorMoveType.Rotating ) { LocalRotation = Rotation.Lerp( RotationA, RotationB, progress ); }
@@ -264,11 +277,16 @@ public partial class DoorEntity : KeyframeEntity, IUse
 		if ( progress >= 1.0f ) State = DoorState.Open;
 	}
 
-	void UpdateAnimGraph( bool open )
+	/// <summary>
+	/// Updates the open state on the doors animgraph.
+	/// </summary>
+	/// <param name="open">The open state of the door.</param>
+	private void UpdateAnimGraph( bool open )
 	{
 		SetAnimParameter( "open", open );
 	}
 
+	/// <inheritdoc/>
 	protected override void OnAnimGraphCreated()
 	{
 		base.OnAnimGraphCreated();
@@ -285,6 +303,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 		}
 	}
 
+	/// <inheritdoc/>
 	public virtual bool IsUsable( Entity user ) => SpawnSettings.HasFlag( Flags.UseOpens );
 
 	/// <summary>
@@ -292,6 +311,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	/// </summary>
 	protected Output OnLockedUse { get; set; }
 
+	/// <inheritdoc/>
 	public virtual bool OnUse( Entity user )
 	{
 		if ( Locked && !(user as Pawn)!.HasItem(ItemRequiredToOpen) )
@@ -311,7 +331,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	}
 
 	#region Breakable
-
+	/// <inheritdoc/>
 	public override void OnNewModel( Model model )
 	{
 		base.OnNewModel( model );
@@ -347,6 +367,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	/// </summary>
 	protected Output OnDamaged { get; set; }
 
+	/// <inheritdoc/>
 	public override void TakeDamage( DamageInfo info )
 	{
 		// The door was damaged, even if its unbreakable, we still want to fire it
@@ -365,6 +386,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	/// </summary>
 	protected Output OnBreak { get; set; }
 
+	/// <inheritdoc/>
 	public override void OnKilled()
 	{
 		if ( LifeState != LifeState.Alive )
@@ -396,7 +418,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	/// Toggle the open state of the door. Obeys locked state.
 	/// </summary>
 	[Input]
-	public void Toggle( Entity activator = null )
+	public void Toggle( Entity? activator = null )
 	{
 		if ( State == DoorState.Open || State == DoorState.Opening )
 		{
@@ -414,7 +436,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	/// Open the door. Obeys locked state.
 	/// </summary>
 	[Input]
-	public void Open( Entity activator = null )
+	public void Open( Entity? activator = null )
 	{
 		if ( Locked )
 		{
@@ -464,7 +486,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	/// Close the door. Obeys locked state.
 	/// </summary>
 	[Input]
-	public void Close( Entity activator = null )
+	public void Close( Entity? activator = null )
 	{
 		if ( Locked )
 		{
@@ -526,13 +548,13 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	protected Output OnFullyClosed { get; set; }
 
 	internal bool ShouldPropagateState = true;
-	void OpenOtherDoors( bool open, Entity activator )
+	private void OpenOtherDoors( bool open, Entity? activator )
 	{
 		if ( !ShouldPropagateState ) return;
 
 		List<Entity> ents = new();
 
-		if ( !string.IsNullOrEmpty( Name ) ) ents.AddRange( Entity.FindAllByName( Name ) );
+		if ( !string.IsNullOrEmpty( Name ) ) ents.AddRange( FindAllByName( Name ) );
 		if ( OtherDoorsToOpen.TryGetTargets( out Entity[] doors ) ) ents.AddRange( doors );
 
 		foreach ( var ent in ents )
@@ -554,7 +576,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 		}
 	}
 
-	void UpdateState()
+	private void UpdateState()
 	{
 		bool open = (State == DoorState.Opening) || (State == DoorState.Open);
 
@@ -646,6 +668,7 @@ public partial class DoorEntity : KeyframeEntity, IUse
 		}
 	}
 
+	/// <inheritdoc/>
 	protected override void OnAnimGraphTag( string tag, AnimGraphTagEvent fireMode )
 	{
 		if ( tag == "AnimationFinished" && fireMode != AnimGraphTagEvent.End )
