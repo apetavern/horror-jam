@@ -2,7 +2,7 @@
 {
 	data = 
 	{
-		Name = "Wake Up"
+		ObjectiveName = "My Cool Objective"
 		Description = "Wake up from cryo sleep"
 		ObjectiveStartConditions = 
 		[
@@ -15,9 +15,9 @@
 		[
 			{
 				Type = "Timer"
-				TriggerName = ""
 				InteractableName = ""
 				TypeName = ""
+				TriggerName = ""
 				TimeDelay = 10
 			},
 		]
@@ -26,11 +26,19 @@
 			{
 				Type = "PlayInstantiatedCutscene"
 				TargetEntityName = ""
-				TargetModel = resource:"models/cutscenes/cryo/cryarms.vmdl"
 				InfoTarget = "cryo_sleep_pos"
+				TargetModel = resource:"models/cutscenes/cryo/cryarms.vmdl"
+				AdditionalSceneModels = [  ]
 				TargetAttachment = "camPos"
 				Duration = 10
-				AdditionalSceneModels = [  ]
+			},
+			{
+				Type = "PlayInstantiatedCutscene"
+				TargetEntityName = ""
+				InfoTarget = "opening"
+				TargetModel = resource:"models/cryochamber/cryochamber.vmdl"
+				TargetAttachment = ""
+				Duration = 120
 			},
 		]
 		ObjectiveEndEvents = [  ]
