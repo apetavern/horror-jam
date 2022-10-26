@@ -28,17 +28,12 @@
 				TargetEntityName = ""
 				InfoTarget = "cryo_sleep_pos"
 				TargetModel = resource:"models/cutscenes/cryo/cryarms.vmdl"
-				AdditionalSceneModels = [  ]
+				AdditionalSceneModels = 
+				[
+					resource:"models/cryochamber/cryochamber.vmdl",
+				]
 				TargetAttachment = "camPos"
 				Duration = 10
-			},
-			{
-				Type = "PlayInstantiatedCutscene"
-				TargetEntityName = ""
-				InfoTarget = "opening"
-				TargetModel = resource:"models/cryochamber/cryochamber.vmdl"
-				TargetAttachment = ""
-				Duration = 120
 			},
 		]
 		ObjectiveEndEvents = [  ]

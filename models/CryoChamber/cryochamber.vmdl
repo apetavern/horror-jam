@@ -61,28 +61,15 @@
 				[
 					{
 						_class = "AnimFile"
-						name = "Opening"
-						activity_name = ""
-						activity_weight = 1
-						weight_list_name = ""
-						fade_in_time = 0.2
-						fade_out_time = 0.2
-						looping = false
-						delta = false
-						worldSpace = false
-						hidden = false
-						anim_markup_ordered = false
-						disable_compression = false
-						source_filename = "models/CryoChamber/CryoChamber.fbx"
-						start_frame = -1
-						end_frame = -1
-						framerate = -1.0
-						take = 1
-						reverse = false
-					},
-					{
-						_class = "AnimFile"
 						name = "Closed"
+						children = 
+						[
+							{
+								_class = "AnimOffset"
+								translation = [ -20.0, 0.0, -16.0 ]
+								rotation_xyz = [ 0.0, 0.0, 0.0 ]
+							},
+						]
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
@@ -104,6 +91,14 @@
 					{
 						_class = "AnimFile"
 						name = "Open"
+						children = 
+						[
+							{
+								_class = "AnimOffset"
+								translation = [ -49.0, -6.0, -24.0 ]
+								rotation_xyz = [ 0.0, 0.0, 0.0 ]
+							},
+						]
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
