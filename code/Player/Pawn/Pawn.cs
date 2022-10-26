@@ -204,9 +204,9 @@ public sealed partial class Pawn : AnimatedEntity
 		};
 
 		Lamp.Enabled = false;
-		Lamp.OuterConeAngle *= 0.4f;
-		Lamp.InnerConeAngle *= 0.1f;
-		Lamp.Brightness = 0.5f;
+		Lamp.OuterConeAngle *= 0.6f;
+		Lamp.InnerConeAngle *= 0.2f;
+		Lamp.Brightness = 1f;
 
 		Helmet.SetParent( this, true );
 		AddHelmetChild( To.Single( Client ), Helmet );
