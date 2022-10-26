@@ -169,6 +169,7 @@ public sealed partial class StorageLocker : DelayedUseItem
 
 		( user as Pawn)!.SetAnimParameter( "b_IKleft", true );
 		(user as Pawn)!.SetAnimParameter( "left_hand_ik", Door.GetAttachment("handle")!.Value );
+		Sound.FromEntity( "locker_open", this );
 		return false;
 	}
 
