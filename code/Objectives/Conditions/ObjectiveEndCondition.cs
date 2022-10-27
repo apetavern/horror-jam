@@ -23,6 +23,10 @@ public struct ObjectiveEndCondition
 		/// </summary>
 		PlayerEnteredTrigger,
 		/// <summary>
+		/// Player has a specific item in their inventory.
+		/// </summary>
+		PlayerHasItem,
+		/// <summary>
 		/// After a time.
 		/// </summary>
 		Timer
@@ -50,6 +54,12 @@ public struct ObjectiveEndCondition
 	/// </summary>
 	[ShowIf( nameof( Type ), ConditionType.PlayerEnteredTrigger )]
 	public string TriggerName { get; set; }
+
+	/// <summary>
+	/// The name of the item that must be in the player's inventory.
+	/// </summary>
+	[ShowIf( nameof( Type ), ConditionType.PlayerHasItem )]
+	public string ItemType { get; set; }
 
 	/// <summary>
 	/// The amount of time in seconds to delay for before completing.
@@ -90,6 +100,17 @@ public struct ObjectiveEndCondition
 
 					if ( trigger.TouchingEntities.Contains( pawn ) )
 						return true;
+					return false;
+				}
+			case ConditionType.PlayerHasItem:
+				{
+					foreach ( var item in pawn.Items.Keys )
+					{
+						if ( item.GetType().Name == ItemType )
+						{
+							return true;
+						}
+					}
 					break;
 				}
 		}

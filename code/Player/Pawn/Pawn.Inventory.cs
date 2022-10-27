@@ -6,7 +6,7 @@ partial class Pawn
 	/// The items that the pawn currently has.
 	/// </summary>
 	[Net]
-	IDictionary<ItemType, int> Items { get; set; } = null!;
+	public IDictionary<ItemType, int> Items { get; set; } = null!;
 
 	/// <summary>
 	/// Gives the pawn an item.
