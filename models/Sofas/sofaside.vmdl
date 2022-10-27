@@ -14,12 +14,40 @@
 						remaps = 
 						[
 							{
-								from = "smalltable.vmat"
-								to = "models/table/table.vmat"
+								from = "sofaside.vmat"
+								to = "models/sofas/sofaside.vmat"
 							},
 						]
 						use_global_default = false
 						global_default_material = ""
+					},
+				]
+			},
+			{
+				_class = "PhysicsShapeList"
+				children = 
+				[
+					{
+						_class = "PhysicsMeshFile"
+						name = "sofaside_low"
+						parent_bone = ""
+						surface_prop = "default"
+						collision_tags = "solid"
+						recenter_on_parent_bone = false
+						offset_origin = [ 0.0, 0.0, 0.0 ]
+						offset_angles = [ 0.0, 0.0, 0.0 ]
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						filename = "models/Sofas/sofaside_low.fbx"
+						import_scale = 0.3
+						maxMeshVertices = 0
+						qemError = 0.0
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
 					},
 				]
 			},
@@ -29,7 +57,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "models/Table/Table_low.fbx"
+						filename = "models/Sofas/sofaside_low.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
 						import_scale = 0.3
@@ -42,36 +70,8 @@
 							exclude_by_default = true
 							exception_list = 
 							[
-								"smalltable_mesh_001",
+								"sofaside_mesh",
 							]
-						}
-					},
-				]
-			},
-			{
-				_class = "PhysicsShapeList"
-				children = 
-				[
-					{
-						_class = "PhysicsMeshFile"
-						name = "Table_low"
-						parent_bone = ""
-						surface_prop = "default"
-						collision_tags = "solid"
-						recenter_on_parent_bone = false
-						offset_origin = [ 0.0, 0.0, 0.0 ]
-						offset_angles = [ 0.0, 0.0, 0.0 ]
-						align_origin_x_type = "None"
-						align_origin_y_type = "None"
-						align_origin_z_type = "None"
-						filename = "models/Table/Table_low.fbx"
-						import_scale = 0.3
-						maxMeshVertices = 0
-						qemError = 0.0
-						import_filter = 
-						{
-							exclude_by_default = false
-							exception_list = [  ]
 						}
 					},
 				]
