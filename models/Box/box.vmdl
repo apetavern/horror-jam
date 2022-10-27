@@ -28,7 +28,7 @@
 				children = 
 				[
 					{
-						_class = "PhysicsMeshFile"
+						_class = "PhysicsHullFile"
 						name = "box_low"
 						parent_bone = ""
 						surface_prop = "default"
@@ -41,8 +41,10 @@
 						align_origin_z_type = "None"
 						filename = "models/Box/box_low.fbx"
 						import_scale = 0.18
-						maxMeshVertices = 0
-						qemError = 0.0
+						faceMergeAngle = 10.0
+						maxHullVertices = 0
+						import_mode = "SingleHull"
+						optimization_algorithm = "QEM"
 						import_filter = 
 						{
 							exclude_by_default = false
