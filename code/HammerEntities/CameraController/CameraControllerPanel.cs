@@ -29,7 +29,7 @@ public sealed class CameraControllerPanel : WorldPanel
 	/// Updates the name label on the controller.
 	/// </summary>
 	/// <param name="name">The new name to put on the label.</param>
-	public void UpdateName(string name) 
+	public void UpdateName( string name ) 
 	{
 		if ( label is null )
 			return;

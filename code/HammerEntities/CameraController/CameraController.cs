@@ -18,20 +18,36 @@ public sealed partial class CameraController : LockedUseItem
 	/// <summary>
 	/// The currently viewed camera.
 	/// </summary>
-	[Net]
 	public MountedCamera? TargetCamera { get; set; }
 
 	/// <summary>
 	/// The number of usable cameras.
 	/// </summary>
-	[Net]
 	public int NumberOfUsableCameras { get; set; }
+
+	private int currentCameraIndex { get; set; } = 0;
 
 	/// <summary>
 	/// The index of the currently viewed camera.
 	/// </summary>
-	[Net]
-	public int CurrentCameraIndex { get; set; }
+	public int CurrentCameraIndex { 
+		get
+		{
+			return currentCameraIndex;
+		}
+		set 
+		{
+			var cameras = FindUsableMountedCameras();
+			TargetCamera = cameras[CurrentCameraIndex];
+
+			if ( IsClient )
+				zoneName.UpdateName( TargetCamera.ZoneName.ToUpper() );
+
+			Sound.FromEntity( "joystick_click", this );
+
+			currentCameraIndex = value;
+		} 
+	}
 
 	/// <summary>
 	/// The screen model entity.
@@ -61,16 +77,18 @@ public sealed partial class CameraController : LockedUseItem
 		Screen.SetMaterialGroup( 1 );
 
 		Name = "Camera Controller";
+	}
 
-		// Set initial camera
-		var usableCameras = FindUsableMountedCameras();
-		var targetCamera = usableCameras.FirstOrDefault();
+	public override void ClientSpawn()
+	{
+		base.ClientSpawn();
 
-		if ( targetCamera is null )
-			return;
+		
+	}
 
-		TargetCamera = targetCamera;
-		CurrentCameraIndex = 0;
+	public void OnCurrentCameraIndexChanged()
+	{
+		
 	}
 
 	/// <inheritdoc/>
@@ -101,12 +119,14 @@ public sealed partial class CameraController : LockedUseItem
 		{
 			SetAnimParameter( "right", true );
 
+			if ( Host.IsServer )
+				return;
+
 			if ( CurrentCameraIndex + 1 > NumberOfUsableCameras )
 				CurrentCameraIndex = 0;
 			else
 				CurrentCameraIndex += 1;
 
-			SwitchCameraView();
 			return;
 		}
 
@@ -114,12 +134,14 @@ public sealed partial class CameraController : LockedUseItem
 		{
 			SetAnimParameter( "left", true );
 
-			if ( CurrentCameraIndex - 1 <= 0 )
+			if ( Host.IsServer )
+				return;
+
+			if ( CurrentCameraIndex - 1 == -1 )
 				CurrentCameraIndex = NumberOfUsableCameras;
 			else
 				CurrentCameraIndex -= 1;
 
-			SwitchCameraView();
 			return;
 		}
 	}
@@ -141,6 +163,24 @@ public sealed partial class CameraController : LockedUseItem
 			return;
 
 		player.InteractedEntity = this;
+
+		// Hide the screen when it's being used.
+		if ( Screen is not null )
+			Screen.RenderColor = Color.Transparent;
+
+		if ( IsClient )
+		{
+			var attachment = GetAttachment( "zonename" );
+
+			if ( attachment is null )
+				return;
+
+			zoneName = new CameraControllerPanel( this );
+			zoneName.Position = attachment.Value.Position;
+			zoneName.Rotation = attachment.Value.Rotation;
+
+			CurrentCameraIndex = 0;
+		}
 
 		if ( GetAttachment( "rhand_attach" ).HasValue )
 		{
@@ -165,23 +205,7 @@ public sealed partial class CameraController : LockedUseItem
 			User = player;
 
 			return;
-		}
-
-		// Hide the screen when it's being used.
-		if ( Screen is not null )
-			Screen.RenderColor = Color.Transparent;
-
-		if ( IsClient )
-		{
-			var attachment = GetAttachment( "zonename" );
-
-			if ( attachment is null )
-				return;
-
-			zoneName = new CameraControllerPanel( this );
-			zoneName.Position = attachment.Value.Position;
-			zoneName.Rotation = attachment.Value.Rotation;
-		}
+		}	
 
 		scenePortal = new ScenePortal( Map.Scene, Model.Load( "models/cameraconsole/console_screen.vmdl" ), Transform );
 	}
@@ -228,20 +252,6 @@ public sealed partial class CameraController : LockedUseItem
 		base.OnUse( user );
 
 		return true;
-	}
-
-	/// <summary>
-	/// Switches the camera that is being viewed.
-	/// </summary>
-	private void SwitchCameraView()
-	{
-		var cameras = FindUsableMountedCameras();
-		TargetCamera = cameras[CurrentCameraIndex];
-
-		if ( IsClient && zoneName is not null )
-			zoneName.UpdateName( TargetCamera.ZoneName.ToUpper() );
-
-		Sound.FromEntity( "joystick_click", this );
 	}
 
 	/// <summary>
