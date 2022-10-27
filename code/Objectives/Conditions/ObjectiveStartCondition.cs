@@ -63,7 +63,10 @@ public struct ObjectiveStartCondition
 					var objectiveSystem = ObjectiveSystem.Current;
 					var objectiveName = ObjectiveName;
 
-					return !objectiveSystem.PendingObjectives.Any( x => x.Resource.ResourcePath == objectiveName );
+					var activeObjMatch = objectiveSystem.ActiveObjectives.Any( x => x.Resource.ResourcePath == objectiveName );
+					var pendingObjMatch = objectiveSystem.PendingObjectives.Any( x => x.Resource.ResourcePath == objectiveName );
+
+					return !activeObjMatch && !pendingObjMatch;
 				}
 		}
 
