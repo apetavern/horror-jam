@@ -23,7 +23,7 @@ Layer0
 	TextureMetalness "models/cryochamber/textures/cryodoor_metallic.png"
 	TextureNormal "materials/default/default_normal.tga"
 	TextureRoughness "models/cryochamber/textures/cryodoor_roughness.png"
-	TextureTranslucency "[0.214000 0.214000 0.214000 0.000000]"
+	TextureTranslucency "[0.076000 0.076000 0.076000 0.000000]"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -38,16 +38,16 @@ Layer0
 	//---- Glass ----
 	g_bMultiplyTintColor "1"
 	g_flAlphaTestReference "0.500"
-	g_flOpacity "0.370"
+	g_flOpacity "0.092"
 	GlassNormal "materials/default/default_normal.tga"
-	GlassRoughness "[0.093000 0.093000 0.093000 0.000000]"
+	GlassRoughness "[0.000000 0.000000 0.000000 0.000000]"
 	GlassTintColor "models/cryochamber/textures/cryodoor_base_color.png"
 
 	//---- Lighting ----
 	g_flDirectionalLightmapStrength "1.000"
 
 	//---- Refraction ----
-	g_flRefractionStrength "0.100"
+	g_flRefractionStrength "0.031"
 	RefractionNormal "models/cryochamber/textures/cryodoor_normal_opengl.png"
 
 	//---- Texture Coordinates ----
