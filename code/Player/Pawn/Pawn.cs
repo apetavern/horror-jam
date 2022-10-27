@@ -46,11 +46,13 @@ public sealed partial class Pawn : AnimatedEntity
 	/// This will block movement vector, crouching, and jumping in
 	/// <see cref="BuildInput(InputBuilder)" />.
 	/// </summary>
+	[Net, Local]
 	public bool BlockMovement { get; set; } = false;
 
 	/// <summary>
 	/// This will block the player from being able to look around.
 	/// </summary>
+	[Net, Local]
 	public bool BlockLook { get; set; } = false;
 
 	/// <summary>
@@ -118,8 +120,7 @@ public sealed partial class Pawn : AnimatedEntity
 
 		var rotation = Rotation;
 		Controller?.Simulate( cl, this, Animator );
-
-		if ( IsInteracting )
+		if ( IsInteracting || BlockMovement )
 			Rotation = rotation;
 
 		var i = 0;
@@ -137,7 +138,7 @@ public sealed partial class Pawn : AnimatedEntity
 
 		var rotation = Rotation;
 		Controller?.FrameSimulate( cl, this, Animator );
-		if ( IsInteracting )
+		if ( IsInteracting || BlockMovement )
 			Rotation = rotation;
 	}
 
@@ -165,22 +166,6 @@ public sealed partial class Pawn : AnimatedEntity
 		if ( !tr.Hit ) return;
 
 		tr.Surface.DoFootstep( this, tr, foot, volume );
-	}
-
-	/// <inheritdoc/>
-	public override void BuildInput( InputBuilder inputBuilder )
-	{
-		base.BuildInput( inputBuilder );
-
-		if ( BlockMovement )
-		{
-			inputBuilder.AnalogMove = 0;
-			inputBuilder.ClearButton( InputButton.Duck );
-			inputBuilder.ClearButton( InputButton.Jump );
-		}
-
-		if ( BlockLook )
-			inputBuilder.ViewAngles = Angles.Zero;
 	}
 
 	/// <summary>

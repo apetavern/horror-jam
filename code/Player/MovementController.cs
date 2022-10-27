@@ -90,7 +90,7 @@ public sealed partial class MovementController : WalkController
 	/// <inheritdoc/>
 	public override float GetWishSpeed()
 	{
-		if ( (Pawn as Pawn)!.IsInteracting )
+		if ( Pawn is Pawn pawn && (pawn.IsInteracting || pawn.BlockMovement) )
 			return 0;
 
 		var ws = Duck.GetWishSpeed();
@@ -105,7 +105,7 @@ public sealed partial class MovementController : WalkController
 	/// <inheritdoc/>
 	public override void CheckJumpButton()
 	{
-		if ( (Pawn as Pawn)!.IsInteracting )
+		if ( Pawn is Pawn pawn && (pawn.IsInteracting || pawn.BlockMovement) )
 			return;
 
 		// If we are in the water most of the way...
