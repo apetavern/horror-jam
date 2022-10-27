@@ -25,7 +25,7 @@
 				]
 				TargetAttachment = "camPos"
 				InputRequiredToStart = true
-				Duration = 20
+				Duration = 9.3
 				HidePlayers = true
 			},
 		]
