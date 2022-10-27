@@ -3,7 +3,7 @@
   "Type": "game",
   "Org": "apetavern",
   "Ident": "gvar_jam",
-  "Tags": null,
+  "Tags": "",
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
@@ -34,6 +34,19 @@
       "DefineConstants": "SANDBOX;ADDON;DEBUG",
       "NoWarn": "1701;1702;1591;",
       "Nullables": true
+    },
+    "ParentPackage": "",
+    "Physics": {
+      "SubSteps": 10,
+      "TimeScale": 1,
+      "Gravity": "0,0,-800",
+      "AirDensity": 1.2,
+      "SleepingEnabled": true,
+      "SimulationMode": "Continuous",
+      "PositionIterations": 4,
+      "VelocityIterations": 16,
+      "SoftBodyIterations": 4,
+      "SoftBodySubsteps": 10
     }
   }
 }

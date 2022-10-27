@@ -44,10 +44,8 @@ public partial class MonsterEntity : AnimatedEntity
 			TickMove();
 			TickState();
 		}
-		else
-		{
-			TickAnimator();
-		}
+
+		TickAnimator();
 	}
 
 	private void DrawDebugInfo()
@@ -113,7 +111,12 @@ public partial class MonsterEntity : AnimatedEntity
 
 	private void TickAnimator()
 	{
+		float walkspeed = Velocity.Length.LerpInverse( 0, 200 ) * 2.0f;
+
+		DebugOverlay.ScreenText( $"{walkspeed}, {Velocity.Length}", -1 );
+
 		SetAnimParameter( "idle", true );
+		SetAnimParameter( "walkspeed", walkspeed );
 	}
 
 	/// <summary>

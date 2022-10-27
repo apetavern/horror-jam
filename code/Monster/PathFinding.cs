@@ -3,7 +3,7 @@
 public class PathFinding
 {
 	public float Speed { get; set; } = 100f;
-	public float Accel => 100f;
+	public float Accel => 200f;
 	private Vector3 CurrentPosition => Monster.Position;
 
 	// This is quite shit! Too bad

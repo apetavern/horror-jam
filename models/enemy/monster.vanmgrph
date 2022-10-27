@@ -20,7 +20,7 @@
 					{
 						m_id = 937853572
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_states = 
 					[
@@ -171,7 +171,7 @@
 					{
 						m_id = 1099662391
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "CrawlOut"
@@ -193,7 +193,7 @@
 					{
 						m_id = 1324921450
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "idle"
@@ -215,7 +215,7 @@
 					{
 						m_id = 1364920785
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "dormant"
@@ -237,7 +237,7 @@
 					{
 						m_id = 1548441907
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_states = 
 					[
@@ -600,7 +600,7 @@
 					{
 						m_id = 1588343983
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "JumpOut"
@@ -622,7 +622,7 @@
 					{
 						m_id = 1627994485
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "slither"
@@ -644,7 +644,7 @@
 					{
 						m_id = 1965616751
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "run"
@@ -666,7 +666,7 @@
 					{
 						m_id = 2134446273
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_inputConnection = 
 					{

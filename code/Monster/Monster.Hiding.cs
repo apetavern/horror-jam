@@ -177,7 +177,7 @@ partial class MonsterEntity
 		// - If the player can see us, we shouldn't move to a hiding state
 
 		SetPath( TargetPosition );
-		PathFinding.Speed = 250f;
+		PathFinding.Speed = 200f;
 
 		var startPos = EyePosition;
 		var endPos = Entity.All.OfType<Pawn>().First().Position;
