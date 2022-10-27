@@ -70,7 +70,9 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	/// <param name="user">The entity that is using the item.</param>
 	protected virtual void OnUsed( Entity user )
 	{
-		(user as Pawn)!.LastInteractedEntity = this;
+		(user as Pawn)!.LastInteractedEntityName = Name;
+		(user as Pawn)!.LastInteractedEntityTypeName = GetType().Name;
+
 	}
 
 	/// <inheritdoc/>

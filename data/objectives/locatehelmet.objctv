@@ -7,6 +7,8 @@
 		ObjectiveStartConditions = 
 		[
 			{
+				Type = "PreviousObjectiveComplete"
+				InteractableName = ""
 				ObjectiveName = resource:"data/objectives/findjanitorkey.objctv"
 				TriggerName = ""
 			},
@@ -14,9 +16,11 @@
 		ObjectiveEndConditions = 
 		[
 			{
-				Type = "InteractWithType"
+				Type = "InteractedWithType"
 				InteractableName = ""
+				InteractedName = ""
 				TypeName = "Helmet"
+				InteractedTypeName = "Helmet"
 				TriggerName = ""
 				ItemType = ""
 			},

@@ -7,6 +7,8 @@
 		ObjectiveStartConditions = 
 		[
 			{
+				Type = "PreviousObjectiveComplete"
+				InteractableName = ""
 				ObjectiveName = resource:"data/objectives/wakeup.objctv"
 				TriggerName = ""
 			},
@@ -16,7 +18,9 @@
 			{
 				Type = "PlayerHasItem"
 				InteractableName = "JanitorKey"
+				InteractedName = ""
 				TypeName = ""
+				InteractedTypeName = ""
 				TriggerName = ""
 				ItemType = "JanitorKey"
 			},

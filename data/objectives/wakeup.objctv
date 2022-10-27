@@ -8,6 +8,7 @@
 		[
 			{
 				Type = "PlayerEnteredTrigger"
+				InteractableName = ""
 				TriggerName = "wakeup_intro_trigger"
 			},
 		]
