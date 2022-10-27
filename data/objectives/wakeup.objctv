@@ -26,6 +26,7 @@
 				TargetAttachment = "camPos"
 				InputRequiredToStart = true
 				Duration = 20
+				HidePlayers = true
 			},
 		]
 		ObjectiveEndEvents = [  ]

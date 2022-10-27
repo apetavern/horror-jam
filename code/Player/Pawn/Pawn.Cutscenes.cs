@@ -26,13 +26,16 @@ partial class Pawn
 	[Net]
 	public bool RequiresInputToStart { get; set; }
 
+	[Net, Local]
+	private bool HidingPlayers { get; set; }
+
 	private float DurationAfterDelay { get; set; }
 
 	/// <summary>
 	/// Start a cutscene from the perspective of an entity with an attachment.
 	/// Use a duration of -1 if you don't want it to end automatically.
 	/// </summary>
-	public void StartCutscene( AnimatedEntity targetEntity, string targetAttachment, float duration = -1.0f )
+	public void StartCutscene( AnimatedEntity targetEntity, string targetAttachment, float duration = -1.0f, bool hidePlayers = false )
 	{
 		// No checking if we're already in a cutscene here, in case we want to
 		// move entity
@@ -42,6 +45,7 @@ partial class Pawn
 		CutsceneDuration = duration;
 		TimeSinceCutsceneStart = 0;
 		RequiresInputToStart = false;
+		HidingPlayers = hidePlayers;
 
 		BlockMovement = true;
 		BlockLook = true;
@@ -52,7 +56,7 @@ partial class Pawn
 	/// Start a cutscene from the perspective of an entity with an attachment.
 	/// Use a duration of -1 if you don't want it to end automatically. Deletes entities once cutscene ends.
 	/// </summary>
-	public void StartCutsceneWithPostCleanup( AnimatedEntity targetEntity, List<AnimatedEntity> sceneModels, string targetAttachment, float duration = -1.0f, bool requiresInputToStart = false )
+	public void StartCutsceneWithPostCleanup( AnimatedEntity targetEntity, List<AnimatedEntity> sceneModels, string targetAttachment, float duration = -1.0f, bool requiresInputToStart = false, bool hidePlayers = false )
 	{
 		Camera = new CutsceneCamera() { TargetEntity = targetEntity, TargetAttachment = targetAttachment, AdditionalEntities = sceneModels, AwaitingInput = requiresInputToStart };
 
@@ -60,6 +64,7 @@ partial class Pawn
 		TimeSinceCutsceneStart = 0;
 
 		RequiresInputToStart = requiresInputToStart;
+		HidingPlayers = hidePlayers;
 
 		BlockMovement = true;
 		BlockLook = true;
@@ -89,6 +94,7 @@ partial class Pawn
 			return;
 
 		Camera = new PawnCamera();
+		HidingPlayers = false;
 
 		BlockMovement = false;
 		BlockLook = false;

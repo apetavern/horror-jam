@@ -23,7 +23,7 @@ public struct ObjectiveEvent
 	public string TargetEntityName { get; set; }
 
 	/// <summary>
-	/// The name of the entity toget the transform of for the start of the cutscene.
+	/// The name of the entity to get the transform of for the start of the cutscene.
 	/// </summary>
 	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene )]
 	public string InfoTarget { get; set; }
@@ -59,6 +59,12 @@ public struct ObjectiveEvent
 	public float Duration { get; set; }
 
 	/// <summary>
+	/// Whether or not player pawns should be hidden during the cutscenes.
+	/// </summary>
+	[HideIf( nameof( Type ), EventType.PlaySound )]
+	public bool HidePlayers { get; set; }
+
+	/// <summary>
 	/// Invokes the event.
 	/// </summary>
 	/// <param name="pawn">The pawn to invoke the event for.</param>
@@ -76,7 +82,7 @@ public struct ObjectiveEvent
 					return;
 				}
 
-				pawn.StartCutscene( targetEntity, TargetAttachment, Duration );
+				pawn.StartCutscene( targetEntity, TargetAttachment, Duration, HidePlayers );
 				break;
 			case EventType.PlayInstantiatedCutscene:
 				var infoTargetName = InfoTarget;
@@ -102,7 +108,7 @@ public struct ObjectiveEvent
 					}
 				}
 				
-				pawn.StartCutsceneWithPostCleanup( animEntity, sceneModels, TargetAttachment, Duration, InputRequiredToStart );
+				pawn.StartCutsceneWithPostCleanup( animEntity, sceneModels, TargetAttachment, Duration, InputRequiredToStart, HidePlayers );
 				break;
 		}
 	}

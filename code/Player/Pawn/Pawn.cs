@@ -239,6 +239,27 @@ public sealed partial class Pawn : AnimatedEntity
 	[Event.Frame]
 	private void OnFrame()
 	{
+		if ( HidingPlayers )
+		{
+			foreach ( var pawn in All.OfType<Pawn>() )
+			{
+				pawn.RenderColor = pawn.RenderColor.WithAlpha( 0 );
+				foreach ( var child in pawn.Children.OfType<ModelEntity>() )
+					child.RenderColor = child.RenderColor.WithAlpha( 0 );
+			}
+
+			return;
+		}
+		else
+		{
+			foreach ( var pawn in All.OfType<Pawn>() )
+			{
+				pawn.RenderColor = pawn.RenderColor.WithAlpha( 1 );
+				foreach ( var child in pawn.Children.OfType<ModelEntity>() )
+					child.RenderColor = child.RenderColor.WithAlpha( 1 );
+			}
+		}
+
 		//
 		// CACHING THE CHILDREN will definitely become a problem later!!
 		// This is a fast but probably not elegant solution
