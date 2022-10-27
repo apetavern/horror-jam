@@ -36,6 +36,10 @@ partial class Pawn
 		else
 			InsanityLevel -= SanityGainPerSecond / Global.TickRate;
 
+		// Subtract insanity if lights are found nearby.
+		if( GetLightsInSphere(200) > 0 )
+			InsanityLevel -= SanityGainPerSecond;
+
 		if ( IsClient && SanityPostEnabled )
 		{
 			ApplyVignetteAmount( InsanityLevel.Clamp( 0.2f, 0.80f ) );
@@ -47,8 +51,14 @@ partial class Pawn
 			else
 				ApplyMotionBlur( 0 );
 		}
-			
 
 		InsanityLevel = InsanityLevel.Clamp( 0, 1 );
+	}
+
+	private int GetLightsInSphere( int radius )
+	{
+		var lights = All.OfType<PointLightEntity>().Where( x => x.Enabled && Vector3.DistanceBetween( x.Position, Position ) < radius );
+
+		return lights.Count();
 	}
 }
