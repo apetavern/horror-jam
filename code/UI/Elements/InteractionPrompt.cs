@@ -47,7 +47,7 @@ public sealed class InteractionPrompt : WorldPanel
 		if ( intEntity != interactableEntity )
 		{
 			label.Text = intEntity.Name;
-			Position = intEntity.Position + Vector3.Up * intEntity.Model.RenderBounds.Size.z;
+			Position = intEntity.WorldSpaceBounds.Center + Vector3.Up * intEntity.Model.RenderBounds.Size.z * 0.6f;
 			Rotation = intEntity.Rotation;
 
 			RemoveClass( "hide" );
