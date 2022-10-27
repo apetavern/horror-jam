@@ -20,7 +20,6 @@ partial class Pawn
 				return;
 
 			interactedEntity = value;
-			InteractedEntity?.ShowInteractionPrompt( this, false );
 			IsInteracting = value is not null;
 
 			if ( Camera is not PawnCamera camera )
@@ -39,20 +38,12 @@ partial class Pawn
 	private InteractableEntity? interactedEntity { get; set; } = null!;
 
 	/// <summary>
-	/// The last interactable entity that was looked at.
-	/// </summary>
-	[Net, Predicted]
-	private InteractableEntity? LastInteractable { get; set; }
-
-	/// <summary>
 	/// Simulates the interaction system.
 	/// </summary>
 	private void SimulateInteraction( Client cl )
 	{
 		if ( InteractedEntity is not null && InteractedEntity.IsValid )
 		{
-			InteractedEntity.ShowInteractionPrompt(  this, false );
-
 			if ( Input.Down( InputButton.Use ) && InteractedEntity is not LockedUseItem )
 			{
 				if ( !InteractedEntity.OnUse( this ) )
@@ -82,16 +73,8 @@ partial class Pawn
 				interactableEntity.IsUsable( this ) && interactableEntity.OnUse( this ) )
 				InteractedEntity = interactableEntity;
 
-			if ( LastInteractable != interactableEntity )
-				LastInteractable?.ShowInteractionPrompt( this, false );
-
-			interactableEntity.ShowInteractionPrompt( this, true );
-			LastInteractable = interactableEntity;
-
 			return;
 		}
-		else
-			LastInteractable?.ShowInteractionPrompt( this, false );
 
 		if ( Input.Pressed( InputButton.Use ) )
 		{
@@ -106,11 +89,8 @@ partial class Pawn
 	/// Finds an interactable entity.
 	/// </summary>
 	/// <returns>An interactable entity. Null if none were found.</returns>
-	private Entity? FindInteractableEntity()
+	public Entity? FindInteractableEntity()
 	{
-		if ( InteractedEntity is not null && (InteractedEntity as IUse)!.IsUsable( this ) )
-			return InteractedEntity;
-
 		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 100 )
 			.WithoutTags( "trigger" )
 			.Ignore( this )
@@ -144,6 +124,7 @@ partial class Pawn
 	private bool IsValidInteractableEntity( Entity? entity )
 	{
 		if ( entity is null ) return false;
+		if ( !entity.IsValid ) return false;
 		if ( entity is not IUse use ) return false;
 
 		return true;

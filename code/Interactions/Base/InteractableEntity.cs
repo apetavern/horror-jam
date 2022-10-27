@@ -1,4 +1,6 @@
-﻿namespace GvarJam.Interactions;
+﻿using GvarJam.UI.Elements;
+
+namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an interactable entity.
@@ -32,11 +34,6 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	private readonly Dictionary<ItemType, int> requiredItems = new();
 
 	/// <summary>
-	/// The UI prompt panel for this entity.
-	/// </summary>
-	protected InteractionPromptPanel? InteractionPromptPanel { get; set; }
-
-	/// <summary>
 	/// The maximum distance you can interact with the entity.
 	/// </summary>
 	private const float UseDistance = 100;
@@ -65,26 +62,6 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 		component.ObscuredColor = Color.Transparent;
 
 		component.Enabled = shouldShow;
-
-		if ( !shouldShow )
-		{
-			InteractionPromptPanel?.Delete();
-			return;
-		}
-
-		if ( IsServer )
-			return;
-
-		if ( InteractionPromptPanel is null || !InteractionPromptPanel.IsValid )
-		{
-			InteractionPromptPanel = new InteractionPromptPanel( this )
-			{
-				Position = Position + Vector3.Up * Model.RenderBounds.Size.z,
-				Rotation = Rotation
-			};
-		}
-
-		InteractionPromptPanel.Rotation = Rotation.LookAt( CurrentView.Position - InteractionPromptPanel.Position );
 	}
 
 	/// <summary>
