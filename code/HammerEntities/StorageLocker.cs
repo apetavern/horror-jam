@@ -162,13 +162,12 @@ public sealed partial class StorageLocker : DelayedUseItem
 			.Ignore( user )
 			.Run();
 
-		DebugOverlay.Sphere( floortrace.EndPosition, 1f, Color.Red );
+		user.Position = floortrace.EndPosition + Rotation.Right * 5f;
+		user.Rotation = Rotation.LookAt( (Position - user.Position).WithZ( 0 ), Vector3.Up );
 
-		user.Position = floortrace.EndPosition;
-		user.Rotation = Rotation.LookAt( (Position- user.Position).WithZ(0), Vector3.Up );
-
-		( user as Pawn)!.SetAnimParameter( "b_IKleft", true );
-		(user as Pawn)!.SetAnimParameter( "left_hand_ik", Door.GetAttachment("handle")!.Value );
+		(user as Pawn)!.SetAnimParameter( "b_IKleft", true );
+		(user as Pawn)!.SetAnimParameter( "left_hand_ik.position", Door.GetAttachment( "handle" )!.Value.Position );
+		(user as Pawn)!.SetAnimParameter( "left_hand_ik.rotation", Rotation * new Angles( 0, -70, 90 ).ToRotation() );
 		Sound.FromEntity( "locker_open", this );
 		return false;
 	}
@@ -190,9 +189,18 @@ public sealed partial class StorageLocker : DelayedUseItem
 		if ( IsServer )
 		{
 			(user as Pawn)!.SetAnimParameter( "b_IKleft", true );
-			(user as Pawn)!.SetAnimParameter( "left_hand_ik", Door.GetAttachment( "handle" )!.Value );
+			(user as Pawn)!.SetAnimParameter( "left_hand_ik.position", Door.GetAttachment( "handle" )!.Value.Position );
+			(user as Pawn)!.SetAnimParameter( "left_hand_ik.rotation", Rotation * new Angles( 0, -80, 90 ).ToRotation() );
 			var targetTransform = Transform;
 			targetTransform.Rotation *= (Rotation)Quaternion.CreateFromAxisAngle( new Vector3( 0, 0, 1 ), -90 );
+
+			TraceResult floortrace = Trace.Ray( GetAttachment( "openstandpos" )!.Value.Position, GetAttachment( "openstandpos" )!.Value.Position - Vector3.Up * 100f )
+			.WithoutTags( "camignore" )
+			.Ignore( user )
+			.Run();
+
+			user.Position = floortrace.EndPosition + Rotation.Right * 5f;
+			user.Rotation = Rotation.LookAt( (Position - user.Position).WithZ( 0 ), Vector3.Up );
 
 			Door.Owner = user;
 
