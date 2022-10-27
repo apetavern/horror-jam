@@ -16,5 +16,9 @@ public enum EventType
 	/// <summary>
 	/// Play an existing cutscene.
 	/// </summary>
-	PlayInstantiatedCutscene
+	PlayInstantiatedCutscene,
+	/// <summary>
+	/// Alter the ships lighting
+	/// </summary>
+	SetLighting
 }

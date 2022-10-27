@@ -1,4 +1,6 @@
-﻿namespace GvarJam.Objectives;
+﻿using GvarJam.SoundManager;
+
+namespace GvarJam.Objectives;
 
 /// <summary>
 /// An event to be invoked on pawns when an objective starts or ends.
@@ -15,6 +17,12 @@ public struct ObjectiveEvent
 	/// </summary>
 	[ShowIf( nameof( Type ), EventType.PlaySound ), ResourceType( "sound" )]
 	public string SoundName { get; set; }
+
+	/// <summary>
+	/// Alter the lighting on the ship
+	/// </summary>
+	[ShowIf( nameof( Type ), EventType.SetLighting )]
+	public bool LightsEnabled { get; set; }
 
 	/// <summary>
 	/// The name of the entity to start the cutscene in the perspective of.
@@ -43,25 +51,25 @@ public struct ObjectiveEvent
 	/// <summary>
 	/// The attachment of the target entity in the cutscene.
 	/// </summary>
-	[HideIf( nameof( Type ), EventType.PlaySound )]
+	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene )]
 	public string TargetAttachment { get; set; }
 
 	/// <summary>
 	/// Whether or not the cutscene requires an input to start playing.
 	/// </summary>
-	[HideIf( nameof( Type ), EventType.PlaySound )]
+	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene )]
 	public bool InputRequiredToStart { get; set; }
 
 	/// <summary>
 	/// The duration of the cutscene.
 	/// </summary>
-	[HideIf( nameof( Type ), EventType.PlaySound )]
+	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene )]
 	public float Duration { get; set; }
 
 	/// <summary>
 	/// Whether or not player pawns should be hidden during the cutscenes.
 	/// </summary>
-	[HideIf( nameof( Type ), EventType.PlaySound )]
+	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene )]
 	public bool HidePlayers { get; set; }
 
 	/// <summary>
@@ -109,6 +117,9 @@ public struct ObjectiveEvent
 				}
 				
 				pawn.StartCutsceneWithPostCleanup( animEntity, sceneModels, TargetAttachment, Duration, InputRequiredToStart, HidePlayers );
+				break;
+			case EventType.SetLighting:
+				LightManager.ToggleLighting( LightsEnabled );
 				break;
 		}
 	}
