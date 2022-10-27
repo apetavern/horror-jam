@@ -106,9 +106,12 @@ public struct ObjectiveEndCondition
 				{
 					foreach ( var item in pawn.Items.Keys )
 					{
-						if ( item.GetType().Name == ItemType )
+						if ( item.ToString() == ItemType )
 						{
-							return true;
+							if ( pawn.Items[item] >= 1 )
+							{
+								return true;
+							}
 						}
 					}
 					break;
