@@ -2,23 +2,23 @@
 {
 	data = 
 	{
-		ObjectiveName = "Locate Helmet"
-		Description = "Find your helmet"
+		ObjectiveName = "Locked In"
+		Description = "Find a key so you can leave the cryo room."
 		ObjectiveStartConditions = 
 		[
 			{
-				ObjectiveName = resource:"data/objectives/findjanitorkey.objctv"
+				ObjectiveName = resource:"data/objectives/wakeup.objctv"
 				TriggerName = ""
 			},
 		]
 		ObjectiveEndConditions = 
 		[
 			{
-				Type = "InteractWithType"
-				InteractableName = ""
-				TypeName = "Helmet"
+				Type = "PlayerHasItem"
+				InteractableName = "JanitorKey"
+				TypeName = ""
 				TriggerName = ""
-				ItemType = ""
+				ItemType = "JanitorKey"
 			},
 		]
 		ObjectiveStartEvents = [  ]
