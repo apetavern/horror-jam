@@ -116,7 +116,7 @@
 						[
 							{
 								_class = "AnimOffset"
-								translation = [ -20.0, 0.0, -15.0 ]
+								translation = [ 0.0, 0.0, 0.0 ]
 								rotation_xyz = [ 0.0, 0.0, 0.0 ]
 							},
 							{

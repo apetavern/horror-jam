@@ -18,7 +18,7 @@
 				Type = "PlayInstantiatedCutscene"
 				TargetEntityName = ""
 				InfoTarget = "cryo_sleep_pos"
-				TargetModel = resource:"models/cutscenes/cryo/cryarms.vmdl"
+				TargetModel = resource:"models/cutscenes/cryo/cryarmsv2.vmdl"
 				AdditionalSceneModels = 
 				[
 					resource:"models/cryochamber/cryochamber.vmdl",
