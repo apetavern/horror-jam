@@ -16,7 +16,9 @@ public partial class Note : InstantUseItem
 
 	private TimeSince TimeSinceUsed { get; set; }
 
-	private int TimeBetweenUses { get; set; } = 5;
+	private int TimeBetweenUses { get; set; } = 1;
+
+	private bool IsNoteOpen { get; set; }
 
 	public override void Spawn()
 	{
@@ -34,8 +36,21 @@ public partial class Note : InstantUseItem
 		if ( TimeSinceUsed < TimeBetweenUses )
 			return;
 
-		Hud.Instance?.ShowNote( NoteContents );
 		TimeSinceUsed = 0;
+
+		if ( Host.IsServer )
+			return;
+
+		if ( !IsNoteOpen )
+		{
+			Hud.Instance?.ShowNote( NoteContents );
+			IsNoteOpen = true;
+		}
+		else
+		{
+			Hud.Instance?.HideNote();
+			IsNoteOpen = false;
+		}
 	}
 }
 

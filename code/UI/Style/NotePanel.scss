@@ -1,0 +1,33 @@
+﻿$accent: #F2D933;
+
+NotePanel {
+    width: 100%;
+    height: 100%;
+    display: none;
+    transition: all 0.5s ease;
+    backdrop-filter: blur(20);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &.display {
+        display: flex;
+        pointer-events: all;
+    }
+
+    .Note {
+        width: 700px;
+        height: 900px;
+        background-color: #e1dedb;
+        flex-direction: column;
+        padding: 40px;
+        border-bottom: 3px solid #7e7873;
+        border-right: 1px solid #a29b94;
+
+        .NoteText {
+            color: #121110;
+            font-family: Satisfy-Regular;
+            font-size: 46px;
+        }
+    }
+}

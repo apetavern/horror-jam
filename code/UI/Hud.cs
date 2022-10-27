@@ -21,6 +21,7 @@ public sealed partial class Hud : HudEntity<RootPanel>
 		RootPanel.AddChild( new Crosshair() );
 		RootPanel.AddChild( new LetterboxBars() );
 		RootPanel.AddChild( new SpaceToStart() );
+		RootPanel.AddChild( new NotePanel() );
 		_ = new InteractionPrompt();
 
 		RootPanel.BindClass( "in-cutscene", () =>
@@ -45,7 +46,12 @@ public sealed partial class Hud : HudEntity<RootPanel>
 	[ConCmd.Server]
 	public void ShowNote( string contents )
 	{
-		// TODO: Display a panel with the note contents
-		Log.Info( contents );
+		NotePanel.Instance?.ShowNote( contents );
+	}
+
+	[ConCmd.Server]
+	public void HideNote()
+	{
+		NotePanel.Instance?.HideNote();
 	}
 }
