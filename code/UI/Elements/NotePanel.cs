@@ -16,7 +16,9 @@ public sealed class NotePanel : Panel
 		Instance = this;
 
 		var note = Add.Panel( "Note" );
+		note.Add.Panel( "NoteHeader" );
 		NoteContents = note.Add.Label( "", "NoteText" );
+		note.Add.Panel( "NoteFooter" );
 	}
 
 	public void ShowNote( string noteContents )
