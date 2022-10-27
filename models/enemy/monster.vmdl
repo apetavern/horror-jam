@@ -255,6 +255,7 @@
 				[
 					{
 						_class = "ClothChain"
+						disabled = true
 						root_bone = "tail1"
 						chain = 
 						{
@@ -274,67 +275,67 @@
 								{
 									joint_name = "tail3"
 									joint_parent = "tail2"
-									goal_strength = 0.35
+									goal_strength = 0.75
 								},
 								{
 									joint_name = "tail4"
 									joint_parent = "tail3"
-									goal_strength = 0.35
+									goal_strength = 0.75
 								},
 								{
 									joint_name = "tail5"
 									joint_parent = "tail4"
-									goal_strength = 0.35
+									goal_strength = 0.75
 								},
 								{
 									joint_name = "tail6"
 									joint_parent = "tail5"
-									goal_strength = 0.35
+									goal_strength = 0.75
 								},
 								{
 									joint_name = "tail7"
 									joint_parent = "tail6"
-									goal_strength = 0.35
+									goal_strength = 0.75
 								},
 								{
 									joint_name = "tail8"
 									joint_parent = "tail7"
-									goal_strength = 0.35
+									goal_strength = 0.75
 								},
 								{
 									joint_name = "tail9"
 									joint_parent = "tail8"
-									goal_strength = 0.35
+									goal_strength = 0.75
 								},
 								{
 									joint_name = "tail10"
 									joint_parent = "tail9"
-									goal_strength = 0.35
+									goal_strength = 0.75
 								},
 								{
 									joint_name = "tail11"
 									joint_parent = "tail10"
-									goal_strength = 0.35
+									goal_strength = 0.75
 								},
 								{
 									joint_name = "tail12"
 									joint_parent = "tail11"
-									goal_strength = 0.35
+									goal_strength = 0.75
 								},
 								{
 									joint_name = "tail13"
 									joint_parent = "tail12"
-									goal_strength = 0.35
+									goal_strength = 0.75
 								},
 								{
 									joint_name = "tail14"
 									joint_parent = "tail13"
-									goal_strength = 0.35
+									goal_strength = 0.75
 								},
 								{
 									joint_name = "tail15"
 									joint_parent = "tail14"
-									goal_strength = 0.35
+									goal_strength = 0.75
 								},
 							]
 							attrs = 
