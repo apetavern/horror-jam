@@ -2,12 +2,24 @@
 
 Layer0
 {
-	shader "simple.vfx"
+	shader "complex.vfx"
+
+	//---- Color ----
+	F_TINT_MASK 1
+
+	//---- PBR ----
+	F_SPECULAR 1
+
+	//---- Ambient Occlusion ----
+	g_flAmbientOcclusionDirectDiffuse "0.000"
+	g_flAmbientOcclusionDirectSpecular "0.000"
+	TextureAmbientOcclusion "materials/default/default_ao.tga"
 
 	//---- Color ----
 	g_flModelTintAmount "1.000"
 	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureColor "models/SodaCan/Textures/SodaType_Base_color.png"
+	TextureColor "models/sodacan/textures/sodatype_recolorable_base_color.psd"
+	TextureTintMask "models/sodacan/textures/sodatype_recolorable_base_tintmask.psd"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -20,7 +32,7 @@ Layer0
 	g_flDirectionalLightmapStrength "1.000"
 
 	//---- Metalness ----
-	g_flMetalness "0.865"
+	g_flMetalness "0.980"
 
 	//---- Normal ----
 	TextureNormal "models/SodaCan/Textures/SodaType_Normal_OpenGL.png"
