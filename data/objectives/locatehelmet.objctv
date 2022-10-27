@@ -22,6 +22,14 @@
 			},
 		]
 		ObjectiveStartEvents = [  ]
-		ObjectiveEndEvents = [  ]
+		ObjectiveEndEvents = 
+		[
+			{
+				SoundName = resource:"sounds/generator/generator_power_off.sound"
+				TargetEntityName = ""
+				InfoTarget = ""
+				TargetAttachment = ""
+			},
+		]
 	}
 }
