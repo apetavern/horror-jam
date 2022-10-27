@@ -24,11 +24,77 @@ partial class MonsterEntity
 				SimulateHidingState();
 				break;
 			case States.Stalking:
+				TickSeen();
 				SimulateStalkingState();
 				break;
 			case States.Hunting:
+				TickSeen();
 				SimulateHuntingState();
 				break;
+		}
+	}
+
+	/// <summary>
+	/// Can we see the player? If so, chase after them
+	/// </summary>
+	private void TickSeen()
+	{
+		const float FieldOfView = 90f;
+		const int TraceCount = 16;
+		const float Radius = 4f;
+
+		const float DefaultDistance = 256;
+		const float DistanceWithFlashlight = 512;
+
+		foreach ( var entity in Entity.FindInSphere( Position, 128f ) )
+		{
+			if ( entity is Pawn pawn )
+			{
+				// Player is REALLY close, check for LOS and chase after them
+				var startPos = EyePosition;
+				var endPos = pawn.EyePosition;
+
+				var tr = Trace.Ray( startPos, endPos ).Radius( Radius ).Ignore( this ).Run();
+
+				DebugOverlay.TraceResult( tr );
+
+				if ( tr.Hit && tr.Entity == pawn )
+				{
+					TargetPosition = pawn.Position;
+					State = States.Hunting;
+
+					return;
+				}
+			}
+		}
+
+		//
+		// Can we actually see a player right now
+		//
+		for ( int i = 0; i < TraceCount; ++i )
+		{
+			float f = (float)i / (TraceCount - 1);
+			float ang = (f * FieldOfView) - (FieldOfView / 2f);
+			var direction = (Rotation * Rotation.FromYaw( ang )).Forward;
+
+			var startPos = EyePosition + Vector3.Down * 16f;
+			var endPos = startPos + direction * DistanceWithFlashlight;
+
+			var tr = Trace.Ray( startPos, endPos ).Radius( Radius ).Ignore( this ).Run();
+
+			if ( tr.Hit && tr.Entity is Pawn pawn )
+			{
+				//
+				// This is a bit messy/hacky, but if the player has their flashlight on,
+				// then we can see them at a further distance.
+				//
+
+				if ( tr.Distance > DefaultDistance && !pawn.LampEnabled )
+					continue;
+
+				TargetPosition = pawn.Position;
+				State = States.Hunting;
+			}
 		}
 	}
 
@@ -55,7 +121,10 @@ partial class MonsterEntity
 
 		if ( newState == States.Hunting )
 		{
-			//
+			// We know EXACTLY where the player is right now. Bee-line it to them
+			TargetPosition = Entity.All.OfType<Pawn>().First().Position;
+
+			SetPath( TargetPosition );
 		}
 	}
 
@@ -86,10 +155,9 @@ partial class MonsterEntity
 	{
 		PathFinding.Speed = 100f;
 
-		// TODO: Make exit conditions more complex
-		if ( TimeInState > 60 )
+		if ( TimeInState > 30 )
 		{
-			State = States.Hunting;
+			State = States.Hiding;
 		}
 	}
 
@@ -108,15 +176,23 @@ partial class MonsterEntity
 		//   - We should be attracted to loud noises.
 		// - If the player can see us, we shouldn't move to a hiding state
 
-		var targetPlayer = Entity.All.OfType<Pawn>().First();
-		SetPath( targetPlayer.Position );
-
+		SetPath( TargetPosition );
 		PathFinding.Speed = 250f;
 
-		// TODO: Make exit conditions more complex
-		if ( TimeInState > 30 )
+		var startPos = EyePosition;
+		var endPos = Entity.All.OfType<Pawn>().First().Position;
+
+		var tr = Trace.Ray( startPos, endPos ).Ignore( this ).Run();
+		DebugOverlay.TraceResult( tr );
+
+		if ( tr.Hit && tr.Entity is Pawn pawn )
 		{
-			State = States.Hiding;
+			TargetPosition = pawn.Position;
+		}
+
+		if ( PathFinding.IsFinished )
+		{
+			State = States.Stalking;
 		}
 	}
 }
