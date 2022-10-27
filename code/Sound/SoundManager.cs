@@ -19,7 +19,7 @@ public static class SoundManager
 	/// <summary>
 	/// The minimum time in seconds before an ambient noise is played.
 	/// </summary>
-	private const float MinimumAmbientNoisedelay = 50;
+	private const float MinimumAmbientNoiseDelay = 50;
 
 	/// <summary>
 	/// The maximum time in seconds before an ambient noise is played.
@@ -60,9 +60,9 @@ public static class SoundManager
 	};
 
 	/// <summary>
-	/// The time since the last ambient noise was played.
+	/// The time until the next ambient noise needs to be played.
 	/// </summary>
-	private static TimeSince TimeSinceAmbientNoise;
+	private static TimeUntil TimeUntilNextAmbientNoise = Rand.Float( MinimumAmbientNoiseDelay, MaximumAmbientNoiseDelay );
 
 	/// <summary>
 	/// Picks a random ambient sound and starts playing it.
@@ -94,7 +94,7 @@ public static class SoundManager
 			CurrentMusicAmbience.SetVolume( AmbienceVolume );
 		}
 
-		if ( TimeSinceAmbientNoise < Rand.Float( MinimumAmbientNoisedelay, MaximumAmbientNoiseDelay ) )
+		if ( TimeUntilNextAmbientNoise > 0 )
 			return;
 
 		var chosenPawn = Entity.All.OfType<Pawn>().OrderBy( x => Guid.NewGuid() ).FirstOrDefault();
@@ -115,7 +115,7 @@ public static class SoundManager
 		if ( !tr.Hit )
 			return;
 
-		TimeSinceAmbientNoise = 0;
+		TimeUntilNextAmbientNoise = Rand.Float( MinimumAmbientNoiseDelay, MaximumAmbientNoiseDelay );
 		Sound.FromWorld( To.Everyone, Rand.FromArray( AmbientNoises ), resultPosition );
 	}
 }
