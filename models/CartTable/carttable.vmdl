@@ -53,7 +53,7 @@
 				children = 
 				[
 					{
-						_class = "PhysicsHullFile"
+						_class = "PhysicsMeshFile"
 						name = "CartLow"
 						parent_bone = ""
 						surface_prop = "default"
@@ -66,10 +66,8 @@
 						align_origin_z_type = "None"
 						filename = "models/CartTable/CartLow.fbx"
 						import_scale = 0.35
-						faceMergeAngle = 10.0
-						maxHullVertices = 0
-						import_mode = "SingleHull"
-						optimization_algorithm = "QEM"
+						maxMeshVertices = 0
+						qemError = 0.0
 						import_filter = 
 						{
 							exclude_by_default = false
