@@ -11,49 +11,9 @@
 				[
 					{
 						_class = "DefaultMaterialGroup"
-						name = "Janitor"
-						remaps = 
-						[
-							{
-								from = "keycard.005.vmat"
-								to = "models/keycards/textures/janitorkeycard.vmat"
-							},
-						]
-						use_global_default = false
-						global_default_material = ""
-					},
-					{
-						_class = "MaterialGroup"
-						name = "Level1"
-						remaps = 
-						[
-							{
-								from = "models/keycards/textures/janitorkeycard.vmat"
-								to = "models/keycards/textures/level1.vmat"
-							},
-						]
-					},
-					{
-						_class = "MaterialGroup"
-						name = "Level2"
-						remaps = 
-						[
-							{
-								from = "models/keycards/textures/janitorkeycard.vmat"
-								to = "models/keycards/textures/level2.vmat"
-							},
-						]
-					},
-					{
-						_class = "MaterialGroup"
-						name = "Level3"
-						remaps = 
-						[
-							{
-								from = "models/keycards/textures/janitorkeycard.vmat"
-								to = "models/keycards/textures/level3.vmat"
-							},
-						]
+						remaps = [  ]
+						use_global_default = true
+						global_default_material = "models/rubbishbin/textures/rubbish_01a.vmat"
 					},
 				]
 			},
@@ -62,8 +22,8 @@
 				children = 
 				[
 					{
-						_class = "PhysicsMeshFile"
-						name = "Keycard_low"
+						_class = "PhysicsHullFile"
+						name = "Rubbish_01a1"
 						parent_bone = ""
 						surface_prop = "default"
 						collision_tags = "solid"
@@ -73,10 +33,12 @@
 						align_origin_x_type = "None"
 						align_origin_y_type = "None"
 						align_origin_z_type = "None"
-						filename = "models/Keycards/Keycard_low.fbx"
+						filename = "models/Rubbishbin/Rubbish_01a.fbx"
 						import_scale = 1.0
-						maxMeshVertices = 56
-						qemError = 0.0
+						faceMergeAngle = 10.0
+						maxHullVertices = 0
+						import_mode = "SingleHull"
+						optimization_algorithm = "QEM"
 						import_filter = 
 						{
 							exclude_by_default = false
@@ -91,7 +53,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "models/keycards/keycard_low.fbx"
+						filename = "models/rubbishbin/rubbish_01a.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
 						import_scale = 1.0
@@ -104,7 +66,7 @@
 							exclude_by_default = true
 							exception_list = 
 							[
-								"Keycard_005",
+								"Bin",
 							]
 						}
 					},

@@ -15,7 +15,7 @@
 				{
 					_class = "CRootAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ 336.0, -176.0 ]
+					m_vecPosition = [ 336.0, -192.0 ]
 					m_nNodeID = 
 					{
 						m_id = 70351915
@@ -38,13 +38,35 @@
 			{
 				key = 
 				{
+					m_id = 251065724
+				}
+				value = 
+				{
+					_class = "CSequenceAnimNode"
+					m_sName = "Unnamed"
+					m_vecPosition = [ -320.0, -128.0 ]
+					m_nNodeID = 
+					{
+						m_id = 251065724
+					}
+					m_networkMode = "ClientSimulate"
+					m_sNote = ""
+					m_tagSpans = [  ]
+					m_sequenceName = "waiting"
+					m_playbackSpeed = 1.0
+					m_bLoop = false
+				}
+			},
+			{
+				key = 
+				{
 					m_id = 373905665
 				}
 				value = 
 				{
 					_class = "CStateMachineAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ 24.0, -170.0 ]
+					m_vecPosition = [ 48.0, -192.0 ]
 					m_nNodeID = 
 					{
 						m_id = 373905665
@@ -64,14 +86,14 @@
 										{
 											_class = "CFinishedCondition"
 											m_comparisonOp = 0
-											m_option = "FinishedConditionOption_OnFinished"
+											m_option = "FinishedConditionOption_OnAlmostFinished"
 											m_bIsFinished = true
 										},
 									]
 									m_blendDuration = 0.2
 									m_destState = 
 									{
-										m_id = 1395857001
+										m_id = 1180929088
 									}
 									m_bReset = true
 									m_resetCycleOption = "Beginning"
@@ -103,7 +125,7 @@
 							{
 								m_id = 931253569
 							}
-							m_position = [ 32.0, -32.0 ]
+							m_position = [ 48.0, -32.0 ]
 							m_bIsStartState = false
 							m_bIsEndtState = false
 							m_bIsPassthrough = false
@@ -156,7 +178,7 @@
 							{
 								m_nodeID = 
 								{
-									m_id = 689558670
+									m_id = 251065724
 								}
 								m_outputID = 
 								{
@@ -197,7 +219,7 @@
 							}
 							m_position = [ 368.0, -32.0 ]
 							m_bIsStartState = false
-							m_bIsEndtState = true
+							m_bIsEndtState = false
 							m_bIsPassthrough = false
 							m_bIsRootMotionExclusive = false
 							m_bAlwaysEvaluate = false
@@ -213,7 +235,7 @@
 										{
 											_class = "CTimeCondition"
 											m_comparisonOp = 3
-											m_comparisonValue = 7.0
+											m_comparisonValue = 0.5
 										},
 									]
 									m_blendDuration = 0.2
@@ -240,7 +262,7 @@
 							{
 								m_nodeID = 
 								{
-									m_id = 1636748878
+									m_id = 251065724
 								}
 								m_outputID = 
 								{
@@ -251,7 +273,7 @@
 							{
 								m_id = 1395857001
 							}
-							m_position = [ 192.0, -32.0 ]
+							m_position = [ 192.0, 96.0 ]
 							m_bIsStartState = false
 							m_bIsEndtState = false
 							m_bIsPassthrough = false
@@ -266,34 +288,13 @@
 			{
 				key = 
 				{
-					m_id = 689558670
-				}
-				value = 
-				{
-					_class = "CSingleFrameAnimNode"
-					m_sName = "Idle"
-					m_vecPosition = [ -336.0, -240.0 ]
-					m_nNodeID = 
-					{
-						m_id = 689558670
-					}
-					m_networkMode = "ClientSimulate"
-					m_sNote = ""
-					m_sequenceName = "Hitbutton"
-					m_nFrameIndex = 1
-					m_tagSpans = [  ]
-				}
-			},
-			{
-				key = 
-				{
 					m_id = 741369490
 				}
 				value = 
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -336.0, -336.0 ]
+					m_vecPosition = [ -320.0, -240.0 ]
 					m_nNodeID = 
 					{
 						m_id = 741369490
@@ -302,7 +303,7 @@
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "Hitbutton"
-					m_playbackSpeed = 1.0
+					m_playbackSpeed = 1.5
 					m_bLoop = false
 				}
 			},
@@ -315,7 +316,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -336.0, -144.0 ]
+					m_vecPosition = [ -320.0, -192.0 ]
 					m_nNodeID = 
 					{
 						m_id = 803326987
@@ -324,29 +325,7 @@
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "Fallout"
-					m_playbackSpeed = 1.0
-					m_bLoop = false
-				}
-			},
-			{
-				key = 
-				{
-					m_id = 1636748878
-				}
-				value = 
-				{
-					_class = "CSequenceAnimNode"
-					m_sName = "Unnamed"
-					m_vecPosition = [ -336.0, -48.0 ]
-					m_nNodeID = 
-					{
-						m_id = 1636748878
-					}
-					m_networkMode = "ClientSimulate"
-					m_sNote = ""
-					m_tagSpans = [  ]
-					m_sequenceName = "Hitbutton"
-					m_playbackSpeed = 1.0
+					m_playbackSpeed = 1.75
 					m_bLoop = false
 				}
 			},
@@ -365,7 +344,7 @@
 					m_id = 1882736259
 				}
 				m_previewButton = "ANIMPARAM_BUTTON_NONE"
-				m_bNetwork = true
+				m_bNetwork = false
 				m_bUseMostRecentValue = false
 				m_bAutoReset = true
 				m_bPredicted = false
