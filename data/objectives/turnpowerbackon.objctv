@@ -7,12 +7,32 @@
 		ObjectiveStartConditions = 
 		[
 			{
+				Type = "PreviousObjectiveComplete"
+				InteractableName = ""
 				ObjectiveName = resource:"data/objectives/locatehelmet.objctv"
 				TriggerName = ""
 			},
 		]
-		ObjectiveEndConditions = [  ]
+		ObjectiveEndConditions = 
+		[
+			{
+				Type = "InteractWithType"
+				InteractableName = ""
+				TypeName = "Generator"
+				TriggerName = ""
+				ItemType = ""
+			},
+		]
 		ObjectiveStartEvents = [  ]
-		ObjectiveEndEvents = [  ]
+		ObjectiveEndEvents = 
+		[
+			{
+				Type = "SetLighting"
+				LightsEnabled = true
+				TargetEntityName = ""
+				InfoTarget = ""
+				TargetAttachment = ""
+			},
+		]
 	}
 }

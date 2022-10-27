@@ -2,36 +2,27 @@
 {
 	data = 
 	{
-		ObjectiveName = "Locate Helmet"
-		Description = "Find your helmet"
+		ObjectiveName = "Let\'s Get Out Of Here!"
+		Description = "Find the master keycard that will allow you to initiate self-destruct on the ship, and escape!"
 		ObjectiveStartConditions = 
 		[
 			{
 				Type = "PreviousObjectiveComplete"
 				InteractableName = ""
-				ObjectiveName = resource:"data/objectives/findjanitorkey.objctv"
+				ObjectiveName = resource:"data/objectives/turnpowerbackon.objctv"
 				TriggerName = ""
 			},
 		]
 		ObjectiveEndConditions = 
 		[
 			{
-				Type = "InteractWithType"
-				InteractableName = ""
-				TypeName = "Helmet"
+				InteractableName = "Console"
+				TypeName = ""
 				TriggerName = ""
 				ItemType = ""
 			},
 		]
 		ObjectiveStartEvents = [  ]
-		ObjectiveEndEvents = 
-		[
-			{
-				Type = "SetLighting"
-				TargetEntityName = ""
-				InfoTarget = ""
-				TargetAttachment = ""
-			},
-		]
+		ObjectiveEndEvents = [  ]
 	}
 }

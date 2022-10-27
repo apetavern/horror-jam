@@ -7,6 +7,8 @@
 		ObjectiveStartConditions = 
 		[
 			{
+				Type = "PreviousObjectiveComplete"
+				InteractableName = ""
 				ObjectiveName = resource:"data/objectives/wakeup.objctv"
 				TriggerName = ""
 			},
