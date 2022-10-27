@@ -38,6 +38,12 @@ partial class Pawn
 	private InteractableEntity? interactedEntity { get; set; } = null!;
 
 	/// <summary>
+	/// The last entity that was successfully interacted with.
+	/// </summary>
+	[Net, Predicted]
+	public InteractableEntity? LastInteractedEntity { get; set; } = null!;
+
+	/// <summary>
 	/// Simulates the interaction system.
 	/// </summary>
 	private void SimulateInteraction( Client cl )
