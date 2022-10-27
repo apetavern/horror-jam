@@ -15255,7 +15255,7 @@
 								{
 									_class = "CGroupInputAnimNode"
 									m_sName = "Unnamed"
-									m_vecPosition = [ -704.0, 0.0 ]
+									m_vecPosition = [ -256.0, -32.0 ]
 									m_nNodeID = 
 									{
 										m_id = 1105563260
@@ -15313,11 +15313,11 @@
 											{
 												m_nodeID = 
 												{
-													m_id = 1480020445
+													m_id = 1105563260
 												}
 												m_outputID = 
 												{
-													m_id = 4294967295
+													m_id = 147767180
 												}
 											}
 										},
@@ -15333,7 +15333,7 @@
 								{
 									_class = "CBlendAnimNode"
 									m_sName = "move_groundspeed"
-									m_vecPosition = [ 144.0, 0.0 ]
+									m_vecPosition = [ 144.0, 48.0 ]
 									m_nNodeID = 
 									{
 										m_id = 1480020445
@@ -42372,11 +42372,11 @@
 					{
 						m_nodeID = 
 						{
-							m_id = 255951594
+							m_id = 324854416
 						}
 						m_outputID = 
 						{
-							m_id = 4294967295
+							m_id = 407499346
 						}
 					}
 					m_timingBehavior = "UseChild1"
