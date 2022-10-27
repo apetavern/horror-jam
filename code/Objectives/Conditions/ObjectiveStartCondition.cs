@@ -13,6 +13,10 @@ public struct ObjectiveStartCondition
 	public enum ConditionType
 	{
 		/// <summary>
+		/// Utilizing the interaction system on an entity.
+		/// </summary>
+		InteractWithEntity,
+		/// <summary>
 		/// A previously completed objective.
 		/// </summary>
 		PreviousObjectiveComplete,
@@ -26,6 +30,12 @@ public struct ObjectiveStartCondition
 	/// The start condition.
 	/// </summary>
 	public ConditionType Type { get; set; }
+
+	/// <summary>
+	/// The name of the entity to interact with to complete.
+	/// </summary>
+	[ShowIf( nameof( Type ), ConditionType.InteractWithEntity )]
+	public string InteractableName { get; set; }
 
 	/// <summary>
 	/// The name of the objective to be completed.
@@ -48,6 +58,17 @@ public struct ObjectiveStartCondition
 	{
 		switch ( Type )
 		{
+			case ConditionType.InteractWithEntity:
+				{
+					{
+						var entity = Entity.FindByName( InteractableName );
+
+						if ( pawn.IsInteracting && pawn.InteractedEntity == entity )
+							return true;
+
+						return false;
+					}
+				}
 			case ConditionType.PlayerEnteredTrigger:
 				{
 					var triggerName = TriggerName;
