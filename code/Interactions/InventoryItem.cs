@@ -5,11 +5,11 @@
 /// </summary>
 [Library( "ent_item" )]
 [HammerEntity]
-[EditorModel( "models/items/battery/battery.vmdl" )]
+[EditorModel( "models/keycards/keycard.vmdl" )] 
 public sealed partial class InventoryItem : DelayedUseItem
 {
 	/// <inheritdoc/>
-	public override float TimeToUse => 0.6f;
+	public override float TimeToUse => 0.6f; 
 	/// <inheritdoc/>
 	protected override bool DeleteOnUse => true;
 
