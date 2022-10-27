@@ -43,10 +43,29 @@ public partial class MonsterEntity : AnimatedEntity
 
 			TickMove();
 			TickState();
+
+			TickStuck();
 		}
 
 		TickAnimator();
 	}
+
+	private float AverageSpeed { get; set; } = 50f;
+	private void TickStuck()
+	{
+		AverageSpeed = AverageSpeed.LerpTo( Velocity.Length, Time.Delta );
+
+		if ( AverageSpeed < 10f )
+		{
+			// We're stuck, but we don't want to be stuck, so do something
+			// so that the player doesn't think I'm a terrible useless
+			// programmer
+
+			State = States.Stalking;
+			AverageSpeed = 50f;
+		}
+	}
+
 
 	private void DrawDebugInfo()
 	{
@@ -55,13 +74,15 @@ public partial class MonsterEntity : AnimatedEntity
 
 		var info =
 			$"grounded?: {IsGrounded}\n" +
-			$"speed: {Velocity.Length}\n";
+			$"speed: {Velocity.Length}\n" +
+			$"average speed: {AverageSpeed}";
 
 		DebugOverlay.Text( info, pos, 0, Color.White, 0 );
 
 		var stateInfo =
 			$"state: {State}\n" +
-			$"time in state: {TimeInState}\n";
+			$"time in state: {TimeInState}\n" +
+			$"time since saw player: {TimeSinceSawPlayer}\n";
 
 		DebugOverlay.ScreenText( stateInfo, 25, 0 );
 	}

@@ -15,6 +15,7 @@ partial class MonsterEntity
 
 	private Vector3 TargetPosition;
 	private TimeSince TimeInState;
+	private TimeSince TimeSinceSawPlayer;
 
 	private void TickState()
 	{
@@ -44,7 +45,7 @@ partial class MonsterEntity
 		const float Radius = 4f;
 
 		const float DefaultDistance = 256;
-		const float DistanceWithFlashlight = 512;
+		const float DistanceWithFlashlight = 1024;
 
 		foreach ( var entity in Entity.FindInSphere( Position, 128f ) )
 		{
@@ -56,12 +57,11 @@ partial class MonsterEntity
 
 				var tr = Trace.Ray( startPos, endPos ).Radius( Radius ).Ignore( this ).Run();
 
-				DebugOverlay.TraceResult( tr );
-
 				if ( tr.Hit && tr.Entity == pawn )
 				{
 					TargetPosition = pawn.Position;
 					State = States.Hunting;
+					TimeSinceSawPlayer = 0;
 
 					return;
 				}
@@ -94,6 +94,7 @@ partial class MonsterEntity
 
 				TargetPosition = pawn.Position;
 				State = States.Hunting;
+				TimeSinceSawPlayer = 0;
 			}
 		}
 	}
@@ -103,6 +104,7 @@ partial class MonsterEntity
 		Log.Trace( $"Monster state changed from {oldState} to {newState}" );
 
 		TimeInState = 0;
+		AverageSpeed = 50f;
 
 		if ( oldState == States.Hiding )
 		{
@@ -138,7 +140,6 @@ partial class MonsterEntity
 		Position = new Vector3( 16384, 16384, 16384 );
 		Velocity = 0;
 
-		// TODO: Make exit conditions more complex
 		if ( TimeInState > 30 )
 		{
 			State = States.Stalking;
@@ -154,11 +155,6 @@ partial class MonsterEntity
 	private void SimulateStalkingState()
 	{
 		PathFinding.Speed = 100f;
-
-		if ( TimeInState > 30 )
-		{
-			State = States.Hiding;
-		}
 	}
 
 	/// <summary>
@@ -180,17 +176,16 @@ partial class MonsterEntity
 		PathFinding.Speed = 200f;
 
 		var startPos = EyePosition;
-		var endPos = Entity.All.OfType<Pawn>().First().Position;
+		var endPos = Entity.All.OfType<Pawn>().First().EyePosition;
 
 		var tr = Trace.Ray( startPos, endPos ).Ignore( this ).Run();
-		DebugOverlay.TraceResult( tr );
 
 		if ( tr.Hit && tr.Entity is Pawn pawn )
 		{
 			TargetPosition = pawn.Position;
 		}
 
-		if ( PathFinding.IsFinished )
+		if ( PathFinding.IsFinished && TimeSinceSawPlayer > 5f )
 		{
 			State = States.Stalking;
 		}
