@@ -71,6 +71,7 @@ partial class Pawn
 			DurationAfterDelay = duration;
 		}
 			
+
 		// Store references to the entities we need to clean up once the cutscene ends.
 		EntitiesToCleanup = new();
 		EntitiesToCleanup.Add( targetEntity );
@@ -109,7 +110,7 @@ partial class Pawn
 		if ( !InCutscene )
 			return;
 
-		if ( RequiresInputToStart && Input.Released( InputButton.Jump ) )
+		if( RequiresInputToStart && Input.Released( InputButton.Jump ) )
 		{
 			(Camera as CutsceneCamera)!.AwaitingInput = false;
 			CutsceneDuration = DurationAfterDelay;

@@ -1,6 +1,7 @@
 ﻿global using GvarJam.HammerEntities;
 global using GvarJam.Interactions;
 global using GvarJam.Inventory;
+global using GvarJam.Monster;
 global using GvarJam.Objectives;
 global using GvarJam.Player;
 global using GvarJam.UI;
@@ -30,7 +31,7 @@ public sealed partial class HorrorGame : Game
 	{
 		if ( !IsServer )
 			return;
-		
+
 		_ = new Hud();
 		ObjectiveSystem = new();
 	}
@@ -323,6 +324,13 @@ public sealed partial class HorrorGame : Game
 			return;
 
 		_ = new StorageLocker() { Position = ConsoleSystem.Caller.Pawn.Position };
+	}
+
+	[ConCmd.Admin( "spawn_monster" )]
+	public static void SpawnMonster()
+	{
+		var monster = new MonsterEntity();
+		Game.Current.MoveToSpawnpoint( monster );
 	}
 
 	/// <summary>

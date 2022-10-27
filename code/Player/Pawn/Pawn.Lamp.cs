@@ -34,7 +34,11 @@ partial class Pawn
 			if ( Lamp is null || LampEnabled == value )
 				return;
 
+			if ( Lamp == null )
+				return;
+
 			Lamp.Enabled = value;
+
 			if ( !value )
 			{
 				TimeSinceLampOff = 0;
