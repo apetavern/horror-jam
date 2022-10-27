@@ -5,7 +5,7 @@
 /// </summary>
 [Library( "ent_note" )]
 [HammerEntity]
-[EditorModel( "models/items/battery/battery.vmdl" )]
+[EditorModel( "models/clipboard/clipboard_01a.vmdl" )]
 
 public partial class Note : InstantUseItem
 {
@@ -20,7 +20,8 @@ public partial class Note : InstantUseItem
 
 	public override void Spawn()
 	{
-		base.Spawn();
+		SetModel( "models/clipboard/clipboard_01a.vmdl" );
+		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 
 		Name = "Note";
 	}
