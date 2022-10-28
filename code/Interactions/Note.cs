@@ -25,7 +25,7 @@ public partial class Note : InstantUseItem
 		SetModel( "models/clipboard/clipboard_01a.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 
-		Name = "Note";
+		DisplayName = "Note";
 	}
 
 	protected override void OnUsed( Entity user )

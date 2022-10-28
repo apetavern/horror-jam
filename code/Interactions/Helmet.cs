@@ -20,7 +20,7 @@ public sealed class Helmet : DelayedUseItem
 	{
 		base.Spawn();
 
-		Name = "Helmet";
+		DisplayName = "Helmet";
 
 		SetModel( "models/cosmetics/spacehelmet.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );

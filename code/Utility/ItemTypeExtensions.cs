@@ -35,4 +35,17 @@ public static class ItemTypeExtensions
 			_ => throw new ArgumentException( null, nameof( itemType ) )
 		};
 	}
+
+	public static string GetItemName( this ItemType itemType )
+	{
+		return itemType switch
+		{
+			ItemType.JanitorKey => "Janitor Key",
+			ItemType.KeycardLvl1 => "Keycard - Level 1",
+			ItemType.KeycardLvl2 => "Keycard - Level 2",
+			ItemType.KeycardLvl3 => "Keycard - Level 3",
+			ItemType.GeneratorFuse => "Generator Fuse",
+			_ => throw new ArgumentException( null, nameof( itemType ) )
+		};
+	}
 }

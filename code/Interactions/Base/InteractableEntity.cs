@@ -14,6 +14,9 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	[Net]
 	public Entity? User { get; protected set; }
 
+	[Net]
+	public string? DisplayName { get; set; } = "Default Name";
+
 	/// <summary>
 	/// The color that the entity will glow when being looked at.
 	/// </summary>

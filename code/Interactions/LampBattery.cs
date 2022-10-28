@@ -37,7 +37,7 @@ public sealed partial class LampBattery : DelayedUseItem
 	{
 		base.Spawn();
 
-		Name = "Battery";
+		DisplayName = "Battery";
 
 		SetModel( "models/items/battery/battery.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );

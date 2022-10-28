@@ -61,6 +61,8 @@ public sealed partial class InventoryItem : DelayedUseItem
 		base.Spawn();
 
 		ItemType = itemType;
+
+		DisplayName = ItemType.GetItemName();
 		SetModel( ItemType.GetModel() );
 		SetMaterialGroup( ItemType.GetMaterialGroup() );
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
