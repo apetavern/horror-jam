@@ -72,7 +72,7 @@ partial class Pawn
 		BlockMovement = true;
 		BlockLook = true;
 		InCutscene = true;
-		AwaitingCutsceneInput = true;
+		AwaitingCutsceneInput = requiresInputToStart;
 
 		if ( RequiresInputToStart )
 		{

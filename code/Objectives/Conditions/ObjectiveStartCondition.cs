@@ -64,8 +64,14 @@ public struct ObjectiveStartCondition
 						var interactableName = InteractableName;
 						var entity = Entity.All.FirstOrDefault( x => x.Name.ToLower().Contains( interactableName.ToLower() ));
 
-						if ( pawn.IsInteracting && pawn.InteractedEntity == entity )
+						if ( entity is null )
+							return false;
+
+						if ( pawn.LastInteractedEntityName == entity.Name )
+						{
 							return true;
+						}
+							
 
 						return false;
 					}
