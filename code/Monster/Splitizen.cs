@@ -57,6 +57,7 @@ public partial class Splitizen : AnimatedEntity
 
 		PathFinding = new( this );
 
+		SetPath( Position );
 		//DoSplit();
 	}
 
@@ -101,7 +102,7 @@ public partial class Splitizen : AnimatedEntity
 
 			TickMove();
 
-
+			SetPath( Position );
 
 			//TickStuck();
 		}
