@@ -25,6 +25,11 @@ public static class LightManager
 
 		foreach ( var light in allLights )
 			light.Enabled = shouldBeOn;
+
+		if ( shouldBeOn )
+			Sound.FromScreen( "generator_power_on" );
+		else
+			Sound.FromScreen( "generator_power_off" );
 	}
 
 	/// <summary>
