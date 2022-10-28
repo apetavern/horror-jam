@@ -160,6 +160,9 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	[Net]
 	public bool Locked { get; set; } = true;
 
+	[Net]
+	public bool ObjectiveLocked { get; set; } = false;
+
 	/// <summary>
 	/// The easing function for both movement and rotation
 	/// TODO: Expose to hammer in a nice way
@@ -314,6 +317,9 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	/// <inheritdoc/>
 	public virtual bool OnUse( Entity user )
 	{
+		if ( ObjectiveLocked )
+			return false;
+
 		if ( Locked && !(user as Pawn)!.HasItem(ItemRequiredToOpen) )
 		{
 			PlaySound( LockedSound );

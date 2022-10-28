@@ -20,5 +20,9 @@ public enum EventType
 	/// <summary>
 	/// Alter the ships lighting
 	/// </summary>
-	SetLighting
+	SetLighting,
+	/// <summary>
+	/// Whether or not a door is locked
+	/// </summary>
+	SetDoorLockState
 }

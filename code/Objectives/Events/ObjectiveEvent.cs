@@ -23,6 +23,18 @@ public struct ObjectiveEvent
 	public bool LightsEnabled { get; set; }
 
 	/// <summary>
+	/// Alter the lighting on the ship
+	/// </summary>
+	[ShowIf( nameof( Type ), EventType.SetDoorLockState )]
+	public string DoorName { get; set; }
+
+	/// <summary>
+	/// Set lockstate of door
+	/// </summary>
+	[ShowIf( nameof( Type ), EventType.SetDoorLockState )]
+	public bool DoorLocked { get; set; }
+
+	/// <summary>
 	/// The name of the entity to start the cutscene in the perspective of.
 	/// </summary>
 	[ShowIf( nameof( Type ), EventType.PlayCutscene )]
@@ -118,6 +130,17 @@ public struct ObjectiveEvent
 				break;
 			case EventType.SetLighting:
 				LightManager.ToggleLighting( LightsEnabled );
+				break;
+			case EventType.SetDoorLockState:
+				var doorName = DoorName;
+				var door = Entity.All.OfType<HammerEntities.DoorEntity>().FirstOrDefault( x => x.Name.ToLower().Contains( doorName.ToLower() ) );
+
+				Log.Info( $"Locking {door}" );
+
+				if ( door is null )
+					return;
+
+				door.ObjectiveLocked = DoorLocked;
 				break;
 		}
 	}
