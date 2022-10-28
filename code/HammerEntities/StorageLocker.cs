@@ -91,7 +91,11 @@ public sealed partial class StorageLocker : DelayedUseItem
 		else
 			entity = TypeLibrary.Create<ModelEntity>( ItemClass );
 
+		if ( entity is null )
+			return;
+
 		entity.SetupPhysicsFromModel( PhysicsMotionType.Static );
+
 		// TODO: Attachment point locker for items?
 		entity.Position = Position + (Vector3.Up * 2) + (Rotation.Left.Normal * 10);
 		entity.Rotation = Rotation.FromYaw( 90 );
