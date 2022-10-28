@@ -401,3 +401,4 @@ gvar_jam.csproj
 *.*_c
 *.vanmgraph_c
 *.*_c
+!*.objctv_c

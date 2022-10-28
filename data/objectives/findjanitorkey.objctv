@@ -20,7 +20,7 @@
 				InteractableName = "JanitorKey"
 				InteractedName = ""
 				TypeName = ""
-				InteractedTypeName = ""
+				InteractedTypeName = "InventoryItem"
 				TriggerName = ""
 				ItemType = "JanitorKey"
 			},
