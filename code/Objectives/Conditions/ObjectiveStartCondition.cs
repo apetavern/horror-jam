@@ -61,7 +61,8 @@ public struct ObjectiveStartCondition
 			case ConditionType.InteractWithEntity:
 				{
 					{
-						var entity = Entity.FindByName( InteractableName );
+						var interactableName = InteractableName;
+						var entity = Entity.All.FirstOrDefault( x => x.Name.ToLower().Contains( interactableName.ToLower() ));
 
 						if ( pawn.IsInteracting && pawn.InteractedEntity == entity )
 							return true;
@@ -72,7 +73,7 @@ public struct ObjectiveStartCondition
 			case ConditionType.PlayerEnteredTrigger:
 				{
 					var triggerName = TriggerName;
-					var entity = Entity.All.OfType<ObjectiveTrigger>().Where( x => x.Name.Contains( triggerName )).FirstOrDefault();
+					var entity = Entity.All.OfType<ObjectiveTrigger>().FirstOrDefault( x => x.Name.Contains( triggerName ));
 
 					if ( entity is not ObjectiveTrigger trigger )
 						return false;

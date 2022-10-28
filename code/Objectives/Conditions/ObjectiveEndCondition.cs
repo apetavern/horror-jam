@@ -98,7 +98,8 @@ public struct ObjectiveEndCondition
 		{
 			case ConditionType.InteractWithEntity:
 				{
-					var entity = Entity.FindByName( InteractableName );
+					var interactableName = InteractableName;
+					var entity = Entity.All.FirstOrDefault( x => x.Name.ToLower().Contains( interactableName.ToLower() ) );
 
 					if ( pawn.IsInteracting && pawn.InteractedEntity == entity )
 						return true;
@@ -128,7 +129,9 @@ public struct ObjectiveEndCondition
 				}
 			case ConditionType.PlayerEnteredTrigger:
 				{
-					var entity = Entity.FindByName( TriggerName );
+					var triggerName = TriggerName;
+					var entity = Entity.All.FirstOrDefault( x => x.Name.ToLower().Contains( triggerName.ToLower() ) );
+
 					if ( entity is not ObjectiveTrigger trigger )
 						return false;
 
