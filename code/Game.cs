@@ -175,9 +175,9 @@ public sealed partial class HorrorGame : Game
 	}
 
 	/// <summary>
-	/// Debug command to spawn a monster model.
+	/// Debug command to split an existing splitizen
 	/// </summary>
-	[ConCmd.Admin( "spawn_monstermodelsplitting" )]
+	[ConCmd.Admin( "splitmonster" )]
 	public static void SpawnMonsterModelSplitting()
 	{
 		if ( ConsoleSystem.Caller?.Pawn is null )
@@ -185,6 +185,14 @@ public sealed partial class HorrorGame : Game
 
 		var pawn = ConsoleSystem.Caller.Pawn;
 
+		All.OfType<Splitizen>().First().DoSplit();
+
+		/*Splitizen cit = new()
+		{
+			Position = pawn.Position + pawn.Rotation.Forward * 150f,
+			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
+		};*/
+		/*
 		AnimatedEntity split = new( "models/enemy/basic_splitizen.vmdl" )
 		{
 			Position = pawn.Position + pawn.Rotation.Forward * 150f,
@@ -215,7 +223,7 @@ public sealed partial class HorrorGame : Game
 		new ModelEntity( "models/citizen_clothes/jacket/longsleeve/models/jeans.vmdl" ).SetParent( cit, true );
 
 		split.SetAnimParameter( "split", true );
-		mon.SetAnimParameter( "split", true );
+		mon.SetAnimParameter( "split", true );*/
 	}
 
 	/// <summary>

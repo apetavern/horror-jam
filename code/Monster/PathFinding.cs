@@ -14,9 +14,9 @@ public class PathFinding
 	private NavPath CurrentPath { get; set; }
 	private Vector3 TargetPosition { get; set; }
 	private NavPathBuilder NavBuilder { get; set; }
-	private MonsterEntity Monster { get; set; }
+	private AnimatedEntity Monster { get; set; }
 
-	public PathFinding( MonsterEntity monster )
+	public PathFinding( AnimatedEntity monster )
 	{
 		Monster = monster;
 	}

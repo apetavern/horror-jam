@@ -1,13 +1,25 @@
-﻿namespace GvarJam.Monster;
+﻿using Sandbox;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static Sandbox.Easing;
 
-public partial class MonsterEntity : AnimatedEntity
+namespace GvarJam.Monster;
+
+[Category( "Enemy" )]
+[Library( "ent_splitizen" )]
+[HammerEntity]
+[EditorModel( "models/enemy/basic_splitizen.vmdl" )]
+public partial class Splitizen : AnimatedEntity
 {
 	[ConVar.Replicated( "debug_monster" )]
 	public static bool DebugEnabled { get; set; }
 
 	public BBox Bounds => new(
-		new Vector3( -12, -12, 0 ),
-		new Vector3( 12, 12, 72 )
+	new Vector3( -12, -12, 0 ),
+	new Vector3( 12, 12, 72 )
 	);
 
 	private PathFinding PathFinding { get; set; }
@@ -15,73 +27,91 @@ public partial class MonsterEntity : AnimatedEntity
 	private float Gravity => 300f;
 	private bool IsGrounded { get; set; }
 
+	[Net]MonsterEntity Monster { get; set; }
+
+	[Net]AnimatedEntity SplitTop { get; set; }
+
+	public bool Ditched;
+
 	public override void Spawn()
 	{
 		base.Spawn();
+		SetModel( "models/player/playermodel.vmdl" );
 
-		SetModel( "models/enemy/monster.vmdl" );
+		SetMaterialOverride( "models/enemy/materials/citizen/splitizen_skin.vmat" );
+		SetBodyGroup( 0, 1 );
+		SetBodyGroup( 1, 1 );
+		SetBodyGroup( 3, 1 );
+
+		new ModelEntity( "models/citizen_clothes/jacket/longsleeve/models/jeans.vmdl" ).SetParent( this, true );
+
+		SplitTop = new( "models/enemy/basic_splitizen.vmdl" );
+
+		SplitTop.SetParent( this, true );
+
+		Monster = new MonsterEntity();
+
+		Monster.SetParent( this, true );
+
 		PathFinding = new( this );
 	}
 
-	public override void OnAnimEventGeneric( string name, int intData, float floatData, Vector3 vectorData, string stringData )
+	public void DoSplit()
 	{
-		base.OnAnimEventGeneric( name, intData, floatData, vectorData, stringData );
+		Monster.SetAnimParameter( "split", true );
+		SplitTop.SetAnimParameter( "split", true );
+		Split = true;
+	}
 
-		if ( name.Contains( "decouple" ) )
+	public void DitchBody()
+	{
+		Ditched = true;
+		SplitTop.SetAnimParameter( "split", true );
+		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+		PhysicsBody.ApplyForce( -Rotation.Forward * 10000f );
+	}
+
+	public bool Split = false;
+
+	TimeSince TimeSinceAlive;
+
+	[Event.Tick]
+	public void OnTick()
+	{
+		if ( Ditched )
 		{
-			Parent = null;
-			All.OfType<Splitizen>().First().DitchBody();
-			State = States.Hunting;
+			return;
 		}
+
+		EyeLocalPosition = Vector3.Up * 64f;
+
+		if ( IsServer )
+		{
+			if ( DebugEnabled )
+			{
+				DebugOverlay.Box( Position, Bounds.Mins, Bounds.Maxs, Color.White );
+				DrawDebugInfo();
+			}
+
+			TickMove();
+
+
+
+			//TickStuck();
+		}
+
+
+		CitizenAnimationHelper helper = new CitizenAnimationHelper( this );
+
+		helper.WithVelocity( Velocity );
+		helper.IsGrounded = IsGrounded;
+		//TickAnimator();
 	}
 
 	public void SetPath( Vector3 target )
 	{
 		PathFinding.SetPath( target );
 	}
-
-	[Event.Tick]
-	public void OnServerTick()
-	{
-		if ( State != States.Dormant )
-		{
-			EyeLocalPosition = Vector3.Up * 64f;
-
-			if ( IsServer )
-			{
-				if ( DebugEnabled )
-				{
-					DebugOverlay.Box( Position, Bounds.Mins, Bounds.Maxs, Color.White );
-					DrawDebugInfo();
-				}
-
-				TickMove();
-				TickState();
-
-				TickStuck();
-			}
-
-
-			TickAnimator();
-		}
-	}
-
-	private float AverageSpeed { get; set; } = 50f;
-	private void TickStuck()
-	{
-		AverageSpeed = AverageSpeed.LerpTo( Velocity.Length, Time.Delta );
-
-		if ( AverageSpeed < 10f )
-		{
-			// We're stuck, but we don't want to be stuck, so do something
-			// so that the player doesn't think I'm a terrible useless
-			// programmer
-
-			State = States.Stalking;
-			AverageSpeed = 50f;
-		}
-	}
-
 
 	private void DrawDebugInfo()
 	{
@@ -90,17 +120,9 @@ public partial class MonsterEntity : AnimatedEntity
 
 		var info =
 			$"grounded?: {IsGrounded}\n" +
-			$"speed: {Velocity.Length}\n" +
-			$"average speed: {AverageSpeed}";
+			$"speed: {Velocity.Length}\n";
 
 		DebugOverlay.Text( info, pos, 0, Color.White, 0 );
-
-		var stateInfo =
-			$"state: {State}\n" +
-			$"time in state: {TimeInState}\n" +
-			$"time since saw player: {TimeSinceSawPlayer}\n";
-
-		DebugOverlay.ScreenText( stateInfo, 25, 0 );
 	}
 
 	private void TickMove()
@@ -146,17 +168,6 @@ public partial class MonsterEntity : AnimatedEntity
 		Velocity = moveHelper.Velocity;
 	}
 
-	private void TickAnimator()
-	{
-		float walkspeed = Velocity.Length.LerpInverse( 0, 200 ) * 2.0f;
-
-		if ( DebugEnabled )
-			DebugOverlay.ScreenText( $"{walkspeed}, {Velocity.Length}", -1 );
-
-		SetAnimParameter( "idle", true );
-		SetAnimParameter( "walkspeed", walkspeed );
-	}
-
 	/// <summary>
 	/// Try to keep a walking player on the ground when running down slopes etc
 	/// </summary>
@@ -198,16 +209,5 @@ public partial class MonsterEntity : AnimatedEntity
 			monster.SetPath( targetPos );
 		}
 	}
-
-	[ConCmd.Admin( "set_monster_state" )]
-	public static void SetState( States newState )
-	{
-		var caller = ConsoleSystem.Caller;
-		var pawn = caller.Pawn;
-
-		foreach ( var monster in Entity.All.OfType<MonsterEntity>() )
-		{
-			monster.State = newState;
-		}
-	}
 }
+

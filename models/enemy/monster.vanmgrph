@@ -263,7 +263,7 @@
 											}
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.1
 									m_destState = 
 									{
 										m_id = 541430680
@@ -350,11 +350,11 @@
 										{
 											_class = "CFinishedCondition"
 											m_comparisonOp = 0
-											m_option = "FinishedConditionOption_OnFinished"
+											m_option = "FinishedConditionOption_OnAlmostFinished"
 											m_bIsFinished = true
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.1
 									m_destState = 
 									{
 										m_id = 708785102
@@ -699,7 +699,7 @@
 				m_bNetwork = true
 				m_bUseMostRecentValue = false
 				m_bAutoReset = false
-				m_bPredicted = true
+				m_bPredicted = false
 				m_bDefaultValue = false
 			},
 			{

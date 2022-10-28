@@ -2,7 +2,7 @@
 
 partial class MonsterEntity
 {
-	private States state = States.Hiding;
+	private States state = States.Dormant;
 	private States State
 	{
 		get => state;

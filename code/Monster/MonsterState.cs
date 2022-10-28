@@ -22,5 +22,11 @@ public enum States
 	/// This state has a maximum duration of 30 seconds, before the
 	/// monster runs off and goes back into a hiding state.
 	/// </summary>
-	Hunting
+	Hunting,
+
+	/// <summary>
+	/// In this state the monster is inside a splitizen, not doing anything.
+	/// Transitioning out of this requires coordinating with a splitizen's animation setup and unparenting from it at a specific point.
+	/// </summary>
+	Dormant
 }

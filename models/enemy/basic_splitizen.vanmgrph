@@ -75,7 +75,7 @@
 											}
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.1
 									m_destState = 
 									{
 										m_id = 541430680
@@ -181,7 +181,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -480.0, -96.0 ]
+					m_vecPosition = [ -480.0, -128.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1948711434
@@ -211,8 +211,8 @@
 				m_previewButton = "ANIMPARAM_BUTTON_NONE"
 				m_bNetwork = true
 				m_bUseMostRecentValue = false
-				m_bAutoReset = true
-				m_bPredicted = true
+				m_bAutoReset = false
+				m_bPredicted = false
 				m_bDefaultValue = false
 			},
 		]
