@@ -24,6 +24,7 @@ public sealed class ObjectiveSystem
 	/// <summary>
 	/// Which objectives haven't been completed yet?
 	/// </summary>
+	/// 
 	public List<Objective> PendingObjectives { get; } = ResourceLibrary.GetAll<ObjectiveResource>().Select( x => new Objective() { Resource = x } ).ToList();
 
 	/// <summary>
@@ -35,6 +36,11 @@ public sealed class ObjectiveSystem
 	{
 		Current = this;
 		Event.Register( this );
+
+		PendingObjectives.ForEach( x =>
+		{
+			Log.Trace( x.Resource.Name );
+		} );
 	}
 
 	/// <summary>
@@ -53,6 +59,10 @@ public sealed class ObjectiveSystem
 
 				ActiveObjectives.Add( objective );
 				PendingObjectives.Remove( objective );
+
+				var name = objective.Resource.ObjectiveName;
+				var description = objective.Resource.Description;
+				UI.Elements.Objectives.RpcAddObjective( To.Everyone, name, description );
 			}
 		}
 	}
@@ -72,6 +82,10 @@ public sealed class ObjectiveSystem
 				objective.InvokeEndEvents( pawn );
 
 				ActiveObjectives.Remove( objective );
+
+				var name = objective.Resource.ObjectiveName;
+				var description = objective.Resource.Description;
+				UI.Elements.Objectives.RpcRemoveObjective( To.Everyone, name, description );
 			}
 		}
 	}

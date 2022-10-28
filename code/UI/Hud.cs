@@ -22,6 +22,7 @@ public sealed partial class Hud : HudEntity<RootPanel>
 		RootPanel.AddChild( new LetterboxBars() );
 		RootPanel.AddChild( new SpaceToStart() );
 		RootPanel.AddChild( new NotePanel() );
+		RootPanel.AddChild( new Elements.Objectives() );
 		_ = new InteractionPrompt();
 
 		RootPanel.BindClass( "in-cutscene", () =>

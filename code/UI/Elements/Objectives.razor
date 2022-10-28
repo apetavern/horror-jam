@@ -1,0 +1,21 @@
+﻿@using Sandbox;
+@using Sandbox.UI;
+@namespace GvarJam.UI.Elements
+
+<root class="auto-hide">
+
+    <text class="title">Objectives</text>
+	
+    @foreach (var objective in DisplayObjectives)
+    {
+        <row>
+            <i>radio_button_checked</i>
+			
+            <right>
+                <text class="name">@objective.Name</text>
+                <text class="description">@objective.Description</text>
+            </right>
+        </row>
+    }
+	
+</root>

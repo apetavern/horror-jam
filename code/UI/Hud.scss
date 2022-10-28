@@ -6,10 +6,11 @@
 @import "/UI/Style/LetterboxBars.scss";
 @import "/UI/Style/SpaceToStart.scss";
 @import "/UI/Style/NotePanel.scss";
+@import "/UI/Style/Objectives.scss";
 
 RootPanel {
     &.in-cutscene {
-        StaminaBar, InteractionProgress, BatteryLevel, Crosshair {
+        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives {
             display: none;
         }
 
@@ -19,7 +20,7 @@ RootPanel {
     }
 
     &.in-delayed-cutscene {
-        StaminaBar, InteractionProgress, BatteryLevel, Crosshair {
+        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives {
             display: none;
         }
 
@@ -27,14 +28,16 @@ RootPanel {
             display: flex;
         }
     }
-}
 
-text, label {
     font-family: Chakra Petch;
 }
 
-icon, iconpanel {
-    font-family: MaterialIcons-Regular;
+IconPanel, icon, i {
+    font-family: MaterialIcons;
+
+    label {
+        font-family: MaterialIcons;
+    }
 }
 
 .auto-hide {
