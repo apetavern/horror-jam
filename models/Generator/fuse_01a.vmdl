@@ -34,7 +34,7 @@
 						align_origin_y_type = "None"
 						align_origin_z_type = "None"
 						filename = "models/Generator/Fuse_01a.fbx"
-						import_scale = 1.0
+						import_scale = 2.5
 						faceMergeAngle = 80.0
 						maxHullVertices = 0
 						import_mode = "SingleHull"
@@ -56,7 +56,7 @@
 						filename = "models/generator/fuse_01a.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
-						import_scale = 1.0
+						import_scale = 2.5
 						align_origin_x_type = "None"
 						align_origin_y_type = "None"
 						align_origin_z_type = "None"
