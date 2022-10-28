@@ -115,7 +115,8 @@ partial class Pawn
 		if ( LampPower <= 0 && LampEnabled )
 			LampEnabled = false;
 
-		Lamp.Brightness = BatteryPercentage;
-		Helmet.RenderColor = new Color( 1 - BatteryPercentage, BatteryPercentage, 0 );
+		Lamp.Brightness = BatteryPercentage * 1.4f;
+		Lamp.Color = Color.FromBytes(181, 177, 255);
+		Helmet.RenderColor = Color.FromBytes( 181, 177, 255 ).WithAlpha( BatteryPercentage );
 	}
 }
