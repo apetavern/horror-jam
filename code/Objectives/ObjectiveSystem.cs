@@ -105,12 +105,15 @@ public sealed class ObjectiveSystem
 	{
 		int line = 5;
 
-		DebugOverlay.ScreenText( $"Objectives:", line++ );
-		foreach ( var objective in ActiveObjectives )
-			PrintObjective( objective, ref line );
+		if ( HorrorGame.Debug )
+		{
+			DebugOverlay.ScreenText( $"Objectives:", line++ );
+			foreach ( var objective in ActiveObjectives )
+				PrintObjective( objective, ref line );
 
-		DebugOverlay.ScreenText( $"Pending objective count: {PendingObjectives.Count}", line++ );
-		DebugOverlay.ScreenText( $"Active objective count: {ActiveObjectives.Count}", line++ );
+			DebugOverlay.ScreenText( $"Pending objective count: {PendingObjectives.Count}", line++ );
+			DebugOverlay.ScreenText( $"Active objective count: {ActiveObjectives.Count}", line++ );
+		}
 
 		foreach ( var pawn in Client.All.Select( x => x.Pawn ).OfType<Pawn>() )
 		{

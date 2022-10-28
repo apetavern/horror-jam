@@ -29,7 +29,8 @@ partial class Pawn
 	/// </summary>
 	public void SimulateSanity()
 	{
-		DebugOverlay.ScreenText( $"Insanity level: {InsanityLevel}" );
+		if ( HorrorGame.Debug )
+			DebugOverlay.ScreenText( $"Insanity level: {InsanityLevel}" );
 
 		if ( Lamp is not null && !Lamp.Enabled )
 			InsanityLevel += SanityDrainPerSecond / Global.TickRate;
@@ -37,7 +38,7 @@ partial class Pawn
 			InsanityLevel -= SanityGainPerSecond / Global.TickRate;
 
 		// Subtract insanity if lights are found nearby.
-		if( GetLightsInSphere(200) > 0 )
+		if ( GetLightsInSphere( 200 ) > 0 )
 			InsanityLevel -= SanityGainPerSecond;
 
 		if ( IsClient && SanityPostEnabled )

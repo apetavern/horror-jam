@@ -28,6 +28,9 @@ public sealed partial class HorrorGame : Game
 	/// </summary>
 	private ObjectiveSystem ObjectiveSystem { get; set; } = null!;
 
+	[ConVar.Replicated( "debug_gvarjam" )]
+	public static bool Debug { get; set; } = false;
+
 	public HorrorGame()
 	{
 		if ( !IsServer )

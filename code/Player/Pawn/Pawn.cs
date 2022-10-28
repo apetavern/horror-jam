@@ -123,11 +123,14 @@ public sealed partial class Pawn : AnimatedEntity
 		if ( IsInteracting || BlockMovement )
 			Rotation = rotation;
 
-		var i = 0;
-		foreach ( var value in Enum.GetValues<ItemType>() )
+		if ( HorrorGame.Debug )
 		{
-			DebugOverlay.ScreenText( $"{value}: {Items[value]}", 15 + i );
-			i++;
+			var i = 0;
+			foreach ( var value in Enum.GetValues<ItemType>() )
+			{
+				DebugOverlay.ScreenText( $"{value}: {Items[value]}", 15 + i );
+				i++;
+			}
 		}
 	}
 

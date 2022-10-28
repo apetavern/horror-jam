@@ -134,7 +134,8 @@ public partial class MonsterEntity : AnimatedEntity
 	{
 		float walkspeed = Velocity.Length.LerpInverse( 0, 200 ) * 2.0f;
 
-		DebugOverlay.ScreenText( $"{walkspeed}, {Velocity.Length}", -1 );
+		if ( DebugEnabled )
+			DebugOverlay.ScreenText( $"{walkspeed}, {Velocity.Length}", -1 );
 
 		SetAnimParameter( "idle", true );
 		SetAnimParameter( "walkspeed", walkspeed );
