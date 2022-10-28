@@ -16,7 +16,7 @@ public class ObjectiveOverlay : Panel
 				//
 				// This is awful. :D
 				//
-				Entity entity = endCondition.Type switch
+				Entity? entity = endCondition.Type switch
 				{
 					ObjectiveEndCondition.ConditionType.InteractWithEntity =>
 						Entity.FindByName( endCondition.InteractableName ),
@@ -25,16 +25,16 @@ public class ObjectiveOverlay : Panel
 						Entity.FindByName( endCondition.InteractedName ),
 
 					ObjectiveEndCondition.ConditionType.InteractWithType =>
-						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).First(),
+						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).FirstOrDefault(),
 
 					ObjectiveEndCondition.ConditionType.InteractedWithType =>
-						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).First(),
+						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).FirstOrDefault(),
 
 					ObjectiveEndCondition.ConditionType.PlayerEnteredTrigger =>
 						Entity.FindByName( endCondition.TriggerName ),
 
 					ObjectiveEndCondition.ConditionType.PlayerHasItem =>
-						Entity.All.OfType<InventoryItem>().Where( x => x.ItemType.ToString() == endCondition.ItemType ).First(),
+						Entity.All.OfType<InventoryItem>().Where( x => x.ItemType.ToString() == endCondition.ItemType ).FirstOrDefault(),
 
 					ObjectiveEndCondition.ConditionType.Timer =>
 						throw new NotImplementedException(),
