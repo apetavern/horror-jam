@@ -37,10 +37,10 @@ public class ObjectiveOverlay : Panel
 						Entity.All.OfType<InventoryItem>().Where( x => x.ItemType.ToString() == endCondition.ItemType ).FirstOrDefault(),
 
 					ObjectiveEndCondition.ConditionType.Timer =>
-						throw new NotImplementedException(),
+						null,
 
 					_ =>
-						throw new NotImplementedException()
+						null
 				};
 
 				if ( !entity.IsValid() || entity == null )
