@@ -11,8 +11,28 @@
 				TriggerName = ""
 			},
 		]
-		ObjectiveEndConditions = [  ]
-		ObjectiveStartEvents = [  ]
+		ObjectiveEndConditions = 
+		[
+			{
+				Type = "Timer"
+				InteractableName = ""
+				InteractedName = "sdf234"
+				TypeName = ""
+				InteractedTypeName = ""
+				TriggerName = ""
+				ItemType = ""
+				TimeDelay = 100
+			},
+		]
+		ObjectiveStartEvents = 
+		[
+			{
+				SoundName = resource:"sounds/easteregg/welcome_f.sound"
+				TargetEntityName = ""
+				InfoTarget = ""
+				TargetAttachment = ""
+			},
+		]
 		ObjectiveEndEvents = [  ]
 	}
 }
