@@ -5,8 +5,22 @@
 /// </summary>
 public sealed class SpaceToStart : Panel
 {
-	public SpaceToStart()
+	public Panel? Overlay { get; set; }
+
+	public SpaceToStart() 
 	{
-		Add.Label( "Press space to start", "Text" );
+		Overlay = Add.Panel( "Overlay" );
+		Overlay.Add.Label( "Press space to start", "Text" );
+		Overlay.SetClass( "Display", true );
+	}
+
+	public override void Tick()
+	{
+		base.Tick();
+
+		if ( Local.Pawn is not Pawn pawn )
+			return;
+		
+		Overlay.SetClass( "Hide", !pawn.AwaitingCutsceneInput );
 	}
 }

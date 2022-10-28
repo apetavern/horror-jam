@@ -34,14 +34,6 @@ public sealed partial class Hud : HudEntity<RootPanel>
 			return false;
 		} );
 
-		RootPanel.BindClass( "in-delayed-cutscene", () =>
-		{
-			if ( Local.Pawn is Pawn pawn )
-				return pawn.InCutscene && pawn.RequiresInputToStart;
-
-			return false;
-		} );
-
 		Instance = this;
 	}
 

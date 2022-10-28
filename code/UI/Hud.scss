@@ -19,16 +19,6 @@ RootPanel {
         }
     }
 
-    &.in-delayed-cutscene {
-        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives, ObjectiveOverlay {
-            display: none;
-        }
-
-        SpaceToStart {
-            display: flex;
-        }
-    }
-
     font-family: Chakra Petch;
 }
 
