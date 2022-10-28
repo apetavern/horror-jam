@@ -27,9 +27,9 @@ public partial class Splitizen : AnimatedEntity
 	private float Gravity => 300f;
 	private bool IsGrounded { get; set; }
 
-	[Net]MonsterEntity Monster { get; set; }
+	[Net] MonsterEntity Monster { get; set; }
 
-	[Net]AnimatedEntity SplitTop { get; set; }
+	[Net] AnimatedEntity SplitTop { get; set; }
 
 	public bool Ditched;
 
@@ -43,6 +43,8 @@ public partial class Splitizen : AnimatedEntity
 		SetBodyGroup( 1, 1 );
 		SetBodyGroup( 3, 1 );
 
+		Tags.Add( "splitizen" );
+
 		new ModelEntity( "models/citizen_clothes/jacket/longsleeve/models/jeans.vmdl" ).SetParent( this, true );
 
 		SplitTop = new( "models/enemy/basic_splitizen.vmdl" );
@@ -54,10 +56,15 @@ public partial class Splitizen : AnimatedEntity
 		Monster.SetParent( this, true );
 
 		PathFinding = new( this );
+
+		//DoSplit();
 	}
 
-	public void DoSplit()
+	public async void DoSplit()
 	{
+		SplitTop.SetAnimParameter( "split", true );
+		Monster.SetAnimParameter( "split", true );
+		await Task.DelaySeconds( Time.Delta );
 		Monster.SetAnimParameter( "split", true );
 		SplitTop.SetAnimParameter( "split", true );
 		Split = true;
@@ -66,7 +73,6 @@ public partial class Splitizen : AnimatedEntity
 	public void DitchBody()
 	{
 		Ditched = true;
-		SplitTop.SetAnimParameter( "split", true );
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 		PhysicsBody.ApplyForce( -Rotation.Forward * 10000f );
 	}

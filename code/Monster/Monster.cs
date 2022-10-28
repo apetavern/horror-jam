@@ -37,7 +37,10 @@ public partial class MonsterEntity : AnimatedEntity
 
 	public void SetPath( Vector3 target )
 	{
-		PathFinding.SetPath( target );
+		if ( PathFinding != null )
+		{
+			PathFinding.SetPath( target );
+		}
 	}
 
 	[Event.Tick]
@@ -107,7 +110,7 @@ public partial class MonsterEntity : AnimatedEntity
 	{
 		// Movehelper setup
 		var moveHelper = new MoveHelper( Position, Velocity );
-		moveHelper.Trace = moveHelper.Trace.Ignore( this ).Size( Bounds );
+		moveHelper.Trace = moveHelper.Trace.Ignore( this ).WithoutTags("splitizen").Size( Bounds );
 
 		// Grounded check
 		IsGrounded = moveHelper.TraceDirection( Vector3.Down ).Hit;
