@@ -93,7 +93,7 @@ public sealed partial class InventoryItem : DelayedUseItem
 	/// <param name="timeInAnim">The time in seconds that this animation has been going for,</param>
 	private bool PickupItem( Entity user, bool firstTime, float timeInAnim )
 	{
-		if ( IsServer && timeInAnim >= 0.55 && !pickedUp )
+		if ( IsServer && timeInAnim >= 0.50 && !pickedUp )
 			PickupItemEntity( user );
 
 		(user as Pawn)!.SetAnimParameter( "grabitem", true );
@@ -110,7 +110,6 @@ public sealed partial class InventoryItem : DelayedUseItem
 		pickedUp = true;
 
 		Tags.Add( "camignore" );
-		SetParent( user, true );
 		Scale = 0.6f;
 	}
 }
