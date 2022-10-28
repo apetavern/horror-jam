@@ -15,6 +15,9 @@ public static class LightManager
 
 	static void SetLightState( bool shouldBeOn )
 	{
+		if ( areLightsOn == shouldBeOn )
+			return;
+
 		// Dirty hack to change material group of all light models.
 		var allLightModelEnts = Entity.All.OfType<ModelEntity>();
 
@@ -30,6 +33,8 @@ public static class LightManager
 			Sound.FromScreen( "generator_power_on" );
 		else
 			Sound.FromScreen( "generator_power_off" );
+
+		areLightsOn = shouldBeOn;
 	}
 
 	/// <summary>
