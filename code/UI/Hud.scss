@@ -10,7 +10,7 @@
 
 RootPanel {
     &.in-cutscene {
-        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives {
+        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives, ObjectiveOverlay {
             display: none;
         }
 
@@ -20,7 +20,7 @@ RootPanel {
     }
 
     &.in-delayed-cutscene {
-        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives {
+        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives, ObjectiveOverlay {
             display: none;
         }
 
