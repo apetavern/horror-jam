@@ -40,7 +40,7 @@ public static class ItemTypeExtensions
 	{
 		return itemType switch
 		{
-			ItemType.JanitorKey => "Janitor Key",
+			ItemType.JanitorKey => "Keycard - Janitor",
 			ItemType.KeycardLvl1 => "Keycard - Level 1",
 			ItemType.KeycardLvl2 => "Keycard - Level 2",
 			ItemType.KeycardLvl3 => "Keycard - Level 3",
