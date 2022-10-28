@@ -16,16 +16,24 @@
 		ObjectiveEndConditions = 
 		[
 			{
-				Type = "InteractWithType"
+				Type = "InteractedWithType"
 				InteractableName = ""
 				InteractedName = ""
 				TypeName = "Helmet"
-				InteractedTypeName = ""
+				InteractedTypeName = "Helmet"
 				TriggerName = ""
 				ItemType = ""
 			},
 		]
 		ObjectiveStartEvents = [  ]
-		ObjectiveEndEvents = [  ]
+		ObjectiveEndEvents = 
+		[
+			{
+				Type = "SetLighting"
+				TargetEntityName = ""
+				InfoTarget = ""
+				TargetAttachment = ""
+			},
+		]
 	}
 }
