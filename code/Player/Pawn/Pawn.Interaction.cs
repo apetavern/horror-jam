@@ -26,7 +26,10 @@ partial class Pawn
 				return;
 
 			if ( IsInteracting && (InteractedEntity is DelayedUseItem || InteractedEntity is LockedUseItem))
+			{
+				Rotation = Rotation.LookAt( (InteractedEntity.Position - Position).Normal );
 				camera.GoToThirdPerson();
+			}
 			else
 				camera.GoToFirstPerson();
 		}
