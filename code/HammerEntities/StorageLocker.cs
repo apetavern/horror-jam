@@ -65,7 +65,7 @@ public sealed partial class StorageLocker : DelayedUseItem
 	{
 		base.Spawn();
 
-		Name = "Storage Locker";
+		DisplayName = "Storage Locker";
 
 		SetModel( "models/scifilocker/scifilocker.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
