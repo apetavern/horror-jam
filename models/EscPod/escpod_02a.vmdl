@@ -15,11 +15,19 @@
 						[
 							{
 								from = "material.vmat"
-								to = "materials/dev/dev_measuregeneric01b.vmat"
+								to = "models/escpod/textures/escpod_02a.vmat"
+							},
+							{
+								from = "material2.vmat"
+								to = "models/escpod/textures/escpod_02b.vmat"
+							},
+							{
+								from = "material3.vmat"
+								to = "models/escpod/textures/escpod_03a.vmat"
 							},
 						]
 						use_global_default = false
-						global_default_material = "materials/dev/dev_measuregeneric01b.vmat"
+						global_default_material = "models/escpod/textures/escpod_02a.vmat"
 					},
 				]
 			},

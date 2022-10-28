@@ -13,7 +13,7 @@
 						_class = "DefaultMaterialGroup"
 						remaps = [  ]
 						use_global_default = true
-						global_default_material = "materials/dev/dev_measuregeneric01.vmat"
+						global_default_material = "models/escpod/textures/escpod_03a.vmat"
 					},
 				]
 			},
