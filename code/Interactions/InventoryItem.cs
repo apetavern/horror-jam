@@ -29,6 +29,7 @@ public sealed partial class InventoryItem : DelayedUseItem
 				return;
 
 			SetModel( value.GetModel() );
+			SetMaterialGroup( value.GetMaterialGroup() );
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 		}
 	}
@@ -61,6 +62,7 @@ public sealed partial class InventoryItem : DelayedUseItem
 
 		ItemType = itemType;
 		SetModel( ItemType.GetModel() );
+		SetMaterialGroup( ItemType.GetMaterialGroup() );
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 		spawned = true;
 	}
