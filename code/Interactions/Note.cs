@@ -45,6 +45,7 @@ public partial class Note : InstantUseItem
 		{
 			Hud.Instance?.ShowNote( NoteContents );
 			IsNoteOpen = true;
+			Sound.FromScreen( "note_open" );
 		}
 		else
 		{
