@@ -5,7 +5,7 @@
 /// </summary>
 public static class LightManager
 {
-	static bool areLightsOn { get; set; }
+	static bool areLightsOn { get; set; } = true;
 
 	static bool shouldLightsFlicker { get; set; }
 
