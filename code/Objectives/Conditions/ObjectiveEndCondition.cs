@@ -15,9 +15,17 @@ public struct ObjectiveEndCondition
 		/// </summary>
 		InteractWithEntity,
 		/// <summary>
+		/// Fired after the player has finished interacting with an entity.
+		/// </summary>
+		InteractedWithEntity,
+		/// <summary>
 		/// Utilizing the interaction system on a type of entity.
 		/// </summary>
 		InteractWithType,
+		/// <summary>
+		/// Fired after the player has finished interacting with a type of entity.
+		/// </summary>
+		InteractedWithType,
 		/// <summary>
 		/// Entering a zone of the map.
 		/// </summary>
@@ -44,10 +52,22 @@ public struct ObjectiveEndCondition
 	public string InteractableName { get; set; }
 
 	/// <summary>
+	/// The name of the entity to interact with to complete.
+	/// </summary>
+	[ShowIf( nameof( Type ), ConditionType.InteractedWithEntity )]
+	public string InteractedName { get; set; }
+
+	/// <summary>
 	/// The type name of the entity to interact with to complete.
 	/// </summary>
 	[ShowIf( nameof( Type ), ConditionType.InteractWithType )]
 	public string TypeName { get; set; }
+
+	/// <summary>
+	/// The type name of the entity to interact with to complete.
+	/// </summary>
+	[ShowIf( nameof( Type ), ConditionType.InteractedWithType )]
+	public string InteractedTypeName { get; set; }
 
 	/// <summary>
 	/// The name of the trigger to enter to complete.
@@ -85,9 +105,24 @@ public struct ObjectiveEndCondition
 
 					return false;
 				}
+			case ConditionType.InteractedWithEntity:
+				{
+					if ( pawn.LastInteractedEntityName == InteractedName )
+						return true;
+
+					return false;
+				}
 			case ConditionType.InteractWithType:
 				{
 					if ( pawn.IsInteracting && pawn.InteractedEntity?.GetType().Name == TypeName )
+						return true;
+
+					return false;
+				}
+			case ConditionType.InteractedWithType:
+				{
+					Log.Info( pawn.LastInteractedEntityTypeName );
+					if ( pawn.LastInteractedEntityTypeName == TypeName )
 						return true;
 
 					return false;

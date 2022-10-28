@@ -18,7 +18,9 @@
 			{
 				Type = "PlayerHasItem"
 				InteractableName = "JanitorKey"
+				InteractedName = ""
 				TypeName = ""
+				InteractedTypeName = ""
 				TriggerName = ""
 				ItemType = "JanitorKey"
 			},
