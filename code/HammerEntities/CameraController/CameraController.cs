@@ -76,7 +76,7 @@ public sealed partial class CameraController : LockedUseItem
 		Screen = new ModelEntity( "models/cameraconsole/console_screen.vmdl", this );
 		Screen.SetMaterialGroup( 1 );
 
-		Name = "Camera Controller";
+		DisplayName = "Camera Controller";
 	}
 
 	public override void ClientSpawn()
