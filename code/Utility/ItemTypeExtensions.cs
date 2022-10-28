@@ -18,6 +18,7 @@ public static class ItemTypeExtensions
 			ItemType.KeycardLvl1 => "models/keycards/keycard.vmdl",
 			ItemType.KeycardLvl2 => "models/keycards/keycard.vmdl",
 			ItemType.KeycardLvl3 => "models/keycards/keycard.vmdl",
+			ItemType.GeneratorFuse => "models/generator/fuse_01a.vmdl",
 			_ => throw new ArgumentException( null, nameof(itemType) )
 		};
 	}
