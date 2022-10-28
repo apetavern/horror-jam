@@ -20,5 +20,9 @@ public enum ItemType
 	/// <summary>
 	/// An advanced level 3 keycard.
 	/// </summary>
-	KeycardLvl3
+	KeycardLvl3,
+	/// <summary>
+	/// A fuse to repair the generator.
+	/// </summary>
+	GeneratorFuse,
 }
