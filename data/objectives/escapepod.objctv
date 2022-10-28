@@ -7,19 +7,26 @@
 		ObjectiveStartConditions = 
 		[
 			{
-				Type = "PlayerEnteredTrigger"
-				InteractableName = "final_door"
+				Type = "PreviousObjectiveComplete"
+				InteractableName = "note_danger"
+				ObjectiveName = resource:"data/objectives/findmasterkey.objctv"
 				TriggerName = "escapepod_outtro_trigger"
 			},
+		]
+		ObjectiveEndConditions = 
+		[
 			{
-				Type = "PreviousObjectiveComplete"
+				Type = "PlayerEnteredTrigger"
 				InteractableName = ""
-				ObjectiveName = resource:"data/objectives/findmasterkey.objctv"
-				TriggerName = ""
+				InteractedName = ""
+				TypeName = ""
+				InteractedTypeName = ""
+				TriggerName = "escapepod_outtro_trigger"
+				ItemType = ""
 			},
 		]
-		ObjectiveEndConditions = [  ]
-		ObjectiveStartEvents = 
+		ObjectiveStartEvents = [  ]
+		ObjectiveEndEvents = 
 		[
 			{
 				Type = "PlayInstantiatedCutscene"
@@ -30,6 +37,5 @@
 				HidePlayers = true
 			},
 		]
-		ObjectiveEndEvents = [  ]
 	}
 }
