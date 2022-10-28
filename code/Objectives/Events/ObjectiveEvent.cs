@@ -1,6 +1,4 @@
-﻿using GvarJam.SoundManager;
-
-namespace GvarJam.Objectives;
+﻿namespace GvarJam.Objectives;
 
 /// <summary>
 /// An event to be invoked on pawns when an objective starts or ends.

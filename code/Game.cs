@@ -1,6 +1,7 @@
 ﻿global using GvarJam.HammerEntities;
 global using GvarJam.Interactions;
 global using GvarJam.Inventory;
+global using GvarJam.Managers;
 global using GvarJam.Monster;
 global using GvarJam.Objectives;
 global using GvarJam.Player;

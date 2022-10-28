@@ -1,4 +1,4 @@
-﻿namespace GvarJam.SoundManager;
+﻿namespace GvarJam.Managers;
 
 /// <summary>
 /// The sound manager for the game.
@@ -44,7 +44,7 @@ public static class SoundManager
 	/// <summary>
 	/// The list of ambient music to play.
 	/// </summary>
-	private static string[] AmbientMusic = 
+	private static string[] AmbientMusic =
 	{
 		"slow_creep_ambient",
 		"EerieSoundsToMakeYouShitYourself"

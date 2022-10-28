@@ -1,4 +1,4 @@
-﻿namespace GvarJam.SoundManager;
+﻿namespace GvarJam.Managers;
 
 /// <summary>
 /// The light manager for the game.
@@ -18,7 +18,7 @@ public static class LightManager
 		// Dirty hack to change material group of all light models.
 		var allLightModelEnts = Entity.All.OfType<ModelEntity>();
 
-		foreach( var model in allLightModelEnts )
+		foreach ( var model in allLightModelEnts )
 			model?.SetMaterialGroup( shouldBeOn ? 0 : 1 );
 
 		var allLights = Entity.All.OfType<PointLightEntity>();
@@ -52,7 +52,7 @@ public static class LightManager
 		shouldLightsFlicker = shouldFlicker;
 		timeBetweenFlicker = timeBetweenFlick;
 
-		if( !shouldFlicker )
+		if ( !shouldFlicker )
 		{
 			SetLightState( true );
 		}
