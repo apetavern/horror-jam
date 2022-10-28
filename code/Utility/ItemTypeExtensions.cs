@@ -21,4 +21,16 @@ public static class ItemTypeExtensions
 			_ => throw new ArgumentException( null, nameof(itemType) )
 		};
 	}
+
+	public static int GetMaterialGroup( this ItemType itemType )
+	{
+		return itemType switch
+		{
+			ItemType.JanitorKey => 0,
+			ItemType.KeycardLvl1 => 1,
+			ItemType.KeycardLvl2 => 2,
+			ItemType.KeycardLvl3 => 3,
+			_ => throw new ArgumentException( null, nameof( itemType ) )
+		};
+	}
 }
