@@ -27,7 +27,7 @@ public sealed partial class Generator : DelayedUseItem
 	{
 		base.Spawn();
 
-		Name = "Generator";
+		DisplayName = "Generator";
 
 		SetModel( "models/scifilocker/scifilocker.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
