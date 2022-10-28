@@ -163,6 +163,9 @@ public partial class DoorEntity : KeyframeEntity, IUse
 	[Net]
 	public bool ObjectiveLocked { get; set; } = false;
 
+	[Net, Predicted]
+	public TimeSince TimeSinceUsed { get; set; }
+
 	/// <summary>
 	/// The easing function for both movement and rotation
 	/// TODO: Expose to hammer in a nice way
@@ -320,11 +323,17 @@ public partial class DoorEntity : KeyframeEntity, IUse
 		if ( ObjectiveLocked )
 			return false;
 
+		if ( TimeSinceUsed < 1 )
+			return false;
+
 		if ( Locked && !(user as Pawn)!.HasItem(ItemRequiredToOpen) )
 		{
 			PlaySound( LockedSound );
 			SetAnimParameter( "locked", true );
 			OnLockedUse.Fire( this );
+
+			TimeSinceUsed = 0;
+
 			return false;
 		}
 
@@ -332,6 +341,8 @@ public partial class DoorEntity : KeyframeEntity, IUse
 		{
 			Toggle( user );
 		}
+
+		TimeSinceUsed = 0;
 
 		return false;
 	}
