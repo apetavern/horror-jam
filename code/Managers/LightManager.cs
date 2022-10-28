@@ -5,8 +5,6 @@
 /// </summary>
 public static class LightManager
 {
-	static bool areLightsOn { get; set; } = true;
-
 	static bool shouldLightsFlicker { get; set; }
 
 	static float timeBetweenFlicker { get; set; } = 1;
@@ -15,7 +13,7 @@ public static class LightManager
 
 	static void SetLightState( bool shouldBeOn )
 	{
-		if ( areLightsOn == shouldBeOn )
+		if ( (Game.Current as HorrorGame).areLightsOn == shouldBeOn )
 			return;
 
 		// Dirty hack to change material group of all light models.
@@ -34,7 +32,7 @@ public static class LightManager
 		else
 			Sound.FromScreen( "generator_power_off" );
 
-		areLightsOn = shouldBeOn;
+		(Game.Current as HorrorGame).areLightsOn = shouldBeOn;
 	}
 
 	/// <summary>

@@ -7,6 +7,7 @@ global using GvarJam.Objectives;
 global using GvarJam.Player;
 global using GvarJam.UI;
 global using GvarJam.Utility;
+global using GvarJam.Components;
 global using Sandbox;
 global using Sandbox.Component;
 global using Sandbox.UI;
@@ -23,6 +24,7 @@ namespace GvarJam;
 /// </summary>
 public sealed partial class HorrorGame : Game
 {
+	[Net] public bool areLightsOn { get; set; } = true;
 	/// <summary>
 	/// The instance of the objective system.
 	/// </summary>
@@ -53,6 +55,11 @@ public sealed partial class HorrorGame : Game
 
 		// Get all of the spawnpoints
 		var spawnpoints = All.OfType<SpawnPoint>();
+
+		foreach ( PointLightEntity light in Entity.All.OfType<PointLightEntity>() )
+		{
+			light.Components.GetOrCreate<LightCullComponent>();
+		}
 
 		// chose a random one
 		var randomSpawnPoint = spawnpoints.OrderBy( x => Guid.NewGuid() ).FirstOrDefault();
