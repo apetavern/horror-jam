@@ -42,12 +42,13 @@ public sealed partial class Generator : DelayedUseItem
 		Actions.Add( (0.5f, TurnOnGenerator) );
 	}
 
+	/// <inheritdoc/>
 	protected override void OnUsed( Entity user )
 	{
 		base.OnUsed( user );
 
 		if ( IsServer )
-			LightManager.ToggleLighting( true );
+			LightManager.FlickerLighting( false, 0 );
 	}
 
 	/// <summary>
