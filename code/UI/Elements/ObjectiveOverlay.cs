@@ -13,53 +13,40 @@ public class ObjectiveOverlay : Panel
 		{
 			foreach ( var endCondition in objective.ObjectiveEndConditions )
 			{
-				Vector3 position = 0;
-
 				//
 				// This is awful. :D
 				//
-				switch ( endCondition.Type )
+				Entity entity = endCondition.Type switch
 				{
-					case ObjectiveEndCondition.ConditionType.InteractWithEntity:
-						{
-							var entity = Entity.FindByName( endCondition.InteractableName );
-							position = entity.WorldSpaceBounds.Center;
-							break;
-						}
-					case ObjectiveEndCondition.ConditionType.InteractedWithEntity:
-						{
-							var entity = Entity.FindByName( endCondition.InteractedName );
-							position = entity.WorldSpaceBounds.Center;
-							break;
-						}
-					case ObjectiveEndCondition.ConditionType.InteractWithType:
-						{
-							var entity = Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).First();
-							position = entity.WorldSpaceBounds.Center;
-							break;
-						}
-					case ObjectiveEndCondition.ConditionType.InteractedWithType:
-						{
-							var entity = Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).First();
-							position = entity.WorldSpaceBounds.Center;
-							break;
-						}
-					case ObjectiveEndCondition.ConditionType.PlayerEnteredTrigger:
-						{
-							var entity = Entity.FindByName( endCondition.TriggerName );
-							position = entity.WorldSpaceBounds.Center;
-							break;
-						}
-					case ObjectiveEndCondition.ConditionType.PlayerHasItem:
-						{
-							var entity = Entity.All.OfType<InventoryItem>().Where( x => x.ItemType.ToString() == endCondition.ItemType ).First();
-							position = entity.WorldSpaceBounds.Center;
-							break;
-						}
-					case ObjectiveEndCondition.ConditionType.Timer:
-						continue;
-				}
+					ObjectiveEndCondition.ConditionType.InteractWithEntity =>
+						Entity.FindByName( endCondition.InteractableName ),
 
+					ObjectiveEndCondition.ConditionType.InteractedWithEntity =>
+						Entity.FindByName( endCondition.InteractedName ),
+
+					ObjectiveEndCondition.ConditionType.InteractWithType =>
+						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).First(),
+
+					ObjectiveEndCondition.ConditionType.InteractedWithType =>
+						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).First(),
+
+					ObjectiveEndCondition.ConditionType.PlayerEnteredTrigger =>
+						Entity.FindByName( endCondition.TriggerName ),
+
+					ObjectiveEndCondition.ConditionType.PlayerHasItem =>
+						Entity.All.OfType<InventoryItem>().Where( x => x.ItemType.ToString() == endCondition.ItemType ).First(),
+
+					ObjectiveEndCondition.ConditionType.Timer =>
+						throw new NotImplementedException(),
+
+					_ =>
+						throw new NotImplementedException()
+				};
+
+				if ( !entity.IsValid() || entity == null )
+					continue;
+
+				var position = entity.WorldSpaceBounds.Center;
 				var distance = CurrentView.Position.Distance( position );
 				var alpha = distance.LerpInverse( MaxDistance, 128f );
 
