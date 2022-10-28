@@ -3,7 +3,7 @@ namespace GvarJam.HammerEntities;
 [Category( "Environment" )]
 [Library( "ent_generator" )]
 [HammerEntity]
-[EditorModel( "models/scifilocker/scifilocker.vmdl" )]
+[EditorModel( "models/generator/fusebox_01a.vmdl" )]
 public sealed partial class Generator : DelayedUseItem
 {
 	/// <inheritdoc/>
@@ -29,7 +29,7 @@ public sealed partial class Generator : DelayedUseItem
 
 		DisplayName = "Generator";
 
-		SetModel( "models/scifilocker/scifilocker.vmdl" );
+		SetModel( "models/generator/fusebox_01a.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
 	}
 
