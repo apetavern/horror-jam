@@ -26,6 +26,9 @@ partial class Pawn
 	[Net]
 	public bool RequiresInputToStart { get; set; }
 
+	[Net]
+	public bool AwaitingCutsceneInput { get; set; }
+
 	[Net, Local]
 	private bool HidingPlayers { get; set; }
 
@@ -69,6 +72,7 @@ partial class Pawn
 		BlockMovement = true;
 		BlockLook = true;
 		InCutscene = true;
+		AwaitingCutsceneInput = true;
 
 		if ( RequiresInputToStart )
 		{
@@ -122,6 +126,8 @@ partial class Pawn
 			CutsceneDuration = DurationAfterDelay;
 			TimeSinceCutsceneStart = 0;
 			RequiresInputToStart = false;
+
+			AwaitingCutsceneInput = false;
 		}
 
 		if ( CutsceneDuration <= 0f )
