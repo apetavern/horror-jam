@@ -1,0 +1,14 @@
+
+Layer0
+{
+	shader "complex.vfx"
+
+	TextureColor "models/hamstercage/textures/cage_base_color.png"
+	TextureAmbientOcclusion "models/hamstercage/textures/cage_mixed_ao.png"
+	TextureNormal "models/hamstercage/textures/cage_normal_opengl.png"
+	TextureRoughness "models/hamstercage/textures/cage_roughness.png"
+	F_METALNESS_TEXTURE 1
+	F_SPECULAR 1
+	TextureMetalness "models/hamstercage/textures/cage_metallic.png"
+
+}
