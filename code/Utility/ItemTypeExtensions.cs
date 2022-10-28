@@ -31,6 +31,7 @@ public static class ItemTypeExtensions
 			ItemType.KeycardLvl1 => 1,
 			ItemType.KeycardLvl2 => 2,
 			ItemType.KeycardLvl3 => 3,
+			ItemType.GeneratorFuse => 0,
 			_ => throw new ArgumentException( null, nameof( itemType ) )
 		};
 	}
