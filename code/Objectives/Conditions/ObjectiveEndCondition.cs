@@ -121,7 +121,6 @@ public struct ObjectiveEndCondition
 				}
 			case ConditionType.InteractedWithType:
 				{
-					Log.Info( pawn.LastInteractedEntityTypeName );
 					if ( pawn.LastInteractedEntityTypeName == TypeName )
 						return true;
 
