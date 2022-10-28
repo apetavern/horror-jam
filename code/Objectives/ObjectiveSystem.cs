@@ -60,9 +60,7 @@ public sealed class ObjectiveSystem
 				ActiveObjectives.Add( objective );
 				PendingObjectives.Remove( objective );
 
-				var name = objective.Resource.ObjectiveName;
-				var description = objective.Resource.Description;
-				UI.Elements.Objectives.RpcAddObjective( To.Everyone, name, description );
+				UI.Elements.Objectives.RpcAddObjective( To.Everyone, objective.Resource );
 			}
 		}
 	}
@@ -83,9 +81,7 @@ public sealed class ObjectiveSystem
 
 				ActiveObjectives.Remove( objective );
 
-				var name = objective.Resource.ObjectiveName;
-				var description = objective.Resource.Description;
-				UI.Elements.Objectives.RpcRemoveObjective( To.Everyone, name, description );
+				UI.Elements.Objectives.RpcRemoveObjective( To.Everyone, objective.Resource );
 			}
 		}
 	}

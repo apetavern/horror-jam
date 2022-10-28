@@ -2,8 +2,8 @@
 
 partial class Objectives
 {
-	private static Objectives Instance { get; set; }
-	private List<(string Name, string Description)> DisplayObjectives { get; set; } = new();
+	public static Objectives Instance { get; private set; }
+	public List<ObjectiveResource> DisplayObjectives { get; set; } = new();
 
 	public Objectives()
 	{
@@ -13,19 +13,17 @@ partial class Objectives
 	}
 
 	[ClientRpc]
-	public static void RpcAddObjective( string name, string description )
+	public static void RpcAddObjective( ObjectiveResource resource )
 	{
-		Log.Trace( $"RPC: Add objective {name}" );
-		Instance.DisplayObjectives.Add( (name, description) );
+		Instance.DisplayObjectives.Add( resource );
 
 		Instance.StateHasChanged();
 	}
 
 	[ClientRpc]
-	public static void RpcRemoveObjective( string name, string description )
+	public static void RpcRemoveObjective( ObjectiveResource resource )
 	{
-		Log.Trace( $"RPC: Remove objective {name}" );
-		Instance.DisplayObjectives.RemoveAll( x => x.Name == name );
+		Instance.DisplayObjectives.RemoveAll( x => x == resource );
 
 		Instance.StateHasChanged();
 	}
