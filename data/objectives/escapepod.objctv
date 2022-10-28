@@ -25,11 +25,21 @@
 				ItemType = ""
 			},
 		]
-		ObjectiveStartEvents = [  ]
+		ObjectiveStartEvents = 
+		[
+			{
+				Type = "SetDoorLockState"
+				DoorName = "final_door"
+				TargetEntityName = ""
+				InfoTarget = ""
+				TargetAttachment = ""
+			},
+		]
 		ObjectiveEndEvents = 
 		[
 			{
 				Type = "PlayInstantiatedCutscene"
+				DoorName = ""
 				TargetEntityName = ""
 				InfoTarget = "escapepod_pos"
 				TargetModel = resource:"models/cutscenes/escapepod/escapepod_complete.vmdl"
