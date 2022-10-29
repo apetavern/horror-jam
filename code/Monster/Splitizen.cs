@@ -33,6 +33,14 @@ public partial class Splitizen : AnimatedEntity
 
 	public bool Ditched;
 
+	[Net] public bool StopMoving { get; set; }
+
+	Vector3 startpos;
+
+	Entity helmetEnt;
+
+	bool SetAPath;
+
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -42,6 +50,8 @@ public partial class Splitizen : AnimatedEntity
 		SetBodyGroup( 0, 1 );
 		SetBodyGroup( 1, 1 );
 		SetBodyGroup( 3, 1 );
+
+		startpos = Position;
 
 		Tags.Add( "splitizen" );
 
@@ -55,10 +65,27 @@ public partial class Splitizen : AnimatedEntity
 
 		Monster.SetParent( this, true );
 
+		helmetEnt = All.OfType<Helmet>().First();
+
 		PathFinding = new( this );
 
+		Rotation = Rotation.LookAt( Vector3.Random.WithZ( 0 ) );
+
 		SetPath( Position );
+		RandomPatrol();
 		//DoSplit();
+	}
+
+	public async void RandomPatrol()
+	{
+		SetPath( Position );
+		if ( !StopMoving )
+		{
+			await Task.DelaySeconds( Rand.Float( 5f, 30f ) );
+			PathFinding.SetRandomPath();
+			RandomPatrol();
+			SetAPath = true;
+		}
 	}
 
 	public async void DoSplit()
@@ -100,11 +127,34 @@ public partial class Splitizen : AnimatedEntity
 				DrawDebugInfo();
 			}
 
-			TickMove();
+			if ( !StopMoving )
+			{
+				TickMove();
+			}
 
-			SetPath( Position );
+			if ( !SetAPath )
+			{
+				SetPath( Position );
+			}
+
 
 			//TickStuck();
+		}
+
+		//Run away from the helmet if you get too close to avoid ruining the reveal.
+		if ( Vector3.DistanceBetween(Position, helmetEnt.Position ) < 1024 )
+		{
+			SetPath( startpos );
+		}
+
+		TraceResult walltr = Trace.Ray( SplitTop.GetBoneTransform( "pelvis" ).Position, SplitTop.GetBoneTransform( "pelvis" ).Position + (Rotation.Forward * Rand.Float(25f,50f)) ).Ignore( this ).Run();
+		if ( walltr.Entity is HammerEntities.DoorEntity door )
+		{
+			SplitTop.SetAnimParameter( "bangdoor", true );
+		}
+		else
+		{
+			SplitTop.SetAnimParameter( "bangdoor", false );
 		}
 
 

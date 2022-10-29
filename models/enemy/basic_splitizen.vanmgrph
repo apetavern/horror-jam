@@ -38,6 +38,157 @@
 			{
 				key = 
 				{
+					m_id = 1337495806
+				}
+				value = 
+				{
+					_class = "CStateMachineAnimNode"
+					m_sName = "Unnamed"
+					m_vecPosition = [ -480.0, -96.0 ]
+					m_nNodeID = 
+					{
+						m_id = 1337495806
+					}
+					m_networkMode = "ClientPredicted"
+					m_sNote = ""
+					m_states = 
+					[
+						{
+							_class = "CAnimState"
+							m_transitions = 
+							[
+								{
+									_class = "CAnimStateTransition"
+									m_conditions = 
+									[
+										{
+											_class = "CParameterAnimCondition"
+											m_comparisonOp = 0
+											m_paramID = 
+											{
+												m_id = 760561540
+											}
+											m_comparisonValue = 
+											{
+												m_nType = 1
+												m_data = true
+											}
+										},
+									]
+									m_blendDuration = 0.5
+									m_destState = 
+									{
+										m_id = 541430680
+									}
+									m_bReset = true
+									m_resetCycleOption = "Beginning"
+									m_flFixedCycleValue = 0.0
+									m_blendCurve = 
+									{
+										m_vControlPoint1 = [ 0.5, 0.0 ]
+										m_vControlPoint2 = [ 0.5, 1.0 ]
+									}
+									m_bForceFootPlant = false
+									m_bDisabled = false
+								},
+							]
+							m_tags = [  ]
+							m_tagBehaviors = [  ]
+							m_name = "idle"
+							m_inputConnection = 
+							{
+								m_nodeID = 
+								{
+									m_id = 1948711434
+								}
+								m_outputID = 
+								{
+									m_id = 4294967295
+								}
+							}
+							m_stateID = 
+							{
+								m_id = 1483361759
+							}
+							m_position = [ -144.0, -80.0 ]
+							m_bIsStartState = true
+							m_bIsEndtState = false
+							m_bIsPassthrough = false
+							m_bIsRootMotionExclusive = false
+							m_bAlwaysEvaluate = false
+						},
+						{
+							_class = "CAnimState"
+							m_transitions = 
+							[
+								{
+									_class = "CAnimStateTransition"
+									m_conditions = 
+									[
+										{
+											_class = "CParameterAnimCondition"
+											m_comparisonOp = 0
+											m_paramID = 
+											{
+												m_id = 760561540
+											}
+											m_comparisonValue = 
+											{
+												m_nType = 1
+												m_data = false
+											}
+										},
+									]
+									m_blendDuration = 0.5
+									m_destState = 
+									{
+										m_id = 1483361759
+									}
+									m_bReset = true
+									m_resetCycleOption = "Beginning"
+									m_flFixedCycleValue = 0.0
+									m_blendCurve = 
+									{
+										m_vControlPoint1 = [ 0.5, 0.0 ]
+										m_vControlPoint2 = [ 0.5, 1.0 ]
+									}
+									m_bForceFootPlant = false
+									m_bDisabled = false
+								},
+							]
+							m_tags = [  ]
+							m_tagBehaviors = [  ]
+							m_name = "banging"
+							m_inputConnection = 
+							{
+								m_nodeID = 
+								{
+									m_id = 1816327606
+								}
+								m_outputID = 
+								{
+									m_id = 4294967295
+								}
+							}
+							m_stateID = 
+							{
+								m_id = 541430680
+							}
+							m_position = [ -144.0, 96.0 ]
+							m_bIsStartState = false
+							m_bIsEndtState = false
+							m_bIsPassthrough = false
+							m_bIsRootMotionExclusive = false
+							m_bAlwaysEvaluate = false
+						},
+					]
+					m_bBlockWaningTags = false
+					m_bLockStateWhenWaning = false
+				}
+			},
+			{
+				key = 
+				{
 					m_id = 1548441907
 				}
 				value = 
@@ -99,7 +250,7 @@
 							{
 								m_nodeID = 
 								{
-									m_id = 1948711434
+									m_id = 1337495806
 								}
 								m_outputID = 
 								{
@@ -175,13 +326,35 @@
 			{
 				key = 
 				{
+					m_id = 1816327606
+				}
+				value = 
+				{
+					_class = "CSequenceAnimNode"
+					m_sName = "Unnamed"
+					m_vecPosition = [ -720.0, -48.0 ]
+					m_nNodeID = 
+					{
+						m_id = 1816327606
+					}
+					m_networkMode = "ClientPredicted"
+					m_sNote = ""
+					m_tagSpans = [  ]
+					m_sequenceName = "bangdoor"
+					m_playbackSpeed = 1.0
+					m_bLoop = true
+				}
+			},
+			{
+				key = 
+				{
 					m_id = 1948711434
 				}
 				value = 
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -480.0, -128.0 ]
+					m_vecPosition = [ -720.0, -128.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1948711434
@@ -213,6 +386,20 @@
 				m_bUseMostRecentValue = false
 				m_bAutoReset = true
 				m_bPredicted = false
+				m_bDefaultValue = false
+			},
+			{
+				_class = "CBoolAnimParameter"
+				m_name = "bangdoor"
+				m_id = 
+				{
+					m_id = 760561540
+				}
+				m_previewButton = "ANIMPARAM_BUTTON_NONE"
+				m_bNetwork = true
+				m_bUseMostRecentValue = false
+				m_bAutoReset = false
+				m_bPredicted = true
 				m_bDefaultValue = false
 			},
 		]
