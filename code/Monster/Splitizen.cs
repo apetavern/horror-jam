@@ -137,15 +137,16 @@ public partial class Splitizen : AnimatedEntity
 				SetPath( Position );
 			}
 
+			//Run away from the helmet if you get too close to avoid ruining the reveal.
+			if ( helmetEnt.IsValid() && Vector3.DistanceBetween( Position, helmetEnt.Position ) < 1024 )
+			{
+				SetPath( startpos );
+			}
 
 			//TickStuck();
 		}
 
-		//Run away from the helmet if you get too close to avoid ruining the reveal.
-		if (helmetEnt is not null && Vector3.DistanceBetween(Position, helmetEnt.Position ) < 1024 )
-		{
-			SetPath( startpos );
-		}
+
 
 		//I know this random distance trace is fucked but the "bangdoor" anim parameter seems to only work the second time it's set, so this rapidly resets it a couple times every time you get to a door... (super hacky)
 		TraceResult walltr = Trace.Ray( SplitTop.GetBoneTransform( "pelvis" ).Position, SplitTop.GetBoneTransform( "pelvis" ).Position + (Rotation.Forward * Rand.Float(25f,50f)) ).Ignore( this ).Run();
