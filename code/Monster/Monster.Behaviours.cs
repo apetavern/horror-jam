@@ -217,7 +217,7 @@ partial class MonsterEntity
 
 		float distance = position.Distance( Position ) * (1.0f - volume);
 
-		if ( distance < 256f )
+		if ( distance < 128f )
 		{
 			DebugOverlay.Box( position - 1f, position + 1f, Color.Red, 5f, false );
 
