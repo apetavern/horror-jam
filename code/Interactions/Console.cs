@@ -18,7 +18,7 @@ public partial class Console : InstantUseItem
 	public override void Spawn()
 	{
 		SetModel( "models/ctrlpanel/ctrlpanel_01a.vmdl" );
-		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+		SetupPhysicsFromModel( PhysicsMotionType.Static );
 
 		DisplayName = "Control panel";
 	}
