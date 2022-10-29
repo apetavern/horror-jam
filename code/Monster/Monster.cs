@@ -2,8 +2,7 @@
 
 public partial class MonsterEntity : AnimatedEntity
 {
-	[ConVar.Replicated( "debug_monster" )]
-	public static bool DebugEnabled { get; set; }
+	public static bool DebugEnabled => true;
 
 	public BBox Bounds => new(
 		new Vector3( -12, -12, 0 ),
@@ -80,6 +79,8 @@ public partial class MonsterEntity : AnimatedEntity
 			// so that the player doesn't think I'm a terrible useless
 			// programmer
 
+			Log.Trace( "STUCK!!" );
+			PathFinding.SetRandomPath();
 			State = States.Stalking;
 			AverageSpeed = 50f;
 		}
@@ -110,7 +111,7 @@ public partial class MonsterEntity : AnimatedEntity
 	{
 		// Movehelper setup
 		var moveHelper = new MoveHelper( Position, Velocity );
-		moveHelper.Trace = moveHelper.Trace.Ignore( this ).WithoutTags("splitizen").Size( Bounds );
+		moveHelper.Trace = moveHelper.Trace.Ignore( this ).WithoutTags( "splitizen" ).Size( Bounds );
 
 		// Grounded check
 		IsGrounded = moveHelper.TraceDirection( Vector3.Down ).Hit;

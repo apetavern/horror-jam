@@ -168,7 +168,12 @@ public sealed partial class Pawn : AnimatedEntity
 
 		if ( !tr.Hit ) return;
 
-		tr.Surface.DoFootstep( this, tr, foot, volume );
+		var sound = foot == 0 ? tr.Surface.Sounds.FootLeft : tr.Surface.Sounds.FootRight;
+
+		if ( !string.IsNullOrWhiteSpace( sound ) )
+		{
+			SoundManager.PlayMonsterSound( sound, tr.EndPosition, volume );
+		}
 	}
 
 	/// <summary>

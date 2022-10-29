@@ -209,4 +209,26 @@ partial class MonsterEntity
 			TargetPosition = pawn.Position;
 		}
 	}
+
+	[Events.Monster.Sound]
+	public void OnSound( Vector3 position, float volume )
+	{
+		Host.AssertServer();
+
+		float distance = position.Distance( Position ) * (1.0f - volume);
+
+		if ( distance < 256f )
+		{
+			DebugOverlay.Box( position - 1f, position + 1f, Color.Red, 5f, false );
+
+			TargetPosition = position;
+			State = States.Hunting;
+		}
+		else
+		{
+			DebugOverlay.Box( position - 1f, position + 1f, Color.Cyan, 5f, false );
+		}
+
+		DebugOverlay.Text( $"{distance}", position, 5f );
+	}
 }

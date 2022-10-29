@@ -118,4 +118,25 @@ public static class SoundManager
 		TimeUntilNextAmbientNoise = Rand.Float( MinimumAmbientNoiseDelay, MaximumAmbientNoiseDelay );
 		Sound.FromWorld( To.Everyone, Rand.FromArray( AmbientNoises ), resultPosition );
 	}
+
+	/// <summary>
+	/// Plays a sound that the monster can hear.
+	/// </summary>
+	public static void PlayMonsterSound( string soundName, Vector3 position, float volume = 1.0f )
+	{
+		ServerFootstep( soundName, position, volume );
+	}
+
+	//
+	// sorry :(
+	// monster only exists on server but footstep anim events are
+	// only fired on client..
+	//
+	[ConCmd.Server]
+	public static void ServerFootstep( string soundName, Vector3 position, float volume = 1.0f )
+	{
+		Event.Run( Events.Monster.Name, position, volume );
+
+		Sound.FromWorld( To.Everyone, soundName, position ).SetVolume( volume );
+	}
 }
