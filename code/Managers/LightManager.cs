@@ -17,9 +17,9 @@ public static class LightManager
 			return;
 
 		// Dirty hack to change material group of all light models.
-		var allLightModelEnts = Entity.All.OfType<ModelEntity>();//.Where( x => x.Model.Name.Contains( "ceilinglight" ) ) <= Doesn't fucking work
+		var allLightModelEnts = Entity.All.OfType<ModelEntity>().Where( x => x.Model is not null && x.Model.ResourceName.ToLower().Contains( "light" ) );
 
-		foreach ( var model in allLightModelEnts )
+		foreach ( var model in allLightModelEnts ) 
 			model?.SetMaterialGroup( shouldBeOn ? 0 : 1 );
 
 		var allLights = Entity.All.OfType<PointLightEntity>();
