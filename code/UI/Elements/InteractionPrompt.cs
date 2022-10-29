@@ -16,7 +16,7 @@ public sealed class InteractionPrompt : WorldPanel
 
 	public InteractionPrompt()
 	{
-		PanelBounds = new Rect( -250, -150, 500, 150 );
+		PanelBounds = new Rect( -400, -150, 800, 150 );
 
 		AddClass( "world-panel" );
 		StyleSheet.Load( "/UI/Hud.scss" );
