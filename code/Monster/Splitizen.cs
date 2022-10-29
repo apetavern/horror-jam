@@ -142,7 +142,7 @@ public partial class Splitizen : AnimatedEntity
 		}
 
 		//Run away from the helmet if you get too close to avoid ruining the reveal.
-		if ( Vector3.DistanceBetween(Position, helmetEnt.Position ) < 1024 )
+		if (helmetEnt is not null && Vector3.DistanceBetween(Position, helmetEnt.Position ) < 1024 )
 		{
 			SetPath( startpos );
 		}
