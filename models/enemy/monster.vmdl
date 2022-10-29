@@ -77,6 +77,21 @@
 					{
 						_class = "AnimFile"
 						name = "CrawlOut"
+						children = 
+						[
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND"
+								event_frame = 52
+								event_keys = 
+								{
+									name = "monster_growl_high"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+						]
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
@@ -153,6 +168,18 @@
 									attachment_type_cp1 = "point_follow"
 								}
 							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND"
+								event_frame = 25
+								event_keys = 
+								{
+									name = "monster_screech_2"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
 						]
 						activity_name = ""
 						activity_weight = 1
@@ -226,6 +253,30 @@
 								_class = "AnimOffset"
 								translation = [ -50.0, 3.0, 0.0 ]
 								rotation_xyz = [ 0.0, 0.0, 0.0 ]
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND"
+								event_frame = 22
+								event_keys = 
+								{
+									name = "monster_scratch_1"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND"
+								event_frame = 17
+								event_keys = 
+								{
+									name = "generic_metal_thump"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
 							},
 						]
 						activity_name = ""
