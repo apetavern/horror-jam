@@ -7,13 +7,13 @@
 		VolumeRandom = 0
 		Pitch = 1
 		PitchRandom = 0
-		Decibels = 145
+		Decibels = 130
 		Sounds = 
 		[
-			resource:"sounds/cryo/intro_cutscene_hit_2.vsnd",
+			resource:"sounds/environment/self_destruct_siren.vsnd",
 		]
 		SelectionMode = "Random"
-		MaximumDistance = 4803.1025
-		MinimumDistance = 240.15514
+		MaximumDistance = 3867.0361
+		MinimumDistance = 193.3518
 	}
 }
