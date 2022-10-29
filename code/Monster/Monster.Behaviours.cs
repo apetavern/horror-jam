@@ -224,6 +224,7 @@ partial class MonsterEntity
 		{
 			TargetPosition = LastSound;
 			State = States.Hunting;
+			TimeSinceSawPlayer = 0;
 		}
 	}
 
