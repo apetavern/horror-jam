@@ -29,11 +29,14 @@
 		ObjectiveEndEvents = 
 		[
 			{
-				SoundName = resource:"sounds/helmet/battery_replace_1.sound"
+				Type = "PlayInstantiatedCutscene"
 				DoorName = ""
 				TargetEntityName = ""
-				InfoTarget = ""
-				TargetAttachment = ""
+				InfoTarget = "selfdestruct_pos"
+				TargetModel = resource:"models/cutscenes/selfdestruct/selfdestructarms.vmdl"
+				TargetAttachment = "camPos"
+				Duration = 5
+				HidePlayers = true
 			},
 		]
 	}
