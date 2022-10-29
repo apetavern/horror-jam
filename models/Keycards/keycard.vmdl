@@ -62,8 +62,8 @@
 				children = 
 				[
 					{
-						_class = "PhysicsMeshFile"
-						name = "Keycard_low"
+						_class = "PhysicsHullFile"
+						name = "Keycard_low1"
 						parent_bone = ""
 						surface_prop = "default"
 						collision_tags = "solid"
@@ -75,8 +75,10 @@
 						align_origin_z_type = "None"
 						filename = "models/Keycards/Keycard_low.fbx"
 						import_scale = 1.0
-						maxMeshVertices = 56
-						qemError = 0.0
+						faceMergeAngle = 10.0
+						maxHullVertices = 0
+						import_mode = "SingleHull"
+						optimization_algorithm = "QEM"
 						import_filter = 
 						{
 							exclude_by_default = false

@@ -18,11 +18,11 @@ Layer0
 	//---- Color ----
 	g_flModelTintAmount "1.000"
 	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureAmbientOcclusion "models/cryochamber/textures/cryodoor_mixed_ao.png"
+	TextureAmbientOcclusion "models/cryochamber/textures/frost_frost_ao.png"
 	TextureColor "[0.000000 0.729412 1.000000 0.000000]"
 	TextureMetalness "models/cryochamber/textures/cryodoor_metallic.png"
 	TextureNormal "materials/default/default_normal.tga"
-	TextureRoughness "models/cryochamber/textures/cryodoor_roughness.png"
+	TextureRoughness "models/cryochamber/textures/frost_frost_rough.png"
 	TextureTranslucency "[0.076000 0.076000 0.076000 0.000000]"
 
 	//---- Fade ----
@@ -48,7 +48,7 @@ Layer0
 
 	//---- Refraction ----
 	g_flRefractionStrength "0.031"
-	RefractionNormal "models/cryochamber/textures/cryodoor_normal_opengl.png"
+	RefractionNormal "models/cryochamber/textures/frost_frost_normal.png"
 
 	//---- Texture Coordinates ----
 	g_nScaleTexCoordUByModelScaleAxis "0"
