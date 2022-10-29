@@ -8,8 +8,11 @@ partial class MonsterEntity
 		get => state;
 		set
 		{
-			OnStateChange( state, value );
-			state = value;
+			if ( state != value )
+			{
+				OnStateChange( state, value );
+				state = value;
+			}
 		}
 	}
 
@@ -45,28 +48,28 @@ partial class MonsterEntity
 		const float Radius = 4f;
 
 		const float DefaultDistance = 256;
-		const float DistanceWithFlashlight = 1024;
 
-		foreach ( var entity in Entity.FindInSphere( Position, 128f ) )
-		{
-			if ( entity is Pawn pawn )
-			{
-				// Player is REALLY close, check for LOS and chase after them
-				var startPos = EyePosition;
-				var endPos = pawn.EyePosition;
+		//foreach ( var entity in Entity.FindInSphere( Position, 128f ) )
+		//{
+		//	if ( entity is Pawn pawn )
+		//	{
+		//		// Player is REALLY close, check for LOS and chase after them
+		//		var startPos = EyePosition;
+		//		var endPos = pawn.EyePosition;
 
-				var tr = Trace.Ray( startPos, endPos ).Radius( Radius ).Ignore( this ).Run();
+		//		var tr = Trace.Ray( startPos, endPos ).Radius( Radius ).Ignore( this ).Run();
 
-				if ( tr.Hit && tr.Entity == pawn )
-				{
-					TargetPosition = pawn.Position;
-					State = States.Hunting;
-					TimeSinceSawPlayer = 0;
+		//		if ( tr.Hit && tr.Entity == pawn )
+		//		{
+		//			FollowPawn( pawn );
 
-					return;
-				}
-			}
-		}
+		//			State = States.Hunting;
+		//			TimeSinceSawPlayer = 0;
+
+		//			return;
+		//		}
+		//	}
+		//}
 
 		//
 		// Can we actually see a player right now
@@ -78,23 +81,25 @@ partial class MonsterEntity
 			var direction = (Rotation * Rotation.FromYaw( ang )).Forward;
 
 			var startPos = EyePosition + Vector3.Down * 16f;
-			var endPos = startPos + direction * DistanceWithFlashlight;
+			var endPos = startPos + direction * DefaultDistance;
 
 			var tr = Trace.Ray( startPos, endPos ).Radius( Radius ).Ignore( this ).Run();
 
 			if ( tr.Hit && tr.Entity is Pawn pawn )
 			{
-				//
-				// This is a bit messy/hacky, but if the player has their flashlight on,
-				// then we can see them at a further distance.
-				//
+				FollowPawn( pawn );
 
-				if ( tr.Distance > DefaultDistance && !pawn.LampEnabled )
-					continue;
-
-				TargetPosition = pawn.Position;
 				State = States.Hunting;
 				TimeSinceSawPlayer = 0;
+			}
+			else if ( tr.Entity is HammerEntities.DoorEntity door )
+			{
+				// Open any doors that are in the way
+				DebugOverlay.Box( door.WorldSpaceBounds.Mins, door.WorldSpaceBounds.Maxs, Color.Red, depthTest: false );
+				DebugOverlay.Text( $"State: {door.State}\nLocked: {door.Locked}", door.WorldSpaceBounds.Center );
+
+				if ( door.State == HammerEntities.DoorEntity.DoorState.Closed )
+					door.Toggle( this );
 			}
 		}
 	}
@@ -182,12 +187,26 @@ partial class MonsterEntity
 
 		if ( tr.Hit && tr.Entity is Pawn pawn )
 		{
-			TargetPosition = pawn.Position;
+			FollowPawn( pawn );
 		}
 
 		if ( PathFinding.IsFinished && TimeSinceSawPlayer > 5f )
 		{
 			State = States.Stalking;
+		}
+	}
+
+	private void FollowPawn( Pawn pawn )
+	{
+		// If the player has their flashlight on, run away
+		if ( pawn.LampEnabled )
+		{
+			TargetPosition = NavMesh.GetClosestPoint( Position + (Position - pawn.Position).Normal * 1024f ) ?? 0;
+			DebugOverlay.Sphere( TargetPosition, 32f, Color.Cyan, 0, false );
+		}
+		else
+		{
+			TargetPosition = pawn.Position;
 		}
 	}
 }
