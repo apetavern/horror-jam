@@ -29,6 +29,9 @@ public sealed class PrereqHint : Panel
 		if ( entity is null || !entity.IsValid || entity is not InteractableEntity interactable )
 			return;
 
+		if ( pawn.Position.Distance( interactable.Position ) > 100 )
+			return;
+
 		if ( interactable.IsUsable( pawn ) )
 			return;
 
