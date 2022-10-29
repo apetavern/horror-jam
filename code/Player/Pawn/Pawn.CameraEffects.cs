@@ -96,8 +96,8 @@ partial class Pawn
 		//
 		// Apply everything
 		//
-		float x = MathF.Sin( Bobbing * 0.5f ) * speed * 1;
-		float y = MathF.Sin( Bobbing ) * speed * 2;
+		float x = MathF.Sin( Bobbing * 0.5f ) * speed;
+		float y = MathF.Sin( Bobbing ) * speed;
 		camSetup.Position += left * x;
 		camSetup.Position += up * y;
 		camSetup.Rotation *= Rotation.From( 0, 0, Roll );

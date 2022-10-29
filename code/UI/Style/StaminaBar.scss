@@ -1,17 +1,16 @@
-﻿$accent: #F2D933;
+﻿@import "/UI/Style/_Base.scss";
 
 StaminaBar {
     position: absolute;
-    bottom: 64px;
     left: 50%;
-    width: 250px;
+    width: 300px;
+    bottom: $safe-area-y;
     transform: translate( -50% );
-    
     flex-direction: row;
 }
 
 .icon {
-    color: $accent;
+    color: #F2D933;
     text-shadow: 0 1px 1px rgba( black, 0.1 );
     font-size: 24px;
 }
@@ -36,7 +35,7 @@ StaminaBar {
             top: 0;
             left: 0;
             bottom: 0;
-            background-color: $accent;
+            background-color: #F2D933;
             box-shadow: 0 1px 5px rgba( black, 0.1 );
         }
     }

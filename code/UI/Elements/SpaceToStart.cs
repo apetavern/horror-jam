@@ -7,11 +7,21 @@ public sealed class SpaceToStart : Panel
 {
 	public Panel? Overlay { get; set; }
 
-	public SpaceToStart() 
+	public SpaceToStart()
 	{
 		Overlay = Add.Panel( "Overlay" );
-		Overlay.Add.Label( "Press space to start", "Text" );
+
+		Overlay.Add.Label( "PRESS" );
+		var image = Overlay.Add.Image();
+		image.Texture = GetInputHint( InputButton.Jump );
+		Overlay.Add.Label( "TO START" );
+
 		Overlay.SetClass( "Display", true );
+	}
+
+	private Texture GetInputHint( InputButton button )
+	{
+		return Input.GetGlyph( button, InputGlyphSize.Medium, GlyphStyle.Dark );
 	}
 
 	public override void Tick()
@@ -20,7 +30,7 @@ public sealed class SpaceToStart : Panel
 
 		if ( Local.Pawn is not Pawn pawn )
 			return;
-		
+
 		Overlay.SetClass( "Hide", !pawn.AwaitingCutsceneInput );
 	}
 }

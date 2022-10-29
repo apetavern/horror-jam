@@ -36,7 +36,7 @@ public class ObjectiveOverlay : Panel
 		rect.Width = 160f;
 
 		string displayDistance = (distance * inchesToMetres).CeilToInt().ToString();
-		Graphics.DrawText( rect, $"{displayDistance}m", color, "Chakra Petch", 16, 400, TextFlag.Center );
+		Graphics.DrawText( rect, $"{displayDistance}m", color, "Chakra Petch", 14, 400, TextFlag.Center );
 	}
 
 	public override void DrawBackground( ref RenderState state )
