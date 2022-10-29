@@ -190,7 +190,7 @@ partial class MonsterEntity
 			FollowPawn( pawn );
 		}
 
-		if ( PathFinding.IsFinished && TimeSinceSawPlayer > 5f )
+		if ( PathFinding.IsFinished && TimeSinceSawPlayer > 15f )
 		{
 			State = States.Stalking;
 		}
