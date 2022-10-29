@@ -37,9 +37,13 @@ public sealed partial class CameraController : LockedUseItem
 		}
 		set 
 		{
+			if ( TargetCamera.IsValid() )
+			{
+				TargetCamera.IsBeingViewed = false;
+			}
 			var cameras = FindUsableMountedCameras();
 			TargetCamera = cameras[CurrentCameraIndex];
-
+			TargetCamera.IsBeingViewed = true;
 			if ( IsClient )
 				zoneName.UpdateName( TargetCamera.ZoneName.ToUpper() );
 
@@ -110,8 +114,11 @@ public sealed partial class CameraController : LockedUseItem
 
 		if ( Input.Released( InputButton.Use ) )
 		{
+			if ( TargetCamera.IsValid() )
+			{
+				TargetCamera.IsBeingViewed = false;
+			}
 			StopUsing();
-
 			return;
 		}
 

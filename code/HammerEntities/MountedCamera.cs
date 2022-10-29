@@ -10,6 +10,12 @@ namespace GvarJam.HammerEntities;
 public sealed partial class MountedCamera : AnimatedEntity
 {
 	/// <summary>
+	/// Used to turn on lights in rooms you're looking at.
+	/// </summary>
+	[Net, Predicted]
+	public bool IsBeingViewed { get; set; } = false;
+
+	/// <summary>
 	/// Whether or not this camera is viewable on the camera console.
 	/// </summary>
 	[Net, Property]
@@ -24,7 +30,7 @@ public sealed partial class MountedCamera : AnimatedEntity
 	/// <summary>
 	/// Field of view in degrees
 	/// </summary>
-	[Property] 
+	[Property]
 	public float Fov { get; set; } = 120.0f;
 
 	/// <summary>
@@ -36,13 +42,13 @@ public sealed partial class MountedCamera : AnimatedEntity
 	/// <summary>
 	/// Distance to the far plane
 	/// </summary>
-	[Property] 
+	[Property]
 	public float ZFar { get; set; } = 10000.0f;
 
 	/// <summary>
 	/// Aspect ratio
 	/// </summary>
-	[Property] 
+	[Property]
 	public float Aspect { get; set; } = 1.0f;
 
 	/// <summary>
@@ -61,9 +67,15 @@ public sealed partial class MountedCamera : AnimatedEntity
 	private Rotation LookRot;
 
 	/// <summary>
-	/// ???
+	/// Look rotation but with flat Z so the camear doesn't tilt.
+	/// Used for lerping the rotation a bit so it's not too jittery too.
 	/// </summary>
 	private Rotation FlatLookRot;
+
+	/// <summary>
+	/// Starting rotation to return the base rotation when the player is no longer being tracked.
+	/// </summary>
+	private Rotation StartRot;
 
 	/// <inheritdoc/>
 	public override void Spawn()
@@ -71,7 +83,7 @@ public sealed partial class MountedCamera : AnimatedEntity
 		base.Spawn();
 
 		SetModel( "models/mountedcamera/mountedcamera.vmdl" );
-
+		StartRot = Rotation;
 		Transmit = TransmitType.Always;
 	}
 
@@ -90,11 +102,16 @@ public sealed partial class MountedCamera : AnimatedEntity
 		SetAnimParameter( "tracking", shouldTrack );
 
 		if ( !shouldTrack )
+		{
+			FlatLookRot = Rotation.Slerp( FlatLookRot, StartRot, 10f );
+			Rotation = FlatLookRot;
 			return;
+		}
 
-		float playerdist = Vector3.DistanceBetween( Position - Vector3.Up * 15f, player.EyePosition )/200f;
+
+		float playerdist = Vector3.DistanceBetween( Position - Vector3.Up * 15f, player.EyePosition ) / 200f;
 		LookPos = Vector3.Lerp( LookPos, Position - Vector3.Up * 15f + (player.EyePosition - (Position - Vector3.Up * 15f)).Normal * 25f * playerdist, 0.5f );
-		LookRot = Rotation.Slerp( LookRot, Rotation.LookAt( player.EyePosition - Vector3.Up*10f - (Position - Vector3.Up * 15f), Vector3.Up ) * new Angles(0,90,90).ToRotation(), 10f );
+		LookRot = Rotation.Slerp( LookRot, Rotation.LookAt( player.EyePosition - Vector3.Up * 10f - (Position - Vector3.Up * 15f), Vector3.Up ) * new Angles( 0, 90, 90 ).ToRotation(), 10f );
 
 		SetAnimParameter( "position", LookPos );
 		SetAnimParameter( "rotation", LookRot );
