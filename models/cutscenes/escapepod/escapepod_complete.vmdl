@@ -290,7 +290,7 @@
 							{
 								_class = "AnimEvent"
 								event_class = "AE_CL_PLAYSOUND"
-								event_frame = 40
+								event_frame = 162
 								event_keys = 
 								{
 									name = "monster_screech_1"
