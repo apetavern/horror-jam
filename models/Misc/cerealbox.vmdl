@@ -28,8 +28,8 @@
 				children = 
 				[
 					{
-						_class = "PhysicsMeshFile"
-						name = "cerealbox"
+						_class = "PhysicsHullFile"
+						name = "cerealbox1"
 						parent_bone = ""
 						surface_prop = "default"
 						collision_tags = "solid"
@@ -41,8 +41,10 @@
 						align_origin_z_type = "None"
 						filename = "models/Misc/cerealbox.fbx"
 						import_scale = 0.4
-						maxMeshVertices = 0
-						qemError = 0.0
+						faceMergeAngle = 10.0
+						maxHullVertices = 0
+						import_mode = "SingleHull"
+						optimization_algorithm = "QEM"
 						import_filter = 
 						{
 							exclude_by_default = false
