@@ -14,25 +14,16 @@
 		ObjectiveEndConditions = 
 		[
 			{
-				Type = "Timer"
+				Type = "PlayerEnteredTrigger"
 				InteractableName = ""
-				InteractedName = "sdf234"
+				InteractedName = ""
 				TypeName = ""
 				InteractedTypeName = ""
-				TriggerName = ""
+				TriggerName = "escapepod_outtro_trigger"
 				ItemType = ""
-				TimeDelay = 100
 			},
 		]
-		ObjectiveStartEvents = 
-		[
-			{
-				SoundName = resource:"sounds/easteregg/welcome_f.sound"
-				TargetEntityName = ""
-				InfoTarget = ""
-				TargetAttachment = ""
-			},
-		]
+		ObjectiveStartEvents = [  ]
 		ObjectiveEndEvents = [  ]
 	}
 }
