@@ -147,6 +147,7 @@ public partial class Splitizen : AnimatedEntity
 			SetPath( startpos );
 		}
 
+		//I know this random distance trace is fucked but the "bangdoor" anim parameter seems to only work the second time it's set, so this rapidly resets it a couple times every time you get to a door... (super hacky)
 		TraceResult walltr = Trace.Ray( SplitTop.GetBoneTransform( "pelvis" ).Position, SplitTop.GetBoneTransform( "pelvis" ).Position + (Rotation.Forward * Rand.Float(25f,50f)) ).Ignore( this ).Run();
 		if ( walltr.Entity is HammerEntities.DoorEntity door )
 		{
