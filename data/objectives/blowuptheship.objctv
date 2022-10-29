@@ -2,8 +2,8 @@
 {
 	data = 
 	{
-		ObjectiveName = "Let\'s Get Out Of Here!"
-		Description = "Find the master keycard that will allow you to initiate self-destruct on the ship, and escape!"
+		ObjectiveName = "Let\'s blow this joint!"
+		Description = "Find the master keycard that will allow you to initiate self-destruct on the ship, then do it!"
 		ObjectiveStartConditions = 
 		[
 			{
@@ -17,7 +17,7 @@
 		[
 			{
 				Type = "InteractedWithType"
-				InteractableName = "Console"
+				InteractableName = ""
 				InteractedName = ""
 				TypeName = ""
 				InteractedTypeName = "ShipConsole"
@@ -26,6 +26,15 @@
 			},
 		]
 		ObjectiveStartEvents = [  ]
-		ObjectiveEndEvents = [  ]
+		ObjectiveEndEvents = 
+		[
+			{
+				SoundName = resource:"sounds/helmet/battery_replace_1.sound"
+				DoorName = ""
+				TargetEntityName = ""
+				InfoTarget = ""
+				TargetAttachment = ""
+			},
+		]
 	}
 }

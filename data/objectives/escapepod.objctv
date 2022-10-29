@@ -9,7 +9,7 @@
 			{
 				Type = "PreviousObjectiveComplete"
 				InteractableName = "note_danger"
-				ObjectiveName = resource:"data/objectives/findmasterkey.objctv"
+				ObjectiveName = resource:"data/objectives/blowuptheship.objctv"
 				TriggerName = "escapepod_outtro_trigger"
 			},
 		]
