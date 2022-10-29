@@ -17,6 +17,9 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	[Net]
 	public string? DisplayName { get; set; } = "Default Name";
 
+	[Net]
+	public bool HasBeenUsed { get; set; } = false;
+
 	/// <summary>
 	/// The color that the entity will glow when being looked at.
 	/// </summary>
@@ -75,7 +78,7 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	{
 		(user as Pawn)!.LastInteractedEntityName = Name;
 		(user as Pawn)!.LastInteractedEntityTypeName = GetType().Name;
-
+		HasBeenUsed = true;
 	}
 
 	/// <inheritdoc/>

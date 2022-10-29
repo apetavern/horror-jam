@@ -35,6 +35,9 @@ public sealed class PrereqHint : Panel
 		if ( interactable.IsUsable( pawn ) )
 			return;
 
+		if ( interactable.HasBeenUsed )
+			return;
+
 		var items = interactable.RequiredItems;
 
 		if ( items.Count == 0 )
