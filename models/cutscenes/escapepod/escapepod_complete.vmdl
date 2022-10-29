@@ -281,7 +281,43 @@
 								event_frame = 67
 								event_keys = 
 								{
-									name = "intro_cutscene_hit_1"
+									name = "large_button_clunk"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND"
+								event_frame = 40
+								event_keys = 
+								{
+									name = "monster_screech_1"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND"
+								event_frame = 290
+								event_keys = 
+								{
+									name = "splitizen_gore_1"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND"
+								event_frame = 290
+								event_keys = 
+								{
+									name = "monster_growl_high"
 									stop_on_seq_change = false
 									use_layer_sequence = false
 									tags = ""
