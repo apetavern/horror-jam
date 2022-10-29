@@ -65,7 +65,7 @@ public sealed class Objective
 
 		foreach ( var condition in Resource.ObjectiveEndConditions )
 		{
-			if ( !condition.IsMet( pawn ) )
+			if ( !condition.IsMet( pawn, TimeSinceObjectiveStart ) )
 			{
 				conditionsMet = false;
 				break;

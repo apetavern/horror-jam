@@ -37,7 +37,7 @@ public struct ObjectiveEndCondition
 		/// <summary>
 		/// After a time.
 		/// </summary>
-		Timer
+		Timer,
 	}
 
 	/// <summary>
@@ -92,7 +92,7 @@ public struct ObjectiveEndCondition
 	/// </summary>
 	/// <param name="pawn">The pawn to check the conditions on.</param>
 	/// <returns>Whether or not the conditions were met.</returns>
-	public bool IsMet( Pawn pawn )
+	public bool IsMet( Pawn pawn, TimeSince timeSinceObjectiveStart )
 	{
 		switch ( Type )
 		{
@@ -157,6 +157,13 @@ public struct ObjectiveEndCondition
 					}
 					break;
 				}
+			case ConditionType.Timer:
+			{
+				if ( timeSinceObjectiveStart > TimeDelay )
+					return true;
+
+				break;	
+			}
 		}
 		return false;
 	}

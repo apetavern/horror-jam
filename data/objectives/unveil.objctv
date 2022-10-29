@@ -4,15 +4,7 @@
 	{
 		ObjectiveName = "Introductions"
 		Description = "Play nice!"
-		ObjectiveStartConditions = 
-		[
-			{
-				Type = "PreviousObjectiveComplete"
-				InteractableName = ""
-				ObjectiveName = resource:"data/objectives/leaveroom.objctv"
-				TriggerName = ""
-			},
-		]
+		ObjectiveStartConditions = [  ]
 		ObjectiveEndConditions = 
 		[
 			{
