@@ -78,6 +78,9 @@ partial class Pawn
 		var position = startEntity.Position + startEntity.Rotation.Forward * distanceToTravel;
 		var groundPos = Trace.Ray( position, position + Vector3.Down * 1000 ).WorldOnly().Run();
 
+		var oldSplitizen = All.OfType<Splitizen>().FirstOrDefault();
+		oldSplitizen?.Delete();
+
 		SplitizenEntity = new Splitizen() { Position = groundPos.HitPosition, StopMoving = true };
 		
 		var facingDirection = (startEntity.Position - SplitizenEntity.Position).Normal;
