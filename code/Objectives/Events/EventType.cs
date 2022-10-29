@@ -24,5 +24,9 @@ public enum EventType
 	/// <summary>
 	/// Whether or not a door is locked
 	/// </summary>
-	SetDoorLockState
+	SetDoorLockState,
+	/// <summary>
+	/// Play the monster introduction cutscene.
+	/// </summary>
+	PlayMonsterIntroductionCutscene,
 }

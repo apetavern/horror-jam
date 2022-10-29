@@ -2,7 +2,7 @@
 
 public partial class MonsterEntity : AnimatedEntity
 {
-	public static bool DebugEnabled => true;
+	public static bool DebugEnabled => false;
 
 	public BBox Bounds => new(
 		new Vector3( -12, -12, 0 ),

@@ -1,4 +1,6 @@
-﻿namespace GvarJam.Objectives;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace GvarJam.Objectives;
 
 /// <summary>
 /// An event to be invoked on pawns when an objective starts or ends.
@@ -82,6 +84,15 @@ public struct ObjectiveEvent
 	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene )]
 	public bool HidePlayers { get; set; }
 
+	[ShowIf( nameof( Type ), EventType.PlayMonsterIntroductionCutscene )]
+	public string MonsterCameraToUse { get; set; }
+
+	/// <summary>
+	/// The duration of the cutscene.
+	/// </summary>
+	[ShowIf( nameof( Type ), EventType.PlayMonsterIntroductionCutscene )]
+	public float MonsterCutsceneDuration { get; set; }
+
 	/// <summary>
 	/// Invokes the event.
 	/// </summary>
@@ -141,6 +152,15 @@ public struct ObjectiveEvent
 					return;
 
 				door.ObjectiveLocked = DoorLocked;
+				break;
+			case EventType.PlayMonsterIntroductionCutscene:
+				var camName = MonsterCameraToUse;
+				var corridorToUse = Entity.All.OfType<Entity>().Where( x => x.Name.ToLower().Contains( camName.ToLower() )).OrderByDescending( x => Vector3.DistanceBetween(pawn.Position, x.Position) );
+
+				Log.Info( $"Using {corridorToUse.Last()}" );
+
+				pawn.StartManualCutscene( corridorToUse.Last(), MonsterCutsceneDuration, HidePlayers );
+
 				break;
 		}
 	}

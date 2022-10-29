@@ -1,4 +1,6 @@
-﻿namespace GvarJam.Player;
+﻿using Sandbox;
+
+namespace GvarJam.Player;
 
 partial class Pawn
 {
@@ -21,7 +23,7 @@ partial class Pawn
 	/// <summary>
 	/// A list of the entities to cleanup once the cutscene has finished.
 	/// </summary>
-	private List<AnimatedEntity> EntitiesToCleanup { get; set; } = null!;
+	private List<Entity> EntitiesToCleanup { get; set; } = null!;
 
 	[Net]
 	public bool RequiresInputToStart { get; set; }
@@ -33,6 +35,18 @@ partial class Pawn
 	private bool HidingPlayers { get; set; }
 
 	private float DurationAfterDelay { get; set; }
+
+	[Net]
+	private bool IsInManualCutscene { get; set; }
+
+	[Net]
+	private TimeSince TimeSinceManualCutsceneStart { get; set; }
+
+	[Net]
+	private Splitizen SplitizenEntity { get; set; }
+
+	[Net]
+	private bool HasSplitizenSplit { get; set; }
 
 	/// <summary>
 	/// Start a cutscene from the perspective of an entity with an attachment.
@@ -46,6 +60,48 @@ partial class Pawn
 		Camera = new CutsceneCamera() { TargetEntity = targetEntity, TargetAttachment = targetAttachment };
 
 		CutsceneDuration = duration;
+		TimeSinceCutsceneStart = 0;
+		RequiresInputToStart = false;
+		HidingPlayers = hidePlayers;
+
+		BlockMovement = true;
+		BlockLook = true;
+		InCutscene = true;
+		IsInManualCutscene = false;
+	}
+
+	public void StartManualCutscene( Entity startEntity, float duration = -1.0f, bool hidePlayers = false )
+	{
+		var distanceToTravel = 1000;
+
+		// Spawn baddy
+		var position = startEntity.Position + startEntity.Rotation.Forward * distanceToTravel;
+		var groundPos = Trace.Ray( position, position + Vector3.Down * 1000 ).WorldOnly().Run();
+
+		SplitizenEntity = new Splitizen() { Position = groundPos.HitPosition, StopMoving = true };
+		
+		var facingDirection = (startEntity.Position - SplitizenEntity.Position).Normal;
+
+		SplitizenEntity.Rotation = Rotation.LookAt( facingDirection );
+
+		var light = new SpotLightEntity();
+		light.Position = groundPos.HitPosition + facingDirection * 50;
+		light.Rotation = Rotation.LookAt( groundPos.HitPosition - light.Position + Vector3.Up * 60 );
+		light.Color = Color.White;
+		light.Brightness = 0.2f;
+		light.OuterConeAngle = 30;
+		light.Enabled = true;
+
+		Camera = new ManualCutsceneCamera() { StartPosition = startEntity.Position, LookAtPosition = SplitizenEntity.Position };
+
+		IsInManualCutscene = true;
+		TimeSinceManualCutsceneStart = 0;
+
+		CutsceneDuration = duration;
+
+		EntitiesToCleanup = new();
+		EntitiesToCleanup.Add( light );
+
 		TimeSinceCutsceneStart = 0;
 		RequiresInputToStart = false;
 		HidingPlayers = hidePlayers;
@@ -79,11 +135,12 @@ partial class Pawn
 			CutsceneDuration = -1;
 			DurationAfterDelay = duration;
 		}
-			
 
 		// Store references to the entities we need to clean up once the cutscene ends.
 		EntitiesToCleanup = new();
 		EntitiesToCleanup.Add( targetEntity );
+
+		IsInManualCutscene = false;
 
 		// Commented out because we want to keep hold of the created items for now. If this changes we need to rethink it.
 		// EntitiesToCleanup.AddRange( sceneModels );
@@ -128,6 +185,15 @@ partial class Pawn
 			RequiresInputToStart = false;
 
 			AwaitingCutsceneInput = false;
+		}
+
+		if( IsInManualCutscene )
+		{
+			if ( TimeSinceManualCutsceneStart > 2 && !HasSplitizenSplit )
+			{
+				SplitizenEntity?.DoSplit();
+				HasSplitizenSplit = true;
+			}
 		}
 
 		if ( CutsceneDuration <= 0f )

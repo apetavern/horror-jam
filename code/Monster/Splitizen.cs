@@ -7,7 +7,7 @@
 public partial class Splitizen : AnimatedEntity
 {
 	[ConVar.Replicated( "debug_monster" )]
-	public static bool DebugEnabled { get; set; }
+	public static bool DebugEnabled { get; set; } = false;
 
 	public BBox Bounds => new(
 		new Vector3( -12, -12, 0 ),
@@ -54,7 +54,7 @@ public partial class Splitizen : AnimatedEntity
 		SplitTop = new( "models/enemy/basic_splitizen.vmdl" );
 		SplitTop.SetParent( this, true );
 
-		helmetEnt = All.OfType<Helmet>().First();
+		helmetEnt = All.OfType<Helmet>().FirstOrDefault();
 
 		PathFinding = new( this );
 		Rotation = Rotation.LookAt( Vector3.Random.WithZ( 0 ) );
@@ -83,20 +83,30 @@ public partial class Splitizen : AnimatedEntity
 
 	public async void DoSplit()
 	{
+		await Task.DelaySeconds( 2 );
+
 		Monster = new MonsterEntity();
-		Monster.SetParent( this, true );
+		Monster?.SetParent( this, true );
 
 		SplitTop.SetAnimParameter( "split", true );
-		Monster.SetAnimParameter( "split", true );
+		Monster?.SetAnimParameter( "split", true );
+
 		await Task.DelaySeconds( Time.Delta );
-		Monster.SetAnimParameter( "split", true );
+
+		Monster?.SetAnimParameter( "split", true );
 		SplitTop.SetAnimParameter( "split", true );
+
 		Split = true;
+
+		await Task.DelaySeconds( 4 );
+
+		DitchBody();
 	}
 
 	public void DitchBody()
 	{
 		Ditched = true;
+
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 		PhysicsBody.ApplyForce( -Rotation.Forward * 10000f );
 	}
@@ -111,6 +121,11 @@ public partial class Splitizen : AnimatedEntity
 		if ( Ditched )
 		{
 			return;
+		}
+
+		if( StopMoving )
+		{
+			IsGrounded = true;
 		}
 
 		EyeLocalPosition = Vector3.Up * 64f;
