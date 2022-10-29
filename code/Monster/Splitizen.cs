@@ -10,8 +10,8 @@ public partial class Splitizen : AnimatedEntity
 	public static bool DebugEnabled { get; set; }
 
 	public BBox Bounds => new(
-	new Vector3( -12, -12, 0 ),
-	new Vector3( 12, 12, 72 )
+		new Vector3( -12, -12, 0 ),
+		new Vector3( 12, 12, 72 )
 	);
 
 	private PathFinding PathFinding { get; set; }
@@ -49,19 +49,24 @@ public partial class Splitizen : AnimatedEntity
 
 		new ModelEntity( "models/citizen_clothes/jacket/longsleeve/models/jeans.vmdl" ).SetParent( this, true );
 
-		SplitTop = new( "models/enemy/basic_splitizen.vmdl" );
+		CreateHull();
 
+		SplitTop = new( "models/enemy/basic_splitizen.vmdl" );
 		SplitTop.SetParent( this, true );
 
 		helmetEnt = All.OfType<Helmet>().First();
 
 		PathFinding = new( this );
-
 		Rotation = Rotation.LookAt( Vector3.Random.WithZ( 0 ) );
 
 		SetPath( Position );
 		RandomPatrol();
 		//DoSplit();
+	}
+
+	private void CreateHull()
+	{
+		SetupPhysicsFromAABB( PhysicsMotionType.Keyframed, new Vector3( -16, -16, 0 ), new Vector3( 16, 16, 72 ) );
 	}
 
 	public async void RandomPatrol()

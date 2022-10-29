@@ -18,8 +18,14 @@ public partial class MonsterEntity : AnimatedEntity
 	{
 		base.Spawn();
 
+		CreateHull();
 		SetModel( "models/enemy/monster.vmdl" );
 		PathFinding = new( this );
+	}
+
+	private void CreateHull()
+	{
+		SetupPhysicsFromAABB( PhysicsMotionType.Keyframed, new Vector3( -16, -16, 0 ), new Vector3( 16, 16, 72 ) );
 	}
 
 	public override void OnAnimEventGeneric( string name, int intData, float floatData, Vector3 vectorData, string stringData )
