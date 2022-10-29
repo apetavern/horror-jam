@@ -157,8 +157,6 @@ public struct ObjectiveEvent
 				var camName = MonsterCameraToUse;
 				var corridorToUse = Entity.All.OfType<Entity>().Where( x => x.Name.ToLower().Contains( camName.ToLower() )).OrderByDescending( x => Vector3.DistanceBetween(pawn.Position, x.Position) );
 
-				Log.Info( $"Using {corridorToUse.Last()}" );
-
 				pawn.StartManualCutscene( corridorToUse.Last(), MonsterCutsceneDuration, HidePlayers );
 
 				break;
