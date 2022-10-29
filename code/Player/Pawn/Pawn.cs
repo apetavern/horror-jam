@@ -121,7 +121,6 @@ public sealed partial class Pawn : AnimatedEntity
 
 		SimulateLamp();
 		SimulateInteraction( cl );
-		SimulateSanity();
 		SimulateCutscenes();
 
 		var rotation = Rotation;

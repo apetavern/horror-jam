@@ -109,46 +109,4 @@ partial class Pawn
 		Local.Hud.Style.Transform = tx;
 		Local.Hud.Style.Dirty();
 	}
-
-	/// <summary>
-	/// Applies an amount of the vignette screen effect.
-	/// </summary>
-	/// <param name="amount">The amount of the effect to apply.</param>
-	public void ApplyVignetteAmount( float amount )
-	{
-		var effects = Map.Camera.FindOrCreateHook<ScreenEffects>();
-		effects.Vignette.Intensity = amount;
-		effects.Vignette.Smoothness = 1f;
-		effects.Vignette.Roundness = 0.3f;
-	}
-
-	/// <summary>
-	/// Applies an amount of the brightness screen effect.
-	/// </summary>
-	/// <param name="amount">The amount of the effect to apply.</param>
-	public void ApplyBrightnessAmount( float amount )
-	{
-		var effects = Map.Camera.FindOrCreateHook<ScreenEffects>();
-		effects.Brightness = amount;
-	}
-
-	/// <summary>
-	/// Applies an amount of the motion blue effect.
-	/// </summary>
-	/// <param name="amount">The amount of the effect to apply.</param>
-	public void ApplyMotionBlur( float amount )
-	{
-		var effects = Map.Camera.FindOrCreateHook<ScreenEffects>();
-		effects.MotionBlur.Scale = amount;
-	}
-
-	/// <summary>
-	/// Applies an amount of the film grain effect.
-	/// </summary>
-	/// <param name="amount">The amount of the effect to apply.</param>
-	public void ApplyFilmGrain( float amount )
-	{
-		var effects = Map.Camera.FindOrCreateHook<ScreenEffects>();
-		effects.FilmGrain.Intensity = amount;
-	}
 }
