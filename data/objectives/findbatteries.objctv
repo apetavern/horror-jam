@@ -2,39 +2,30 @@
 {
 	data = 
 	{
-		ObjectiveName = "Leave the Room"
-		Description = "Explore a little further"
+		ObjectiveName = "Batteries Not Included"
+		Description = "It looks like this helmet needs batteries."
 		ObjectiveStartConditions = 
 		[
 			{
 				Type = "PreviousObjectiveComplete"
 				InteractableName = ""
-				ObjectiveName = resource:"data/objectives/findbatteries.objctv"
+				ObjectiveName = resource:"data/objectives/locatehelmet.objctv"
 				TriggerName = ""
 			},
 		]
 		ObjectiveEndConditions = 
 		[
 			{
-				Type = "PlayerEnteredTrigger"
+				Type = "InteractWithType"
 				InteractableName = ""
 				InteractedName = ""
-				TypeName = ""
+				TypeName = "LampBattery"
 				InteractedTypeName = ""
-				TriggerName = "power_shutdown_trigger"
+				TriggerName = ""
 				ItemType = ""
 			},
 		]
 		ObjectiveStartEvents = [  ]
-		ObjectiveEndEvents = 
-		[
-			{
-				Type = "SetLighting"
-				DoorName = ""
-				TargetEntityName = ""
-				InfoTarget = ""
-				TargetAttachment = ""
-			},
-		]
+		ObjectiveEndEvents = [  ]
 	}
 }

@@ -84,7 +84,7 @@ partial class Pawn
 	/// The current amount of power in the lamp.
 	/// </summary>
 	[Net, Predicted]
-	public float LampPower { get; set; } = LampMaxPower;
+	public float LampPower { get; set; } = 0;
 
 	/// <summary>
 	/// The time since the lamp was turned off.
@@ -116,7 +116,7 @@ partial class Pawn
 			LampEnabled = false;
 
 		Lamp.Brightness = BatteryPercentage * 1.4f;
-		Lamp.Color = Color.FromBytes(181, 177, 255);
+		Lamp.Color = Color.FromBytes( 181, 177, 255 );
 		Helmet.RenderColor = Color.FromBytes( 181, 177, 255 ).WithAlpha( BatteryPercentage );
 	}
 }
