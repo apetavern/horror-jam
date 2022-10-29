@@ -10,7 +10,7 @@
 		Decibels = 70
 		Sounds = 
 		[
-			resource:"sounds/monster/monster_scratch_3.vsnd",
+			resource:"sounds/monster/monster_slither.vsnd",
 		]
 		SelectionMode = "Random"
 		MaximumDistance = 1143.9335

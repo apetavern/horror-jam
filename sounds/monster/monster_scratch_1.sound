@@ -3,14 +3,16 @@
 	data = 
 	{
 		UI = false
-		Volume = 1
-		VolumeRandom = 0
+		Volume = 0.9
+		VolumeRandom = 0.1
 		Pitch = 1
-		PitchRandom = 0
+		PitchRandom = 0.15
 		Decibels = 70
 		Sounds = 
 		[
 			resource:"sounds/monster/monster_scratch_1.vsnd",
+			resource:"sounds/monster/monster_scratch_2.vsnd",
+			resource:"sounds/monster/monster_scratch_3.vsnd",
 		]
 		SelectionMode = "Random"
 		MaximumDistance = 1143.9335
