@@ -9,13 +9,16 @@ public partial class LightCullComponent : EntityComponent
 
 	Sound burningSound;
 
+	MountedCamera[] cams;
+
+	MountedCamera viewcam;
+
 	protected override void OnActivate()
 	{
 		base.OnActivate();
 		light = Entity as PointLightEntity;
-		//light.Color = Color.Orange;
-		//light.Brightness = 1f;
-		//light.Range = 256;
+
+		cams = Entity.All.OfType<MountedCamera>().ToArray();
 
 		light.DynamicShadows = false;
 
@@ -35,10 +38,25 @@ public partial class LightCullComponent : EntityComponent
 		}
 		if(light != null && Local.Pawn != null )
 		{
+			viewcam = null;
+			foreach ( var cam in cams )
+			{
+				if ( cam.IsBeingViewed )
+				{
+					viewcam = cam;
+				}
+			}
+
 			float dist = Vector3.DistanceBetween( light.Position, Local.Pawn.Position + Local.Pawn.Rotation.Forward * 128f );
 			bool UnShadowed = Trace.Ray( light.Position, Local.Pawn.Position + Vector3.Up * 45f ).Ignore( Local.Pawn ).Run().Hit 
 							&& Trace.Ray( light.Position, (Local.Pawn as Pawn).EyePosition ).Ignore( Local.Pawn ).Run().Hit;
 
+			if ( viewcam != null )
+			{
+				UnShadowed = Trace.Ray( light.Position, Local.Pawn.Position + Vector3.Up * 45f ).Ignore( Local.Pawn ).Run().Hit
+							&& Trace.Ray( light.Position, (Local.Pawn as Pawn).EyePosition ).Ignore( Local.Pawn ).Run().Hit && 
+							Trace.Ray( light.Position, viewcam.Position - Vector3.Up * 45f ).Ignore( Local.Pawn ).Run().Hit;
+			}
 			//DebugOverlay.Line( light.Position, Local.Pawn.Position + Vector3.Up * 45f, UnShadowed ? Color.Red : Color.Green );
 
 			if ( UnShadowed )// && dist > 300
