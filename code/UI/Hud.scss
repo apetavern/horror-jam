@@ -10,7 +10,7 @@
 
 RootPanel {
     &.in-cutscene {
-        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives, ObjectiveOverlay {
+        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives, ObjectiveOverlay, PrereqHint {
             display: none;
         }
 
