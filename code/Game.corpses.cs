@@ -89,11 +89,6 @@ public sealed partial class HorrorGame : Game
 
 		clothes.Clothing.Add( ResourceLibrary.Get<Clothing>( "models/citizen_clothes/shirt/jumpsuit/blue_jumpsuit.clothing" ) );
 
-		List<string> ClothesToAdd = new List<string>()
-		{
-			"models/citizen_clothes/shirt/jumpsuit/models/blue_jumpsuit.vmdl",
-		};
-
 		foreach ( Prop prop in props )
 		{
 			if ( prop.GetModelName().Contains( "nosplit_blank" ) )
