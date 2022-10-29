@@ -1,6 +1,4 @@
-﻿using Sandbox;
-
-namespace GvarJam.HammerEntities;
+﻿namespace GvarJam.HammerEntities;
 
 [Category( "Environment" )]
 [Library( "ent_playerlocker" )]
