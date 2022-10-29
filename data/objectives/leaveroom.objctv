@@ -35,6 +35,13 @@
 				InfoTarget = ""
 				TargetAttachment = ""
 			},
+			{
+				SoundName = resource:"sounds/monster/monster_reveal_cutscene.sound"
+				DoorName = ""
+				TargetEntityName = ""
+				InfoTarget = ""
+				TargetAttachment = ""
+			},
 		]
 	}
 }
