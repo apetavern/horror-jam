@@ -22,7 +22,7 @@ public sealed class BatteryLevel : Panel
 		if ( Local.Pawn is not Pawn player )
 			return;
 
-		SetClass( "visible", !player.LampPower.AlmostEqual( 100f ) );
+		SetClass( "visible", !player.LampPower.AlmostEqual( 100f ) && player.Helmet is not null );
 		SetClass( "danger", player.LampPower <= 30f );
 
 		// LampPower is in range 0 .. 100
