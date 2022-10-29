@@ -1,4 +1,6 @@
-﻿namespace GvarJam.Interactions;
+﻿using System.Reflection;
+
+namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an item that takes time to use.
@@ -36,21 +38,34 @@ public partial class Note : InstantUseItem
 		if ( TimeSinceUsed < TimeBetweenUses )
 			return;
 
-		TimeSinceUsed = 0;
-
-		if ( Host.IsServer )
+		if ( user is not Pawn player )
 			return;
+
+		TimeSinceUsed = 0;
 
 		if ( !IsNoteOpen )
 		{
-			Hud.Instance?.ShowNote( NoteContents );
 			IsNoteOpen = true;
-			Sound.FromScreen( "note_open" );
+
+			if ( Host.IsClient )
+			{
+				Hud.Instance?.ShowNote( NoteContents );
+				Sound.FromScreen( "note_open" );
+			}
+
+			if ( Host.IsServer )
+				player.BlockMovement = true;	
 		}
 		else
 		{
-			Hud.Instance?.HideNote();
 			IsNoteOpen = false;
+
+			if ( Host.IsClient )
+				Hud.Instance?.HideNote();
+			
+
+			if ( Host.IsServer )
+				player.BlockMovement = false;
 		}
 	}
 }
