@@ -79,6 +79,12 @@ public sealed partial class Pawn : AnimatedEntity
 			DefaultSpeed = 100.0f
 		};
 
+		ClothingContainer clothes = new ClothingContainer();
+
+		clothes.Clothing.Add( ResourceLibrary.Get<Clothing>( "models/citizen_clothes/shirt/jumpsuit/blue_jumpsuit.clothing" ) );
+
+		clothes.DressEntity( this );
+
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
