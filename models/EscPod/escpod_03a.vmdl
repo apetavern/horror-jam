@@ -11,8 +11,18 @@
 				[
 					{
 						_class = "DefaultMaterialGroup"
-						remaps = [  ]
-						use_global_default = true
+						remaps = 
+						[
+							{
+								from = "material3.vmat"
+								to = "models/escpod/textures/escpod_03a.vmat"
+							},
+							{
+								from = "material4.vmat"
+								to = "materials/glass/glass_c.vmat"
+							},
+						]
+						use_global_default = false
 						global_default_material = "models/escpod/textures/escpod_03a.vmat"
 					},
 				]
