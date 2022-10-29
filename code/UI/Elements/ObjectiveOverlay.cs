@@ -60,7 +60,6 @@ public class ObjectiveOverlay : Panel
 
 				Graphics.DrawIcon( rect, icon, color, size );
 			}
-
 		}
 	}
 }
