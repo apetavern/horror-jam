@@ -5,7 +5,7 @@ partial class Pawn
 	/// <summary>
 	/// The maximum amount of power that the lamp can hold.
 	/// </summary>
-	private const float LampMaxPower = 100;
+	private const float LampMaxPower = 150;
 
 	/// <summary>
 	/// The amount of power that is discharged per tick.
@@ -115,7 +115,7 @@ partial class Pawn
 		if ( LampPower <= 0 && LampEnabled )
 			LampEnabled = false;
 
-		Lamp.Brightness = BatteryPercentage * 1.4f;
+		Lamp.Brightness = BatteryPercentage * 1.5f;
 		Lamp.Color = Color.FromBytes( 181, 177, 255 );
 		Helmet.RenderColor = Color.FromBytes( 181, 177, 255 ).WithAlpha( BatteryPercentage );
 	}

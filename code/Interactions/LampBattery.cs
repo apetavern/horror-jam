@@ -17,7 +17,7 @@ public sealed partial class LampBattery : DelayedUseItem
 	/// The power stored in the battery.
 	/// </summary>
 	[Net, Property]
-	public float BatteryPower { get; set; } = 100;
+	public float BatteryPower { get; set; } = 150;
 
 	/// <summary>
 	/// Whether or not the old battery in the users helmet was dropped.
