@@ -1,12 +1,4 @@
-﻿using Sandbox;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Sandbox.Easing;
-
-namespace GvarJam.Monster;
+﻿namespace GvarJam.Monster;
 
 [Category( "Enemy" )]
 [Library( "ent_splitizen" )]
@@ -61,10 +53,6 @@ public partial class Splitizen : AnimatedEntity
 
 		SplitTop.SetParent( this, true );
 
-		Monster = new MonsterEntity();
-
-		Monster.SetParent( this, true );
-
 		helmetEnt = All.OfType<Helmet>().First();
 
 		PathFinding = new( this );
@@ -90,6 +78,9 @@ public partial class Splitizen : AnimatedEntity
 
 	public async void DoSplit()
 	{
+		Monster = new MonsterEntity();
+		Monster.SetParent( this, true );
+
 		SplitTop.SetAnimParameter( "split", true );
 		Monster.SetAnimParameter( "split", true );
 		await Task.DelaySeconds( Time.Delta );
@@ -149,7 +140,7 @@ public partial class Splitizen : AnimatedEntity
 
 
 		//I know this random distance trace is fucked but the "bangdoor" anim parameter seems to only work the second time it's set, so this rapidly resets it a couple times every time you get to a door... (super hacky)
-		TraceResult walltr = Trace.Ray( SplitTop.GetBoneTransform( "pelvis" ).Position, SplitTop.GetBoneTransform( "pelvis" ).Position + (Rotation.Forward * Rand.Float(25f,50f)) ).Ignore( this ).Run();
+		TraceResult walltr = Trace.Ray( SplitTop.GetBoneTransform( "pelvis" ).Position, SplitTop.GetBoneTransform( "pelvis" ).Position + (Rotation.Forward * Rand.Float( 25f, 50f )) ).Ignore( this ).Run();
 		if ( walltr.Entity is HammerEntities.DoorEntity door )
 		{
 			SplitTop.SetAnimParameter( "bangdoor", true );
