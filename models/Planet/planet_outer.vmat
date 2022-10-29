@@ -16,7 +16,7 @@ Layer0
 	g_flFadeExponent "10.386"
 
 	//---- Fog ----
-	g_bFogEnabled "1"
+	g_bFogEnabled "0"
 
 	//---- Lighting ----
 	g_flDirectionalLightmapMinZ "0.398"
