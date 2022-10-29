@@ -2,26 +2,26 @@
 {
 	data = 
 	{
-		ObjectiveName = "Hey, who turned out the lights\?"
-		Description = "Find a way to turn the power back on."
+		ObjectiveName = "Leave the Room"
+		Description = "Explore a little further"
 		ObjectiveStartConditions = 
 		[
 			{
 				Type = "PreviousObjectiveComplete"
 				InteractableName = ""
-				ObjectiveName = resource:"data/objectives/leaveroom.objctv"
+				ObjectiveName = resource:"data/objectives/locatehelmet.objctv"
 				TriggerName = ""
 			},
 		]
 		ObjectiveEndConditions = 
 		[
 			{
-				Type = "InteractedWithType"
+				Type = "PlayerEnteredTrigger"
 				InteractableName = ""
 				InteractedName = ""
-				TypeName = "Generator"
-				InteractedTypeName = "Generator"
-				TriggerName = ""
+				TypeName = ""
+				InteractedTypeName = ""
+				TriggerName = "power_shutdown_trigger"
 				ItemType = ""
 			},
 		]
@@ -30,7 +30,6 @@
 		[
 			{
 				Type = "SetLighting"
-				LightsEnabled = true
 				DoorName = ""
 				TargetEntityName = ""
 				InfoTarget = ""

@@ -26,14 +26,6 @@
 			},
 		]
 		ObjectiveStartEvents = [  ]
-		ObjectiveEndEvents = 
-		[
-			{
-				Type = "SetLighting"
-				TargetEntityName = ""
-				InfoTarget = ""
-				TargetAttachment = ""
-			},
-		]
+		ObjectiveEndEvents = [  ]
 	}
 }

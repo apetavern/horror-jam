@@ -130,13 +130,17 @@ public struct ObjectiveEndCondition
 			case ConditionType.PlayerEnteredTrigger:
 				{
 					var triggerName = TriggerName;
-					var entity = Entity.All.FirstOrDefault( x => x.Name.ToLower().Contains( triggerName.ToLower() ) );
+					var entities = Entity.All.Where( x => x.Name.ToLower().Contains( triggerName.ToLower() ) );
 
-					if ( entity is not ObjectiveTrigger trigger )
-						return false;
+					foreach ( var entity in entities )
+					{
+						if ( entity is not ObjectiveTrigger trigger )
+							return false;
 
-					if ( trigger.TouchingEntities.Contains( pawn ) )
-						return true;
+						if ( trigger.TouchingEntities.Contains( pawn ) )
+							return true;
+					}
+
 					return false;
 				}
 			case ConditionType.PlayerHasItem:
