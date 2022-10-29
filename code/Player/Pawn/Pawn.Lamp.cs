@@ -5,12 +5,12 @@ partial class Pawn
 	/// <summary>
 	/// The maximum amount of power that the lamp can hold.
 	/// </summary>
-	private const float LampMaxPower = 150;
+	private const float LampMaxPower = 100;
 
 	/// <summary>
 	/// The amount of power that is discharged per tick.
 	/// </summary>
-	private const float LampDischargePerTick = 0.1f;
+	private const float LampDischargePerTick = 0.05f;
 
 	/// <summary>
 	/// Gets the 0-1 percentage of the batteries power left.
