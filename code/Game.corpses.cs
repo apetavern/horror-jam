@@ -1,23 +1,4 @@
-﻿global using GvarJam.HammerEntities;
-global using GvarJam.Interactions;
-global using GvarJam.Inventory;
-global using GvarJam.Managers;
-global using GvarJam.Monster;
-global using GvarJam.Objectives;
-global using GvarJam.Player;
-global using GvarJam.UI;
-global using GvarJam.Utility;
-global using GvarJam.Components;
-global using Sandbox;
-global using Sandbox.Component;
-global using Sandbox.UI;
-global using Sandbox.UI.Construct;
-global using SandboxEditor;
-global using System;
-global using System.Collections.Generic;
-global using System.Linq;
-
-namespace GvarJam;
+﻿namespace GvarJam;
 
 /// <summary>
 /// The game class.

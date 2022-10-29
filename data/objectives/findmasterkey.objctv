@@ -20,7 +20,7 @@
 				InteractableName = "Console"
 				InteractedName = ""
 				TypeName = ""
-				InteractedTypeName = "Console"
+				InteractedTypeName = "ShipConsole"
 				TriggerName = ""
 				ItemType = ""
 			},
