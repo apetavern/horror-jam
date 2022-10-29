@@ -74,9 +74,9 @@ public sealed partial class Pawn : AnimatedEntity
 		Camera = new PawnCamera();
 		Controller = new MovementController()
 		{
-			SprintSpeed = 240.0f,
-			WalkSpeed = 150.0f,
-			DefaultSpeed = 150.0f
+			SprintSpeed = 170.0f,
+			WalkSpeed = 100.0f,
+			DefaultSpeed = 100.0f
 		};
 
 		EnableDrawing = true;

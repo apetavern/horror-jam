@@ -48,7 +48,7 @@ partial class Pawn
 	/// <summary>
 	/// The strength of the view bobbing.
 	/// </summary>
-	private const float BobStrength = 25f;
+	private const float BobStrength = 15f;
 
 	/// <summary>
 	/// The current amount of view bobbing on the camera.

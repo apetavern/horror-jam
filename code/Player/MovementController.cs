@@ -8,7 +8,7 @@ public sealed partial class MovementController : WalkController
 	/// <summary>
 	/// Per second, while sprinting.
 	/// </summary>
-	private const float StaminaReductionRate = 0.5f;
+	private const float StaminaReductionRate = 0.25f;
 
 	/// <summary>
 	/// Per second, while not sprinting for over <see cref="StaminaReplenishDelay"/>.
