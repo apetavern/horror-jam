@@ -65,16 +65,16 @@ public class ObjectiveOverlay : Panel
 						Entity.FindByName( endCondition.InteractedName ),
 
 					ObjectiveEndCondition.ConditionType.InteractWithType =>
-						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).FirstOrDefault(),
+						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).GetClosestOrDefault( Local.Pawn ),
 
 					ObjectiveEndCondition.ConditionType.InteractedWithType =>
-						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).FirstOrDefault(),
+						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).GetClosestOrDefault( Local.Pawn ),
 
 					ObjectiveEndCondition.ConditionType.PlayerEnteredTrigger =>
 						Entity.FindByName( endCondition.TriggerName ),
 
 					ObjectiveEndCondition.ConditionType.PlayerHasItem =>
-						Entity.All.OfType<InventoryItem>().Where( x => x.ItemType.ToString() == endCondition.ItemType ).FirstOrDefault(),
+						Entity.All.OfType<InventoryItem>().Where( x => x.ItemType.ToString() == endCondition.ItemType ).GetClosestOrDefault( Local.Pawn ),
 
 					ObjectiveEndCondition.ConditionType.Timer =>
 						null,
