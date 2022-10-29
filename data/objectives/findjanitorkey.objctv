@@ -22,7 +22,7 @@
 				TypeName = ""
 				InteractedTypeName = "InventoryItem"
 				TriggerName = ""
-				ItemType = "JanitorKey"
+				ItemType = "KeycardLvl1"
 			},
 		]
 		ObjectiveStartEvents = [  ]
