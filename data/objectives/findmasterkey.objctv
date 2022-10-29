@@ -16,8 +16,11 @@
 		ObjectiveEndConditions = 
 		[
 			{
+				Type = "InteractedWithType"
 				InteractableName = "Console"
+				InteractedName = ""
 				TypeName = ""
+				InteractedTypeName = "Console"
 				TriggerName = ""
 				ItemType = ""
 			},
