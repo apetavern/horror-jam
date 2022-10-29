@@ -64,7 +64,7 @@ public partial class LightCullComponent : EntityComponent
 				brightnessFade = 0f;
 			}
 
-			if( !UnShadowed || dist < 128 )
+			if( !UnShadowed || dist < 256 )
 			{
 				brightnessFade = 1f;
 			}
