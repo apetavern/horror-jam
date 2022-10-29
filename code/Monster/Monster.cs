@@ -59,6 +59,7 @@ public partial class MonsterEntity : AnimatedEntity
 
 				TickMove();
 				TickState();
+				TickSound();
 
 				TickStuck();
 			}
@@ -102,7 +103,8 @@ public partial class MonsterEntity : AnimatedEntity
 		var stateInfo =
 			$"state: {State}\n" +
 			$"time in state: {TimeInState}\n" +
-			$"time since saw player: {TimeSinceSawPlayer}\n";
+			$"time since saw player: {TimeSinceSawPlayer}\n" +
+			$"sound level: {SoundLevel}\n";
 
 		DebugOverlay.ScreenText( stateInfo, 25, 0 );
 	}

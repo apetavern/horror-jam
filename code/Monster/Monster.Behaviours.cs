@@ -210,6 +210,23 @@ partial class MonsterEntity
 		}
 	}
 
+	private float SoundLevel = 0f;
+	private Vector3 LastSound = 0;
+
+	private void TickSound()
+	{
+		SoundLevel = SoundLevel.LerpTo( 0f, Time.Delta );
+
+		//
+		// Sound tolerance
+		//
+		if ( SoundLevel > 1f )
+		{
+			TargetPosition = LastSound;
+			State = States.Hunting;
+		}
+	}
+
 	[Events.Monster.Sound]
 	public void OnSound( Vector3 position, float volume )
 	{
@@ -221,8 +238,8 @@ partial class MonsterEntity
 		{
 			DebugOverlay.Box( position - 1f, position + 1f, Color.Red, 5f, false );
 
-			TargetPosition = position;
-			State = States.Hunting;
+			SoundLevel += volume;
+			LastSound = Position;
 		}
 		else
 		{
