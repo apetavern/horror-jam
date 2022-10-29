@@ -108,7 +108,7 @@ public struct ObjectiveEndCondition
 				}
 			case ConditionType.InteractedWithEntity:
 				{
-					if ( pawn.LastInteractedEntityName.Contains( InteractedName ) )
+					if ( pawn.LastInteractedEntityName.ToLower().Contains( InteractedName.ToLower() ) )
 						return true;
 
 					return false;
