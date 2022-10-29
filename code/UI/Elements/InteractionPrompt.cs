@@ -34,11 +34,15 @@ public sealed class InteractionPrompt : WorldPanel
 		base.Tick();
 
 		var entity = pawn.FindInteractableEntity();
-		if ( entity != interactableEntity && interactableEntity is not null && interactableEntity.IsValid )
+		if ( entity != interactableEntity)
 		{
-			interactableEntity?.ShowInteractionPrompt( pawn, false );
-			interactableEntity = null;
 			AddClass( "hide" );
+
+			if ( interactableEntity is not null && interactableEntity.IsValid )
+			{
+				interactableEntity?.ShowInteractionPrompt( pawn, false );
+				interactableEntity = null;
+			}
 		}
 
 		if ( entity is null || !entity.IsValid || entity is not InteractableEntity intEntity )
