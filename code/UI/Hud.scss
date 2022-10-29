@@ -19,6 +19,12 @@ RootPanel {
         }
     }
 
+    &:not(.has-helmet) {
+        BatteryLevel {
+            display: none;
+        }
+    }
+
     font-family: Chakra Petch;
 }
 

@@ -34,6 +34,14 @@ public sealed partial class Hud : HudEntity<RootPanel>
 			return false;
 		} );
 
+		RootPanel.BindClass( "has-helmet", () =>
+		{
+			if ( Local.Pawn is Pawn pawn )
+				return pawn.Helmet.IsValid();
+
+			return false;
+		} );
+
 		Instance = this;
 	}
 
