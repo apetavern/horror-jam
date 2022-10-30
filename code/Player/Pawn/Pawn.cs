@@ -124,6 +124,8 @@ public sealed partial class Pawn : AnimatedEntity
 			DefaultSpeed = 100.0f
 		};
 
+		SoundManager.ShouldPlayChaseSounds( false );
+
 		Game.Current?.MoveToSpawnpoint( this );
 	}
 

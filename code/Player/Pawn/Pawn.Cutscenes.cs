@@ -20,6 +20,8 @@ partial class Pawn
 	/// </summary>
 	public TimeSince TimeSinceCutsceneStart { get; set; }
 
+	public TimeSince TimeSinceCutsceneEnded { get; set; }
+
 	/// <summary>
 	/// A list of the entities to cleanup once the cutscene has finished.
 	/// </summary>
@@ -165,6 +167,8 @@ partial class Pawn
 		BlockMovement = false;
 		BlockLook = false;
 		InCutscene = false;
+
+		TimeSinceCutsceneEnded = 0;
 
 		// Cleanup the cutscene entities
 		if ( EntitiesToCleanup is null )

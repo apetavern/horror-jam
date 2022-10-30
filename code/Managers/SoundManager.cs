@@ -99,6 +99,9 @@ public static class SoundManager
 			return;
 		}
 
+		if ( !CurrentChaseMusic.Finished )
+			return;
+
 		var randomSound = Rand.FromArray( ChaseSounds );
 		CurrentChaseMusic = Sound.FromScreen( randomSound );
 	}

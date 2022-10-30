@@ -115,6 +115,8 @@ partial class MonsterEntity
 		{
 			// Teleport back into the map
 			Game.Current.MoveToSpawnpoint( this );
+
+			SoundManager.ShouldPlayChaseSounds( false );
 		}
 
 		if ( newState == States.Stalking )
@@ -122,6 +124,11 @@ partial class MonsterEntity
 			// Find a target position that isn't too close to the player
 			var targetPlayer = Entity.All.OfType<Pawn>().First();
 			TargetPosition = NavMesh.GetPointWithinRadius( targetPlayer.Position, 512, 2048 ) ?? 0;
+
+			if ( Vector3.DistanceBetween( targetPlayer.Position, Position ) < 70 )
+				SoundManager.ShouldPlayChaseSounds( true );
+			else
+				SoundManager.ShouldPlayChaseSounds( false );
 
 			SetPath( TargetPosition );
 		}
@@ -188,6 +195,13 @@ partial class MonsterEntity
 		if ( tr.Hit && tr.Entity is Pawn pawn )
 		{
 			FollowPawn( pawn );
+			SoundManager.ShouldPlayChaseSounds( true );
+		}
+
+		if( tr.Entity is Pawn player && Vector3.DistanceBetween( Position, player.Position ) < 70 )
+		{
+			if ( player.LifeState == LifeState.Alive && !player.InCutscene && player.TimeSinceCutsceneEnded > 5 )
+				player.OnKilled();
 		}
 
 		if ( PathFinding.IsFinished && TimeSinceSawPlayer > 15f )
