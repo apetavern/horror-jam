@@ -33,6 +33,12 @@ RootPanel {
         }
     }
 
+    &:not(.player-dead) {
+        DeathScreen {
+            display: none;
+        }
+    }
+
     font-family: Chakra Petch;
     text-shadow: 0 4px 4px rgba( black, 0.25 );
 }

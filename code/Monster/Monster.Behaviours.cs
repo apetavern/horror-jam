@@ -201,7 +201,10 @@ partial class MonsterEntity
 		if( tr.Entity is Pawn player && Vector3.DistanceBetween( Position, player.Position ) < 70 )
 		{
 			if ( player.LifeState == LifeState.Alive && !player.InCutscene && player.TimeSinceCutsceneEnded > 5 )
+			{
 				player.OnKilled();
+				Sound.FromWorld( "monster_screech_2", Position );
+			}	
 		}
 
 		if ( PathFinding.IsFinished && TimeSinceSawPlayer > 15f )
