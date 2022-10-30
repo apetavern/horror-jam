@@ -21,6 +21,7 @@ public sealed partial class Hud : HudEntity<RootPanel>
 		RootPanel.AddChild( new Crosshair() );
 		RootPanel.AddChild( new LetterboxBars() );
 		RootPanel.AddChild( new SpaceToStart() );
+		RootPanel.AddChild( new DeathScreen() );
 		RootPanel.AddChild( new NotePanel() );
 		RootPanel.AddChild( new Elements.Objectives() );
 		RootPanel.AddChild( new ObjectiveOverlay() );
@@ -39,6 +40,14 @@ public sealed partial class Hud : HudEntity<RootPanel>
 		{
 			if ( Local.Pawn is Pawn pawn )
 				return pawn.Helmet.IsValid();
+
+			return false;
+		} );
+
+		RootPanel.BindClass( "player-dead", () =>
+		{
+			if ( Local.Pawn is Pawn pawn )
+				return pawn.LifeState == LifeState.Dead;
 
 			return false;
 		} );

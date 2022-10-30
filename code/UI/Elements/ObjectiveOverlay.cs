@@ -48,7 +48,6 @@ public class ObjectiveOverlay : Panel
 
 	private void DrawObjectives()
 	{
-
 		foreach ( var objective in Objectives.Instance.DisplayObjectives )
 		{
 			foreach ( var endCondition in objective.ObjectiveEndConditions )

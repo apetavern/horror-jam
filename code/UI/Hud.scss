@@ -5,6 +5,7 @@
 @import "/UI/Style/Crosshair.scss";
 @import "/UI/Style/LetterboxBars.scss";
 @import "/UI/Style/SpaceToStart.scss";
+@import "/UI/Style/DeathScreen.scss";
 @import "/UI/Style/NotePanel.scss";
 @import "/UI/Style/Objectives.scss";
 @import "/UI/Style/PrereqHint.scss";
@@ -22,6 +23,12 @@ RootPanel {
 
     &:not(.has-helmet) {
         BatteryLevel {
+            display: none;
+        }
+    }
+
+    &.player-dead {
+        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives, ObjectiveOverlay, PrereqHint {
             display: none;
         }
     }

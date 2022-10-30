@@ -19,9 +19,13 @@ public static class EntityExtensions
 		T? closest = default;
 		var closestDistance = float.MaxValue;
 
+		if ( target is null || !target.IsValid )
+			return null;
+
 		foreach ( var entity in entities )
 		{
 			var distance = target.Position.DistanceSquared( entity.Position );
+
 			if ( distance > closestDistance )
 				continue;
 

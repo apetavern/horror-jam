@@ -91,6 +91,40 @@ public sealed partial class Pawn : AnimatedEntity
 
 		foreach ( var itemType in Enum.GetValues<ItemType>() )
 			Items.Add( itemType, 0 );
+
+		LifeState = LifeState.Alive;
+	}
+
+	public override void OnKilled()
+	{
+		BlockLook = true;
+		BlockMovement = true;
+
+		(Camera as PawnCamera)?.GoToThirdPerson();
+
+		Controller = null;
+		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+
+		LifeState = LifeState.Dead;
+	}
+
+	public void Respawn()
+	{
+		BlockLook = false;
+		BlockMovement = false;
+		LifeState = LifeState.Alive;
+
+		(Camera as PawnCamera)?.GoToFirstPerson();
+		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
+
+		Controller = new MovementController()
+		{
+			SprintSpeed = 170.0f,
+			WalkSpeed = 100.0f,
+			DefaultSpeed = 100.0f
+		};
+
+		Game.Current?.MoveToSpawnpoint( this );
 	}
 
 	/// <inheritdoc/>
@@ -110,6 +144,14 @@ public sealed partial class Pawn : AnimatedEntity
 	public override void Simulate( Client cl )
 	{
 		base.Simulate( cl );
+
+		if( LifeState == LifeState.Dead )
+		{
+			if ( Input.Released( InputButton.Jump ) )
+				Respawn();
+
+			return;
+		}
 
 		if ( Input.Pressed( InputButton.View ) && Camera is PawnCamera camera )
 		{
@@ -275,5 +317,16 @@ public sealed partial class Pawn : AnimatedEntity
 	private void AddHelmetChild( ModelEntity helmet )
 	{
 		PlayerAndChildren.Add( helmet );
+	}
+
+	[ConCmd.Server]
+	public static void Kill()
+	{
+		var pawn = ConsoleSystem.Caller.Pawn as Pawn;
+
+		if ( pawn is null )
+			return;
+
+		pawn.OnKilled();
 	}
 }
