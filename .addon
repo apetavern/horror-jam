@@ -10,7 +10,12 @@
   "ResourcePaths": [
     "/ui/*",
     "/fonts/*",
-    "/textures/*"
+    "/textures/*",
+    "/data/*",
+    "/materials/*",
+    "/models/*",
+    "/shaders/*",
+    "/sounds/*"
   ],
   "HasCode": true,
   "CodePath": "/code/",
