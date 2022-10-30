@@ -4,7 +4,7 @@ public class PathFinding
 {
 	public float Speed { get; set; } = 100f;
 	public float Accel => 200f;
-	private Vector3 CurrentPosition => Monster.IsValid()?Monster.Position:Vector3.Zero;
+	private Vector3 CurrentPosition => Monster.IsValid() ? Monster.Position : Vector3.Zero;
 
 	// This is quite shit! Too bad
 	public bool IsFinished => CurrentPath == null

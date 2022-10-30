@@ -77,8 +77,8 @@ public partial class Splitizen : AnimatedEntity
 
 	public async void RandomPatrol()
 	{
-		SetPath( this.IsValid()?Position:Vector3.Zero );
-		if ( !StopMoving && this.IsValid())
+		SetPath( this.IsValid() ? Position : Vector3.Zero );
+		if ( this.IsValid() && !StopMoving )
 		{
 			await Task.DelaySeconds( Rand.Float( 5f, 30f ) );
 			PathFinding.SetRandomPath();
@@ -132,7 +132,7 @@ public partial class Splitizen : AnimatedEntity
 			return;
 		}
 
-		if( StopMoving )
+		if ( StopMoving )
 		{
 			IsGrounded = true;
 		}
