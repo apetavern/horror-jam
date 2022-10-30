@@ -94,9 +94,9 @@ partial class Pawn
 		var light = new SpotLightEntity();
 		light.Position = groundPos.HitPosition + facingDirection * 50;
 		light.Rotation = Rotation.LookAt( groundPos.HitPosition - light.Position + Vector3.Up * 60 );
-		light.Color = Color.White;
+		light.Color = Color.Red;
 		light.Brightness = 0.2f;
-		light.OuterConeAngle = 30;
+		light.OuterConeAngle = 80;
 		light.Enabled = true;
 
 		Camera = new ManualCutsceneCamera() { StartPosition = startEntity.Position, LookAtPosition = SplitizenEntity.Position };
