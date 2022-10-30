@@ -7,13 +7,13 @@
 		VolumeRandom = 0
 		Pitch = 1
 		PitchRandom = 0
-		Decibels = 125
+		Decibels = 75
 		Sounds = 
 		[
 			resource:"sounds/door/door_open.vsnd",
 		]
 		SelectionMode = "Random"
-		MaximumDistance = 3577.7063
-		MinimumDistance = 178.88531
+		MaximumDistance = 1308.4543
+		MinimumDistance = 65.42272
 	}
 }

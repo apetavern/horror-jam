@@ -209,6 +209,18 @@
 								frames_from_start = 10
 								frames_from_end = 10
 							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND"
+								event_frame = 0
+								event_keys = 
+								{
+									name = "monster_slither"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
 						]
 						activity_name = ""
 						activity_weight = 1

@@ -4,13 +4,13 @@
 	{
 		UI = false
 		Volume = 1
-		VolumeRandom = 0.15
+		VolumeRandom = 0
 		Pitch = 1
-		PitchRandom = 0.2
+		PitchRandom = 0
 		Decibels = 70
 		Sounds = 
 		[
-			resource:"sounds/monster/monster_slither.vsnd",
+			resource:"sounds/console/keyboard_hit_1.vsnd",
 		]
 		SelectionMode = "Random"
 		MaximumDistance = 1143.9335

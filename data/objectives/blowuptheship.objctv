@@ -37,6 +37,15 @@
 				TargetAttachment = "camPos"
 				Duration = 5
 				HidePlayers = true
+				MonsterCameraToUse = ""
+			},
+			{
+				SoundName = resource:"sounds/environment/self_destruct_siren.sound"
+				DoorName = ""
+				TargetEntityName = ""
+				InfoTarget = ""
+				TargetAttachment = ""
+				MonsterCameraToUse = ""
 			},
 		]
 	}
