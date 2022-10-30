@@ -42,6 +42,11 @@ public static class SoundManager
 	private static Sound CurrentMusicAmbience { get; set; }
 
 	/// <summary>
+	/// The current chase sound playing.
+	/// </summary>
+	private static Sound CurrentChaseMusic { get; set; }
+
+	/// <summary>
 	/// The list of ambient music to play.
 	/// </summary>
 	private static string[] AmbientMusic =
@@ -57,6 +62,11 @@ public static class SoundManager
 	{
 		"spooky_scuttle",
 		"spooky_scuttle_long"
+	};
+
+	private static string[] ChaseSounds =
+	{
+		"chase"
 	};
 
 	/// <summary>
@@ -75,6 +85,31 @@ public static class SoundManager
 		var randomSound = Rand.FromArray( AmbientMusic );
 		CurrentMusicAmbience = Sound.FromScreen( randomSound );
 		CurrentMusicAmbience.SetVolume( AmbienceVolume );
+	}
+
+	/// <summary>
+	/// Toggle the chase sound playback.
+	/// </summary>
+	/// <param name="shouldPlay"></param>
+	public static void ShouldPlayChaseSounds( bool shouldPlay )
+	{
+		if ( !shouldPlay )
+		{
+			CurrentChaseMusic.Stop();
+			return;
+		}
+
+		var randomSound = Rand.FromArray( ChaseSounds );
+		CurrentChaseMusic = Sound.FromScreen( randomSound );
+	}
+
+	/// <summary>
+	/// Sets the volume for the chase music.
+	/// </summary>
+	/// <param name="soundVolume"></param>
+	public static void SetChaseSoundVolume( float soundVolume )
+	{
+		CurrentChaseMusic.SetVolume( soundVolume );
 	}
 
 	/// <summary>
