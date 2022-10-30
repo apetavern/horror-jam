@@ -58,7 +58,6 @@
 							exception_list = 
 							[
 								"Arms",
-								"Cube",
 							]
 						}
 					},

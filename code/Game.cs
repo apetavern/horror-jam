@@ -233,6 +233,13 @@ public sealed partial class HorrorGame : Game
 		mon.SetAnimParameter( "split", true );*/
 	}
 
+	public override void PostCameraSetup( ref CameraSetup camSetup )
+	{
+		base.PostCameraSetup( ref camSetup );
+
+		camSetup.ZNear = 6f;
+	}
+
 	/// <summary>
 	/// Debug command to spawn a helmet.
 	/// </summary>
