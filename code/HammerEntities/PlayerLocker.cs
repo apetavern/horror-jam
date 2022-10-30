@@ -49,10 +49,26 @@ public partial class PlayerLocker : LockedUseItem
 
 		player.InteractedEntity = this;
 		SnapPlayerToUsePosition( player, 0 );
+		
 		TimeSinceUsed = 0;
 
 		if ( IsServer )
 			User = player;
+	}
+
+	/// <inheritdoc/>
+	public override void SnapPlayerToUsePosition( Pawn player, float numberOfUnitsInfront )
+	{
+		base.SnapPlayerToUsePosition( player, numberOfUnitsInfront );
+
+		player.Rotation = Rotation.LookAt( Rotation.Forward.Normal );
+		if ( player.Camera is PawnCamera camera )
+		{
+			var cameraPos = player.EyePosition + Rotation.Forward.Normal * 100;
+			var cameraRot = Rotation.LookAt( (cameraPos - Position).Normal );
+
+			camera.OverrideTransform( new Transform() { Position = cameraPos, Rotation = cameraRot.Inverse } );
+		}
 	}
 
 	/// <inheritdoc/>
