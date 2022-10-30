@@ -1,0 +1,46 @@
+﻿@import "/UI/Style/_Base.scss";
+
+NewObjectivePanel {
+    color: white;
+
+    .title {
+        font-size: 32px;
+    }
+
+    .name {
+        font-size: 24px;
+    }
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-top: 200px;
+    align-items: flex-start;
+    justify-content: center;
+    transition: all 500ms ease;
+
+    .inner {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 100px;
+        transition: all 500ms ease;
+    }
+
+    &:intro {
+        .inner {
+            transform: scale( 2.0 );
+        }
+
+        opacity: 0;
+    }
+
+    &:outro {
+        .inner {
+            transform: scale( 0.0 );
+        }
+
+        opacity: 0;
+    }
+}
