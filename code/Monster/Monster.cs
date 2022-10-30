@@ -55,6 +55,7 @@ public partial class MonsterEntity : AnimatedEntity
 		{
 			Delete();
 		}
+
 		if ( State != States.Dormant )
 		{
 			EyeLocalPosition = Vector3.Up * 64f;
@@ -71,9 +72,17 @@ public partial class MonsterEntity : AnimatedEntity
 				TickState();
 				TickSound();
 
-				if(Position.z <= -32f )
+				if ( Position.z <= -32f )
 				{
-					Position = NavMesh.GetClosestPoint( Position ).HasValue ? NavMesh.GetClosestPoint( Position ).Value : Position + Vector3.Up * 32f;
+					var nearestNavPoint = NavMesh.GetClosestPoint( Position );
+					if ( nearestNavPoint.HasValue )
+					{
+						Position = nearestNavPoint.Value;
+					}
+					else
+					{
+						Game.Current.MoveToSpawnpoint( this );
+					}
 				}
 
 				TickStuck();
@@ -172,7 +181,7 @@ public partial class MonsterEntity : AnimatedEntity
 		float walkspeed = Velocity.Length.LerpInverse( 0, 200 ) * 2.0f;
 
 		//if ( DebugEnabled )
-			//DebugOverlay.ScreenText( $"{walkspeed}, {Velocity.Length}", -1 );
+		//DebugOverlay.ScreenText( $"{walkspeed}, {Velocity.Length}", -1 );
 
 		SetAnimParameter( "idle", true );
 		SetAnimParameter( "walkspeed", walkspeed );
