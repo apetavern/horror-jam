@@ -17,6 +17,8 @@ public partial class PlayerLocker : LockedUseItem
 	{
 		base.Spawn();
 
+		DisplayName = "Hiding Locker";
+
 		SetModel( "models/slimplayerlocker/slimplayerlocker.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
 	}
