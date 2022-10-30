@@ -25,7 +25,7 @@ partial class Pawn
 			if ( Camera is not PawnCamera camera )
 				return;
 
-			if ( IsInteracting && (InteractedEntity is DelayedUseItem || InteractedEntity is LockedUseItem))
+			if ( IsInteracting && (InteractedEntity is DelayedUseItem || InteractedEntity is LockedUseItem) )
 			{
 				var rotation = Rotation.LookAt( (InteractedEntity.Position - Position).Normal );
 				Rotation = new Rotation( 0, 0, rotation.z, rotation.w );
@@ -92,12 +92,16 @@ partial class Pawn
 			return;
 		}
 
-		if ( Input.Pressed( InputButton.Use ) )
+		if ( IsServer && Input.Pressed( InputButton.Use ) )
 		{
-			if ( IsServer && entity is IUse use && Input.Pressed( InputButton.Use ) )
+			if ( entity is IUse use )
+			{
 				use.OnUse( this );
+			}
 			else
+			{
 				PlaySound( "player_use_fail" );
+			}
 		}
 	}
 
