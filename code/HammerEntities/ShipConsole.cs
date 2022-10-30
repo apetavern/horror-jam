@@ -45,7 +45,7 @@ public partial class ShipConsole : DelayedUseItem
 	{
 		base.OnUsed( user );
 
-		Used = true;
+		//Used = true;
 	}
 
 	/// <inheritdoc/>
