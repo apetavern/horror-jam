@@ -60,6 +60,8 @@ public sealed partial class Pawn : AnimatedEntity
 	/// </summary>
 	private TimeSince timeSinceLastFootstep = 0;
 
+	private ModelEntity Ragdoll { get; set; }
+
 	/// <inheritdoc/>
 	public override void Spawn()
 	{
@@ -102,8 +104,29 @@ public sealed partial class Pawn : AnimatedEntity
 
 		(Camera as PawnCamera)?.GoToThirdPerson();
 
+		// Hide the player
+		EnableDrawing = false;
+
+		// Hide the players children
+		foreach ( var child in Children.OfType<ModelEntity>() )
+			child.EnableDrawing = false;
+
+		// Create ragdoll
+		Ragdoll = new ModelEntity( "models/player/playermodel.vmdl" );
+		Ragdoll.Position = Position + Rotation.Forward * 3f;
+		Ragdoll.Tags.Add( "trigger" );
+		Ragdoll.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+
+		if ( Helmet is not null )
+		{
+			var helmet = new ModelEntity( "models/cosmetics/spacehelmet.vmdl" );
+			helmet.SetParent( Ragdoll, true );
+		}
+
+		var clothes = new ModelEntity( "models/citizen_clothes/shirt/jumpsuit/models/blue_jumpsuit.vmdl" );
+		clothes.SetParent( Ragdoll, true );
+
 		Controller = null;
-		SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 
 		LifeState = LifeState.Dead;
 	}
@@ -115,7 +138,16 @@ public sealed partial class Pawn : AnimatedEntity
 		LifeState = LifeState.Alive;
 
 		(Camera as PawnCamera)?.GoToFirstPerson();
-		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
+
+		// Hide the player
+		EnableDrawing = true;
+
+		// Hide the players children
+		foreach ( var child in Children.OfType<ModelEntity>() )
+			child.EnableDrawing = true;
+
+		// Clear the ragoll
+		Ragdoll?.DeleteAsync( 10 );
 
 		Controller = new MovementController()
 		{
