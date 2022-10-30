@@ -7,7 +7,11 @@
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
-  "ResourcePaths": [],
+  "ResourcePaths": [
+    "/ui/*",
+    "/fonts/*",
+    "/textures/*"
+  ],
   "HasCode": true,
   "CodePath": "/code/",
   "RootNamespace": null,
