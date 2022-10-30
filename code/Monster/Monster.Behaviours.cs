@@ -113,9 +113,6 @@ partial class MonsterEntity
 
 		if ( oldState == States.Hiding )
 		{
-			// Teleport back into the map
-			Game.Current.MoveToSpawnpoint( this );
-
 			SoundManager.ShouldPlayChaseSounds( false );
 		}
 
@@ -149,10 +146,12 @@ partial class MonsterEntity
 	/// </summary>
 	private void SimulateHidingState()
 	{
-		Position = new Vector3( 16384, 16384, 16384 );
-		Velocity = 0;
+		// Run away from the player
+		var pawn = Entity.All.OfType<Pawn>().GetClosestOrDefault( this );
+		TargetPosition = NavMesh.GetClosestPoint( Position + (Position - pawn.Position).Normal * 1024f ) ?? 0;
+		SetPath( TargetPosition );
 
-		if ( TimeInState > 30 )
+		if ( TimeInState > 15f )
 		{
 			State = States.Stalking;
 		}
@@ -176,14 +175,6 @@ partial class MonsterEntity
 	/// </summary>
 	private void SimulateHuntingState()
 	{
-		// TODO:
-		// - Stealth logic:
-		//   - If the player is crouching under a table, we shouldn't know where they are.
-		//   - If the player runs around a corner, we only know about their 'last seen'
-		//     position, not their actual position.
-		//   - We should be attracted to loud noises.
-		// - If the player can see us, we shouldn't move to a hiding state
-
 		SetPath( TargetPosition );
 		PathFinding.Speed = 200f;
 
@@ -198,13 +189,13 @@ partial class MonsterEntity
 			SoundManager.ShouldPlayChaseSounds( true );
 		}
 
-		if( tr.Entity is Pawn player && Vector3.DistanceBetween( Position, player.Position ) < 70 )
+		if ( tr.Entity is Pawn player && Vector3.DistanceBetween( Position, player.Position ) < 70 )
 		{
 			if ( player.LifeState == LifeState.Alive && !player.InCutscene && player.TimeSinceCutsceneEnded > 5 )
 			{
 				player.OnKilled();
 				Sound.FromWorld( "monster_screech_2", Position );
-			}	
+			}
 		}
 
 		if ( PathFinding.IsFinished && TimeSinceSawPlayer > 15f )
@@ -218,7 +209,8 @@ partial class MonsterEntity
 		// If the player has their flashlight on, run away
 		if ( pawn.LampEnabled )
 		{
-			TargetPosition = NavMesh.GetClosestPoint( Position + (Position - pawn.Position).Normal * 1024f ) ?? 0;
+			State = States.Hiding;
+			//TargetPosition = NavMesh.GetClosestPoint( Position + (Position - pawn.Position).Normal * 1024f ) ?? 0;
 			//DebugOverlay.Sphere( TargetPosition, 32f, Color.Cyan, 0, false );
 		}
 		else
