@@ -46,7 +46,7 @@ partial class Objectives
 
 			var inner = Add.Panel( "inner" );
 
-			inner.Add.Label( "NEW OBJECTIVE" );
+			inner.Add.Label( "NEW OBJECTIVE", "title" );
 			inner.Add.Label( objective.ObjectiveName, "name" );
 			inner.Add.Label( objective.Description, "description" );
 
