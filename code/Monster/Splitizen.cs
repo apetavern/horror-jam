@@ -143,8 +143,8 @@ public partial class Splitizen : AnimatedEntity
 		{
 			if ( DebugEnabled )
 			{
-				DebugOverlay.Box( Position, Bounds.Mins, Bounds.Maxs, Color.White );
-				DrawDebugInfo();
+				//DebugOverlay.Box( Position, Bounds.Mins, Bounds.Maxs, Color.White );
+				//DrawDebugInfo();
 			}
 
 			if ( !StopMoving )
@@ -242,8 +242,8 @@ public partial class Splitizen : AnimatedEntity
 
 		if ( DebugEnabled )
 		{
-			var startPos = Position + Vector3.Up * 32;
-			DebugOverlay.Arrow( startPos, startPos + moveHelper.Velocity, Color.Green );
+			//var startPos = Position + Vector3.Up * 32;
+			//DebugOverlay.Arrow( startPos, startPos + moveHelper.Velocity, Color.Green );
 		}
 
 		moveHelper.TryUnstuck();
@@ -286,7 +286,7 @@ public partial class Splitizen : AnimatedEntity
 			return;
 
 		var targetPos = tr.EndPosition;
-		DebugOverlay.Sphere( targetPos, 4f, Color.Red, 2f, false );
+		//DebugOverlay.Sphere( targetPos, 4f, Color.Red, 2f, false );
 
 		foreach ( var monster in Entity.All.OfType<MonsterEntity>() )
 		{

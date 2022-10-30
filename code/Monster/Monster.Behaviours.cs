@@ -95,8 +95,8 @@ partial class MonsterEntity
 			else if ( tr.Entity is HammerEntities.DoorEntity door )
 			{
 				// Open any doors that are in the way
-				DebugOverlay.Box( door.WorldSpaceBounds.Mins, door.WorldSpaceBounds.Maxs, Color.Red, depthTest: false );
-				DebugOverlay.Text( $"State: {door.State}\nLocked: {door.Locked}", door.WorldSpaceBounds.Center );
+				//DebugOverlay.Box( door.WorldSpaceBounds.Mins, door.WorldSpaceBounds.Maxs, Color.Red, depthTest: false );
+				//DebugOverlay.Text( $"State: {door.State}\nLocked: {door.Locked}", door.WorldSpaceBounds.Center );
 
 				if ( door.State == HammerEntities.DoorEntity.DoorState.Closed && All.OfType<Pawn>().Any( x => x.HasItem( door.ItemRequiredToOpen ) ) )
 					door.Toggle( this );
@@ -219,7 +219,7 @@ partial class MonsterEntity
 		if ( pawn.LampEnabled )
 		{
 			TargetPosition = NavMesh.GetClosestPoint( Position + (Position - pawn.Position).Normal * 1024f ) ?? 0;
-			DebugOverlay.Sphere( TargetPosition, 32f, Color.Cyan, 0, false );
+			//DebugOverlay.Sphere( TargetPosition, 32f, Color.Cyan, 0, false );
 		}
 		else
 		{
@@ -254,16 +254,16 @@ partial class MonsterEntity
 
 		if ( distance < 128f )
 		{
-			DebugOverlay.Box( position - 1f, position + 1f, Color.Red, 5f, false );
+			//DebugOverlay.Box( position - 1f, position + 1f, Color.Red, 5f, false );
 
 			SoundLevel += volume;
 			LastSound = Position;
 		}
 		else
 		{
-			DebugOverlay.Box( position - 1f, position + 1f, Color.Cyan, 5f, false );
+			//DebugOverlay.Box( position - 1f, position + 1f, Color.Cyan, 5f, false );
 		}
 
-		DebugOverlay.Text( $"{distance}", position, 5f );
+		//DebugOverlay.Text( $"{distance}", position, 5f );
 	}
 }

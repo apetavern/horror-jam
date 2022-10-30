@@ -120,8 +120,8 @@ public class PathFinding
 					CurrentPath.Segments.RemoveAt( i );
 			}
 
-			if ( MonsterEntity.DebugEnabled )
-				DebugOverlay.Arrow( segment.Position, nextSegment.Position, Color.White );
+			//if ( MonsterEntity.DebugEnabled )
+				//DebugOverlay.Arrow( segment.Position, nextSegment.Position, Color.White );
 		}
 
 		var closestSegment = CurrentPath.Segments.First().Position;

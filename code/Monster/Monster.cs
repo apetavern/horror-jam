@@ -63,8 +63,8 @@ public partial class MonsterEntity : AnimatedEntity
 			{
 				if ( DebugEnabled )
 				{
-					DebugOverlay.Box( Position, Bounds.Mins, Bounds.Maxs, Color.White );
-					DrawDebugInfo();
+					//DebugOverlay.Box( Position, Bounds.Mins, Bounds.Maxs, Color.White );
+					//DrawDebugInfo();
 				}
 
 				TickMove();
@@ -157,8 +157,8 @@ public partial class MonsterEntity : AnimatedEntity
 
 		if ( DebugEnabled )
 		{
-			var startPos = Position + Vector3.Up * 32;
-			DebugOverlay.Arrow( startPos, startPos + moveHelper.Velocity, Color.Green );
+			//var startPos = Position + Vector3.Up * 32;
+			//DebugOverlay.Arrow( startPos, startPos + moveHelper.Velocity, Color.Green );
 		}
 
 		moveHelper.TryUnstuck();
@@ -171,8 +171,8 @@ public partial class MonsterEntity : AnimatedEntity
 	{
 		float walkspeed = Velocity.Length.LerpInverse( 0, 200 ) * 2.0f;
 
-		if ( DebugEnabled )
-			DebugOverlay.ScreenText( $"{walkspeed}, {Velocity.Length}", -1 );
+		//if ( DebugEnabled )
+			//DebugOverlay.ScreenText( $"{walkspeed}, {Velocity.Length}", -1 );
 
 		SetAnimParameter( "idle", true );
 		SetAnimParameter( "walkspeed", walkspeed );
@@ -212,7 +212,7 @@ public partial class MonsterEntity : AnimatedEntity
 			return;
 
 		var targetPos = tr.EndPosition;
-		DebugOverlay.Sphere( targetPos, 4f, Color.Red, 2f, false );
+		//DebugOverlay.Sphere( targetPos, 4f, Color.Red, 2f, false );
 
 		foreach ( var monster in Entity.All.OfType<MonsterEntity>() )
 		{
