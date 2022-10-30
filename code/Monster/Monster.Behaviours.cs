@@ -98,7 +98,7 @@ partial class MonsterEntity
 				DebugOverlay.Box( door.WorldSpaceBounds.Mins, door.WorldSpaceBounds.Maxs, Color.Red, depthTest: false );
 				DebugOverlay.Text( $"State: {door.State}\nLocked: {door.Locked}", door.WorldSpaceBounds.Center );
 
-				if ( door.State == HammerEntities.DoorEntity.DoorState.Closed )
+				if ( door.State == HammerEntities.DoorEntity.DoorState.Closed && All.OfType<Pawn>().Any( x => x.HasItem( door.ItemRequiredToOpen ) ) )
 					door.Toggle( this );
 			}
 		}
