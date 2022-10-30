@@ -33,6 +33,7 @@
 				TargetEntityName = ""
 				InfoTarget = ""
 				TargetAttachment = ""
+				MonsterCameraToUse = ""
 			},
 		]
 		ObjectiveEndEvents = 
@@ -44,7 +45,9 @@
 				InfoTarget = "escapepod_pos"
 				TargetModel = resource:"models/cutscenes/escapepod/escapepod_complete.vmdl"
 				TargetAttachment = "camPos"
+				Duration = 12
 				HidePlayers = true
+				MonsterCameraToUse = ""
 			},
 		]
 	}
