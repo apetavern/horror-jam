@@ -5,6 +5,8 @@ partial class Objectives
 	public static Objectives Instance { get; private set; }
 	public List<ObjectiveResource> DisplayObjectives { get; set; } = new();
 
+	TimeSince TimeSinceLastObjective = 0;
+
 	public Objectives()
 	{
 		Instance = this;
@@ -16,7 +18,12 @@ partial class Objectives
 	public static void RpcAddObjective( ObjectiveResource resource )
 	{
 		Instance.DisplayObjectives.Add( resource );
-		_ = new NewObjectivePanel( Local.Hud, resource );
+
+		if ( Instance.TimeSinceLastObjective > 3 )
+		{
+			_ = new NewObjectivePanel( Local.Hud, resource );
+			Instance.TimeSinceLastObjective = 0;
+		}
 
 		Instance.StateHasChanged();
 	}

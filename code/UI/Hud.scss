@@ -13,7 +13,7 @@
 
 RootPanel {
     &.in-cutscene {
-        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives, ObjectiveOverlay, PrereqHint {
+        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives, ObjectiveOverlay, PrereqHint, NewObjectivePanel {
             display: none;
         }
 
@@ -29,7 +29,7 @@ RootPanel {
     }
 
     &.player-dead {
-        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives, ObjectiveOverlay, PrereqHint {
+        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives, ObjectiveOverlay, PrereqHint, NewObjectivePanel {
             display: none;
         }
     }
