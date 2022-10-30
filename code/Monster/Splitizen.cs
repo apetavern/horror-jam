@@ -33,6 +33,8 @@ public partial class Splitizen : AnimatedEntity
 
 	bool SetAPath;
 
+	AnimatedEntity CosmeticMonster;
+
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -41,6 +43,7 @@ public partial class Splitizen : AnimatedEntity
 		SetMaterialOverride( "models/enemy/materials/citizen/splitizen_skin.vmat" );
 		SetBodyGroup( 0, 1 );
 		SetBodyGroup( 1, 1 );
+		SetBodyGroup( 2, 1 );
 		SetBodyGroup( 3, 1 );
 
 		startpos = Position;
@@ -48,6 +51,9 @@ public partial class Splitizen : AnimatedEntity
 		Tags.Add( "splitizen" );
 
 		new ModelEntity( "models/citizen_clothes/jacket/longsleeve/models/jeans.vmdl" ).SetParent( this, true );
+
+		CosmeticMonster = new AnimatedEntity( "models/enemy/monster.vmdl" );
+		CosmeticMonster.SetParent( this, true );
 
 		CreateHull();
 
@@ -71,8 +77,8 @@ public partial class Splitizen : AnimatedEntity
 
 	public async void RandomPatrol()
 	{
-		SetPath( Position );
-		if ( !StopMoving )
+		SetPath( this.IsValid()?Position:Vector3.Zero );
+		if ( !StopMoving && this.IsValid())
 		{
 			await Task.DelaySeconds( Rand.Float( 5f, 30f ) );
 			PathFinding.SetRandomPath();
@@ -84,7 +90,10 @@ public partial class Splitizen : AnimatedEntity
 	public async void DoSplit()
 	{
 		await Task.DelaySeconds( 2 );
-
+		if ( CosmeticMonster is not null )
+		{
+			CosmeticMonster.Delete();
+		}
 		Monster = new MonsterEntity();
 		Monster?.SetParent( this, true );
 
