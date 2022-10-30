@@ -150,6 +150,11 @@ public partial class Splitizen : AnimatedEntity
 			if ( !StopMoving )
 			{
 				TickMove();
+
+				if ( Position.z <= -32f )
+				{
+					Position = NavMesh.GetClosestPoint( Position ).HasValue ? NavMesh.GetClosestPoint( Position ).Value : Position + Vector3.Up * 32f;
+				}
 			}
 
 			if ( !SetAPath )

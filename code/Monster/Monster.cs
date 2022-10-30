@@ -71,6 +71,11 @@ public partial class MonsterEntity : AnimatedEntity
 				TickState();
 				TickSound();
 
+				if(Position.z <= -32f )
+				{
+					Position = NavMesh.GetClosestPoint( Position ).HasValue ? NavMesh.GetClosestPoint( Position ).Value : Position + Vector3.Up * 32f;
+				}
+
 				TickStuck();
 			}
 
