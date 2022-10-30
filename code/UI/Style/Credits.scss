@@ -1,0 +1,32 @@
+﻿@import "/UI/Style/_Base.scss";
+
+Credits {
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    color: white;
+    transition: opacity 4s ease;
+    opacity: 0;
+
+    .text-container {
+        left: $safe-area-x;
+        top: $safe-area-y;
+        flex-direction: column;
+    }
+
+    .outcome {
+        font-size: 72px;
+        font-weight: bold;
+    }
+
+    .thanks {
+        font-size: 48px;
+    }
+
+    .credits {
+        font-size: 24px;
+        flex-direction: column;
+    }
+}
