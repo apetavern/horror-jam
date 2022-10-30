@@ -51,6 +51,10 @@ public partial class MonsterEntity : AnimatedEntity
 	[Event.Tick]
 	public void OnServerTick()
 	{
+		if ( State == States.Dormant && IsClientOnly )
+		{
+			Delete();
+		}
 		if ( State != States.Dormant )
 		{
 			EyeLocalPosition = Vector3.Up * 64f;
