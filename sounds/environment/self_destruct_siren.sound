@@ -2,18 +2,18 @@
 {
 	data = 
 	{
-		UI = false
-		Volume = 1
+		UI = true
+		Volume = 0.8
 		VolumeRandom = 0
 		Pitch = 1
 		PitchRandom = 0
-		Decibels = 130
+		Decibels = 90
 		Sounds = 
 		[
 			resource:"sounds/environment/self_destruct_siren.vsnd",
 		]
 		SelectionMode = "Random"
-		MaximumDistance = 3867.0361
-		MinimumDistance = 193.3518
+		MaximumDistance = 1870.0942
+		MinimumDistance = 93.504715
 	}
 }
