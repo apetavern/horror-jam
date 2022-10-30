@@ -1,7 +1,7 @@
 ﻿namespace GvarJam.UI.Elements;
 
 [UseTemplate]
-public sealed class Credits : Panel
+public sealed partial class Credits : Panel
 {
 	public static Credits Instance { get; private set; }
 
