@@ -45,7 +45,7 @@ public sealed class PrereqHint : Panel
 
 		var friendlyName = GetFriendlyName( items.First().Key.ToString() );
 
-		label.Text = $"Need {friendlyName} to open this.";
+		label.Text = $"Need {friendlyName}";
 		SetClass( "visible", true );
 	}
 
