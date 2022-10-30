@@ -1,4 +1,6 @@
-﻿namespace GvarJam.UI.Elements;
+﻿using System.Threading.Tasks;
+
+namespace GvarJam.UI.Elements;
 
 [UseTemplate]
 public sealed partial class Credits : Panel
@@ -16,9 +18,16 @@ public sealed partial class Credits : Panel
 		AddClass( "hide" );
 	}
 
+	private async Task Show()
+	{
+		await Task.DelaySeconds( 10f );
+		Log.Trace( "Displaying credits" );
+		Instance.RemoveClass( "hide" );
+	}
+
 	[ClientRpc]
 	public static void DisplayCredits()
 	{
-		Instance.RemoveClass( "hide" );
+		_ = Instance.Show();
 	}
 }

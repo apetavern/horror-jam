@@ -49,6 +49,14 @@
 				HidePlayers = true
 				MonsterCameraToUse = ""
 			},
+			{
+				Type = "ShowCredits"
+				DoorName = ""
+				TargetEntityName = ""
+				InfoTarget = ""
+				TargetAttachment = ""
+				MonsterCameraToUse = ""
+			},
 		]
 	}
 }

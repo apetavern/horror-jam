@@ -29,4 +29,8 @@ public enum EventType
 	/// Play the monster introduction cutscene.
 	/// </summary>
 	PlayMonsterIntroductionCutscene,
+	/// <summary>
+	/// Roll credits
+	/// </summary>
+	ShowCredits
 }

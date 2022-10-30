@@ -121,4 +121,13 @@ public sealed class ObjectiveSystem
 			CheckEndObjectives( pawn );
 		}
 	}
+
+	[ConCmd.Admin( "objective_force" )]
+	public static void ForceObjective( string objectiveName )
+	{
+		var objective = ResourceLibrary.Get<ObjectiveResource>( objectiveName );
+		objective.ObjectiveEndEvents.ForEach( x => x.Invoke( Entity.All.OfType<Pawn>().First() ) );
+
+		Log.Trace( $"Forced objective {objective.ObjectiveName}" );
+	}
 }

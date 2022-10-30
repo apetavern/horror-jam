@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace GvarJam.Objectives;
+﻿namespace GvarJam.Objectives;
 
 /// <summary>
 /// An event to be invoked on pawns when an objective starts or ends.
@@ -125,7 +123,7 @@ public struct ObjectiveEvent
 				// Spawn additional models
 				var sceneModels = new List<AnimatedEntity>();
 
-				if( AdditionalSceneModels is not null )
+				if ( AdditionalSceneModels is not null )
 				{
 					foreach ( var model in AdditionalSceneModels )
 					{
@@ -136,7 +134,7 @@ public struct ObjectiveEvent
 						sceneModels.Add( animEnt );
 					}
 				}
-				
+
 				pawn.StartCutsceneWithPostCleanup( animEntity, sceneModels, TargetAttachment, Duration, InputRequiredToStart, HidePlayers );
 				break;
 			case EventType.SetLighting:
@@ -155,10 +153,13 @@ public struct ObjectiveEvent
 				break;
 			case EventType.PlayMonsterIntroductionCutscene:
 				var camName = MonsterCameraToUse;
-				var corridorToUse = Entity.All.OfType<Entity>().Where( x => x.Name.ToLower().Contains( camName.ToLower() )).OrderByDescending( x => Vector3.DistanceBetween(pawn.Position, x.Position) );
+				var corridorToUse = Entity.All.OfType<Entity>().Where( x => x.Name.ToLower().Contains( camName.ToLower() ) ).OrderByDescending( x => Vector3.DistanceBetween( pawn.Position, x.Position ) );
 
 				pawn.StartManualCutscene( corridorToUse.Last(), MonsterCutsceneDuration, HidePlayers );
 
+				break;
+			case EventType.ShowCredits:
+				UI.Elements.Credits.DisplayCredits( To.Everyone );
 				break;
 		}
 	}
