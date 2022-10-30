@@ -97,7 +97,7 @@ public sealed partial class MountedCamera : AnimatedEntity
 		if ( player is null )
 			return;
 
-		var shouldTrack = Vector3.DistanceBetween( player.Position, Position ) < CameraTrackingReachUnits;
+		var shouldTrack = Vector3.DistanceBetween( player.Position, Position ) < CameraTrackingReachUnits && player.Position.z < Position.z;
 
 		SetAnimParameter( "tracking", shouldTrack );
 
