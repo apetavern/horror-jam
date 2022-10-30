@@ -28,8 +28,8 @@
 				children = 
 				[
 					{
-						_class = "PhysicsMeshFile"
-						name = "cup"
+						_class = "PhysicsHullFile"
+						name = "cup1"
 						parent_bone = ""
 						surface_prop = "default"
 						collision_tags = "solid"
@@ -40,9 +40,11 @@
 						align_origin_y_type = "None"
 						align_origin_z_type = "None"
 						filename = "models/Extra_props/Low/cup.fbx"
-						import_scale = 0.3
-						maxMeshVertices = 0
-						qemError = 0.0
+						import_scale = 0.254
+						faceMergeAngle = 10.0
+						maxHullVertices = 0
+						import_mode = "SingleHull"
+						optimization_algorithm = "QEM"
 						import_filter = 
 						{
 							exclude_by_default = false
@@ -60,7 +62,7 @@
 						filename = "models/Extra_props/Low/cup.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
-						import_scale = 0.3
+						import_scale = 0.254
 						align_origin_x_type = "None"
 						align_origin_y_type = "None"
 						align_origin_z_type = "None"
