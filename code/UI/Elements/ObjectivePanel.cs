@@ -3,7 +3,7 @@
 /// <summary>
 /// The panel to display current objectives to the player.
 /// </summary>
-partial class ObjectivePanel
+public partial class ObjectivePanel
 {
 	/// <summary>
 	/// The only instance of <see cref="ObjectivePanel"/> in existance.

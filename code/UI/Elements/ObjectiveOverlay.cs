@@ -72,7 +72,7 @@ public sealed class ObjectiveOverlay : Panel
 	/// </summary>
 	private void DrawObjectives()
 	{
-		foreach ( var objective in Objectives.Instance.DisplayObjectives )
+		foreach ( var objective in ObjectivePanel.Instance.DisplayObjectives )
 		{
 			foreach ( var endCondition in objective.ObjectiveEndConditions )
 			{

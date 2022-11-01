@@ -310,7 +310,7 @@ public sealed partial class DoorEntity : KeyframeEntity, IUse
 	}
 
 	/// <inheritdoc/>
-	public virtual bool IsUsable( Entity user ) => SpawnSettings.HasFlag( Flags.UseOpens );
+	public bool IsUsable( Entity user ) => SpawnSettings.HasFlag( Flags.UseOpens );
 
 	/// <summary>
 	/// Fired when a player tries to open/close this door with +use, but it's locked
@@ -318,7 +318,7 @@ public sealed partial class DoorEntity : KeyframeEntity, IUse
 	protected Output OnLockedUse { get; set; }
 
 	/// <inheritdoc/>
-	public virtual bool OnUse( Entity user )
+	public bool OnUse( Entity user )
 	{
 		if ( ObjectiveLocked )
 			return false;

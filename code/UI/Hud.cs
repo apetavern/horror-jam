@@ -29,7 +29,7 @@ public sealed partial class Hud : HudEntity<RootPanel>
 		RootPanel.AddChild( new SpaceToStart() );
 		RootPanel.AddChild( new DeathScreen() );
 		RootPanel.AddChild( new NotePanel() );
-		RootPanel.AddChild( new Elements.Objectives() );
+		RootPanel.AddChild( new ObjectivePanel() );
 		RootPanel.AddChild( new ObjectiveOverlay() );
 		RootPanel.AddChild( new PrereqHint() );
 		RootPanel.AddChild( new Credits() );
