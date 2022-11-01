@@ -7,8 +7,14 @@ namespace GvarJam.UI;
 /// </summary>
 public sealed partial class Hud : HudEntity<RootPanel>
 {
+	/// <summary>
+	/// The only instance of <see cref="Hud"/> in existance.
+	/// </summary>
 	public static Hud Instance { get; set; }
 
+	/// <summary>
+	/// Initializes a default instance of <see cref="Hud"/>.
+	/// </summary>
 	public Hud()
 	{
 		if ( !IsClient )
@@ -54,17 +60,5 @@ public sealed partial class Hud : HudEntity<RootPanel>
 		} );
 
 		Instance = this;
-	}
-
-	[ConCmd.Server]
-	public void ShowNote( string contents )
-	{
-		NotePanel.Instance?.ShowNote( contents );
-	}
-
-	[ConCmd.Server]
-	public void HideNote()
-	{
-		NotePanel.Instance?.HideNote();
 	}
 }

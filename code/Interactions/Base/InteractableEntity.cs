@@ -1,6 +1,4 @@
-﻿using GvarJam.UI.Elements;
-
-namespace GvarJam.Interactions;
+﻿namespace GvarJam.Interactions;
 
 /// <summary>
 /// Represents an interactable entity.
@@ -14,9 +12,15 @@ public partial class InteractableEntity : AnimatedEntity, IInteractable
 	[Net]
 	public Entity? User { get; protected set; }
 
+	/// <summary>
+	/// The display name of the <see cref="InteractableEntity"/>.
+	/// </summary>
 	[Net]
 	public string? DisplayName { get; set; } = "Default Name";
 
+	/// <summary>
+	/// Whether or not the <see cref="InteractableEntity"/> has been previously used.
+	/// </summary>
 	[Net]
 	public bool HasBeenUsed { get; set; } = false;
 

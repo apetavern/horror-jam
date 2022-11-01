@@ -5,6 +5,16 @@
 /// </summary>
 public static class GraphicsExtensions
 {
+	/// <summary>
+	/// Draws a hollow circle to the screen.
+	/// </summary>
+	/// <param name="center">The center point of the circle.</param>
+	/// <param name="outer">The thickness of the outline portion.</param>
+	/// <param name="inner">The thickness of the hollow portion.</param>
+	/// <param name="color">The color of the circle.</param>
+	/// <param name="points">The resolution of the circles "roundness"</param>
+	/// <param name="startAngle">The start angle to draw from.</param>
+	/// <param name="endAngle">The end angle to draw to.</param>
 	public static void CircleEx( in Vector2 center, float outer, float inner, Color color, int points = 32, float startAngle = 0f, float endAngle = 360f )
 	{
 		var vertices = new List<Vertex>();

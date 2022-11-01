@@ -64,6 +64,9 @@ public static class SoundManager
 		"spooky_scuttle_long"
 	};
 
+	/// <summary>
+	/// The list of sounds to play when being chased by a monster.
+	/// </summary>
 	private static string[] ChaseSounds =
 	{
 		"chase"

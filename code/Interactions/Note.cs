@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using GvarJam.UI.Elements;
 
 namespace GvarJam.Interactions;
 
@@ -8,20 +8,33 @@ namespace GvarJam.Interactions;
 [Library( "ent_note" )]
 [HammerEntity]
 [EditorModel( "models/clipboard/clipboard_01a.vmdl" )]
-
 public partial class Note : InstantUseItem
 {
+	/// <inheritdoc/>
 	protected override bool DeleteOnUse => false;
 
+	/// <summary>
+	/// The contents of this note.
+	/// </summary>
 	[Net, Property]
 	public string NoteContents { get; set; } = "this is a note";
 
+	/// <summary>
+	/// The time since the note was last used.
+	/// </summary>
 	private TimeSince TimeSinceUsed { get; set; }
 
+	/// <summary>
+	/// The minimum amount of time before you can use the note again.
+	/// </summary>
 	private int TimeBetweenUses { get; set; } = 1;
 
+	/// <summary>
+	/// Whether or not the note is currently open.
+	/// </summary>
 	private bool IsNoteOpen { get; set; }
 
+	/// <inheritdoc/>
 	public override void Spawn()
 	{
 		SetModel( "models/clipboard/clipboard_01a.vmdl" );
@@ -30,6 +43,7 @@ public partial class Note : InstantUseItem
 		DisplayName = "Note";
 	}
 
+	/// <inheritdoc/>
 	protected override void OnUsed( Entity user )
 	{
 		base.OnUsed( user );
@@ -49,7 +63,7 @@ public partial class Note : InstantUseItem
 
 			if ( Host.IsClient )
 			{
-				Hud.Instance?.ShowNote( NoteContents );
+				NotePanel.Instance.ShowNote( NoteContents );
 				Sound.FromScreen( "note_open" );
 			}
 
@@ -61,7 +75,7 @@ public partial class Note : InstantUseItem
 			IsNoteOpen = false;
 
 			if ( Host.IsClient )
-				Hud.Instance?.HideNote();
+				NotePanel.Instance.HideNote();
 			
 
 			if ( Host.IsServer )

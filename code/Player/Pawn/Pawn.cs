@@ -37,30 +37,32 @@ public sealed partial class Pawn : AnimatedEntity
 	public ModelEntity? Helmet { get; private set; } = null;
 
 	/// <summary>
-	/// This is a list of stuff we apply the alpha change to
-	/// ( This gets stored so that we're not constantly allocating )
-	/// </summary>
-	private List<ModelEntity> PlayerAndChildren { get; set; } = null!;
-
-	/// <summary>
-	/// This will block movement vector, crouching, and jumping in
-	/// <see cref="BuildInput(InputBuilder)" />.
+	/// Whether or not movement should be blocked.
 	/// </summary>
 	[Net, Local]
 	public bool BlockMovement { get; set; } = false;
 
 	/// <summary>
-	/// This will block the player from being able to look around.
+	/// Whether or not look rotation should be blocked.
 	/// </summary>
 	[Net, Local]
 	public bool BlockLook { get; set; } = false;
+
+	/// <summary>
+	/// This is a list of stuff we apply the alpha change to.
+	/// <remarks>This gets stored so that we're not constantly allocating.</remarks>
+	/// </summary>
+	private List<ModelEntity> PlayerAndChildren { get; set; } = null!;
 
 	/// <summary>
 	/// The time since the last footstep the pawn made.
 	/// </summary>
 	private TimeSince timeSinceLastFootstep = 0;
 
-	private ModelEntity Ragdoll { get; set; }
+	/// <summary>
+	/// The pawns ragdoll.
+	/// </summary>
+	private ModelEntity? Ragdoll { get; set; }
 
 	/// <inheritdoc/>
 	public override void Spawn()
@@ -81,10 +83,8 @@ public sealed partial class Pawn : AnimatedEntity
 			DefaultSpeed = 100.0f
 		};
 
-		ClothingContainer clothes = new ClothingContainer();
-
+		var clothes = new ClothingContainer();
 		clothes.Clothing.Add( ResourceLibrary.Get<Clothing>( "models/citizen_clothes/shirt/jumpsuit/blue_jumpsuit.clothing" ) );
-
 		clothes.DressEntity( this );
 
 		EnableDrawing = true;
@@ -97,6 +97,7 @@ public sealed partial class Pawn : AnimatedEntity
 		LifeState = LifeState.Alive;
 	}
 
+	/// <inheritdoc/>
 	public override void OnKilled()
 	{
 		BlockLook = true;
@@ -112,8 +113,10 @@ public sealed partial class Pawn : AnimatedEntity
 			child.EnableDrawing = false;
 
 		// Create ragdoll
-		Ragdoll = new ModelEntity( "models/player/playermodel.vmdl" );
-		Ragdoll.Position = Position + Rotation.Forward * 3f;
+		Ragdoll = new ModelEntity( "models/player/playermodel.vmdl" )
+		{
+			Position = Position + Rotation.Forward * 3f
+		};
 		Ragdoll.Tags.Add( "trigger" );
 		Ragdoll.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 
@@ -129,36 +132,6 @@ public sealed partial class Pawn : AnimatedEntity
 		Controller = null;
 
 		LifeState = LifeState.Dead;
-	}
-
-	public void Respawn()
-	{
-		BlockLook = false;
-		BlockMovement = false;
-		LifeState = LifeState.Alive;
-
-		(Camera as PawnCamera)?.GoToFirstPerson();
-
-		// Hide the player
-		EnableDrawing = true;
-
-		// Hide the players children
-		foreach ( var child in Children.OfType<ModelEntity>() )
-			child.EnableDrawing = true;
-
-		// Clear the ragoll
-		Ragdoll?.DeleteAsync( 10 );
-
-		Controller = new MovementController()
-		{
-			SprintSpeed = 170.0f,
-			WalkSpeed = 100.0f,
-			DefaultSpeed = 100.0f
-		};
-
-		SoundManager.ShouldPlayChaseSounds( false );
-
-		Game.Current?.MoveToSpawnpoint( this );
 	}
 
 	/// <inheritdoc/>
@@ -258,6 +231,38 @@ public sealed partial class Pawn : AnimatedEntity
 	}
 
 	/// <summary>
+	/// Respawns the pawn.
+	/// </summary>
+	public void Respawn()
+	{
+		BlockLook = false;
+		BlockMovement = false;
+		LifeState = LifeState.Alive;
+
+		(Camera as PawnCamera)?.GoToFirstPerson();
+
+		// Hide the player
+		EnableDrawing = true;
+
+		// Hide the players children
+		foreach ( var child in Children.OfType<ModelEntity>() )
+			child.EnableDrawing = true;
+
+		// Clear the ragoll
+		Ragdoll?.DeleteAsync( 10 );
+
+		Controller = new MovementController()
+		{
+			SprintSpeed = 170.0f,
+			WalkSpeed = 100.0f,
+			DefaultSpeed = 100.0f
+		};
+
+		SoundManager.ShouldPlayChaseSounds( false );
+		Game.Current?.MoveToSpawnpoint( this );
+	}
+
+	/// <summary>
 	/// Equips the helmet on the player.
 	/// </summary>
 	public void EquipHelmet()
@@ -353,12 +358,13 @@ public sealed partial class Pawn : AnimatedEntity
 		PlayerAndChildren.Add( helmet );
 	}
 
+	/// <summary>
+	/// Utility command to kill the pawn if needed.
+	/// </summary>
 	[ConCmd.Server]
 	public static void Kill()
 	{
-		var pawn = ConsoleSystem.Caller.Pawn as Pawn;
-
-		if ( pawn is null )
+		if ( ConsoleSystem.Caller?.Pawn is not Pawn pawn )
 			return;
 
 		pawn.OnKilled();

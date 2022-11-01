@@ -5,15 +5,26 @@
 /// </summary>
 public static class LightManager
 {
-	static bool shouldLightsFlicker { get; set; }
+	/// <summary>
+	/// Whether or not the lights should be flickering.
+	/// </summary>
+	private static bool ShouldLightsFlicker { get; set; }
+	/// <summary>
+	/// The time in seconds between flicks of the lighting.
+	/// </summary>
+	private static float TimeBetweenFlicker { get; set; } = 1;
+	/// <summary>
+	/// The time since the last light flicker.
+	/// </summary>
+	private static TimeSince TimeSinceLastFlicker { get; set; }
 
-	static float timeBetweenFlicker { get; set; } = 1;
-
-	static TimeSince timeSinceLastFlicker { get; set; }
-
-	static void SetLightState( bool shouldBeOn )
+	/// <summary>
+	/// Sets the state of the lights in the ship.
+	/// </summary>
+	/// <param name="shouldBeOn"></param>
+	public static void SetLightState( bool shouldBeOn )
 	{
-		if ( (Game.Current as HorrorGame).areLightsOn == shouldBeOn )
+		if ( HorrorGame.Current.LightsEnabled == shouldBeOn )
 			return;
 
 		// Dirty hack to change material group of all light models.
@@ -32,7 +43,7 @@ public static class LightManager
 		else
 			Sound.FromScreen( "generator_power_off" );
 
-		(Game.Current as HorrorGame).areLightsOn = shouldBeOn;
+		HorrorGame.Current.LightsEnabled = shouldBeOn;
 	}
 
 	/// <summary>
@@ -52,8 +63,8 @@ public static class LightManager
 	/// <param name="timeBetweenFlick">How fast the light should flash on and off.</param>
 	public static void FlickerLighting( bool shouldFlicker, float timeBetweenFlick )
 	{
-		shouldLightsFlicker = shouldFlicker;
-		timeBetweenFlicker = timeBetweenFlick;
+		ShouldLightsFlicker = shouldFlicker;
+		TimeBetweenFlicker = timeBetweenFlick;
 
 		if ( !shouldFlicker )
 		{
@@ -61,17 +72,20 @@ public static class LightManager
 		}
 	}
 
+	/// <summary>
+	/// Ticks the ships lighting.
+	/// </summary>
 	[Event.Tick.Server]
 	public static void Tick()
 	{
-		if ( shouldLightsFlicker && timeSinceLastFlicker > timeBetweenFlicker )
+		if ( ShouldLightsFlicker && TimeSinceLastFlicker > TimeBetweenFlicker )
 		{
 			var allLights = Entity.All.OfType<PointLightEntity>();
 
 			foreach ( var light in allLights )
 				light.Enabled = !light.Enabled;
 
-			timeSinceLastFlicker = 0;
+			TimeSinceLastFlicker = 0;
 		}
 	}
 }

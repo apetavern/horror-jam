@@ -11,11 +11,20 @@ public sealed partial class CutsceneCamera : CameraMode
 	[Net]
 	public AnimatedEntity? TargetEntity { get; set; }
 
+	/// <summary>
+	/// Any additional entities involved in the cutscene.
+	/// </summary>
 	[Net]
 	public List<AnimatedEntity> AdditionalEntities { get; set; } = new();
 
+	/// <summary>
+	/// Whether or not animations are playing for the entities.
+	/// </summary>
 	public bool AreAnimsPlaying { get; set; }
 
+	/// <summary>
+	/// Whether or not the cutscene is waiting for input from a player.
+	/// </summary>
 	[Net]
 	public bool AwaitingInput { get; set; }
 

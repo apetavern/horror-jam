@@ -5,14 +5,19 @@
 /// </summary>
 public sealed class BatteryLevel : Panel
 {
-	private Panel FramePanel;
+	/// <summary>
+	/// The panel that represents the charge of a battery.
+	/// </summary>
 	private Panel FillPanel;
 
+	/// <summary>
+	/// Initializes a default instance of <see cref="BatteryLevel"/>.
+	/// </summary>
 	public BatteryLevel()
 	{
 		AddClass( "auto-hide" );
 
-		FramePanel = Add.Panel( "frame" );
+		Add.Panel( "frame" );
 		FillPanel = Add.Panel( "fill" );
 	}
 

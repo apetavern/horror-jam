@@ -10,6 +10,9 @@ public sealed class PrereqHint : Panel
 	/// </summary>
 	private readonly Label label;
 
+	/// <summary>
+	/// Initializes a default instance of <see cref="PrereqHint"/>.
+	/// </summary>
 	public PrereqHint()
 	{
 		StyleSheet.Load( "/UI/Hud.scss" );
@@ -18,6 +21,7 @@ public sealed class PrereqHint : Panel
 		AddClass( "auto-hide" );
 	}
 
+	/// <inheritdoc/>
 	public override void Tick()
 	{
 		if ( Local.Pawn is not Pawn pawn )
@@ -39,32 +43,10 @@ public sealed class PrereqHint : Panel
 			return;
 
 		var items = interactable.RequiredItems;
-
 		if ( items.Count == 0 )
 			return;
 
-		var friendlyName = GetFriendlyName( items.First().Key.ToString() );
-
-		label.Text = $"Need {friendlyName}";
+		label.Text = $"Need {items.First().Key.GetItemName()}";
 		SetClass( "visible", true );
-	}
-
-	private string GetFriendlyName( string name )
-	{
-		string res = "";
-
-		for ( int i = 0; i < name.Length; i++ )
-		{
-			char c = name[i];
-
-			if ( char.IsUpper( c ) && i != 0 )
-			{
-				res += " ";
-			}
-
-			res += c;
-		}
-
-		return res;
 	}
 }

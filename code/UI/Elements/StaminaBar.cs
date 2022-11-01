@@ -5,8 +5,14 @@
 /// </summary>
 public sealed class StaminaBar : Panel
 {
+	/// <summary>
+	/// The panel that represents how much stamina the player has.
+	/// </summary>
 	private readonly Panel FillPanel;
 
+	/// <summary>
+	/// Initializes a default instance of <see cref="StaminaBar"/>.
+	/// </summary>
 	public StaminaBar()
 	{
 		AddClass( "auto-hide" );

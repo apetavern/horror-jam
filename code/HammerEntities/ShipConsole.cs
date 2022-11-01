@@ -1,9 +1,12 @@
 ﻿namespace GvarJam.HammerEntities;
 
+/// <summary>
+/// The ship console that will start the detonation of the ship.
+/// </summary>
 [Library( "ent_console" )]
 [HammerEntity]
 [EditorModel( "models/ctrlpanel/ctrlpanel_01a.vmdl" )]
-public partial class ShipConsole : DelayedUseItem
+public sealed partial class ShipConsole : DelayedUseItem
 {
 	/// <inheritdoc/>
 	public override float TimeToUse => 1.0f;
@@ -20,6 +23,9 @@ public partial class ShipConsole : DelayedUseItem
 		{ ItemType.KeycardLvl3, 1 }
 	};
 
+	/// <summary>
+	/// Whether or not the console has been used.
+	/// </summary>
 	[Net, Predicted]
 	private bool Used { get; set; }
 

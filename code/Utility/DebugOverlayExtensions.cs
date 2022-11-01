@@ -2,11 +2,20 @@
 
 namespace GvarJam.Utility;
 
+/// <summary>
+/// Extension class for <see cref="Sandbox.Internal.Globals.DebugOverlay"/>.
+/// </summary>
 public static class DebugOverlayExtensions
 {
-	//
-	// Adapted from https://github.com/Facepunch/sbox-ai-lab/blob/master/code/Draw.cs#L62
-	//
+	/// <summary>
+	/// Draws an arrow to the <see cref="Sandbox.Internal.Globals.DebugOverlay"/>.
+	/// <remarks>From https://github.com/Facepunch/sbox-ai-lab/blob/master/code/Draw.cs#L62.</remarks>
+	/// </summary>
+	/// <param name="DebugOverlay">The debug overlay to draw to.</param>
+	/// <param name="startPos">The starting position of the arrow.</param>
+	/// <param name="endPos">The ending position of the arrow.</param>
+	/// <param name="color">The color to draw the arrow in.</param>
+	/// <param name="duration">The duration for the arrow to last.</param>
 	public static void Arrow( this DebugOverlay DebugOverlay, Vector3 startPos, Vector3 endPos, Color color, float duration = 0f )
 	{
 		float width = 8.0f;

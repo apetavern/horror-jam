@@ -14,6 +14,9 @@ public sealed class InteractionPrompt : WorldPanel
 	/// </summary>
 	private readonly Label label;
 
+	/// <summary>
+	/// Initializes a default instance of <see cref="InteractionPrompt"/>.
+	/// </summary>
 	public InteractionPrompt()
 	{
 		PanelBounds = new Rect( -400, -150, 800, 150 );

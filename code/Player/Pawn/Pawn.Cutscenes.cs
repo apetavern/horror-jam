@@ -1,11 +1,9 @@
-﻿using Sandbox;
-
-namespace GvarJam.Player;
+﻿namespace GvarJam.Player;
 
 partial class Pawn
 {
 	/// <summary>
-	/// Is the player currently in a cutscene? Use <see cref="StartCutscene(AnimatedEntity, string, float)"/> to set this.
+	/// Is the player currently in a cutscene? Use <see cref="StartCutscene(AnimatedEntity, string, float, bool)"/> to set this.
 	/// </summary>
 	[Net]
 	public bool InCutscene { get; private set; } = false;
@@ -20,6 +18,9 @@ partial class Pawn
 	/// </summary>
 	public TimeSince TimeSinceCutsceneStart { get; set; }
 
+	/// <summary>
+	/// The time since a cutscene was ended.
+	/// </summary>
 	public TimeSince TimeSinceCutsceneEnded { get; set; }
 
 	/// <summary>
@@ -27,26 +28,50 @@ partial class Pawn
 	/// </summary>
 	private List<Entity> EntitiesToCleanup { get; set; } = null!;
 
+	/// <summary>
+	/// Whether or not the current cutscene requires input to start.
+	/// </summary>
 	[Net]
 	public bool RequiresInputToStart { get; set; }
 
+	/// <summary>
+	/// Whether or not we are currently waiting for input.
+	/// </summary>
 	[Net]
 	public bool AwaitingCutsceneInput { get; set; }
 
+	/// <summary>
+	/// Whether or not players should be hidden in the cutscene.
+	/// </summary>
 	[Net, Local]
 	private bool HidingPlayers { get; set; }
 
+	/// <summary>
+	/// The time to delay after input is received to start the cutscene.
+	/// </summary>
 	private float DurationAfterDelay { get; set; }
 
+	/// <summary>
+	/// Whether or not we are in a manual cutscene.
+	/// </summary>
 	[Net]
 	private bool IsInManualCutscene { get; set; }
 
+	/// <summary>
+	/// The time since the manual cutscene started.
+	/// </summary>
 	[Net]
 	private TimeSince TimeSinceManualCutsceneStart { get; set; }
 
+	/// <summary>
+	/// The <see cref="Splitizen"/> that was spawned in the manual cutscene.
+	/// </summary>
 	[Net]
-	private Splitizen SplitizenEntity { get; set; }
+	private Splitizen? SplitizenEntity { get; set; }
 
+	/// <summary>
+	/// Whether or not the <see cref="Splitizen"/> has split in the cutscene.
+	/// </summary>
 	[Net]
 	private bool HasSplitizenSplit { get; set; }
 

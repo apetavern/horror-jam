@@ -24,15 +24,28 @@ namespace GvarJam;
 /// </summary>
 public sealed partial class HorrorGame : Game
 {
-	[Net] public bool areLightsOn { get; set; } = true;
+	/// <inheritdoc/>
+	public static new HorrorGame Current => (Game.Current as HorrorGame)!;
+
+	/// <summary>
+	/// Whether or not the lights in the ship are enabled.
+	/// </summary>
+	[Net]
+	public bool LightsEnabled { get; set; } = true;
 	/// <summary>
 	/// The instance of the objective system.
 	/// </summary>
 	private ObjectiveSystem ObjectiveSystem { get; set; } = null!;
 
+	/// <summary>
+	/// Whether or not to show debug information in the game.
+	/// </summary>
 	[ConVar.Replicated( "debug_gvarjam" )]
 	public static bool Debug { get; set; } = false;
 
+	/// <summary>
+	/// Initializes a default instance of <see cref="HorrorGame"/>.
+	/// </summary>
 	public HorrorGame()
 	{
 		if ( !IsServer )
@@ -42,30 +55,39 @@ public sealed partial class HorrorGame : Game
 		ObjectiveSystem = new();
 	}
 
-	/// <summary>
-	/// A client has joined the server. Make them a pawn to play with
-	/// </summary>
+	/// <inheritdoc/>
+	public override void PostLevelLoaded()
+	{
+		base.PostLevelLoaded();
+
+		var corpses = new List<ModelEntity>();
+		var clothes = new ClothingContainer();
+		clothes.Clothing.Add( ResourceLibrary.Get<Clothing>( "models/citizen_clothes/shirt/jumpsuit/blue_jumpsuit.clothing" ) );
+
+		foreach ( var prop in All.OfType<Prop>() )
+		{
+			if ( prop.GetModelName().Contains( "nosplit_blank" ) )
+				corpses.Add( prop );
+		}
+
+		foreach ( var corpse in corpses )
+			clothes.DressEntity( corpse );
+	}
+
+	/// <inheritdoc/>
 	public override void ClientJoined( Client client )
 	{
 		base.ClientJoined( client );
 
-		// Create a pawn for this client to play with
 		var pawn = new Pawn();
 		client.Pawn = pawn;
 
-		// Get all of the spawnpoints
 		var spawnpoints = All.OfType<SpawnPoint>();
-
-		foreach ( PointLightEntity light in Entity.All.OfType<PointLightEntity>() )
-		{
+		foreach ( PointLightEntity light in All.OfType<PointLightEntity>() )
 			light.Components.GetOrCreate<LightCullComponent>();
-		}
 
-		// chose a random one
 		var randomSpawnPoint = spawnpoints.OrderBy( x => Guid.NewGuid() ).FirstOrDefault();
-
-		// if it exists, place the pawn there
-		if ( randomSpawnPoint != null )
+		if ( randomSpawnPoint is not null )
 		{
 			var tx = randomSpawnPoint.Transform;
 			tx.Position += Vector3.Up * 50.0f; // raise it up
@@ -73,301 +95,11 @@ public sealed partial class HorrorGame : Game
 		}
 	}
 
-	/// <summary>
-	/// Debug command to start testing the cutscene camera.
-	/// </summary>
-	[ConCmd.Client( "test_cutscene_camera" )]
-	public static void TestCutsceneCamera()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null || ConsoleSystem.Caller.Pawn is not Pawn pawn )
-			return;
-
-		var nearestCamera = All.OfType<MountedCamera>().GetClosestOrDefault( pawn );
-		if ( nearestCamera is not null )
-			pawn.StartCutscene( nearestCamera, "lens_position" );
-	}
-
-	/// <summary>
-	/// Debug command to stop testing the cutscene camera.
-	/// </summary>
-	[ConCmd.Client( "test_cutscene_end" )]
-	public static void TestCutsceneEnd()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null || ConsoleSystem.Caller.Pawn is not Pawn pawn )
-			return;
-
-		pawn.EndCutscene();
-	}
-
-	/// <summary>
-	/// Debug command to play the "welcome_f" sound.
-	/// </summary>
-	[ConCmd.Admin( "welcomef" )]
-	public static void PlayWelcomeF()
-	{
-		Sound.FromScreen( "welcome_f" );
-	}
-
-	/// <summary>
-	/// Debug command to play the "welcome_m" sound.
-	/// </summary>
-	[ConCmd.Admin( "welcomem" )]
-	public static void PlayWelcomeM()
-	{
-		Sound.FromScreen( "welcome_m" );
-	}
-
-	/// <summary>
-	/// Debug command to spawn a monster model.
-	/// </summary>
-	[ConCmd.Admin( "spawn_monstermodel" )]
-	public static void SpawnMonsterModel()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null )
-			return;
-
-		var pawn = ConsoleSystem.Caller.Pawn;
-
-		AnimatedEntity split = new( "models/enemy/basic_splitizen.vmdl" )
-		{
-			Position = pawn.Position + pawn.Rotation.Forward * 150f,
-			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-		};
-
-		AnimatedEntity mon = new( "models/enemy/monster.vmdl" )
-		{
-			Position = pawn.Position + pawn.Rotation.Forward * 150f,
-			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-		};
-
-		AnimatedEntity mon2 = new( "models/enemy/monster.vmdl" )
-		{
-			Position = pawn.Position + pawn.Rotation.Forward * 150f - pawn.Rotation.Left * 32f,
-			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-		};
-
-		mon.SetParent( split, true );
-		mon2.SetAnimParameter( "idle", true );
-
-		AnimatedEntity cit = new( "models/player/playermodel.vmdl" )
-		{
-			Position = pawn.Position + pawn.Rotation.Forward * 150f,
-			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-		};
-
-		AnimatedEntity cit2 = new( "models/player/playermodel.vmdl" )
-		{
-			Position = pawn.Position + pawn.Rotation.Forward * 150f + pawn.Rotation.Left * 32f,
-			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-		};
-
-		cit.SetMaterialOverride( "models/enemy/materials/citizen/splitizen_skin.vmat" );
-		cit.SetBodyGroup( 0, 1 );
-		cit.SetBodyGroup( 1, 1 );
-		cit.SetBodyGroup( 3, 1 );
-
-		cit2.SetMaterialOverride( Material.Load( "models/enemy/materials/citizen/splitizen_skin_nosplit.vmat" ), "skin" );
-		cit2.SetMaterialOverride( Material.Load( "models/enemy/materials/citizen/splitizen_eyes.vmat" ), "eyes" );
-
-		split.SetParent( cit, true );
-
-		new ModelEntity( "models/citizen_clothes/jacket/longsleeve/models/jeans.vmdl" ).SetParent( cit, true );
-		new ModelEntity( "models/citizen_clothes/jacket/longsleeve/models/jeans.vmdl" ).SetParent( cit2, true );
-
-		cit2.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
-		cit2.UseAnimGraph = false;
-		cit2.PhysicsBody.Velocity = Vector3.Random * 500f;
-		// split.SetAnimParameter( "split", true );
-		// mon.SetAnimParameter( "split", true );
-	}
-
-	/// <summary>
-	/// Debug command to split an existing splitizen
-	/// </summary>
-	[ConCmd.Admin( "splitmonster" )]
-	public static void SpawnMonsterModelSplitting()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null )
-			return;
-
-		var pawn = ConsoleSystem.Caller.Pawn;
-
-		All.OfType<Splitizen>().First().DoSplit();
-
-		/*Splitizen cit = new()
-		{
-			Position = pawn.Position + pawn.Rotation.Forward * 150f,
-			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-		};*/
-		/*
-		AnimatedEntity split = new( "models/enemy/basic_splitizen.vmdl" )
-		{
-			Position = pawn.Position + pawn.Rotation.Forward * 150f,
-			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-		};
-
-		AnimatedEntity mon = new( "models/enemy/monster.vmdl" )
-		{
-			Position = pawn.Position + pawn.Rotation.Forward * 150f,
-			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-		};
-
-		mon.SetParent( split, true );
-
-		AnimatedEntity cit = new( "models/player/playermodel.vmdl" )
-		{
-			Position = pawn.Position + pawn.Rotation.Forward * 150f,
-			Rotation = pawn.Rotation * new Angles( 0, 180, 0 ).ToRotation(),
-		};
-
-		cit.SetMaterialOverride( "models/enemy/materials/citizen/splitizen_skin.vmat" );
-		cit.SetBodyGroup( 0, 1 );
-		cit.SetBodyGroup( 1, 1 );
-		cit.SetBodyGroup( 3, 1 );
-
-		split.SetParent( cit, true );
-
-		new ModelEntity( "models/citizen_clothes/jacket/longsleeve/models/jeans.vmdl" ).SetParent( cit, true );
-
-		split.SetAnimParameter( "split", true );
-		mon.SetAnimParameter( "split", true );*/
-	}
-
+	/// <inheritdoc/>
 	public override void PostCameraSetup( ref CameraSetup camSetup )
 	{
 		base.PostCameraSetup( ref camSetup );
 
 		camSetup.ZNear = 6f;
-	}
-
-	/// <summary>
-	/// Debug command to spawn a helmet.
-	/// </summary>
-	[ConCmd.Admin( "spawn_helmet" )]
-	public static void SpawnHelmet()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null )
-			return;
-
-		_ = new Helmet() { Position = ConsoleSystem.Caller.Pawn.Position };
-	}
-
-	/// <summary>
-	/// Debug command to spawn a Janitor key.
-	/// </summary>
-	[ConCmd.Admin( "spawn_janitorkey" )]
-	public static void SpawnJanitorKey()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null )
-			return;
-
-		_ = new InventoryItem()
-		{
-			ItemType = ItemType.JanitorKey,
-			Position = ConsoleSystem.Caller.Pawn.Position
-		};
-	}
-
-	/// <summary>
-	/// Debug command to spawn a level 1 keycard.
-	/// </summary>
-	[ConCmd.Admin( "spawn_keycardlvl1" )]
-	public static void SpawnKeycardLevel1()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null )
-			return;
-
-		_ = new InventoryItem()
-		{
-			ItemType = ItemType.KeycardLvl1,
-			Position = ConsoleSystem.Caller.Pawn.Position
-		};
-	}
-
-	/// <summary>
-	/// Debug command to spawn a level 2 keycard.
-	/// </summary>
-	[ConCmd.Admin( "spawn_keycardlvl2" )]
-	public static void SpawnKeycardLevel2()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null )
-			return;
-
-		_ = new InventoryItem()
-		{
-			ItemType = ItemType.KeycardLvl2,
-			Position = ConsoleSystem.Caller.Pawn.Position
-		};
-	}
-
-	/// <summary>
-	/// Debug command to spawn a level 3 keycard.
-	/// </summary>
-	[ConCmd.Admin( "spawn_keycardlvl3" )]
-	public static void SpawnKeycardLevel3()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null )
-			return;
-
-		_ = new InventoryItem()
-		{
-			ItemType = ItemType.KeycardLvl3,
-			Position = ConsoleSystem.Caller.Pawn.Position
-		};
-	}
-
-	/// <summary>
-	/// Debug command to spawn a battery.
-	/// </summary>
-	[ConCmd.Admin( "spawn_battery" )]
-	public static void SpawnBatteryItem()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null )
-			return;
-
-		_ = new LampBattery() { Position = ConsoleSystem.Caller.Pawn.Position };
-	}
-
-	/// <summary>
-	/// Debug command to spawn the camera controller.
-	/// </summary>
-	[ConCmd.Admin( "spawn_cameracontroller" )]
-	public static void SpawnCameraController()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null )
-			return;
-
-		_ = new CameraController() { Position = ConsoleSystem.Caller.Pawn.Position };
-	}
-
-	/// <summary>
-	/// Debug command to spawn the storage locker.
-	/// </summary>
-	[ConCmd.Admin( "spawn_storagelocker" )]
-	public static void SpawnStorageLocker()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null )
-			return;
-
-		_ = new StorageLocker() { Position = ConsoleSystem.Caller.Pawn.Position };
-	}
-
-	[ConCmd.Admin( "spawn_monster" )]
-	public static void SpawnMonster()
-	{
-		var monster = new MonsterEntity();
-		Game.Current.MoveToSpawnpoint( monster );
-	}
-
-	/// <summary>
-	/// Debug command to spawn the storage locker.
-	/// </summary>
-	[ConCmd.Admin( "spawn_note" )]
-	public static void SpawnNote()
-	{
-		if ( ConsoleSystem.Caller?.Pawn is null )
-			return;
-
-		_ = new Note() { Position = ConsoleSystem.Caller.Pawn.Position };
 	}
 }

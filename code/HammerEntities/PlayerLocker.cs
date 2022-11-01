@@ -1,10 +1,13 @@
 ﻿namespace GvarJam.HammerEntities;
 
+/// <summary>
+/// A locker that a player can hide in.
+/// </summary>
 [Category( "Environment" )]
 [Library( "ent_playerlocker" )]
 [HammerEntity]
 [EditorModel( "models/slimplayerlocker/slimplayerlocker.vmdl" )]
-public partial class PlayerLocker : LockedUseItem
+public sealed partial class PlayerLocker : LockedUseItem
 {
 	/// <summary>
 	/// The time since this controller was interacted with.

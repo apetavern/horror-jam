@@ -1,29 +1,31 @@
 ﻿namespace GvarJam.UI.Elements;
 
 /// <summary>
-/// A black screen with space to start on it.
+/// A blank screen with space to start on it.
 /// </summary>
 public sealed class SpaceToStart : Panel
 {
-	public Panel? Overlay { get; set; }
+	/// <summary>
+	/// The overlay to display to the player.
+	/// </summary>
+	public Panel Overlay { get; set; }
 
+	/// <summary>
+	/// Initializes a default instance of <see cref="SpaceToStart"/>.
+	/// </summary>
 	public SpaceToStart()
 	{
 		Overlay = Add.Panel( "Overlay" );
 
 		Overlay.Add.Label( "PRESS" );
 		var image = Overlay.Add.Image();
-		image.Texture = GetInputHint( InputButton.Jump );
+		image.Texture = InputButton.Jump.GetInputGlpyh( GlyphStyle.Dark );
 		Overlay.Add.Label( "TO START" );
 
 		Overlay.SetClass( "Display", true );
 	}
 
-	private Texture GetInputHint( InputButton button )
-	{
-		return Input.GetGlyph( button, InputGlyphSize.Medium, GlyphStyle.Dark );
-	}
-
+	/// <inheritdoc/>
 	public override void Tick()
 	{
 		base.Tick();

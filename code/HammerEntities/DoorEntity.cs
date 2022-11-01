@@ -12,7 +12,7 @@ namespace GvarJam.HammerEntities;
 [DoorHelper( "movedir", "movedir_islocal", "movedir_type", "distance" )]
 [RenderFields, VisGroup( VisGroup.Dynamic )]
 [Title( "Door" ), Category( "Gameplay" ), Icon( "door_front" )]
-public partial class DoorEntity : KeyframeEntity, IUse
+public sealed partial class DoorEntity : KeyframeEntity, IUse
 {
 	/// <summary>
 	/// The doors flags.

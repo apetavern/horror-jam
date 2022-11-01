@@ -1,4 +1,6 @@
-﻿namespace GvarJam.Objectives;
+﻿using GvarJam.UI.Elements;
+
+namespace GvarJam.Objectives;
 
 //
 // Objectives are server-side objects that remain the same
@@ -32,6 +34,9 @@ public sealed class ObjectiveSystem
 	/// </summary>
 	public List<Objective> ActiveObjectives { get; } = new();
 
+	/// <summary>
+	/// Initializes a default instance of <see cref="ObjectiveSystem"/>.
+	/// </summary>
 	public ObjectiveSystem()
 	{
 		Current = this;
@@ -60,7 +65,7 @@ public sealed class ObjectiveSystem
 				ActiveObjectives.Add( objective );
 				PendingObjectives.Remove( objective );
 
-				UI.Elements.Objectives.RpcAddObjective( To.Everyone, objective.Resource );
+				ObjectivePanel.RpcAddObjective( To.Everyone, objective.Resource );
 			}
 		}
 	}
@@ -73,16 +78,12 @@ public sealed class ObjectiveSystem
 	{
 		foreach ( var objective in ActiveObjectives.ToList() )
 		{
-			if ( objective.CheckEnd( pawn ) )
-			{
-				Log.Trace( $"End objective {objective}" );
+			if ( !objective.CheckEnd( pawn ) )
+				continue;
 
-				objective.InvokeEndEvents( pawn );
-
-				ActiveObjectives.Remove( objective );
-
-				UI.Elements.Objectives.RpcRemoveObjective( To.Everyone, objective.Resource );
-			}
+			objective.InvokeEndEvents( pawn );
+			ActiveObjectives.Remove( objective );
+			ObjectivePanel.RpcRemoveObjective( To.Everyone, objective.Resource );
 		}
 	}
 
@@ -103,10 +104,9 @@ public sealed class ObjectiveSystem
 	[Event.Tick.Server]
 	private void OnServerTick()
 	{
-		int line = 5;
-
 		if ( HorrorGame.Debug )
 		{
+			var line = 5;
 			DebugOverlay.ScreenText( $"Objectives:", line++ );
 			foreach ( var objective in ActiveObjectives )
 				PrintObjective( objective, ref line );
@@ -120,14 +120,5 @@ public sealed class ObjectiveSystem
 			CheckStartObjectives( pawn );
 			CheckEndObjectives( pawn );
 		}
-	}
-
-	[ConCmd.Admin( "objective_force" )]
-	public static void ForceObjective( string objectiveName )
-	{
-		var objective = ResourceLibrary.Get<ObjectiveResource>( objectiveName );
-		objective.ObjectiveEndEvents.ForEach( x => x.Invoke( Entity.All.OfType<Pawn>().First() ) );
-
-		Log.Trace( $"Forced objective {objective.ObjectiveName}" );
 	}
 }

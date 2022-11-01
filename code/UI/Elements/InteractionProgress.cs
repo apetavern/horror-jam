@@ -5,8 +5,14 @@
 /// </summary>
 public sealed class InteractionProgress : Panel
 {
+	/// <summary>
+	/// The thickness of the outer circle.
+	/// </summary>
 	private const float Thickness = 4f;
 
+	/// <summary>
+	/// Initializes a default instance of <see cref="InteractionProgress"/>.
+	/// </summary>
 	public InteractionProgress()
 	{
 		AddClass( "auto-hide" );
