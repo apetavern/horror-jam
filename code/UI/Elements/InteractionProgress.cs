@@ -21,7 +21,7 @@ public sealed class InteractionProgress : Panel
 	/// <inheritdoc/>
 	public override void Tick()
 	{
-		if ( Local.Pawn is not Pawn player )
+		if ( Game.LocalPawn is not Pawn player )
 			return;
 
 		SetClass( "visible", player.IsInteracting && player.InteractedEntity is DelayedUseItem item );
@@ -32,7 +32,7 @@ public sealed class InteractionProgress : Panel
 	{
 		base.DrawBackground( ref state );
 
-		if ( Local.Pawn is not Pawn player )
+		if ( Game.LocalPawn is not Pawn player )
 			return;
 
 		if ( !player.IsInteracting )

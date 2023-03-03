@@ -12,7 +12,7 @@ global using Sandbox;
 global using Sandbox.Component;
 global using Sandbox.UI;
 global using Sandbox.UI.Construct;
-global using SandboxEditor;
+global using Editor;
 global using System;
 global using System.Collections.Generic;
 global using System.Linq;
@@ -22,10 +22,10 @@ namespace GvarJam;
 /// <summary>
 /// The game class.
 /// </summary>
-public sealed partial class HorrorGame : Game
+public sealed partial class HorrorGame : GameManager
 {
 	/// <inheritdoc/>
-	public static new HorrorGame Current => (Game.Current as HorrorGame)!;
+	public static new HorrorGame Current => (GameManager.Current as HorrorGame)!;
 
 	/// <summary>
 	/// Whether or not the lights in the ship are enabled.
@@ -48,7 +48,7 @@ public sealed partial class HorrorGame : Game
 	/// </summary>
 	public HorrorGame()
 	{
-		if ( !IsServer )
+		if ( !Game.IsServer )
 			return;
 
 		_ = new Hud();
@@ -75,7 +75,7 @@ public sealed partial class HorrorGame : Game
 	}
 
 	/// <inheritdoc/>
-	public override void ClientJoined( Client client )
+	public override void ClientJoined( IClient client )
 	{
 		base.ClientJoined( client );
 
@@ -93,13 +93,5 @@ public sealed partial class HorrorGame : Game
 			tx.Position += Vector3.Up * 50.0f; // raise it up
 			pawn.Transform = tx;
 		}
-	}
-
-	/// <inheritdoc/>
-	public override void PostCameraSetup( ref CameraSetup camSetup )
-	{
-		base.PostCameraSetup( ref camSetup );
-
-		camSetup.ZNear = 6f;
 	}
 }

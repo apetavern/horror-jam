@@ -47,7 +47,7 @@ public sealed class ObjectiveOverlay : Panel
 		var col = color ?? Color.White;
 
 		var position = entity.WorldSpaceBounds.Center;
-		var distance = CurrentView.Position.Distance( position );
+		var distance = Camera.Position.Distance( position );
 		var alpha = distance.LerpInverse( MaxDistance, 128f );
 
 		var screenPos = ((Vector2)position.ToScreen()) * Screen.Size;
@@ -88,16 +88,16 @@ public sealed class ObjectiveOverlay : Panel
 						Entity.FindByName( endCondition.InteractedName ),
 
 					ObjectiveEndCondition.ConditionType.InteractWithType =>
-						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).GetClosestOrDefault( Local.Pawn ),
+						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).GetClosestOrDefault( Game.LocalPawn ),
 
 					ObjectiveEndCondition.ConditionType.InteractedWithType =>
-						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).GetClosestOrDefault( Local.Pawn ),
+						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).GetClosestOrDefault( Game.LocalPawn ),
 
 					ObjectiveEndCondition.ConditionType.PlayerEnteredTrigger =>
 						Entity.FindByName( endCondition.TriggerName ),
 
 					ObjectiveEndCondition.ConditionType.PlayerHasItem =>
-						Entity.All.OfType<InventoryItem>().Where( x => x.ItemType.ToString() == endCondition.ItemType ).GetClosestOrDefault( Local.Pawn ),
+						Entity.All.OfType<InventoryItem>().Where( x => x.ItemType.ToString() == endCondition.ItemType ).GetClosestOrDefault( Game.LocalPawn ),
 
 					ObjectiveEndCondition.ConditionType.Timer =>
 						null,
@@ -120,7 +120,7 @@ public sealed class ObjectiveOverlay : Panel
 	private void DrawNotes()
 	{
 		foreach ( var note in Entity.All.OfType<Note>()
-			.Where( x => x.WorldSpaceBounds.Center.Distance( CurrentView.Position ) < MaxDistance ) )
+			.Where( x => x.WorldSpaceBounds.Center.Distance( Camera.Position ) < MaxDistance ) )
 		{
 			DrawIcon( "description", note, NoteColor );
 		}

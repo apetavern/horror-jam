@@ -51,7 +51,7 @@ public sealed class LightCullComponent : EntityComponent
 			return;
 		}
 
-		if ( Light != null && Local.Pawn != null ) 
+		if ( Light != null && Game.LocalPawn != null ) 
 		{
 			viewcam = null;
 			foreach ( var cam in cams )
@@ -60,15 +60,15 @@ public sealed class LightCullComponent : EntityComponent
 					viewcam = cam;
 			}
 
-			float dist = Vector3.DistanceBetween( Light.Position, Local.Pawn.Position + Local.Pawn.Rotation.Forward * 128f );
-			bool UnShadowed = Trace.Ray( Light.Position, Local.Pawn.Position + Vector3.Up * 45f ).Ignore( Local.Pawn ).Run().Hit 
-							&& Trace.Ray( Light.Position, (Local.Pawn as Pawn)!.EyePosition ).Ignore( Local.Pawn ).Run().Hit;
+			float dist = Vector3.DistanceBetween( Light.Position, Game.LocalPawn.Position + Game.LocalPawn.Rotation.Forward * 128f );
+			bool UnShadowed = Trace.Ray( Light.Position, Game.LocalPawn.Position + Vector3.Up * 45f ).Ignore( Game.LocalPawn ).Run().Hit 
+							&& Trace.Ray( Light.Position, (Game.LocalPawn as Pawn)!.EyePosition ).Ignore( Game.LocalPawn ).Run().Hit;
 
 			if ( viewcam != null )
 			{
-				UnShadowed = Trace.Ray( Light.Position, Local.Pawn.Position + Vector3.Up * 45f ).Ignore( Local.Pawn ).Run().Hit
-							&& Trace.Ray( Light.Position, (Local.Pawn as Pawn)!.EyePosition ).Ignore( Local.Pawn ).Run().Hit && 
-							Trace.Ray( Light.Position, viewcam.Position - Vector3.Up * 45f ).Ignore( Local.Pawn ).Run().Hit;
+				UnShadowed = Trace.Ray( Light.Position, Game.LocalPawn.Position + Vector3.Up * 45f ).Ignore( Game.LocalPawn ).Run().Hit
+							&& Trace.Ray( Light.Position, (Game.LocalPawn as Pawn)!.EyePosition ).Ignore( Game.LocalPawn ).Run().Hit && 
+							Trace.Ray( Light.Position, viewcam.Position - Vector3.Up * 45f ).Ignore( Game.LocalPawn ).Run().Hit;
 			}
 
 			if ( UnShadowed )

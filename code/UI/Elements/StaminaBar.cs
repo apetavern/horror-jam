@@ -33,7 +33,7 @@ public sealed class StaminaBar : Panel
 	{
 		base.Tick();
 
-		if ( Local.Pawn is not Pawn { Controller: MovementController controller } )
+		if ( Game.LocalPawn is not Pawn { Controller: MovementController controller } )
 			return;
 
 		// LampPower is in range 0 .. 1

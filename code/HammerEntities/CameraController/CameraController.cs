@@ -44,7 +44,7 @@ public sealed partial class CameraController : LockedUseItem
 			var cameras = FindUsableMountedCameras();
 			TargetCamera = cameras[CurrentCameraIndex];
 			TargetCamera.IsBeingViewed = true;
-			if ( IsClient )
+			if ( Game.IsClient )
 				zoneName.UpdateName( TargetCamera.ZoneName.ToUpper() );
 
 			Sound.FromEntity( "joystick_click", this );
@@ -96,7 +96,7 @@ public sealed partial class CameraController : LockedUseItem
 	}
 
 	/// <inheritdoc/>
-	public override void Simulate( Client cl )
+	public override void Simulate( IClient cl )
 	{
 
 		if ( User is Pawn player && GetAttachment( "rhand_attach" ).HasValue )
@@ -126,7 +126,7 @@ public sealed partial class CameraController : LockedUseItem
 		{
 			SetAnimParameter( "right", true );
 
-			if ( Host.IsServer )
+			if ( Game.IsServer )
 				return;
 
 			if ( CurrentCameraIndex + 1 > NumberOfUsableCameras )
@@ -141,7 +141,7 @@ public sealed partial class CameraController : LockedUseItem
 		{
 			SetAnimParameter( "left", true );
 
-			if ( Host.IsServer )
+			if ( Game.IsServer )
 				return;
 
 			if ( CurrentCameraIndex - 1 == -1 )
@@ -175,7 +175,7 @@ public sealed partial class CameraController : LockedUseItem
 		if ( Screen is not null )
 			Screen.RenderColor = Color.Transparent;
 
-		if ( IsClient )
+		if ( Game.IsClient )
 		{
 			var attachment = GetAttachment( "zonename" );
 
@@ -199,14 +199,15 @@ public sealed partial class CameraController : LockedUseItem
 			player.SetAnimParameter( "b_IKleft", true );
 		}
 
-		player.SetAnimLookAt( "aim_head", Position + Vector3.Up * 68f );
-		player.SetAnimLookAt( "aim_eyes", Position + Vector3.Up * 68f );
+		// NOTE(gio): find out what this used to be
+		// player.SetAnimLookAt( "aim_head", Position + Vector3.Up * 68f );
+		// player.SetAnimLookAt( "aim_eyes", Position + Vector3.Up * 68f );
 
 		SnapPlayerToUsePosition( player, 45 );
 
 		TimeSinceUsed = 0;
 
-		if ( IsServer )
+		if ( Game.IsServer )
 		{
 			// Set the user
 			User = player;
@@ -214,7 +215,7 @@ public sealed partial class CameraController : LockedUseItem
 			return;
 		}	
 
-		scenePortal = new ScenePortal( Map.Scene, Model.Load( "models/cameraconsole/console_screen.vmdl" ), Transform );
+		scenePortal = new ScenePortal( Game.SceneWorld, Model.Load( "models/cameraconsole/console_screen.vmdl" ), Transform );
 	}
 
 	/// <inheritdoc/>
@@ -232,7 +233,7 @@ public sealed partial class CameraController : LockedUseItem
 			ReleasePlayer( player );
 		}
 
-		if ( IsClient )
+		if ( Game.IsClient )
 		{
 			scenePortal?.Delete();
 			scenePortal = null;
@@ -276,10 +277,10 @@ public sealed partial class CameraController : LockedUseItem
 	/// <summary>
 	/// Updates the scene portal in the camera controllers screen.
 	/// </summary>
-	[Event.Frame]
+	[Event.Client.Frame]
 	private void OnFrame()
 	{
-		if ( !IsClient )
+		if ( !Game.IsClient )
 			return;
 
 		if ( scenePortal == null || !scenePortal.IsValid )

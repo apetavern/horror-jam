@@ -17,7 +17,7 @@ public sealed partial class Hud : HudEntity<RootPanel>
 	/// </summary>
 	public Hud()
 	{
-		if ( !IsClient )
+		if ( !Game.IsClient )
 			return;
 
 		RootPanel.StyleSheet.Load( "/UI/Hud.scss" );
@@ -37,7 +37,7 @@ public sealed partial class Hud : HudEntity<RootPanel>
 
 		RootPanel.BindClass( "in-cutscene", () =>
 		{
-			if ( Local.Pawn is Pawn pawn )
+			if ( Game.LocalPawn is Pawn pawn )
 				return pawn.InCutscene;
 
 			return false;
@@ -45,7 +45,7 @@ public sealed partial class Hud : HudEntity<RootPanel>
 
 		RootPanel.BindClass( "has-helmet", () =>
 		{
-			if ( Local.Pawn is Pawn pawn )
+			if ( Game.LocalPawn is Pawn pawn )
 				return pawn.Helmet.IsValid();
 
 			return false;
@@ -53,7 +53,7 @@ public sealed partial class Hud : HudEntity<RootPanel>
 
 		RootPanel.BindClass( "player-dead", () =>
 		{
-			if ( Local.Pawn is Pawn pawn )
+			if ( Game.LocalPawn is Pawn pawn )
 				return pawn.LifeState == LifeState.Dead;
 
 			return false;

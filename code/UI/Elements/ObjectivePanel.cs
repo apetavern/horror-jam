@@ -41,7 +41,7 @@ public partial class ObjectivePanel
 
 		if ( Instance.TimeSinceLastObjective > 3 )
 		{
-			_ = new NewObjectivePanel( Local.Hud, resource );
+			_ = new NewObjectivePanel( Game.RootPanel, resource );
 			Instance.TimeSinceLastObjective = 0;
 		}
 

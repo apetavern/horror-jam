@@ -27,7 +27,7 @@ public sealed partial class PlayerLocker : LockedUseItem
 	}
 
 	/// <inheritdoc/>
-	public override void Simulate( Client cl )
+	public override void Simulate( IClient cl )
 	{
 		if ( TimeSinceUsed < 1 )
 			return;
@@ -57,7 +57,7 @@ public sealed partial class PlayerLocker : LockedUseItem
 		
 		TimeSinceUsed = 0;
 
-		if ( IsServer )
+		if ( Game.IsServer )
 			User = player;
 	}
 

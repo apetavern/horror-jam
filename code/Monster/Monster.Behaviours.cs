@@ -240,7 +240,7 @@ partial class MonsterEntity
 	[Events.Monster.Sound]
 	public void OnSound( Vector3 position, float volume )
 	{
-		Host.AssertServer();
+		Game.AssertServer();
 
 		float distance = position.Distance( Position ) * (1.0f - volume);
 

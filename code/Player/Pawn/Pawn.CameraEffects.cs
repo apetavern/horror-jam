@@ -65,14 +65,14 @@ partial class Pawn
 	/// </summary>
 	private float FOV { get; set; }
 
-	/// <inheritdoc/>
-	public override void PostCameraSetup( ref CameraSetup camSetup )
+	[Event.Client.PostCamera]
+	public void PostCameraSetup()
 	{
 		var speed = Velocity.Length.LerpInverse( MinSpeed, MaxSpeed );
-		var forwardSpeed = Velocity.Normal.Dot( camSetup.Rotation.Forward );
+		var forwardSpeed = Velocity.Normal.Dot( Sandbox.Camera.Rotation.Forward );
 
-		var left = camSetup.Rotation.Left;
-		var up = camSetup.Rotation.Up;
+		var left = Sandbox.Camera.Rotation.Left;
+		var up = Sandbox.Camera.Rotation.Up;
 
 		//
 		// Camera bob (up/down)
@@ -83,7 +83,7 @@ partial class Pawn
 		//
 		// Camera roll
 		//
-		var targetRoll = Velocity.Dot( camSetup.Rotation.Right ) / 180f;
+		var targetRoll = Velocity.Dot( Sandbox.Camera.Rotation.Right ) / 180f;
 		targetRoll += MathF.Sin( Bobbing / 2f ) * LeanDegrees;
 		targetRoll = targetRoll.Clamp( -LeanMax, LeanMax );
 		Roll = Roll.LerpTo( targetRoll, Time.Delta * LeanSmooth );
@@ -98,15 +98,15 @@ partial class Pawn
 		//
 		float x = MathF.Sin( Bobbing * 0.5f ) * speed;
 		float y = MathF.Sin( Bobbing ) * speed;
-		camSetup.Position += left * x;
-		camSetup.Position += up * y;
-		camSetup.Rotation *= Rotation.From( 0, 0, Roll );
-		camSetup.FieldOfView += FOV;
+		Sandbox.Camera.Position += left * x;
+		Sandbox.Camera.Position += up * y;
+		Sandbox.Camera.Rotation *= Rotation.From( 0, 0, Roll );
+		Sandbox.Camera.FieldOfView += FOV;
 
 		var tx = new PanelTransform();
 		tx.AddTranslate( x, y );
 
-		Local.Hud.Style.Transform = tx;
-		Local.Hud.Style.Dirty();
+		Game.RootPanel.Style.Transform = tx;
+		Game.RootPanel.Style.Dirty();
 	}
 }
