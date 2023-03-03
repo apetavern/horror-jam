@@ -29,8 +29,8 @@ public sealed partial class Pawn : CompatEntity
 	/// <summary>
 	/// The active controller for the pawn.
 	/// </summary>
-	[Net]
-	public MovementController? Controller { get; set; } = null;
+	[BindComponent]
+	public MovementController Controller { get; }
 
 	/// <summary>
 	/// The pawns helmet.
@@ -77,8 +77,8 @@ public sealed partial class Pawn : CompatEntity
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
 		Components.Create<PawnAnimator>();
+		Components.Create<MovementController>();
 		Camera = new PawnCamera();
-		Controller = new MovementController() { SprintSpeed = 170.0f, WalkSpeed = 100.0f, DefaultSpeed = 100.0f };
 
 		var clothes = new ClothingContainer();
 		clothes.Clothing.Add(
@@ -124,8 +124,6 @@ public sealed partial class Pawn : CompatEntity
 		var clothes = new ModelEntity( "models/citizen_clothes/shirt/jumpsuit/models/blue_jumpsuit.vmdl" );
 		clothes.SetParent( Ragdoll, true );
 
-		Controller = null;
-
 		LifeState = LifeState.Dead;
 	}
 
@@ -146,6 +144,8 @@ public sealed partial class Pawn : CompatEntity
 	public override void Simulate( IClient cl )
 	{
 		base.Simulate( cl );
+		
+		SimulateRotation();
 
 		if ( LifeState == LifeState.Dead )
 		{
@@ -168,11 +168,13 @@ public sealed partial class Pawn : CompatEntity
 		SimulateCutscenes();
 
 		var rotation = Rotation;
-		Controller?.Simulate();
+		Controller?.Simulate( cl );
 		if ( IsInteracting || BlockMovement )
 			Rotation = rotation;
 		Animator?.Simulate();
 
+		EyeLocalPosition = Vector3.Up * (64f * Scale);
+		
 		if ( HorrorGame.Debug )
 		{
 			var i = 0;
@@ -189,8 +191,8 @@ public sealed partial class Pawn : CompatEntity
 	{
 		base.FrameSimulate( cl );
 
+		SimulateRotation();
 		var rotation = Rotation;
-		Controller?.FrameSimulate();
 		if ( IsInteracting || BlockMovement )
 			Rotation = rotation;
 		Camera?.Update();
@@ -247,8 +249,6 @@ public sealed partial class Pawn : CompatEntity
 
 		// Clear the ragoll
 		Ragdoll?.DeleteAsync( 10 );
-
-		Controller = new MovementController() { SprintSpeed = 170.0f, WalkSpeed = 100.0f, DefaultSpeed = 100.0f };
 
 		SoundManager.ShouldPlayChaseSounds( false );
 		HorrorGame.Current?.MoveToSpawnpoint( this );

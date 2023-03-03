@@ -33,7 +33,8 @@ partial class Pawn
 	/// <summary>
 	/// The maximum speed the pawn can move at.
 	/// </summary>
-	private float MaxSpeed => Controller?.SprintSpeed ?? 320f;
+	// TODO(gio): fix sprint speed
+	private float MaxSpeed => 320f;
 
 	/// <summary>
 	/// Unknown, FIXME.

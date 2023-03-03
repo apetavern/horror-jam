@@ -76,7 +76,7 @@ public sealed partial class PawnCamera : CameraComponent
 		Camera.Position = Camera.Position.LerpTo( targetPos, modeSwitchProgress * ModeSwitchSpeed );
 		Camera.Rotation = targetRot;
 		Camera.FirstPersonViewer = null;
-		Camera.FieldOfView = 90;
+		Camera.FieldOfView = Screen.CreateVerticalFieldOfView( 90 );
 	}
 
 	/// <summary>
@@ -153,8 +153,8 @@ public sealed partial class PawnCamera : CameraComponent
 	private Vector3 UpdateThirdPerson( Pawn pawn )
 	{
 		var targetPos = pawn.EyePosition
-			+ pawn.EyeRotation.Backward * 64
-			+ pawn.EyeRotation.Right * 16;
+		                + pawn.EyeRotation.Backward * 64
+		                + pawn.EyeRotation.Right * 16;
 
 		var tr = Trace.Ray( pawn.EyePosition, targetPos ).Ignore( pawn ).WithoutTags( "camignore" ).Radius( 16f ).Run();
 		targetPos = tr.EndPosition;
@@ -221,8 +221,8 @@ public sealed partial class PawnCamera : CameraComponent
 	private Vector3 GetAdditiveNoise()
 	{
 		var noise = GetNoise( 0.1f, 8f ) * Camera.Rotation.Up
-				  + GetNoise( 5.5f, 1f ) * Camera.Rotation.Forward
-				  + GetNoise( 16f, 8f ) * Camera.Rotation.Right;
+		            + GetNoise( 5.5f, 1f ) * Camera.Rotation.Forward
+		            + GetNoise( 16f, 8f ) * Camera.Rotation.Right;
 
 		return noise * 4f;
 	}
