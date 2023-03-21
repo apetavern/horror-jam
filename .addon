@@ -34,7 +34,6 @@
     "GameCategory": "Mystery",
     "ControlModes": {
       "Keyboard": true,
-      "VR": true,
       "Gamepad": true
     },
     "Compiler": {
@@ -44,6 +43,9 @@
       "Nullables": true
     },
     "ParentPackage": "",
-    "CsProjName": ""
+    "CsProjName": "",
+    "Summary": "Ape Tavern\u0027s submission for the Gvarados Halloween Jam 2022.",
+    "Description": "Ape Tavern\u0027s submission for the Gvarados Halloween Jam 2022.\n\nCONTROLS:\nSHIFT- Sprint\nF - Toggle flashlight\nE (Hold) - Interact\nWASD - Move\nSpace - Jump\nC - Change perspective\nCTRL - Crouch",
+    "Public": false
   }
 }
