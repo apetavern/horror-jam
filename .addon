@@ -23,7 +23,7 @@
     "MaxPlayers": 1,
     "MinPlayers": 1,
     "GameNetworkType": "Multiplayer",
-    "MapSelect": "Official",
+    "MapSelect": "Hidden",
     "MapList": [
       "apetavern.horror_jam_map"
     ],
