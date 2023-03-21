@@ -19,12 +19,11 @@
   ],
   "HasCode": true,
   "CodePath": "/code/",
-  "RootNamespace": null,
   "Metadata": {
     "MaxPlayers": 1,
     "MinPlayers": 1,
     "GameNetworkType": "Multiplayer",
-    "MapSelect": "Official",
+    "MapSelect": "Hidden",
     "MapList": [
       "apetavern.horror_jam_map"
     ],
@@ -44,6 +43,7 @@
       "NoWarn": "1701;1702;1591;",
       "Nullables": true
     },
-    "ParentPackage": ""
+    "ParentPackage": "",
+    "CsProjName": ""
   }
 }

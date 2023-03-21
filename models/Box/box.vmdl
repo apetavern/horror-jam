@@ -28,28 +28,12 @@
 				children = 
 				[
 					{
-						_class = "PhysicsHullFile"
-						name = "box_low1"
+						_class = "PhysicsHullFromRender"
 						parent_bone = ""
 						surface_prop = "default"
 						collision_tags = "solid"
-						recenter_on_parent_bone = false
-						offset_origin = [ 0.0, 0.0, 0.0 ]
-						offset_angles = [ 0.0, 0.0, 0.0 ]
-						align_origin_x_type = "None"
-						align_origin_y_type = "None"
-						align_origin_z_type = "None"
-						filename = "models/Box/box_low.fbx"
-						import_scale = 0.18
-						faceMergeAngle = 10.0
-						maxHullVertices = 0
-						import_mode = "SingleHull"
-						optimization_algorithm = "QEM"
-						import_filter = 
-						{
-							exclude_by_default = false
-							exception_list = [  ]
-						}
+						faceMergeAngle = 20.0
+						maxHullVertices = 8
 					},
 				]
 			},
