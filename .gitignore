@@ -402,3 +402,4 @@ gvar_jam.csproj
 *.vanmgraph_c
 *.*_c
 !*.objctv_c
+maps/_bakeresourcecache/
