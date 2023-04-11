@@ -56,9 +56,27 @@ public sealed partial class MovementController : EntityComponent<Pawn>
 
 	bool Grounded => Entity.GroundEntity.IsValid();
 
-	public void Simulate( IClient cl )
+	public void Simulate( IClient _ )
 	{
 		ControllerEvents.Clear();
+
+		if ( Input.Pressed( InputButton.Run ) && Stamina > MinimumStaminaForSprint )
+			IsSprinting = true;
+
+		if ( Input.Released( InputButton.Run ) || Stamina <= 0f )
+			IsSprinting = false;
+
+		if ( IsSprinting && !Entity.Velocity.IsNearZeroLength )
+		{
+			Stamina -= StaminaReductionRate * Time.Delta;
+			timeSinceStaminaUsed = 0;
+		}
+		else if ( (!IsSprinting || Entity.Velocity.IsNearZeroLength) && timeSinceStaminaUsed > StaminaReplenishDelay )
+		{
+			Stamina += StaminaReplenishRate * Time.Delta;
+		}
+
+		Stamina = Stamina.Clamp( 0, 1 );
 
 		var movement = Entity.InputDirection.Normal;
 		var angles = Camera.Rotation.Angles().WithPitch( 0 );
@@ -74,13 +92,12 @@ public sealed partial class MovementController : EntityComponent<Pawn>
 				AddEvent( "grounded" );
 			}
 
-			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, wishSpeed,
-				200.0f * (Input.Down( InputButton.Run ) ? 2.5f : 1f), 100f );
+			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, wishSpeed, 500f, 7.5f );
 			Entity.Velocity = ApplyFriction( Entity.Velocity, 4.0f );
 		}
 		else
 		{
-			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, wishSpeed, 100, 100f );
+			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, wishSpeed, 500f, 20f );
 			Entity.Velocity += Vector3.Down * Gravity * Time.Delta;
 		}
 
@@ -182,9 +199,9 @@ public sealed partial class MovementController : EntityComponent<Pawn>
 			return 0;
 
 		if ( Input.Down( InputButton.Run ) && IsSprinting ) return 170f;
-		if ( Input.Down( InputButton.Walk ) ) return 100f;
+		if ( Input.Down( InputButton.Walk ) ) return 125f;
 
-		return 100f;
+		return 125f;
 	}
 
 	Vector3 ApplyJump( Vector3 input, string jumpType )
