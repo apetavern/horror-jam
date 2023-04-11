@@ -52,7 +52,7 @@ public sealed partial class MovementController : EntityComponent<Pawn>
 	public int JumpSpeed => 300;
 	public float Gravity => 800f;
 
-	HashSet<string> ControllerEvents = new(StringComparer.OrdinalIgnoreCase);
+	HashSet<string> ControllerEvents = new( StringComparer.OrdinalIgnoreCase );
 
 	bool Grounded => Entity.GroundEntity.IsValid();
 
@@ -64,6 +64,7 @@ public sealed partial class MovementController : EntityComponent<Pawn>
 		var angles = Camera.Rotation.Angles().WithPitch( 0 );
 		var moveVector = Rotation.From( angles ) * movement * 320f;
 		var groundEntity = CheckForGround();
+		var wishSpeed = GetWishSpeed();
 
 		if ( groundEntity.IsValid() )
 		{
@@ -73,13 +74,13 @@ public sealed partial class MovementController : EntityComponent<Pawn>
 				AddEvent( "grounded" );
 			}
 
-			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, moveVector.Length,
-				200.0f * (Input.Down( InputButton.Run ) ? 2.5f : 1f), 7.5f );
+			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, wishSpeed,
+				200.0f * (Input.Down( InputButton.Run ) ? 2.5f : 1f), 100f );
 			Entity.Velocity = ApplyFriction( Entity.Velocity, 4.0f );
 		}
 		else
 		{
-			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, moveVector.Length, 100, 20f );
+			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, wishSpeed, 100, 100f );
 			Entity.Velocity += Vector3.Down * Gravity * Time.Delta;
 		}
 
@@ -173,6 +174,17 @@ public sealed partial class MovementController : EntityComponent<Pawn>
 		input += wishdir * accelspeed;
 
 		return input;
+	}
+
+	float GetWishSpeed()
+	{
+		if ( Entity.IsInteracting || Entity.BlockMovement )
+			return 0;
+
+		if ( Input.Down( InputButton.Run ) && IsSprinting ) return 170f;
+		if ( Input.Down( InputButton.Walk ) ) return 100f;
+
+		return 100f;
 	}
 
 	Vector3 ApplyJump( Vector3 input, string jumpType )
