@@ -21,10 +21,10 @@ public partial class Pawn
 {
 	[ClientInput]
 	public Vector3 InputDirection { get; set; }
-	
+
 	[ClientInput]
 	public Angles ViewAngles { get; set; }
-	
+
 	public BBox Hull
 	{
 		get => new
@@ -33,7 +33,7 @@ public partial class Pawn
 			new Vector3( 16, 16, 64 )
 		);
 	}
-	
+
 	public TraceResult TraceBBox( Vector3 start, Vector3 end, float liftFeet = 0.0f )
 	{
 		return TraceBBox( start, end, Hull.Mins, Hull.Maxs, liftFeet );
@@ -59,9 +59,11 @@ public partial class Pawn
 	protected void SimulateRotation()
 	{
 		EyeRotation = ViewAngles.ToRotation();
-		Rotation = ViewAngles.WithPitch( 0f ).ToRotation();
+
+		if ( !IsInteracting )
+			Rotation = ViewAngles.WithPitch( 0f ).ToRotation();
 	}
-	
+
 	public override void BuildInput()
 	{
 		InputDirection = Input.AnalogMove;
