@@ -1,59 +1,31 @@
-// THIS FILE IS AUTO-GENERATED
-
-Layer0
+"Layer0"
 {
-	shader "skin.vfx"
-
-	//---- Per-Instance Tint Mask ----
-	F_TINT_MASK 1
-
-	//---- Skin ----
-	F_USE_BENT_NORMALS 1
-
-	//---- Ambient Occlusion ----
-	g_flAmbientOcclusionDirectDiffuse "0.000"
-	g_flAmbientOcclusionDirectSpecular "0.000"
-	g_vAmbientOcclusionColorBleed "[0.400000 0.149020 0.129412 0.000000]"
-	TextureAmbientOcclusion "models/enemy/materials/citizen/citizen_skin_ao.png"
-
-	//---- Color ----
-	g_flModelTintAmount "1.000"
-	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureColor "models/enemy/materials/citizen/splitizen_skin_color_nosplit.psd"
-	TextureTintMask "models/enemy/materials/citizen/citizen_skin_dark_color.png"
-
-	//---- Curvature ----
-	g_flCurvatureScale "1.000"
-
-	//---- Face Occlusion ----
-	g_flMouthInteriorBrightnessScale "1.000"
-	TextureInsideMouth "models/enemy/materials/citizen/citizen_skin_mask.png"
-
-	//---- Fog ----
-	g_bFogEnabled "1"
-
-	//---- Lookup Textures ----
-	g_vAmbientNormalSoftness "[1.000000 0.301961 0.000000 0.000000]"
-	TextureDiffuseFalloff "materials/default/default_skin_diffusewarp.tga"
-
-	//---- Normal ----
-	g_flDiffuseNormalBlur "0.500"
-	TextureBentNormal "models/enemy/materials/citizen/citizen_skin_bentnormal.png"
-	TextureNormal "models/enemy/materials/citizen/splitizen_skin_normal_nosplit.psd"
-
-	//---- Roughness ----
-	TextureRoughness "models/enemy/materials/citizen/splitizen_skin_rough_nosplit.psd"
-
-	//---- Specular ----
-	g_flSecondSpecularLobeGlossiness "0.500"
-	g_flSecondSpecularLobeRatio "0.150"
-
-	//---- Texture Coordinates ----
-	g_vTexCoordOffset "[0.000 0.000]"
-	g_vTexCoordScale "[1.000 1.000]"
-
-	//---- Transmission ----
-	g_flTransmissionFalloff "0.800"
-	g_vTransmissionColor "[0.749020 0.231373 0.011765 0.000000]"
-	TextureTransmissiveMask "models/enemy/materials/citizen/citizen_skin_trans.png"
+	"shader"		"shaders/skin.shader_c"
+	"F_TINT_MASK"		"1"
+	"F_USE_BENT_NORMALS"		"1"
+	"g_flAmbientOcclusionDirectDiffuse"		"0.000000"
+	"g_flAmbientOcclusionDirectSpecular"		"0.000000"
+	"g_vAmbientOcclusionColorBleed"		"[0.400000 0.149020 0.129412 0.000000]"
+	"TextureAmbientOcclusion"		"models/enemy/materials/citizen/citizen_skin_ao.png"
+	"g_flModelTintAmount"		"1.000000"
+	"g_vColorTint"		"[1.000000 1.000000 1.000000 0.000000]"
+	"TextureColor"		"models/enemy/materials/citizen/splitizen_skin_color_nosplit.psd"
+	"TextureTintMask"		"models/enemy/materials/citizen/citizen_skin_dark_color.png"
+	"g_flCurvatureScale"		"1.000000"
+	"g_flMouthInteriorBrightnessScale"		"1.000000"
+	"TextureInsideMouth"		"models/enemy/materials/citizen/citizen_skin_mask.png"
+	"g_bFogEnabled"		"1"
+	"g_vAmbientNormalSoftness"		"[1.000000 0.301961 0.000000 0.000000]"
+	"TextureDiffuseFalloff"		"materials/default/default_skin_diffusewarp.tga"
+	"g_flDiffuseNormalBlur"		"0.500000"
+	"TextureBentNormal"		"models/enemy/materials/citizen/citizen_skin_bentnormal.png"
+	"TextureNormal"		"models/enemy/materials/citizen/splitizen_skin_normal_nosplit.psd"
+	"TextureRoughness"		"models/enemy/materials/citizen/splitizen_skin_rough_nosplit.psd"
+	"g_flSecondSpecularLobeGlossiness"		"0.500000"
+	"g_flSecondSpecularLobeRatio"		"0.150000"
+	"g_vTexCoordOffset"		"[0.000 0.000]"
+	"g_vTexCoordScale"		"[1.000 1.000]"
+	"g_flTransmissionFalloff"		"0.800000"
+	"g_vTransmissionColor"		"[0.749020 0.231373 0.011765 0.000000]"
+	"TextureTransmissiveMask"		"models/enemy/materials/citizen/citizen_skin_trans.png"
 }

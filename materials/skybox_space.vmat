@@ -1,14 +1,8 @@
-// THIS FILE IS AUTO-GENERATED
-
-Layer0
+"Layer0"
 {
-	shader "sky.vfx"
-
-	//---- Format ----
-	F_TEXTURE_FORMAT2 1 // RGB (8-bit uncompressed)
-
-	//---- Texture ----
-	g_flBrightnessExposureBias "0.303"
-	g_flRenderOnlyExposureBias "0.000"
-	SkyTexture "textures/Skybox_Space.exr"
+	"shader"		"shaders/sky.shader_c"
+	"F_TEXTURE_FORMAT2"		"1"
+	"g_flBrightnessExposureBias"		"0.303000"
+	"g_flRenderOnlyExposureBias"		"0.000000"
+	"SkyTexture"		"textures/Skybox_Space.exr"
 }
