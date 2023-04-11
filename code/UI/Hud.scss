@@ -7,13 +7,21 @@
 @import "/UI/Style/SpaceToStart.scss";
 @import "/UI/Style/DeathScreen.scss";
 @import "/UI/Style/NotePanel.scss";
-@import "/UI/Style/Objectives.scss";
+@import "/UI/Style/ObjectivePanel.scss";
 @import "/UI/Style/NewObjectivePanel.scss";
 @import "/UI/Style/PrereqHint.scss";
 
 RootPanel {
     &.in-cutscene {
-        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives, ObjectiveOverlay, PrereqHint, NewObjectivePanel {
+
+        StaminaBar,
+        InteractionProgress,
+        BatteryLevel,
+        Crosshair,
+        ObjectivePanel,
+        ObjectiveOverlay,
+        PrereqHint,
+        NewObjectivePanel {
             display: none;
         }
 
@@ -29,7 +37,15 @@ RootPanel {
     }
 
     &.player-dead {
-        StaminaBar, InteractionProgress, BatteryLevel, Crosshair, Objectives, ObjectiveOverlay, PrereqHint, NewObjectivePanel {
+
+        StaminaBar,
+        InteractionProgress,
+        BatteryLevel,
+        Crosshair,
+        ObjectivePanel,
+        ObjectiveOverlay,
+        PrereqHint,
+        NewObjectivePanel {
             display: none;
         }
     }
@@ -41,10 +57,12 @@ RootPanel {
     }
 
     font-family: Chakra Petch;
-    text-shadow: 0 4px 4px rgba( black, 0.25 );
+    text-shadow: 0 4px 4px rgba(black, 0.25);
 }
 
-IconPanel, icon, i {
+IconPanel,
+icon,
+i {
     font-family: MaterialIcons;
 
     label {

@@ -40,7 +40,7 @@ public sealed class Helmet : DelayedUseItem
 	{
 		base.OnUsed( user );
 
-		if ( IsServer )
+		if ( Game.IsServer )
 			(user as Pawn)!.EquipHelmet();
 	}
 
@@ -75,7 +75,7 @@ public sealed class Helmet : DelayedUseItem
 	/// <returns>Whether or not to skip this animation.</returns>
 	private bool PickupHelmet( Entity user, bool firstTime, float timeInAnim )
 	{
-		if ( IsServer && timeInAnim >= 0.55 && !pickedUp )
+		if ( Game.IsServer && timeInAnim >= 0.55 && !pickedUp )
 			Pickup( user );
 
 		(user as Pawn)!.SetAnimParameter( "grabitem", true );

@@ -31,7 +31,7 @@ public sealed class DeathScreen : Panel
 	{
 		base.Tick();
 
-		if ( Local.Pawn is not Pawn pawn )
+		if ( Game.LocalPawn is not Pawn pawn )
 			return;
 
 		Overlay.SetClass( "Show", pawn.LifeState == LifeState.Dead );

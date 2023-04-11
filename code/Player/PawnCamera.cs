@@ -1,9 +1,11 @@
-﻿namespace GvarJam.Player;
+﻿using Sandbox.Utility;
+
+namespace GvarJam.Player;
 
 /// <summary>
 /// The camera for the pawn.
 /// </summary>
-public sealed partial class PawnCamera : CameraMode
+public sealed partial class PawnCamera : CameraComponent
 {
 	/// <summary>
 	/// The speed at which to switch between <see cref="ViewMode"/>s.
@@ -37,21 +39,21 @@ public sealed partial class PawnCamera : CameraMode
 	private Transform overrideTransform;
 
 	/// <inheritdoc/>
-	public override void Activated()
+	protected override void OnActivate()
 	{
-		var pawn = Local.Pawn;
+		var pawn = Entity;
 		if ( pawn == null ) return;
 
-		Position = pawn.EyePosition;
-		Rotation = pawn.EyeRotation;
+		Camera.Position = pawn.EyePosition;
+		Camera.Rotation = pawn.EyeRotation;
 
-		lastPos = Position;
+		lastPos = Camera.Position;
 	}
 
 	/// <inheritdoc/>
 	public override void Update()
 	{
-		var pawn = Local.Pawn;
+		var pawn = Entity;
 		if ( pawn == null ) return;
 
 		modeSwitchProgress += Time.Delta;
@@ -71,11 +73,10 @@ public sealed partial class PawnCamera : CameraMode
 			targetRot = overrideTransform.Rotation;
 		}
 
-		Position = Position.LerpTo( targetPos, modeSwitchProgress * ModeSwitchSpeed );
-		Rotation = targetRot;
-
-		Viewer = null;
-		FieldOfView = 90;
+		Camera.Position = Camera.Position.LerpTo( targetPos, modeSwitchProgress * ModeSwitchSpeed );
+		Camera.Rotation = targetRot;
+		Camera.FirstPersonViewer = null;
+		Camera.FieldOfView = Screen.CreateVerticalFieldOfView( 90 );
 	}
 
 	/// <summary>
@@ -149,11 +150,11 @@ public sealed partial class PawnCamera : CameraMode
 	/// </summary>
 	/// <param name="pawn">The pawn that owns the camera.</param>
 	/// <returns>The new position of the camera.</returns>
-	private Vector3 UpdateThirdPerson( Entity pawn )
+	private Vector3 UpdateThirdPerson( Pawn pawn )
 	{
 		var targetPos = pawn.EyePosition
-			+ pawn.EyeRotation.Backward * 64
-			+ pawn.EyeRotation.Right * 16;
+		                + pawn.EyeRotation.Backward * 64
+		                + pawn.EyeRotation.Right * 16;
 
 		var tr = Trace.Ray( pawn.EyePosition, targetPos ).Ignore( pawn ).WithoutTags( "camignore" ).Radius( 16f ).Run();
 		targetPos = tr.EndPosition;
@@ -166,7 +167,7 @@ public sealed partial class PawnCamera : CameraMode
 	/// </summary>
 	/// <param name="pawn">The pawn that owns the camera.</param>
 	/// <returns>The new position of the camera.</returns>
-	private Vector3 UpdateFirstPerson( Entity pawn )
+	private Vector3 UpdateFirstPerson( Pawn pawn )
 	{
 		var eyePos = pawn.EyePosition;
 		var targetPos = eyePos;
@@ -219,9 +220,9 @@ public sealed partial class PawnCamera : CameraMode
 	/// <returns>The noise that was generated.</returns>
 	private Vector3 GetAdditiveNoise()
 	{
-		var noise = GetNoise( 0.1f, 8f ) * Rotation.Up
-				  + GetNoise( 5.5f, 1f ) * Rotation.Forward
-				  + GetNoise( 16f, 8f ) * Rotation.Right;
+		var noise = GetNoise( 0.1f, 8f ) * Camera.Rotation.Up
+		            + GetNoise( 5.5f, 1f ) * Camera.Rotation.Forward
+		            + GetNoise( 16f, 8f ) * Camera.Rotation.Right;
 
 		return noise * 4f;
 	}

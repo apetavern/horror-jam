@@ -61,7 +61,7 @@ public sealed partial class LampBattery : DelayedUseItem
 
 		pawn.BatteryInserted = true;
 		pawn.LampPower = BatteryPower;
-		if ( IsServer )
+		if ( Game.IsServer )
 			Delete();
 	}
 
@@ -108,7 +108,7 @@ public sealed partial class LampBattery : DelayedUseItem
 		if ( !pawn.BatteryInserted )
 			return true;
 
-		if ( IsServer && timeInAnim >= 0.6 && !droppedBattery )
+		if ( Game.IsServer && timeInAnim >= 0.6 && !droppedBattery )
 			DropOldBattery( user );
 
 		pawn.SetAnimParameter( "pullbattery", true );
@@ -165,7 +165,7 @@ public sealed partial class LampBattery : DelayedUseItem
 	/// <returns>Whether or not to skip this animation.</returns>
 	private bool PickupItem( Entity user, bool firstTime, float timeInAnim )
 	{
-		if ( IsServer && timeInAnim >= 0.55 && !pickedUp )
+		if ( Game.IsServer && timeInAnim >= 0.55 && !pickedUp )
 			PickupBattery( user );
 
 		(user as Pawn)!.SetAnimParameter( "grabitem", true );
@@ -194,7 +194,7 @@ public sealed partial class LampBattery : DelayedUseItem
 	/// <returns>Whether or not to skip this animation.</returns>
 	private bool PushBattery( Entity user, bool firstTime, float timeInAnim )
 	{
-		if ( IsServer && timeInAnim >= 0.799 && !pushed )
+		if ( Game.IsServer && timeInAnim >= 0.799 && !pushed )
 		{
 			pushed = true;
 			Sound.FromEntity( "battery_replace_2", user );

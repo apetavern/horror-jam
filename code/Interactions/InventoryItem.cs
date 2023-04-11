@@ -25,7 +25,7 @@ public sealed partial class InventoryItem : DelayedUseItem
 			itemType = value;
 			Name = value.ToString();
 
-			if ( !IsServer || !spawned )
+			if ( !Game.IsServer || !spawned )
 				return;
 
 			SetModel( value.GetModel() );
@@ -93,7 +93,7 @@ public sealed partial class InventoryItem : DelayedUseItem
 	/// <param name="timeInAnim">The time in seconds that this animation has been going for,</param>
 	private bool PickupItem( Entity user, bool firstTime, float timeInAnim )
 	{
-		if ( IsServer && timeInAnim >= 0.50 && !pickedUp )
+		if ( Game.IsServer && timeInAnim >= 0.50 && !pickedUp )
 			PickupItemEntity( user );
 
 		(user as Pawn)!.SetAnimParameter( "grabitem", true );

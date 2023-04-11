@@ -1,42 +1,29 @@
-// THIS FILE IS AUTO-GENERATED
-
-Layer0
+"Layer0"
 {
-	shader "lcd_shader.vfx"
-
-	//---- Color ----
-	g_flModelTintAmount "1.000"
-	g_vColorTint "[0.000000 0.000000 0.000000 0.000000]"
-
-	//---- Fade ----
-	g_flFadeExponent "1.000"
-
-	//---- LCD Screen ----
-	g_flBrightnessMultiplier "0.100"
-	g_flFresnelExponent "5.000"
-	g_flFresnelReflectance "0.000"
-	g_flPixelBlendDistance "21.057"
-	g_flPixelBlendOffset "0.000"
-	g_flPixelOpacityMax "0.750"
-	g_flPixelOpacityMin "0.000"
-	g_vAnimationScroll "[0.000 0.000]"
-	g_vPixelSize "[100.000 50.000]"
-	g_vScreenResolution "[256.000 256.000]"
-	PixelTexture "models/cameraconsole/materials/subpixels.psd"
-
-	//---- Material ----
-	TextureColor "models/cameraconsole/materials/monitoroff.png"
-	TextureTintMask "materials/default/default.tga"
-
-	//---- Texture Coordinates ----
-	g_nScaleTexCoordUByModelScaleAxis "0"
-	g_nScaleTexCoordVByModelScaleAxis "0"
-	g_vTexCoordOffset "[0.000 0.000]"
-	g_vTexCoordScale "[1.000 1.000]"
-	g_vTexCoordScrollSpeed "[0.000 0.000]"
-
-	DynamicParams
+	"shader"		"shaders/lcd_shader.shader_c"
+	"g_flModelTintAmount"		"1.000000"
+	"g_vColorTint"		"[0.000000 0.000000 0.000000 0.000000]"
+	"g_flFadeExponent"		"1.000000"
+	"g_flBrightnessMultiplier"		"0.100000"
+	"g_flFresnelExponent"		"5.000000"
+	"g_flFresnelReflectance"		"0.000000"
+	"g_flPixelBlendDistance"		"21.056999"
+	"g_flPixelBlendOffset"		"0.000000"
+	"g_flPixelOpacityMax"		"0.750000"
+	"g_flPixelOpacityMin"		"0.000000"
+	"g_vAnimationScroll"		"[0.000 0.000]"
+	"g_vPixelSize"		"[100.000 50.000]"
+	"g_vScreenResolution"		"[256.000 256.000]"
+	"PixelTexture"		"models/cameraconsole/materials/subpixels.psd"
+	"TextureColor"		"models/cameraconsole/materials/monitoroff.png"
+	"TextureTintMask"		"materials/default/default.tga"
+	"g_nScaleTexCoordUByModelScaleAxis"		"0"
+	"g_nScaleTexCoordVByModelScaleAxis"		"0"
+	"g_vTexCoordOffset"		"[0.000 0.000]"
+	"g_vTexCoordScale"		"[1.000 1.000]"
+	"g_vTexCoordScrollSpeed"		"[0.000 0.000]"
+	"DynamicParams"
 	{
-		TextureColor "$MonitorTexture"
+		"TextureColor"		"$MonitorTexture"
 	}
 }

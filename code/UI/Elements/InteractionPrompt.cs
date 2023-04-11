@@ -31,7 +31,7 @@ public sealed class InteractionPrompt : WorldPanel
 	/// <inheritdoc/>
 	public override void Tick()
 	{
-		if ( Local.Pawn is not Pawn pawn )
+		if ( Game.LocalPawn is not Pawn pawn )
 			return;
 
 		base.Tick();
@@ -62,6 +62,6 @@ public sealed class InteractionPrompt : WorldPanel
 
 		intEntity.ShowInteractionPrompt( pawn, true );
 		interactableEntity = intEntity;
-		Rotation = Rotation.LookAt( CurrentView.Position - Position );
+		Rotation = Rotation.LookAt( Camera.Position - Position );
 	}
 }

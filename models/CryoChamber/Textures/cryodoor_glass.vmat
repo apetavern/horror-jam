@@ -1,59 +1,37 @@
-// THIS FILE IS AUTO-GENERATED
-
-Layer0
+"Layer0"
 {
-	shader "glass.vfx"
-
-	//---- Glass ----
-	F_BLUR 1
-	F_REFRACTION 1
-
-	//---- Rendering ----
-	F_RENDER_BACKFACES 1
-
-	//---- Blur ----
-	g_flBlurAmount "33.770"
-	GlassBlurMask "materials/default/default.tga"
-
-	//---- Color ----
-	g_flModelTintAmount "1.000"
-	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureAmbientOcclusion "models/cryochamber/textures/frost_frost_ao.png"
-	TextureColor "[0.000000 0.729412 1.000000 0.000000]"
-	TextureMetalness "models/cryochamber/textures/cryodoor_metallic.png"
-	TextureNormal "materials/default/default_normal.tga"
-	TextureRoughness "models/cryochamber/textures/frost_frost_rough.png"
-	TextureTranslucency "[0.076000 0.076000 0.076000 0.000000]"
-
-	//---- Fade ----
-	g_flFadeExponent "1.000"
-
-	//---- Fresnel ----
-	g_bFresnel "1"
-	g_flEdgeColorFalloff "3.000"
-	g_flEdgeColorMaxOpacity "0.500"
-	g_flEdgeColorThickness "0.100"
-	g_vEdgeColor "[0.000000 0.000000 0.000000 0.000000]"
-
-	//---- Glass ----
-	g_bMultiplyTintColor "1"
-	g_flAlphaTestReference "0.500"
-	g_flOpacity "0.092"
-	GlassNormal "materials/default/default_normal.tga"
-	GlassRoughness "[0.000000 0.000000 0.000000 0.000000]"
-	GlassTintColor "models/cryochamber/textures/cryodoor_base_color.png"
-
-	//---- Lighting ----
-	g_flDirectionalLightmapStrength "1.000"
-
-	//---- Refraction ----
-	g_flRefractionStrength "0.031"
-	RefractionNormal "models/cryochamber/textures/frost_frost_normal.png"
-
-	//---- Texture Coordinates ----
-	g_nScaleTexCoordUByModelScaleAxis "0"
-	g_nScaleTexCoordVByModelScaleAxis "0"
-	g_vTexCoordOffset "[0.000 0.000]"
-	g_vTexCoordScale "[1.000 1.000]"
-	g_vTexCoordScrollSpeed "[0.000 0.000]"
+	"shader"		"shaders/glass.shader_c"
+	"F_BLUR"		"1"
+	"F_REFRACTION"		"1"
+	"F_RENDER_BACKFACES"		"1"
+	"g_flBlurAmount"		"33.770000"
+	"GlassBlurMask"		"materials/default/default.tga"
+	"g_flModelTintAmount"		"1.000000"
+	"g_vColorTint"		"[1.000000 1.000000 1.000000 0.000000]"
+	"TextureAmbientOcclusion"		"models/cryochamber/textures/frost_frost_ao.png"
+	"TextureColor"		"[0.000000 0.729412 1.000000 0.000000]"
+	"TextureMetalness"		"models/cryochamber/textures/cryodoor_metallic.png"
+	"TextureNormal"		"materials/default/default_normal.tga"
+	"TextureRoughness"		"models/cryochamber/textures/frost_frost_rough.png"
+	"TextureTranslucency"		"[0.076000 0.076000 0.076000 0.000000]"
+	"g_flFadeExponent"		"1.000000"
+	"g_bFresnel"		"1"
+	"g_flEdgeColorFalloff"		"3.000000"
+	"g_flEdgeColorMaxOpacity"		"0.500000"
+	"g_flEdgeColorThickness"		"0.100000"
+	"g_vEdgeColor"		"[0.000000 0.000000 0.000000 0.000000]"
+	"g_bMultiplyTintColor"		"1"
+	"g_flAlphaTestReference"		"0.500000"
+	"g_flOpacity"		"0.092000"
+	"GlassNormal"		"materials/default/default_normal.tga"
+	"GlassRoughness"		"[0.000000 0.000000 0.000000 0.000000]"
+	"GlassTintColor"		"models/cryochamber/textures/cryodoor_base_color.png"
+	"g_flDirectionalLightmapStrength"		"1.000000"
+	"g_flRefractionStrength"		"0.031000"
+	"RefractionNormal"		"models/cryochamber/textures/frost_frost_normal.png"
+	"g_nScaleTexCoordUByModelScaleAxis"		"0"
+	"g_nScaleTexCoordVByModelScaleAxis"		"0"
+	"g_vTexCoordOffset"		"[0.000 0.000]"
+	"g_vTexCoordScale"		"[1.000 1.000]"
+	"g_vTexCoordScrollSpeed"		"[0.000 0.000]"
 }

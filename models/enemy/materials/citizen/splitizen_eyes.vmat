@@ -1,49 +1,29 @@
-// THIS FILE IS AUTO-GENERATED
-
-Layer0
+"Layer0"
 {
-	shader "eyeball.vfx"
-
-	//---- Specular ----
-	F_SPECULAR_CUBE_MAP 1 // In-game Cube Map
-
-	//---- Color ----
-	g_flModelTintAmount "1.000"
-	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureColor "models/enemy/materials/citizen/splitizen_eyes_color.psd"
-
-	//---- Fade ----
-	g_flFadeExponent "1.000"
-
-	//---- Fog ----
-	g_bFogEnabled "1"
-
-	//---- Iris ----
-	g_flIrisBumpStrength "0.380"
-	g_flParallaxStrength "0.110"
-	IrisNormal "models/enemy/materials/citizen/splitizen_iris_normal.psd"
-	IrisRoughness "models/enemy/materials/citizen/citizen_eyes_advanced_iris_rough.png"
-	TextureIrisMask "models/enemy/materials/citizen/citizen_eyes_advanced_iris_mask.png"
-
-	//---- Lighting ----
-	g_vReflectanceRange "[0.000 1.000]"
-	TextureReflectance "models/enemy/materials/citizen/citizen_eyes_advanced_iris_refl.png"
-
-	//---- Normal ----
-	g_flCorneaScleraBumpStrength "1.000"
-	g_flScleraDiffuseExponent "1.500"
-	g_flScleraDiffuseWrap "0.300"
-	TextureNormal "models/enemy/materials/citizen/splitizen_iris_normal.psd"
-
-	//---- Occlusion ----
-	g_flOcclusionStrength "0.000"
-	g_flOcclusionWidth "0.100"
-	TextureOcclusion "models/enemy/materials/citizen/citizen_eyes_advanced_iris_rough.png"
-
-	//---- Texture Coordinates ----
-	g_nScaleTexCoordUByModelScaleAxis "0"
-	g_nScaleTexCoordVByModelScaleAxis "0"
-	g_vTexCoordOffset "[0.000 0.000]"
-	g_vTexCoordScale "[1.000 1.000]"
-	g_vTexCoordScrollSpeed "[0.000 0.000]"
+	"shader"		"shaders/eyeball.shader_c"
+	"F_SPECULAR_CUBE_MAP"		"1"
+	"g_flModelTintAmount"		"1.000000"
+	"g_vColorTint"		"[1.000000 1.000000 1.000000 0.000000]"
+	"TextureColor"		"models/enemy/materials/citizen/splitizen_eyes_color.psd"
+	"g_flFadeExponent"		"1.000000"
+	"g_bFogEnabled"		"1"
+	"g_flIrisBumpStrength"		"0.380000"
+	"g_flParallaxStrength"		"0.110000"
+	"IrisNormal"		"models/enemy/materials/citizen/splitizen_iris_normal.psd"
+	"IrisRoughness"		"models/enemy/materials/citizen/citizen_eyes_advanced_iris_rough.png"
+	"TextureIrisMask"		"models/enemy/materials/citizen/citizen_eyes_advanced_iris_mask.png"
+	"g_vReflectanceRange"		"[0.000 1.000]"
+	"TextureReflectance"		"models/enemy/materials/citizen/citizen_eyes_advanced_iris_refl.png"
+	"g_flCorneaScleraBumpStrength"		"1.000000"
+	"g_flScleraDiffuseExponent"		"1.500000"
+	"g_flScleraDiffuseWrap"		"0.300000"
+	"TextureNormal"		"models/enemy/materials/citizen/splitizen_iris_normal.psd"
+	"g_flOcclusionStrength"		"0.000000"
+	"g_flOcclusionWidth"		"0.100000"
+	"TextureOcclusion"		"models/enemy/materials/citizen/citizen_eyes_advanced_iris_rough.png"
+	"g_nScaleTexCoordUByModelScaleAxis"		"0"
+	"g_nScaleTexCoordVByModelScaleAxis"		"0"
+	"g_vTexCoordOffset"		"[0.000 0.000]"
+	"g_vTexCoordScale"		"[1.000 1.000]"
+	"g_vTexCoordScrollSpeed"		"[0.000 0.000]"
 }

@@ -56,7 +56,7 @@ partial class Pawn
 	/// <summary>
 	/// Simulates the interaction system.
 	/// </summary>
-	private void SimulateInteraction( Client cl )
+	private void SimulateInteraction( IClient cl )
 	{
 		if ( InteractedEntity is not null && InteractedEntity.IsValid )
 		{
@@ -92,7 +92,7 @@ partial class Pawn
 			return;
 		}
 
-		if ( IsServer && Input.Pressed( InputButton.Use ) )
+		if ( Game.IsServer && Input.Pressed( InputButton.Use ) )
 		{
 			if ( entity is IUse use )
 			{

@@ -24,7 +24,7 @@ public sealed class PrereqHint : Panel
 	/// <inheritdoc/>
 	public override void Tick()
 	{
-		if ( Local.Pawn is not Pawn pawn )
+		if ( Game.LocalPawn is not Pawn pawn )
 			return;
 
 		SetClass( "visible", false );

@@ -24,7 +24,7 @@ public class InstantUseItem : InteractableEntity
 	{
 		OnUsed( user );
 
-		if ( IsServer && DeleteOnUse )
+		if ( Game.IsServer && DeleteOnUse )
 			Delete();
 
 		return false;

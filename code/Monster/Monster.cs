@@ -1,6 +1,6 @@
 ﻿namespace GvarJam.Monster;
 
-public partial class MonsterEntity : AnimatedEntity
+public partial class MonsterEntity : CompatEntity
 {
 	public static bool DebugEnabled => false;
 
@@ -60,7 +60,7 @@ public partial class MonsterEntity : AnimatedEntity
 		{
 			EyeLocalPosition = Vector3.Up * 64f;
 
-			if ( IsServer )
+			if ( Game.IsServer )
 			{
 				if ( DebugEnabled )
 				{
@@ -81,7 +81,7 @@ public partial class MonsterEntity : AnimatedEntity
 					}
 					else
 					{
-						Game.Current.MoveToSpawnpoint( this );
+						HorrorGame.Current.MoveToSpawnpoint( this );
 					}
 				}
 
@@ -214,7 +214,7 @@ public partial class MonsterEntity : AnimatedEntity
 	public static void SetTarget()
 	{
 		var caller = ConsoleSystem.Caller;
-		var pawn = caller.Pawn;
+		var pawn = (Pawn)caller.Pawn;
 
 		var tr = Trace.Ray( pawn.EyePosition, pawn.EyePosition + pawn.EyeRotation.Forward * 1024f ).WorldOnly().Run();
 		if ( !tr.Hit )

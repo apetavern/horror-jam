@@ -3,7 +3,7 @@
 /// <summary>
 /// A camera that follows an entity on its attachment point.
 /// </summary>
-public sealed partial class CutsceneCamera : CameraMode
+public sealed partial class CutsceneCamera : CameraComponent
 {
 	/// <summary>
 	/// The target entity.
@@ -39,8 +39,8 @@ public sealed partial class CutsceneCamera : CameraMode
 	{
 		var transform = TargetEntity?.GetAttachment( TargetAttachment ) ?? default;
 
-		Position = transform.Position;
-		Rotation = transform.Rotation;
+		Camera.Position = transform.Position;
+		Camera.Rotation = transform.Rotation;
 
 		if( !AreAnimsPlaying && !AwaitingInput )
 		{
@@ -54,6 +54,6 @@ public sealed partial class CutsceneCamera : CameraMode
 			AreAnimsPlaying = true;
 		}
 		
-		Viewer = null;
+		Camera.FirstPersonViewer = null;
 	}
 }

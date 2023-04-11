@@ -141,7 +141,7 @@ public sealed partial class StorageLocker : DelayedUseItem
 	{
 		base.Reset();
 
-		if ( IsServer )
+		if ( Game.IsServer )
 			Door.Transform = StartDoorTransform; //SetBone( GetBoneIndex( "Hinge" ), StartDoorTransform );
 		Opened = false;
 	}
@@ -158,7 +158,7 @@ public sealed partial class StorageLocker : DelayedUseItem
 		if ( !IsLocked )
 			return true;
 
-		if ( IsServer && timeInAnim >= 0.55 )
+		if ( Game.IsServer && timeInAnim >= 0.55 )
 			IsLocked = false;
 
 		TraceResult floortrace = Trace.Ray( GetAttachment( "openstandpos" )!.Value.Position, GetAttachment( "openstandpos" )!.Value.Position - Vector3.Up * 100f )
@@ -190,7 +190,7 @@ public sealed partial class StorageLocker : DelayedUseItem
 			return true;
 		}
 
-		if ( IsServer )
+		if ( Game.IsServer )
 		{
 			(user as Pawn)!.SetAnimParameter( "b_IKleft", true );
 			(user as Pawn)!.SetAnimParameter( "left_hand_ik.position", Door.GetAttachment( "handle" )!.Value.Position );

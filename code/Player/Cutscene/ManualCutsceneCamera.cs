@@ -3,7 +3,7 @@
 /// <summary>
 /// A camera that is controlled programmatically 
 /// </summary>
-public sealed partial class ManualCutsceneCamera : CameraMode
+public sealed partial class ManualCutsceneCamera : CameraComponent
 {
 	/// <summary>
 	/// The starting position of the camera.
@@ -35,12 +35,10 @@ public sealed partial class ManualCutsceneCamera : CameraMode
 	private TimeSince TimeSinceCutsceneStarted { get; set; }
 
 	/// <inheritdoc/>
-	public override void Activated()
+	protected override void OnActivate()
 	{
-		base.Activated();
-
-		Position = StartPosition;
-		Rotation = Rotation;
+		Camera.Position = StartPosition;
+		// Camera.Rotation = Rotation; // NOTE(gio): not sure about this!
 
 		TimeSinceCutsceneStarted = 0;
 	}
@@ -50,15 +48,15 @@ public sealed partial class ManualCutsceneCamera : CameraMode
 	{
 		var targetPosition = LookAtPosition + Vector3.Up * 64;
 
-		if ( Vector3.DistanceBetween( Position, targetPosition ) < 100 )
+		if ( Vector3.DistanceBetween( Camera.Position, targetPosition ) < 100 )
 			return;
 
-		var directionOfTravel = targetPosition - Position;
-		Position += directionOfTravel * TimeSinceCutsceneStarted / 1000;
+		var directionOfTravel = targetPosition - Camera.Position;
+		Camera.Position += directionOfTravel * TimeSinceCutsceneStarted / 1000;
 
-		Rotation = Rotation.LookAt( targetPosition - Position );
-		Rotation *= Rotation.FromRoll( 10 * TimeSinceCutsceneStarted );
+		Camera.Rotation = Rotation.LookAt( targetPosition - Camera.Position );
+		Camera.Rotation *= Rotation.FromRoll( 10 * TimeSinceCutsceneStarted );
 		
-		Viewer = null;
+		Camera.FirstPersonViewer = null;
 	}
 }

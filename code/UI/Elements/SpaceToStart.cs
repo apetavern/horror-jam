@@ -30,7 +30,7 @@ public sealed class SpaceToStart : Panel
 	{
 		base.Tick();
 
-		if ( Local.Pawn is not Pawn pawn )
+		if ( Game.LocalPawn is not Pawn pawn )
 			return;
 
 		Overlay.SetClass( "Hide", !pawn.AwaitingCutsceneInput );

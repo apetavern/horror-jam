@@ -3,7 +3,7 @@
 /// <summary>
 /// The controller for the pawn.
 /// </summary>
-public sealed partial class MovementController : WalkController
+public sealed partial class MovementController : EntityComponent<Pawn>
 {
 	/// <summary>
 	/// Per second, while sprinting.
@@ -47,100 +47,200 @@ public sealed partial class MovementController : WalkController
 	/// </summary>
 	private TimeSince timeSinceStaminaUsed;
 
-	/// <inheritdoc/>
-	public override void Simulate()
+	public int StepSize => 24;
+	public int GroundAngle => 45;
+	public int JumpSpeed => 300;
+	public float Gravity => 800f;
+
+	HashSet<string> ControllerEvents = new( StringComparer.OrdinalIgnoreCase );
+
+	bool Grounded => Entity.GroundEntity.IsValid();
+
+	public void Simulate( IClient _ )
 	{
-		base.Simulate();
+		ControllerEvents.Clear();
 
-		//
-		// Player started sprint?
-		//
 		if ( Input.Pressed( InputButton.Run ) && Stamina > MinimumStaminaForSprint )
-		{
 			IsSprinting = true;
-		}
 
-		//
-		// End sprint?
-		//
 		if ( Input.Released( InputButton.Run ) || Stamina <= 0f )
-		{
 			IsSprinting = false;
-		}
 
-		if ( IsSprinting && !Velocity.IsNearZeroLength )
+		if ( IsSprinting && !Entity.Velocity.IsNearZeroLength )
 		{
-			//
-			// Sprint reduction
-			//
 			Stamina -= StaminaReductionRate * Time.Delta;
 			timeSinceStaminaUsed = 0;
 		}
-		else if ( (!IsSprinting || Velocity.IsNearZeroLength) && timeSinceStaminaUsed > StaminaReplenishDelay )
+		else if ( (!IsSprinting || Entity.Velocity.IsNearZeroLength) && timeSinceStaminaUsed > StaminaReplenishDelay )
 		{
-			//
-			// Sprint regen
-			//
 			Stamina += StaminaReplenishRate * Time.Delta;
 		}
 
 		Stamina = Stamina.Clamp( 0, 1 );
-	}
 
-	/// <inheritdoc/>
-	public override float GetWishSpeed()
-	{
-		if ( Pawn is Pawn pawn && (pawn.IsInteracting || pawn.BlockMovement) )
-			return 0;
+		var movement = Entity.InputDirection.Normal;
+		var angles = Camera.Rotation.Angles().WithPitch( 0 );
+		var moveVector = Rotation.From( angles ) * movement * 320f;
+		var groundEntity = CheckForGround();
+		var wishSpeed = GetWishSpeed();
 
-		var ws = Duck.GetWishSpeed();
-		if ( ws >= 0 ) return ws;
-
-		if ( Input.Down( InputButton.Run ) && IsSprinting ) return SprintSpeed;
-		if ( Input.Down( InputButton.Walk ) ) return WalkSpeed;
-
-		return DefaultSpeed;
-	}
-
-	/// <inheritdoc/>
-	public override void CheckJumpButton()
-	{
-		if ( Pawn is Pawn pawn && (pawn.IsInteracting || pawn.BlockMovement) )
-			return;
-
-		// If we are in the water most of the way...
-		if ( Swimming )
+		if ( groundEntity.IsValid() )
 		{
-			// swimming, not jumping
-			ClearGroundEntity();
+			if ( !Grounded )
+			{
+				Entity.Velocity = Entity.Velocity.WithZ( 0 );
+				AddEvent( "grounded" );
+			}
 
-			Velocity = Velocity.WithZ( 100 );
-
-			return;
+			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, wishSpeed, 500f, 7.5f );
+			Entity.Velocity = ApplyFriction( Entity.Velocity, 4.0f );
+		}
+		else
+		{
+			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, wishSpeed, 50f, 3f );
+			Entity.Velocity += Vector3.Down * Gravity * Time.Delta;
 		}
 
-		if ( GroundEntity == null )
+		if ( Input.Pressed( InputButton.Jump ) )
+		{
+			DoJump();
+		}
+
+		var mh = new MoveHelper( Entity.Position, Entity.Velocity );
+		mh.Trace = mh.Trace.Size( Entity.Hull ).Ignore( Entity );
+
+		if ( mh.TryMoveWithStep( Time.Delta, StepSize ) > 0 )
+		{
+			if ( Grounded )
+			{
+				mh.Position = StayOnGround( mh.Position );
+			}
+
+			Entity.Position = mh.Position;
+			Entity.Velocity = mh.Velocity;
+		}
+
+		Entity.GroundEntity = groundEntity;
+	}
+
+	void DoJump()
+	{
+		if ( Grounded )
+		{
+			Entity.Velocity = ApplyJump( Entity.Velocity, "jump" );
+		}
+	}
+
+	Entity CheckForGround()
+	{
+		if ( Entity.Velocity.z > 100f )
+			return null;
+
+		var trace = Entity.TraceBBox( Entity.Position, Entity.Position + Vector3.Down, 2f );
+
+		if ( !trace.Hit )
+			return null;
+
+		if ( trace.Normal.Angle( Vector3.Up ) > GroundAngle )
+			return null;
+
+		return trace.Entity;
+	}
+
+	Vector3 ApplyFriction( Vector3 input, float frictionAmount )
+	{
+		float StopSpeed = 100.0f;
+
+		var speed = input.Length;
+		if ( speed < 0.1f ) return input;
+
+		// Bleed off some speed, but if we have less than the bleed
+		// threshold, bleed the threshold amount.
+		float control = (speed < StopSpeed) ? StopSpeed : speed;
+
+		// Add the amount to the drop amount.
+		var drop = control * Time.Delta * frictionAmount;
+
+		// scale the velocity
+		float newspeed = speed - drop;
+		if ( newspeed < 0 ) newspeed = 0;
+		if ( newspeed == speed ) return input;
+
+		newspeed /= speed;
+		input *= newspeed;
+
+		return input;
+	}
+
+	Vector3 Accelerate( Vector3 input, Vector3 wishdir, float wishspeed, float speedLimit, float acceleration )
+	{
+		if ( speedLimit > 0 && wishspeed > speedLimit )
+			wishspeed = speedLimit;
+
+		var currentspeed = input.Dot( wishdir );
+		var addspeed = wishspeed - currentspeed;
+
+		if ( addspeed <= 0 )
+			return input;
+
+		var accelspeed = acceleration * Time.Delta * wishspeed;
+
+		if ( accelspeed > addspeed )
+			accelspeed = addspeed;
+
+		input += wishdir * accelspeed;
+
+		return input;
+	}
+
+	float GetWishSpeed()
+	{
+		if ( Entity.IsInteracting || Entity.BlockMovement )
+			return 0;
+
+		if ( Input.Down( InputButton.Run ) && IsSprinting ) return 170f;
+		if ( Input.Down( InputButton.Walk ) ) return 110f;
+
+		return 110f;
+	}
+
+	Vector3 ApplyJump( Vector3 input, string jumpType )
+	{
+		AddEvent( jumpType );
+
+		return input + Vector3.Up * JumpSpeed;
+	}
+
+	Vector3 StayOnGround( Vector3 position )
+	{
+		var start = position + Vector3.Up * 2;
+		var end = position + Vector3.Down * StepSize;
+
+		// See how far up we can go without getting stuck
+		var trace = Entity.TraceBBox( position, start );
+		start = trace.EndPosition;
+
+		// Now trace down from a known safe position
+		trace = Entity.TraceBBox( start, end );
+
+		if ( trace.Fraction <= 0 ) return position;
+		if ( trace.Fraction >= 1 ) return position;
+		if ( trace.StartedSolid ) return position;
+		if ( Vector3.GetAngle( Vector3.Up, trace.Normal ) > GroundAngle ) return position;
+
+		return trace.EndPosition;
+	}
+
+	public bool HasEvent( string eventName )
+	{
+		return ControllerEvents.Contains( eventName );
+	}
+
+	void AddEvent( string eventName )
+	{
+		if ( HasEvent( eventName ) )
 			return;
 
-		ClearGroundEntity();
-
-		float flGroundFactor = 1.0f;
-		float flMul = 320f;
-
-		if ( Stamina < JumpStaminaReduction )
-			flMul *= 0.75f;
-
-		Stamina -= JumpStaminaReduction;
-		timeSinceStaminaUsed = 0;
-
-		float startz = Velocity.z;
-
-		if ( Duck.IsActive )
-			flMul *= 0.8f;
-
-		Velocity = Velocity.WithZ( startz + flMul * flGroundFactor );
-		Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
-
-		AddEvent( "jump" );
+		ControllerEvents.Add( eventName );
 	}
 }

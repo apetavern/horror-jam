@@ -47,7 +47,7 @@ public sealed partial class Generator : DelayedUseItem
 	{
 		base.OnUsed( user );
 
-		if ( IsServer )
+		if ( Game.IsServer )
 			LightManager.FlickerLighting( false, 0 );
 	}
 

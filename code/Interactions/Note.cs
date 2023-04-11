@@ -61,24 +61,24 @@ public partial class Note : InstantUseItem
 		{
 			IsNoteOpen = true;
 
-			if ( Host.IsClient )
+			if ( Game.IsClient )
 			{
 				NotePanel.Instance.ShowNote( NoteContents );
 				Sound.FromScreen( "note_open" );
 			}
 
-			if ( Host.IsServer )
+			if ( Game.IsServer )
 				player.BlockMovement = true;	
 		}
 		else
 		{
 			IsNoteOpen = false;
 
-			if ( Host.IsClient )
+			if ( Game.IsClient )
 				NotePanel.Instance.HideNote();
 			
 
-			if ( Host.IsServer )
+			if ( Game.IsServer )
 				player.BlockMovement = false;
 		}
 	}

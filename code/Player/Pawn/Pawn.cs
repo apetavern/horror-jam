@@ -1,25 +1,27 @@
+using Sandbox.Diagnostics;
+
 namespace GvarJam.Player;
 
 /// <summary>
 /// The players pawn.
 /// </summary>
-public sealed partial class Pawn : AnimatedEntity
+public sealed partial class Pawn : CompatEntity
 {
 	/// <summary>
 	/// The active animator of the pawn.
 	/// </summary>
-	[Net]
-	public PawnAnimator Animator { get; private set; } = null!;
+	[BindComponent]
+	public PawnAnimator Animator { get; }
 
 	/// <summary>
 	/// The active camera for the pawn.
 	/// </summary>
-	public CameraMode Camera
+	public CameraComponent Camera
 	{
-		get => Components.Get<CameraMode>();
+		get => Components.Get<CameraComponent>();
 		set
 		{
-			Components.RemoveAny<CameraMode>();
+			Components.RemoveAny<CameraComponent>();
 			Components.Add( value );
 		}
 	}
@@ -27,8 +29,8 @@ public sealed partial class Pawn : AnimatedEntity
 	/// <summary>
 	/// The active controller for the pawn.
 	/// </summary>
-	[Net]
-	public MovementController? Controller { get; set; } = null;
+	[BindComponent]
+	public MovementController Controller { get; }
 
 	/// <summary>
 	/// The pawns helmet.
@@ -74,17 +76,13 @@ public sealed partial class Pawn : AnimatedEntity
 		SetModel( "models/player/playermodel.vmdl" );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
-		Animator = new StandardPlayerAnimator();
+		Components.Create<PawnAnimator>();
+		Components.Create<MovementController>();
 		Camera = new PawnCamera();
-		Controller = new MovementController()
-		{
-			SprintSpeed = 170.0f,
-			WalkSpeed = 100.0f,
-			DefaultSpeed = 100.0f
-		};
 
 		var clothes = new ClothingContainer();
-		clothes.Clothing.Add( ResourceLibrary.Get<Clothing>( "models/citizen_clothes/shirt/jumpsuit/blue_jumpsuit.clothing" ) );
+		clothes.Clothing.Add(
+			ResourceLibrary.Get<Clothing>( "models/citizen_clothes/shirt/jumpsuit/blue_jumpsuit.clothing" ) );
 		clothes.DressEntity( this );
 
 		EnableDrawing = true;
@@ -113,10 +111,7 @@ public sealed partial class Pawn : AnimatedEntity
 			child.EnableDrawing = false;
 
 		// Create ragdoll
-		Ragdoll = new ModelEntity( "models/player/playermodel.vmdl" )
-		{
-			Position = Position + Rotation.Forward * 3f
-		};
+		Ragdoll = new ModelEntity( "models/player/playermodel.vmdl" ) { Position = Position + Rotation.Forward * 3f };
 		Ragdoll.Tags.Add( "trigger" );
 		Ragdoll.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 
@@ -128,8 +123,6 @@ public sealed partial class Pawn : AnimatedEntity
 
 		var clothes = new ModelEntity( "models/citizen_clothes/shirt/jumpsuit/models/blue_jumpsuit.vmdl" );
 		clothes.SetParent( Ragdoll, true );
-
-		Controller = null;
 
 		LifeState = LifeState.Dead;
 	}
@@ -148,11 +141,13 @@ public sealed partial class Pawn : AnimatedEntity
 	}
 
 	/// <inheritdoc/>
-	public override void Simulate( Client cl )
+	public override void Simulate( IClient cl )
 	{
 		base.Simulate( cl );
+		
+		SimulateRotation();
 
-		if( LifeState == LifeState.Dead )
+		if ( LifeState == LifeState.Dead )
 		{
 			if ( Input.Released( InputButton.Jump ) )
 				Respawn();
@@ -173,10 +168,13 @@ public sealed partial class Pawn : AnimatedEntity
 		SimulateCutscenes();
 
 		var rotation = Rotation;
-		Controller?.Simulate( cl, this, Animator );
+		Controller?.Simulate( cl );
 		if ( IsInteracting || BlockMovement )
 			Rotation = rotation;
+		Animator?.Simulate();
 
+		EyeLocalPosition = Vector3.Up * (64f * Scale);
+		
 		if ( HorrorGame.Debug )
 		{
 			var i = 0;
@@ -189,14 +187,15 @@ public sealed partial class Pawn : AnimatedEntity
 	}
 
 	/// <inheritdoc/>
-	public override void FrameSimulate( Client cl )
+	public override void FrameSimulate( IClient cl )
 	{
 		base.FrameSimulate( cl );
 
+		SimulateRotation();
 		var rotation = Rotation;
-		Controller?.FrameSimulate( cl, this, Animator );
 		if ( IsInteracting || BlockMovement )
 			Rotation = rotation;
+		Camera?.Update();
 	}
 
 	/// <inheritdoc/>
@@ -205,7 +204,7 @@ public sealed partial class Pawn : AnimatedEntity
 		if ( LifeState != LifeState.Alive )
 			return;
 
-		if ( !IsClient )
+		if ( !Game.IsClient )
 			return;
 
 		if ( timeSinceLastFootstep < 0.2f )
@@ -251,15 +250,8 @@ public sealed partial class Pawn : AnimatedEntity
 		// Clear the ragoll
 		Ragdoll?.DeleteAsync( 10 );
 
-		Controller = new MovementController()
-		{
-			SprintSpeed = 170.0f,
-			WalkSpeed = 100.0f,
-			DefaultSpeed = 100.0f
-		};
-
 		SoundManager.ShouldPlayChaseSounds( false );
-		Game.Current?.MoveToSpawnpoint( this );
+		HorrorGame.Current?.MoveToSpawnpoint( this );
 	}
 
 	/// <summary>
@@ -267,13 +259,10 @@ public sealed partial class Pawn : AnimatedEntity
 	/// </summary>
 	public void EquipHelmet()
 	{
-		Host.AssertServer();
+		Game.AssertServer();
 		Assert.True( Helmet is null );
 
-		Helmet = new ModelEntity( "models/cosmetics/spacehelmet.vmdl" )
-		{
-			EnableHideInFirstPerson = true
-		};
+		Helmet = new ModelEntity( "models/cosmetics/spacehelmet.vmdl" ) { EnableHideInFirstPerson = true };
 
 		Lamp = new SpotLightEntity
 		{
@@ -315,7 +304,7 @@ public sealed partial class Pawn : AnimatedEntity
 	/// <summary>
 	/// Sets the alpha on the pawns render color before the game renders.
 	/// </summary>
-	[Event.Frame]
+	[Event.Client.Frame]
 	private void OnFrame()
 	{
 		if ( HidingPlayers )

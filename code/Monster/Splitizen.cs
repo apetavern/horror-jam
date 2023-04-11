@@ -4,7 +4,7 @@
 [Library( "ent_splitizen" )]
 [HammerEntity]
 [EditorModel( "models/enemy/basic_splitizen.vmdl" )]
-public partial class Splitizen : AnimatedEntity
+public partial class Splitizen : CompatEntity
 {
 	[ConVar.Replicated( "debug_monster" )]
 	public static bool DebugEnabled { get; set; } = false;
@@ -80,7 +80,7 @@ public partial class Splitizen : AnimatedEntity
 		SetPath( this.IsValid() ? Position : Vector3.Zero );
 		if ( this.IsValid() && !StopMoving )
 		{
-			await Task.DelaySeconds( Rand.Float( 5f, 30f ) );
+			await Task.DelaySeconds( Game.Random.Float( 5f, 30f ) );
 			PathFinding.SetRandomPath();
 			RandomPatrol();
 			SetAPath = true;
@@ -139,7 +139,7 @@ public partial class Splitizen : AnimatedEntity
 
 		EyeLocalPosition = Vector3.Up * 64f;
 
-		if ( IsServer )
+		if ( Game.IsServer )
 		{
 			if ( DebugEnabled )
 			{
@@ -174,7 +174,7 @@ public partial class Splitizen : AnimatedEntity
 
 
 		//I know this random distance trace is fucked but the "bangdoor" anim parameter seems to only work the second time it's set, so this rapidly resets it a couple times every time you get to a door... (super hacky)
-		TraceResult walltr = Trace.Ray( SplitTop.GetBoneTransform( "pelvis" ).Position, SplitTop.GetBoneTransform( "pelvis" ).Position + (Rotation.Forward * Rand.Float( 25f, 50f )) ).Ignore( this ).Run();
+		TraceResult walltr = Trace.Ray( SplitTop.GetBoneTransform( "pelvis" ).Position, SplitTop.GetBoneTransform( "pelvis" ).Position + (Rotation.Forward * Game.Random.Float( 25f, 50f )) ).Ignore( this ).Run();
 		if ( walltr.Entity is HammerEntities.DoorEntity door )
 		{
 			SplitTop.SetAnimParameter( "bangdoor", true );
@@ -279,7 +279,7 @@ public partial class Splitizen : AnimatedEntity
 	public static void SetTarget()
 	{
 		var caller = ConsoleSystem.Caller;
-		var pawn = caller.Pawn;
+		var pawn = (Pawn)caller.Pawn;
 
 		var tr = Trace.Ray( pawn.EyePosition, pawn.EyePosition + pawn.EyeRotation.Forward * 1024f ).WorldOnly().Run();
 		if ( !tr.Hit )

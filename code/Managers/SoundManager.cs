@@ -75,7 +75,7 @@ public static class SoundManager
 	/// <summary>
 	/// The time until the next ambient noise needs to be played.
 	/// </summary>
-	private static TimeUntil TimeUntilNextAmbientNoise = Rand.Float( MinimumAmbientNoiseDelay, MaximumAmbientNoiseDelay );
+	private static TimeUntil TimeUntilNextAmbientNoise = Game.Random.Float( MinimumAmbientNoiseDelay, MaximumAmbientNoiseDelay );
 
 	/// <summary>
 	/// Picks a random ambient sound and starts playing it.
@@ -85,7 +85,7 @@ public static class SoundManager
 		if ( !EnableAmbience )
 			return;
 
-		var randomSound = Rand.FromArray( AmbientMusic );
+		var randomSound = Game.Random.FromArray( AmbientMusic );
 		CurrentMusicAmbience = Sound.FromScreen( randomSound );
 		CurrentMusicAmbience.SetVolume( AmbienceVolume );
 	}
@@ -105,7 +105,7 @@ public static class SoundManager
 		if ( !CurrentChaseMusic.Finished )
 			return;
 
-		var randomSound = Rand.FromArray( ChaseSounds );
+		var randomSound = Game.Random.FromArray( ChaseSounds );
 		CurrentChaseMusic = Sound.FromScreen( randomSound );
 	}
 
@@ -143,12 +143,12 @@ public static class SoundManager
 			return;
 
 		Vector3 resultPosition = Vector3.Zero;
-		var positionX = Rand.Int( 0, 1 ) == 1
-			? Rand.Float( chosenPawn.Position.x + MinimumAmbientNoiseRange, chosenPawn.Position.x + MaximumAmbientNoiseRange )
-			: Rand.Float( chosenPawn.Position.x - MaximumAmbientNoiseRange, chosenPawn.Position.x - MinimumAmbientNoiseRange );
-		var positionY = Rand.Int( 0, 1 ) == 1
-			? Rand.Float( chosenPawn.Position.y + MinimumAmbientNoiseRange, chosenPawn.Position.y + MaximumAmbientNoiseRange )
-			: Rand.Float( chosenPawn.Position.y - MaximumAmbientNoiseRange, chosenPawn.Position.y - MinimumAmbientNoiseRange );
+		var positionX = Game.Random.Int( 0, 1 ) == 1
+			? Game.Random.Float( chosenPawn.Position.x + MinimumAmbientNoiseRange, chosenPawn.Position.x + MaximumAmbientNoiseRange )
+			: Game.Random.Float( chosenPawn.Position.x - MaximumAmbientNoiseRange, chosenPawn.Position.x - MinimumAmbientNoiseRange );
+		var positionY = Game.Random.Int( 0, 1 ) == 1
+			? Game.Random.Float( chosenPawn.Position.y + MinimumAmbientNoiseRange, chosenPawn.Position.y + MaximumAmbientNoiseRange )
+			: Game.Random.Float( chosenPawn.Position.y - MaximumAmbientNoiseRange, chosenPawn.Position.y - MinimumAmbientNoiseRange );
 
 		resultPosition = new Vector3( positionX, positionY, chosenPawn.Position.z );
 		var tr = Trace.Sphere( 100, resultPosition, resultPosition ).Run();
@@ -156,8 +156,8 @@ public static class SoundManager
 		if ( !tr.Hit )
 			return;
 
-		TimeUntilNextAmbientNoise = Rand.Float( MinimumAmbientNoiseDelay, MaximumAmbientNoiseDelay );
-		Sound.FromWorld( To.Everyone, Rand.FromArray( AmbientNoises ), resultPosition );
+		TimeUntilNextAmbientNoise = Game.Random.Float( MinimumAmbientNoiseDelay, MaximumAmbientNoiseDelay );
+		Sound.FromWorld( To.Everyone, Game.Random.FromArray( AmbientNoises ), resultPosition );
 	}
 
 	/// <summary>

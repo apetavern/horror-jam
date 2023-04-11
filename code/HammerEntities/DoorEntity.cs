@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using Sandbox.ModelEditor.Nodes;
+using Sandbox.Utility;
 
 namespace GvarJam.HammerEntities;
 
@@ -356,9 +358,9 @@ public sealed partial class DoorEntity : KeyframeEntity, IUse
 		// When a model is reloaded, all entities get set to NULL model first
 		if ( model == null || model.IsError ) return;
 
-		if ( !IsServer ) return;
+		if ( !Game.IsServer ) return;
 
-		if ( model.TryGetData( out ModelDoorSounds sounds ) )
+		if ( model.TryGetData( out Sandbox.DoorEntity.ModelDoorSounds sounds ) )
 		{
 			if ( string.IsNullOrEmpty( MovingSound ) ) MovingSound = sounds.MovingSound;
 			if ( string.IsNullOrEmpty( CloseSound ) ) CloseSound = sounds.CloseSound;

@@ -117,7 +117,7 @@ public partial class DelayedUseItem : InteractableEntity
 	/// <inheritdoc/>
 	public override bool OnUse( Entity user )
 	{
-		if ( IsServer )
+		if ( Game.IsServer )
 			User = user;
 
 		CurrentUseTime += Time.Delta;
@@ -128,7 +128,7 @@ public partial class DelayedUseItem : InteractableEntity
 		if ( used )
 		{
 			OnUsed( user );
-			if ( IsServer && DeleteOnUse )
+			if ( Game.IsServer && DeleteOnUse )
 				Delete();
 			else if ( ResetOnUse )
 				Reset();
@@ -143,7 +143,7 @@ public partial class DelayedUseItem : InteractableEntity
 		CurrentUseTime = 0;
 		CurrentActionIndex = 0;
 		firstTimeActions.Clear();
-		if ( IsServer )
+		if ( Game.IsServer )
 			User = null;
 	}
 }

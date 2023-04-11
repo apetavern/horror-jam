@@ -1,43 +1,29 @@
-// THIS FILE IS AUTO-GENERATED
-
-Layer0
+"Layer0"
 {
-	shader "glass.vfx"
-
-	//---- Color ----
-	g_flModelTintAmount "0.977"
-	g_vColorTint "[0.674510 0.705882 0.713726 0.000000]"
-	TextureAmbientOcclusion "[1.000000 1.000000 1.000000 0.000000]"
-	TextureColor "[0.019608 0.968628 0.145098 0.000000]"
-	TextureMetalness "[1.000000 1.000000 1.000000 0.000000]"
-	TextureNormal "[0.501961 0.501961 1.000000 0.000000]"
-	TextureRoughness "[0.442000 0.442000 0.442000 0.000000]"
-	TextureTranslucency "[0.341000 0.341000 0.341000 0.000000]"
-
-	//---- Fade ----
-	g_flFadeExponent "1.000"
-
-	//---- Fresnel ----
-	g_bFresnel "1"
-	g_flEdgeColorFalloff "7.273"
-	g_flEdgeColorMaxOpacity "0.222"
-	g_flEdgeColorThickness "0.188"
-	g_vEdgeColor "[0.203922 0.956863 0.070588 0.000000]"
-
-	//---- Glass ----
-	g_flAlphaTestReference "0.000"
-	g_flOpacity "0.200"
-	GlassNormal "materials/default/default_normal.tga"
-	GlassRoughness "[0.000000 0.000000 0.000000 0.000000]"
-	GlassTintColor "[0.094118 0.862745 0.094118 0.000000]"
-
-	//---- Lighting ----
-	g_flDirectionalLightmapStrength "1.000"
-
-	//---- Texture Coordinates ----
-	g_nScaleTexCoordUByModelScaleAxis "0"
-	g_nScaleTexCoordVByModelScaleAxis "0"
-	g_vTexCoordOffset "[0.000 0.000]"
-	g_vTexCoordScale "[1.000 1.000]"
-	g_vTexCoordScrollSpeed "[0.000 0.000]"
+	"shader"		"shaders/glass.shader_c"
+	"g_flModelTintAmount"		"0.977000"
+	"g_vColorTint"		"[0.674510 0.705882 0.713726 0.000000]"
+	"TextureAmbientOcclusion"		"[1.000000 1.000000 1.000000 0.000000]"
+	"TextureColor"		"[0.019608 0.968628 0.145098 0.000000]"
+	"TextureMetalness"		"[1.000000 1.000000 1.000000 0.000000]"
+	"TextureNormal"		"[0.501961 0.501961 1.000000 0.000000]"
+	"TextureRoughness"		"[0.442000 0.442000 0.442000 0.000000]"
+	"TextureTranslucency"		"[0.341000 0.341000 0.341000 0.000000]"
+	"g_flFadeExponent"		"1.000000"
+	"g_bFresnel"		"1"
+	"g_flEdgeColorFalloff"		"7.273000"
+	"g_flEdgeColorMaxOpacity"		"0.222000"
+	"g_flEdgeColorThickness"		"0.188000"
+	"g_vEdgeColor"		"[0.203922 0.956863 0.070588 0.000000]"
+	"g_flAlphaTestReference"		"0.000000"
+	"g_flOpacity"		"0.200000"
+	"GlassNormal"		"materials/default/default_normal.tga"
+	"GlassRoughness"		"[0.000000 0.000000 0.000000 0.000000]"
+	"GlassTintColor"		"[0.094118 0.862745 0.094118 0.000000]"
+	"g_flDirectionalLightmapStrength"		"1.000000"
+	"g_nScaleTexCoordUByModelScaleAxis"		"0"
+	"g_nScaleTexCoordVByModelScaleAxis"		"0"
+	"g_vTexCoordOffset"		"[0.000 0.000]"
+	"g_vTexCoordScale"		"[1.000 1.000]"
+	"g_vTexCoordScrollSpeed"		"[0.000 0.000]"
 }

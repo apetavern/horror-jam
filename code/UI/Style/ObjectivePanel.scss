@@ -1,6 +1,6 @@
 ﻿@import "/UI/Style/_Base.scss";
 
-Objectives {
+ObjectivePanel {
     position: absolute;
     left: $safe-area-x;
     top: $safe-area-y;
@@ -25,7 +25,9 @@ Objectives {
         opacity: 1;
         transition: all 500ms ease;
 
-        icon, iconpanel, i {
+        icon,
+        iconpanel,
+        i {
             margin-left: 8px;
             margin-right: 12px;
             font-size: 24px;
@@ -41,12 +43,12 @@ Objectives {
         }
 
         &:intro {
-            transform: scale( 2.0 );
+            transform: scale(2.0);
             opacity: 0;
         }
 
         &:outro {
-            transform: translateX( -500px );
+            transform: translateX(-500px);
             opacity: 0;
         }
     }

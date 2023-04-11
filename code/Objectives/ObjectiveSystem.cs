@@ -44,7 +44,7 @@ public sealed class ObjectiveSystem
 
 		PendingObjectives.ForEach( x =>
 		{
-			Log.Trace( x.Resource.Name );
+			Log.Trace( x.Resource.ResourceName );
 		} );
 	}
 
@@ -115,7 +115,7 @@ public sealed class ObjectiveSystem
 			DebugOverlay.ScreenText( $"Active objective count: {ActiveObjectives.Count}", line++ );
 		}
 
-		foreach ( var pawn in Client.All.Select( x => x.Pawn ).OfType<Pawn>() )
+		foreach ( var pawn in Game.Clients.Select( x => x.Pawn ).OfType<Pawn>() )
 		{
 			CheckStartObjectives( pawn );
 			CheckEndObjectives( pawn );

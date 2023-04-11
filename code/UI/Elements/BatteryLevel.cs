@@ -24,7 +24,7 @@ public sealed class BatteryLevel : Panel
 	/// <inheritdoc/>
 	public override void Tick()
 	{
-		if ( Local.Pawn is not Pawn player )
+		if ( Game.LocalPawn is not Pawn player )
 			return;
 
 		SetClass( "visible", !player.LampPower.AlmostEqual( 100f ) && player.Helmet is not null );
