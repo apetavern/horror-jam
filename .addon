@@ -26,7 +26,7 @@
     "GameNetworkType": "Multiplayer",
     "MapSelect": "Hidden",
     "MapList": [
-      "apetavern.horror_jam_map"
+      "horror_jam_map"
     ],
     "RankType": "None",
     "PerMapRanking": false,
