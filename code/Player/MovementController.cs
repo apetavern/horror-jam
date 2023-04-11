@@ -97,7 +97,7 @@ public sealed partial class MovementController : EntityComponent<Pawn>
 		}
 		else
 		{
-			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, wishSpeed, 500f, 20f );
+			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, wishSpeed, 500f, 0f );
 			Entity.Velocity += Vector3.Down * Gravity * Time.Delta;
 		}
 
@@ -199,9 +199,9 @@ public sealed partial class MovementController : EntityComponent<Pawn>
 			return 0;
 
 		if ( Input.Down( InputButton.Run ) && IsSprinting ) return 170f;
-		if ( Input.Down( InputButton.Walk ) ) return 125f;
+		if ( Input.Down( InputButton.Walk ) ) return 110f;
 
-		return 125f;
+		return 110f;
 	}
 
 	Vector3 ApplyJump( Vector3 input, string jumpType )
