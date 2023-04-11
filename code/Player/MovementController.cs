@@ -97,7 +97,7 @@ public sealed partial class MovementController : EntityComponent<Pawn>
 		}
 		else
 		{
-			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, wishSpeed, 500f, 0f );
+			Entity.Velocity = Accelerate( Entity.Velocity, moveVector.Normal, wishSpeed, 50f, 3f );
 			Entity.Velocity += Vector3.Down * Gravity * Time.Delta;
 		}
 
