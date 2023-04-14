@@ -17,10 +17,6 @@
 								from = "material.vmat"
 								to = "textures/modular_kit/windowwall_01b.vmat"
 							},
-							{
-								from = "glass.vmat"
-								to = "materials/glass/sbox_glass.vmat"
-							},
 						]
 						use_global_default = false
 						global_default_material = ""
@@ -77,10 +73,7 @@
 						import_filter = 
 						{
 							exclude_by_default = false
-							exception_list = 
-							[
-								"Glass_001",
-							]
+							exception_list = [  ]
 						}
 					},
 				]

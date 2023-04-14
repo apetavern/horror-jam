@@ -14,10 +14,6 @@
 						remaps = 
 						[
 							{
-								from = "glass.vmat"
-								to = "materials/glass/sbox_glass.vmat"
-							},
-							{
 								from = "material.vmat"
 								to = "textures/modular_kit/wall_01d.vmat"
 							},
@@ -76,11 +72,8 @@
 						parent_bone = ""
 						import_filter = 
 						{
-							exclude_by_default = true
-							exception_list = 
-							[
-								"WindowWall_01c",
-							]
+							exclude_by_default = false
+							exception_list = [  ]
 						}
 					},
 				]
