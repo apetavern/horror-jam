@@ -1,0 +1,15 @@
+{
+	"UI": false,
+	"Volume": 1,
+	"VolumeRandom": 0,
+	"Pitch": 1,
+	"PitchRandom": 0,
+	"Decibels": 75,
+	"Sounds":
+	[
+		"sounds/flashlight/flashlight_click_on.vsnd"
+	],
+	"SelectionMode": "Forward",
+	"MaximumDistance": 1308.454300,
+	"MinimumDistance": 65.422720
+}

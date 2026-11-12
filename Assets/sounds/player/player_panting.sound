@@ -1,0 +1,15 @@
+{
+	"UI": true,
+	"Volume": 1,
+	"VolumeRandom": 0,
+	"Pitch": 1,
+	"PitchRandom": 0,
+	"Decibels": 75,
+	"Sounds":
+	[
+		"sounds/player/player_panting.vsnd"
+	],
+	"SelectionMode": "Random",
+	"MaximumDistance": 1308.454300,
+	"MinimumDistance": 65.422720
+}

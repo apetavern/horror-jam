@@ -1,0 +1,15 @@
+{
+	"UI": true,
+	"Volume": 1,
+	"VolumeRandom": 0,
+	"Pitch": 1,
+	"PitchRandom": 0,
+	"Decibels": 90,
+	"Sounds":
+	[
+		"sounds/environment/slow_creep_ambient.vsnd"
+	],
+	"SelectionMode": "Random",
+	"MaximumDistance": 1870.094200,
+	"MinimumDistance": 93.504715
+}

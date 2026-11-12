@@ -1,99 +1,47 @@
-﻿namespace GvarJam.Objectives;
+namespace GvarJam.Objectives;
 
-/// <summary>
-/// Represents an objective in the game to complete.
-/// </summary>
 public sealed class Objective
 {
-	/// <summary>
-	/// The underlying resource of the objective.
-	/// </summary>
 	public ObjectiveResource Resource { get; set; } = null!;
-
-	/// <summary>
-	/// The time since the objective was started.
-	/// </summary>
 	private TimeSince TimeSinceObjectiveStart;
-
-	/// <summary>
-	/// The time since the objective was finished.
-	/// </summary>
 	private TimeSince TimeSinceObjectiveEnd;
 
-	/// <inheritdoc/>
-	public override bool Equals( object? obj )
+	public override bool Equals( object obj )
 	{
-		if ( obj is not Objective objective )
-			return false;
-
-		return Resource == objective.Resource;
+		return obj is Objective other && Resource == other.Resource;
 	}
 
-	/// <inheritdoc/>
-	public override int GetHashCode()
-	{
-		return Resource.GetHashCode();
-	}
+	public override int GetHashCode() => Resource.GetHashCode();
 
-	/// <summary>
-	/// Run through all the inactive objectives and check if all the start
-	/// conditions are currently being met
-	/// </summary>
-	public bool CheckStart( Pawn pawn )
+	public bool CheckStart( ColdOpenPlayer player )
 	{
-		bool conditionsMet = true;
-
 		foreach ( var condition in Resource.ObjectiveStartConditions )
 		{
-			if ( !condition.IsMet( pawn ) )
-			{
-				conditionsMet = false;
-				break;
-			}
+			if ( !condition.IsMet( player ) )
+				return false;
 		}
-
-		return conditionsMet;
+		return Resource.ObjectiveStartConditions.Count > 0;
 	}
 
-	/// <summary>
-	/// Run through all the active objectives and check if all the end
-	/// conditions are currently being met
-	/// </summary>
-	public bool CheckEnd( Pawn pawn )
+	public bool CheckEnd( ColdOpenPlayer player )
 	{
-		bool conditionsMet = true;
-
 		foreach ( var condition in Resource.ObjectiveEndConditions )
 		{
-			if ( !condition.IsMet( pawn, TimeSinceObjectiveStart ) )
-			{
-				conditionsMet = false;
-				break;
-			}
+			if ( !condition.IsMet( player, TimeSinceObjectiveStart ) )
+				return false;
 		}
-
-		return conditionsMet;
+		return true;
 	}
 
-	/// <summary>
-	/// Invokes the event methods for pawns to start the objective.
-	/// </summary>
-	/// <param name="pawn">The pawn to invoke the event methods for.</param>
-	public void InvokeStartEvents( Pawn pawn )
+	public void InvokeStartEvents( ColdOpenPlayer player )
 	{
-		Resource.ObjectiveStartEvents?.ForEach( x => x.Invoke( pawn ) );
-
+		Resource.ObjectiveStartEvents?.ForEach( x => x.Invoke( player ) );
 		TimeSinceObjectiveStart = 0;
 	}
 
-	/// <summary>
-	/// Invokes the event methods for pawns to finish the objective.
-	/// </summary>
-	/// <param name="pawn">The pawn to invoke the event methods for.</param>
-	public void InvokeEndEvents( Pawn pawn )
+	public void InvokeEndEvents( ColdOpenPlayer player )
 	{
-		Resource.ObjectiveEndEvents?.ForEach( x => x.Invoke( pawn ) );
-
+		Resource.ObjectiveEndEvents?.ForEach( x => x.Invoke( player ) );
 		TimeSinceObjectiveEnd = 0;
 	}
 }

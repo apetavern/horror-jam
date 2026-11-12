@@ -1,0 +1,15 @@
+{
+	"UI": false,
+	"Volume": 1,
+	"VolumeRandom": 0,
+	"Pitch": 1,
+	"PitchRandom": 0,
+	"Decibels": 90,
+	"Sounds":
+	[
+		"sounds/monster/splitizen_crunch_2.vsnd"
+	],
+	"SelectionMode": "Random",
+	"MaximumDistance": 1870.094200,
+	"MinimumDistance": 93.504715
+}

@@ -1,165 +1,152 @@
-﻿namespace GvarJam.Objectives;
+namespace GvarJam.Objectives;
 
-/// <summary>
-/// An event to be invoked on pawns when an objective starts or ends.
-/// </summary>
 public struct ObjectiveEvent
 {
-	/// <summary>
-	/// The type of the event.
-	/// </summary>
 	public EventType Type { get; set; }
 
-	/// <summary>
-	/// The name of the sound to play when <see cref="EventType"/> is <see cref="EventType.PlaySound"/>.
-	/// </summary>
 	[ShowIf( nameof( Type ), EventType.PlaySound ), ResourceType( "sound" )]
 	public string SoundName { get; set; }
 
-	/// <summary>
-	/// Alter the lighting on the ship
-	/// </summary>
 	[ShowIf( nameof( Type ), EventType.SetLighting )]
 	public bool LightsEnabled { get; set; }
 
-	/// <summary>
-	/// Alter the lighting on the ship
-	/// </summary>
 	[ShowIf( nameof( Type ), EventType.SetDoorLockState )]
 	public string DoorName { get; set; }
 
-	/// <summary>
-	/// Set lockstate of door
-	/// </summary>
 	[ShowIf( nameof( Type ), EventType.SetDoorLockState )]
 	public bool DoorLocked { get; set; }
 
-	/// <summary>
-	/// The name of the entity to start the cutscene in the perspective of.
-	/// </summary>
 	[ShowIf( nameof( Type ), EventType.PlayCutscene )]
 	public string TargetEntityName { get; set; }
 
-	/// <summary>
-	/// The name of the entity to get the transform of for the start of the cutscene.
-	/// </summary>
 	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene )]
 	public string InfoTarget { get; set; }
 
-	/// <summary>
-	/// The model of the entity to start the cutscene in the perspective of.
-	/// </summary>
 	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene ), ResourceType( "vmdl" )]
 	public string TargetModel { get; set; }
 
-	/// <summary>
-	/// A list of all scene models to create for the objective.
-	/// </summary>
 	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene ), ResourceType( "vmdl" )]
 	public List<string> AdditionalSceneModels { get; set; }
 
-	/// <summary>
-	/// The attachment of the target entity in the cutscene.
-	/// </summary>
 	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene )]
 	public string TargetAttachment { get; set; }
 
-	/// <summary>
-	/// Whether or not the cutscene requires an input to start playing.
-	/// </summary>
 	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene )]
 	public bool InputRequiredToStart { get; set; }
 
-	/// <summary>
-	/// The duration of the cutscene.
-	/// </summary>
 	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene )]
 	public float Duration { get; set; }
 
-	/// <summary>
-	/// Whether or not player pawns should be hidden during the cutscenes.
-	/// </summary>
 	[ShowIf( nameof( Type ), EventType.PlayInstantiatedCutscene )]
 	public bool HidePlayers { get; set; }
 
 	[ShowIf( nameof( Type ), EventType.PlayMonsterIntroductionCutscene )]
 	public string MonsterCameraToUse { get; set; }
 
-	/// <summary>
-	/// The duration of the cutscene.
-	/// </summary>
 	[ShowIf( nameof( Type ), EventType.PlayMonsterIntroductionCutscene )]
 	public float MonsterCutsceneDuration { get; set; }
 
-	/// <summary>
-	/// Invokes the event.
-	/// </summary>
-	/// <param name="pawn">The pawn to invoke the event for.</param>
-	public void Invoke( Pawn pawn )
+	public void Invoke( ColdOpenPlayer player )
 	{
+		var scene = player.Scene;
 		switch ( Type )
 		{
 			case EventType.PlaySound:
-				Sound.FromScreen( SoundName );
+				if ( !string.IsNullOrEmpty( SoundName ) )
+					AudioDirector.Play2D( SoundName );
 				break;
+
 			case EventType.PlayCutscene:
-				if ( Entity.FindByName( TargetEntityName ) is not AnimatedEntity targetEntity )
+			{
+				var targetEntityName = TargetEntityName ?? "";
+				var targetGo = scene.GetAllObjects( true ).FirstOrDefault( x => x.Name.Contains( targetEntityName, StringComparison.OrdinalIgnoreCase ) );
+				var renderer = targetGo?.GetComponent<SkinnedModelRenderer>();
+				if ( renderer is null )
 				{
-					Log.Warning( $"Failed to find target entity {TargetEntityName}" );
+					Log.Warning( $"Failed to find target cutscene entity {TargetEntityName}" );
+					return;
+				}
+				player.Cutscenes.StartCutscene( renderer, TargetAttachment, Duration, HidePlayers );
+				break;
+			}
+
+			case EventType.PlayInstantiatedCutscene:
+			{
+				var infoTargetName = InfoTarget ?? "";
+				var infoTarget = scene.GetAllObjects( true ).FirstOrDefault( x => x.Name.Contains( infoTargetName, StringComparison.OrdinalIgnoreCase ) );
+				if ( infoTarget is null )
+				{
+					Log.Warning( $"Failed to find info_target {InfoTarget}" );
 					return;
 				}
 
-				pawn.StartCutscene( targetEntity, TargetAttachment, Duration, HidePlayers );
-				break;
-			case EventType.PlayInstantiatedCutscene:
-				var infoTargetName = InfoTarget;
-				var infoTarget = Entity.All.FirstOrDefault( x => x.Name.Contains( infoTargetName ) );
+				Log.Info( $"[Cutscene] Spawning {TargetModel} at {infoTarget.Name}" );
+				var mainGo = new GameObject( false, $"Cutscene_{TargetModel}" );
+				mainGo.WorldTransform = infoTarget.WorldTransform;
+				var mainRenderer = mainGo.AddComponent<SkinnedModelRenderer>();
+				mainRenderer.Model = Model.Load( TargetModel );
+				mainRenderer.CreateAttachments = true;
+				mainGo.Enabled = true;
+				Log.Info( $"[Cutscene] Loaded main model {TargetModel}" );
 
-				var animEntity = new AnimatedEntity( TargetModel )
-				{
-					Transform = infoTarget.Transform
-				};
-
-				// Spawn additional models
-				var sceneModels = new List<AnimatedEntity>();
-
+				var sceneModels = new List<SkinnedModelRenderer>();
 				if ( AdditionalSceneModels is not null )
 				{
-					foreach ( var model in AdditionalSceneModels )
+					foreach ( var modelPath in AdditionalSceneModels )
 					{
-						var animEnt = new AnimatedEntity( model )
-						{
-							Transform = infoTarget.Transform
-						};
-						sceneModels.Add( animEnt );
+						var extraGo = new GameObject( false, $"CutsceneExtra_{modelPath}" );
+						extraGo.WorldTransform = infoTarget.WorldTransform;
+						var extraRenderer = extraGo.AddComponent<SkinnedModelRenderer>();
+						extraRenderer.Model = Model.Load( modelPath );
+						extraGo.Enabled = true;
+						sceneModels.Add( extraRenderer );
+						Log.Info( $"[Cutscene] Loaded extra model {modelPath}" );
 					}
 				}
 
-				pawn.StartCutsceneWithPostCleanup( animEntity, sceneModels, TargetAttachment, Duration, InputRequiredToStart, HidePlayers );
+				player.Cutscenes.StartCutsceneWithPostCleanup( mainRenderer, sceneModels, TargetAttachment, Duration, InputRequiredToStart, HidePlayers );
+				Log.Info( "[Cutscene] StartCutsceneWithPostCleanup done" );
 				break;
+			}
+
 			case EventType.SetLighting:
-				LightManager.ToggleLighting( LightsEnabled );
+				scene.GetSystem<PowerSystem>()?.SetLightState( LightsEnabled );
 				break;
+
 			case EventType.SetDoorLockState:
-				var doorName = DoorName;
-				var door = Entity.All.OfType<HammerEntities.DoorEntity>().FirstOrDefault( x => x.Name.ToLower().Contains( doorName.ToLower() ) );
-
-				Log.Info( $"Locking {door}" );
-
+			{
+				var doorName = DoorName ?? "";
+				var door = scene.GetAllComponents<DoorControllerComponent>()
+					.FirstOrDefault( x => x.GameObject.Name.Contains( doorName, StringComparison.OrdinalIgnoreCase ) );
 				if ( door is null )
+				{
+					Log.Warning( $"SetDoorLockState: failed to find door {DoorName}" );
 					return;
-
+				}
 				door.ObjectiveLocked = DoorLocked;
+				if ( !DoorLocked )
+				{
+					door.Locked = false;
+					door.BypassItemRequirement = true;
+				}
 				break;
+			}
+
 			case EventType.PlayMonsterIntroductionCutscene:
-				var camName = MonsterCameraToUse;
-				var corridorToUse = Entity.All.OfType<Entity>().Where( x => x.Name.ToLower().Contains( camName.ToLower() ) ).OrderByDescending( x => Vector3.DistanceBetween( pawn.Position, x.Position ) );
+			{
+				var camName = MonsterCameraToUse ?? "";
+				var target = scene.GetAllObjects( true )
+					.Where( x => x.Name.Contains( camName, StringComparison.OrdinalIgnoreCase ) )
+					.OrderByDescending( x => Vector3.DistanceBetween( player.WorldPosition, x.WorldPosition ) )
+					.LastOrDefault();
 
-				pawn.StartManualCutscene( corridorToUse.Last(), MonsterCutsceneDuration, HidePlayers );
-
+				if ( target is not null )
+					player.Cutscenes.StartManualCutscene( target, MonsterCutsceneDuration, HidePlayers );
 				break;
+			}
+
 			case EventType.ShowCredits:
-				UI.Elements.Credits.DisplayCredits( To.Everyone );
+				CreditsPanel.DisplayCredits();
 				break;
 		}
 	}

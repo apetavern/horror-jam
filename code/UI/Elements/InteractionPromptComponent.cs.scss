@@ -1,0 +1,15 @@
+@import "../Style/WorldPanels.scss";
+
+.auto-hide {
+    opacity: 0;
+    transition: opacity 1000ms ease;
+
+    &.visible {
+        transition: opacity 100ms ease;
+        opacity: 1;
+    }
+}
+
+.hide {
+    opacity: 0;
+}

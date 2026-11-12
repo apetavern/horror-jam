@@ -1,0 +1,17 @@
+{
+	"UI": false,
+	"Volume": 0.900000,
+	"VolumeRandom": 0.100000,
+	"Pitch": 1,
+	"PitchRandom": 0.150000,
+	"Decibels": 70,
+	"Sounds":
+	[
+		"sounds/monster/monster_scratch_1.vsnd",
+		"sounds/monster/monster_scratch_2.vsnd",
+		"sounds/monster/monster_scratch_3.vsnd"
+	],
+	"SelectionMode": "Random",
+	"MaximumDistance": 1143.933500,
+	"MinimumDistance": 57.196674
+}

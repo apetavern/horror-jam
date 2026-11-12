@@ -1,0 +1,15 @@
+{
+	"UI": false,
+	"Volume": 1,
+	"VolumeRandom": 0.150000,
+	"Pitch": 1,
+	"PitchRandom": 0.200000,
+	"Decibels": 100,
+	"Sounds":
+	[
+		"sounds/monster/generic_metal_thump.vsnd"
+	],
+	"SelectionMode": "Random",
+	"MaximumDistance": 2301.252200,
+	"MinimumDistance": 115.062614
+}

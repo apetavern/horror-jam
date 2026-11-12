@@ -1,38 +1,25 @@
-﻿namespace GvarJam.UI.Elements;
+namespace GvarJam.UI.Elements;
 
-/// <summary>
-/// A blank screen with space to start on it.
-/// </summary>
 public sealed class SpaceToStart : Panel
 {
-	/// <summary>
-	/// The overlay to display to the player.
-	/// </summary>
-	public Panel Overlay { get; set; }
+	public Panel Overlay { get; }
 
-	/// <summary>
-	/// Initializes a default instance of <see cref="SpaceToStart"/>.
-	/// </summary>
 	public SpaceToStart()
 	{
 		Overlay = Add.Panel( "Overlay" );
-
 		Overlay.Add.Label( "PRESS" );
 		var image = Overlay.Add.Image();
-		image.Texture = InputButton.Jump.GetInputGlpyh( GlyphStyle.Dark );
+		image.Texture = Input.GetGlyph( "Jump", InputGlyphSize.Medium, GlyphStyle.Dark );
 		Overlay.Add.Label( "TO START" );
-
 		Overlay.SetClass( "Display", true );
 	}
 
-	/// <inheritdoc/>
 	public override void Tick()
 	{
 		base.Tick();
+		var player = Game.ActiveScene?.GetAllComponents<ColdOpenPlayer>().FirstOrDefault();
+		if ( player is null ) return;
 
-		if ( Game.LocalPawn is not Pawn pawn )
-			return;
-
-		Overlay.SetClass( "Hide", !pawn.AwaitingCutsceneInput );
+		Overlay.SetClass( "Hide", !player.Cutscenes.AwaitingCutsceneInput );
 	}
 }

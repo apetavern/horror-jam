@@ -1,19 +1,25 @@
-﻿@import "/UI/Style/StaminaBar.scss";
-@import "/UI/Style/InteractionProgress.scss";
-@import "/UI/Style/BatteryLevel.scss";
-@import "/UI/Style/WorldPanels.scss";
-@import "/UI/Style/Crosshair.scss";
-@import "/UI/Style/LetterboxBars.scss";
-@import "/UI/Style/SpaceToStart.scss";
-@import "/UI/Style/DeathScreen.scss";
-@import "/UI/Style/NotePanel.scss";
-@import "/UI/Style/ObjectivePanel.scss";
-@import "/UI/Style/NewObjectivePanel.scss";
-@import "/UI/Style/PrereqHint.scss";
+﻿@import "Style/StaminaBar.scss";
+@import "Style/InteractionProgress.scss";
+@import "Style/BatteryLevel.scss";
+@import "Style/WorldPanels.scss";
+@import "Style/Crosshair.scss";
+@import "Style/LetterboxBars.scss";
+@import "Style/SpaceToStart.scss";
+@import "Style/DeathScreen.scss";
+@import "Style/NotePanel.scss";
+@import "Style/ObjectivePanel.scss";
+@import "Style/NewObjectivePanel.scss";
+@import "Style/PrereqHint.scss";
+@import "Style/Credits.scss";
 
-RootPanel {
+.hud-root {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    font-family: Chakra Petch;
+    text-shadow: 0 4px 4px rgba(black, 0.25);
+
     &.in-cutscene {
-
         StaminaBar,
         InteractionProgress,
         BatteryLevel,
@@ -37,7 +43,6 @@ RootPanel {
     }
 
     &.player-dead {
-
         StaminaBar,
         InteractionProgress,
         BatteryLevel,
@@ -55,18 +60,15 @@ RootPanel {
             display: none;
         }
     }
-
-    font-family: Chakra Petch;
-    text-shadow: 0 4px 4px rgba(black, 0.25);
 }
 
 IconPanel,
 icon,
 i {
-    font-family: MaterialIcons;
+    font-family: Material Icons;
 
     label {
-        font-family: MaterialIcons;
+        font-family: Material Icons;
     }
 }
 

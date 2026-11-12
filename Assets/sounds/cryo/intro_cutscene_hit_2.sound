@@ -1,0 +1,15 @@
+{
+	"UI": false,
+	"Volume": 1,
+	"VolumeRandom": 0,
+	"Pitch": 1,
+	"PitchRandom": 0,
+	"Decibels": 145,
+	"Sounds":
+	[
+		"sounds/cryo/intro_cutscene_hit_2.vsnd"
+	],
+	"SelectionMode": "Random",
+	"MaximumDistance": 4803.102500,
+	"MinimumDistance": 240.155140
+}

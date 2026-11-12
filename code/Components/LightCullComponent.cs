@@ -1,96 +1,77 @@
-﻿namespace GvarJam.Components;
+namespace GvarJam.Components;
 
-/// <summary>
-/// A component to cull the light source of its owner when not needed.
-/// </summary>
-public sealed class LightCullComponent : EntityComponent
+public sealed class LightCullComponent : Component
 {
-	/// <summary>
-	/// The light this component is on.
-	/// </summary>
-	public PointLightEntity? Light;
+	private PointLight _light;
+	private Color _baseColor;
+	private float _brightnessFade = 1f;
 
-	/// <summary>
-	/// The distance at which the lights will fade.
-	/// </summary>
-	private float brightnessFade;
-
-	/// <summary>
-	/// An array of all cameras in the map.
-	/// </summary>
-	private MountedCamera[] cams;
-	/// <summary>
-	/// The currently viewed camera.
-	/// </summary>
-	private MountedCamera? viewcam;
-
-	/// <inheritdoc/>
-	protected override void OnActivate()
+	protected override void OnStart()
 	{
-		base.OnActivate();
+		_light = GetComponent<PointLight>();
+		if ( _light is null ) return;
 
-		Light = (PointLightEntity)Entity;
-
-		cams = Entity.All.OfType<MountedCamera>().ToArray();
-
-		Light.DynamicShadows = false;
-		Light.RenderDirty();
+		_baseColor = _light.LightColor;
+		_light.Shadows = false;
 	}
 
-	/// <summary>
-	/// Called for every tick on the client.
-	/// </summary>
-	[Event.Tick.Client]
-	public void OnTick()
+	protected override void OnUpdate()
 	{
-		if ( !HorrorGame.Current.LightsEnabled )
-		{
-			if ( Light.Enabled )
-				Light.Enabled = false;
+		if ( _light is null ) return;
 
+		var power = Scene?.GetSystem<PowerSystem>();
+		if ( power is not null && !power.LightsEnabled )
+		{
+			if ( _light.Enabled )
+				_light.Enabled = false;
 			return;
 		}
 
-		if ( Light != null && Game.LocalPawn != null ) 
+		var player = Scene.GetAllComponents<ColdOpenPlayer>().FirstOrDefault();
+		if ( player is null ) return;
+
+		MountedCameraComponent viewCam = null;
+		foreach ( var cam in Scene.GetAllComponents<MountedCameraComponent>() )
 		{
-			viewcam = null;
-			foreach ( var cam in cams )
+			if ( cam.IsBeingViewed )
 			{
-				if ( cam.IsBeingViewed )
-					viewcam = cam;
+				viewCam = cam;
+				break;
 			}
+		}
 
-			float dist = Vector3.DistanceBetween( Light.Position, Game.LocalPawn.Position + Game.LocalPawn.Rotation.Forward * 128f );
-			bool UnShadowed = Trace.Ray( Light.Position, Game.LocalPawn.Position + Vector3.Up * 45f ).Ignore( Game.LocalPawn ).Run().Hit 
-							&& Trace.Ray( Light.Position, (Game.LocalPawn as Pawn)!.EyePosition ).Ignore( Game.LocalPawn ).Run().Hit;
+		float dist = Vector3.DistanceBetween( WorldPosition, player.WorldPosition + player.WorldRotation.Forward * 128f );
 
-			if ( viewcam != null )
-			{
-				UnShadowed = Trace.Ray( Light.Position, Game.LocalPawn.Position + Vector3.Up * 45f ).Ignore( Game.LocalPawn ).Run().Hit
-							&& Trace.Ray( Light.Position, (Game.LocalPawn as Pawn)!.EyePosition ).Ignore( Game.LocalPawn ).Run().Hit && 
-							Trace.Ray( Light.Position, viewcam.Position - Vector3.Up * 45f ).Ignore( Game.LocalPawn ).Run().Hit;
-			}
+		bool occluded = Scene.Trace.Ray( WorldPosition, player.WorldPosition + Vector3.Up * 45f ).IgnoreGameObjectHierarchy( player.GameObject ).Run().Hit
+			&& Scene.Trace.Ray( WorldPosition, player.EyePosition ).IgnoreGameObjectHierarchy( player.GameObject ).Run().Hit;
 
-			if ( UnShadowed )
-				brightnessFade = 0f;
+		if ( viewCam is not null )
+		{
+			occluded = occluded && Scene.Trace.Ray( WorldPosition, viewCam.WorldPosition - Vector3.Up * 45f ).IgnoreGameObjectHierarchy( player.GameObject ).Run().Hit;
+		}
 
-			if( !UnShadowed || dist < 256 )
-				brightnessFade = 1f;
+		if ( occluded )
+			_brightnessFade = 0f;
 
-			Light.Brightness = MathX.Lerp( Light.Brightness, brightnessFade, 0.5f * Time.Delta );
+		if ( !occluded || dist < 256f )
+			_brightnessFade = 1f;
 
-			if(Light.Brightness <= 0.01f )
-			{
-				Light.DynamicShadows = false;
-				Light.Enabled = false;
-			}
-			else
-			{
-				Light.DynamicShadows = true;
-				Light.Enabled = true;
-			}
+		float currentScale = (_baseColor.r + _baseColor.g + _baseColor.b) > 0.0001f
+			? (_light.LightColor.r + _light.LightColor.g + _light.LightColor.b) / (_baseColor.r + _baseColor.g + _baseColor.b)
+			: (_light.Enabled ? 1f : 0f);
 
-			Light.RenderDirty();
+		float nextScale = MathX.Lerp( currentScale, _brightnessFade, 0.5f * Time.Delta );
+		_light.LightColor = _baseColor * nextScale;
+
+		if ( nextScale <= 0.01f )
+		{
+			_light.Shadows = false;
+			_light.Enabled = false;
+		}
+		else
+		{
+			_light.Shadows = true;
+			_light.Enabled = true;
 		}
 	}
 }

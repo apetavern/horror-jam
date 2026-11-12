@@ -1,0 +1,15 @@
+{
+	"UI": false,
+	"Volume": 1,
+	"VolumeRandom": 0,
+	"Pitch": 1,
+	"PitchRandom": 0,
+	"Decibels": 30,
+	"Sounds":
+	[
+		"sounds/camera/camera_whirring_start_stop.vsnd"
+	],
+	"SelectionMode": "Random",
+	"MaximumDistance": 236.232670,
+	"MinimumDistance": 11.811633
+}

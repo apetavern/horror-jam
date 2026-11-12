@@ -1,52 +1,32 @@
-﻿namespace GvarJam.UI.Elements;
+namespace GvarJam.UI.Elements;
 
-/// <summary>
-/// A hint for showing pre-requisites of interactables.
-/// </summary>
 public sealed class PrereqHint : Panel
 {
-	/// <summary>
-	/// The label explaining what item is needed.
-	/// </summary>
-	private readonly Label label;
+	private readonly Label _label;
 
-	/// <summary>
-	/// Initializes a default instance of <see cref="PrereqHint"/>.
-	/// </summary>
 	public PrereqHint()
 	{
-		StyleSheet.Load( "/UI/Hud.scss" );
-
-		label = Add.Label( "Hint" );
+		_label = Add.Label( "Hint" );
 		AddClass( "auto-hide" );
 	}
 
-	/// <inheritdoc/>
 	public override void Tick()
 	{
-		if ( Game.LocalPawn is not Pawn pawn )
-			return;
-
 		SetClass( "visible", false );
 
-		var entity = pawn.FindInteractableEntity();
-		if ( entity is null || !entity.IsValid || entity is not InteractableEntity interactable )
-			return;
+		var player = Game.ActiveScene?.GetAllComponents<ColdOpenPlayer>().FirstOrDefault();
+		if ( player is null ) return;
 
-		if ( pawn.Position.Distance( interactable.Position ) > 100 )
-			return;
-
-		if ( interactable.IsUsable( pawn ) )
-			return;
-
-		if ( interactable.HasBeenUsed )
-			return;
+		var interactable = player.Interaction.FindInteractable();
+		if ( interactable is null || !interactable.IsValid() ) return;
+		if ( player.WorldPosition.Distance( interactable.WorldPosition ) > 100f ) return;
+		if ( interactable.IsUsable( player ) ) return;
+		if ( interactable.HasBeenUsed ) return;
 
 		var items = interactable.RequiredItems;
-		if ( items.Count == 0 )
-			return;
+		if ( items.Count == 0 ) return;
 
-		label.Text = $"Need {items.First().Key.GetItemName()}";
+		_label.Text = $"Need {items.First().Key.GetItemName()}";
 		SetClass( "visible", true );
 	}
 }

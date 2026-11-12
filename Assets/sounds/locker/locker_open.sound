@@ -1,0 +1,16 @@
+{
+	"UI": false,
+	"Volume": 1,
+	"VolumeRandom": 0,
+	"Pitch": 1,
+	"PitchRandom": 0,
+	"Decibels": 95,
+	"Sounds":
+	[
+		"sounds/locker/locker_open_1.vsnd",
+		"sounds/locker/locker_open_2.vsnd"
+	],
+	"SelectionMode": "Random",
+	"MaximumDistance": 2080,
+	"MinimumDistance": 104
+}

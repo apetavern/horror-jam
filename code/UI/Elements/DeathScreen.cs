@@ -1,39 +1,26 @@
-﻿namespace GvarJam.UI.Elements;
+namespace GvarJam.UI.Elements;
 
-/// <summary>
-/// The screen that shows once the player is killed.
-/// </summary>
 public sealed class DeathScreen : Panel
 {
-	/// <summary>
-	/// The overlay to display to the player.
-	/// </summary>
-	public Panel Overlay { get; set; }
+	public Panel Overlay { get; }
 
-	/// <summary>
-	/// Initializes a default instance of <see cref="DeathScreen"/>.
-	/// </summary>
 	public DeathScreen()
 	{
 		Overlay = Add.Panel( "Overlay" );
 		Overlay.Add.Label( "YOU HAVE DIED", "Title" );
-
 		Overlay.Add.Label( "PRESS" );
 		var image = Overlay.Add.Image();
-		image.Texture = InputButton.Jump.GetInputGlpyh( GlyphStyle.Light );
+		image.Texture = Input.GetGlyph( "Jump", InputGlyphSize.Medium, GlyphStyle.Light );
 		Overlay.Add.Label( "TO RETRY" );
-
 		Overlay.SetClass( "Display", true );
 	}
 
-	/// <inheritdoc/>
 	public override void Tick()
 	{
 		base.Tick();
+		var player = Game.ActiveScene?.GetAllComponents<ColdOpenPlayer>().FirstOrDefault();
+		if ( player is null ) return;
 
-		if ( Game.LocalPawn is not Pawn pawn )
-			return;
-
-		Overlay.SetClass( "Show", pawn.LifeState == LifeState.Dead );
+		Overlay.SetClass( "Show", player.IsDead );
 	}
 }

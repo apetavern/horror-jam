@@ -1,28 +1,14 @@
-﻿namespace GvarJam.Utility;
+namespace GvarJam.Utility;
 
-/// <summary>
-/// Extension class for <see cref="Graphics"/>.
-/// </summary>
 public static class GraphicsExtensions
 {
-	/// <summary>
-	/// Draws a hollow circle to the screen.
-	/// </summary>
-	/// <param name="center">The center point of the circle.</param>
-	/// <param name="outer">The thickness of the outline portion.</param>
-	/// <param name="inner">The thickness of the hollow portion.</param>
-	/// <param name="color">The color of the circle.</param>
-	/// <param name="points">The resolution of the circles "roundness"</param>
-	/// <param name="startAngle">The start angle to draw from.</param>
-	/// <param name="endAngle">The end angle to draw to.</param>
 	public static void CircleEx( in Vector2 center, float outer, float inner, Color color, int points = 32, float startAngle = 0f, float endAngle = 360f )
 	{
 		var vertices = new List<Vertex>();
 
-		void AddVertex( Vector2 v, Color color, Vector2 uv2 )
+		void AddVertex( Vector2 v, Color col, Vector2 uv2 )
 		{
-			var vert = new Vertex( v, uv2, color );
-			vertices.Add( vert );
+			vertices.Add( new Vertex( v, uv2, col ) );
 		}
 
 		float twoPi = MathF.PI * 2f;
@@ -32,10 +18,7 @@ public static class GraphicsExtensions
 		}
 
 		float size = (endAngle - startAngle) % (twoPi + 0.01f);
-		if ( size <= 0f )
-		{
-			return;
-		}
+		if ( size <= 0f ) return;
 
 		float frac = twoPi / points;
 
@@ -43,10 +26,7 @@ public static class GraphicsExtensions
 		{
 			float angle = i;
 			float angleFrac = i + frac;
-			if ( angleFrac > endAngle )
-			{
-				angleFrac = endAngle;
-			}
+			if ( angleFrac > endAngle ) angleFrac = endAngle;
 
 			angle += MathF.PI;
 			angleFrac += MathF.PI;
@@ -54,30 +34,20 @@ public static class GraphicsExtensions
 			Vector2 x = new( MathF.Sin( 0f - angle ), MathF.Cos( 0f - angle ) );
 			Vector2 y = new( MathF.Sin( 0f - angleFrac ), MathF.Cos( 0f - angleFrac ) );
 
-			Vector2 uv2 = x / 2f + 0.5;
-			Vector2 uv3 = y / 2f + 0.5;
-			Vector2 uv4 = x * inner / outer / 2f + 0.5;
-			Vector2 uv5 = y * inner / outer / 2f + 0.5;
+			Vector2 uv2 = x / 2f + 0.5f;
+			Vector2 uv3 = y / 2f + 0.5f;
+			Vector2 uv4 = x * inner / outer / 2f + 0.5f;
+			Vector2 uv5 = y * inner / outer / 2f + 0.5f;
 
-			Vector2 v = center + x * outer;
-			AddVertex( v, color, uv2 );
-
-			v = center + y * outer;
-			AddVertex( v, color, uv3 );
-
-			v = center + x * inner;
-			AddVertex( v, color, uv4 );
+			AddVertex( center + x * outer, color, uv2 );
+			AddVertex( center + y * outer, color, uv3 );
+			AddVertex( center + x * inner, color, uv4 );
 
 			if ( inner > 0f )
 			{
-				v = center + y * outer;
-				AddVertex( v, color, uv3 );
-
-				v = center + y * inner;
-				AddVertex( v, color, uv5 );
-
-				v = center + x * inner;
-				AddVertex( v, color, uv4 );
+				AddVertex( center + y * outer, color, uv3 );
+				AddVertex( center + y * inner, color, uv5 );
+				AddVertex( center + x * inner, color, uv4 );
 			}
 		}
 

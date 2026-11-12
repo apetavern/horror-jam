@@ -1,51 +1,34 @@
-﻿namespace GvarJam.UI.Elements;
+namespace GvarJam.UI.Elements;
 
-/// <summary>
-/// The circular progress meter for interactions.
-/// </summary>
 public sealed class InteractionProgress : Panel
 {
-	/// <summary>
-	/// The thickness of the outer circle.
-	/// </summary>
 	private const float Thickness = 4f;
 
-	/// <summary>
-	/// Initializes a default instance of <see cref="InteractionProgress"/>.
-	/// </summary>
 	public InteractionProgress()
 	{
 		AddClass( "auto-hide" );
 	}
 
-	/// <inheritdoc/>
 	public override void Tick()
 	{
-		if ( Game.LocalPawn is not Pawn player )
-			return;
+		var player = Game.ActiveScene?.GetAllComponents<ColdOpenPlayer>().FirstOrDefault();
+		if ( player is null ) return;
 
-		SetClass( "visible", player.IsInteracting && player.InteractedEntity is DelayedUseItem item );
+		SetClass( "visible", player.Interaction.IsInteracting && player.Interaction.InteractedEntity is DelayedUseComponent );
 	}
 
-	/// <inheritdoc/>
 	public override void DrawBackground( ref RenderState state )
 	{
 		base.DrawBackground( ref state );
 
-		if ( Game.LocalPawn is not Pawn player )
-			return;
-
-		if ( !player.IsInteracting )
-			return;
-
-		if ( player.InteractedEntity is not DelayedUseItem item )
-			return;
+		var player = Game.ActiveScene?.GetAllComponents<ColdOpenPlayer>().FirstOrDefault();
+		if ( player is null || !player.Interaction.IsInteracting ) return;
+		if ( player.Interaction.InteractedEntity is not DelayedUseComponent item ) return;
 
 		var progress = item.GetInteractionProgress();
 		var bounds = Box.Rect;
-
 		var radius = bounds.Width / 2f;
-		var alpha = ComputedStyle?.Opacity ?? 1;
+		var alpha = ComputedStyle?.Opacity ?? 1f;
 		var color = Color.White.WithAlpha( alpha );
 		var endAngle = 360f * progress;
 

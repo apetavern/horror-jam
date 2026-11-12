@@ -1,33 +1,14 @@
-﻿namespace GvarJam.UI.Elements;
+namespace GvarJam.UI.Elements;
 
-/// <summary>
-/// The overlay for displaying icons over objective entities.
-/// </summary>
 public sealed class ObjectiveOverlay : Panel
 {
-	/// <summary>
-	/// The size of the material icon.
-	/// </summary>
 	private const float Size = 32f;
-	/// <summary>
-	/// The maximum distance to display an icon on an objective.
-	/// </summary>
 	private const float MaxDistance = 512f;
-	/// <summary>
-	/// The margin to keep objective icons from within the bounds of the screen.
-	/// </summary>
 	private const float Margin = 64f;
 
-	/// <summary>
-	/// The color to highlight objective markers in.
-	/// </summary>
 	private static readonly Color ObjectiveColor = new( 0xFFFFFFFF );
-	/// <summary>
-	/// The color to highlight note markers in.
-	/// </summary>
 	private static readonly Color NoteColor = new( 0xFFFFE900 );
 
-	/// <inheritdoc/>
 	public override void DrawBackground( ref RenderState state )
 	{
 		base.DrawBackground( ref state );
@@ -35,28 +16,29 @@ public sealed class ObjectiveOverlay : Panel
 		DrawNotes();
 	}
 
-	/// <summary>
-	/// Draws an icon over an entity.
-	/// </summary>
-	/// <param name="icon">The icon to draw.</param>
-	/// <param name="entity">The entity to draw the icon over.</param>
-	/// <param name="color">The color to draw the icon in.</param>
-	private void DrawIcon( string icon, Entity entity, Color? color = null )
+	private void DrawIcon( string icon, GameObject go, Color? color = null )
 	{
 		const float inchesToMetres = 0.0254f;
-		var col = color ?? Color.White;
+		var scene = Game.ActiveScene;
+		var cam = scene?.Camera;
+		if ( cam is null || !go.IsValid() ) return;
 
-		var position = entity.WorldSpaceBounds.Center;
-		var distance = Camera.Position.Distance( position );
+		var mr = go.GetComponent<ModelRenderer>();
+		var position = mr is not null ? mr.Bounds.Center : go.WorldPosition;
+		var distance = cam.WorldPosition.Distance( position );
 		var alpha = distance.LerpInverse( MaxDistance, 128f );
 
-		var screenPos = ((Vector2)position.ToScreen()) * Screen.Size;
+		var screenPos = cam.PointToScreenPixels( position, out bool isBehind );
+		if ( isBehind )
+		{
+			screenPos.x = Screen.Width - screenPos.x;
+			screenPos.y = Screen.Height - Margin;
+		}
 		screenPos = screenPos.Clamp( Margin, Screen.Size - Margin );
 		screenPos -= Size / 2.0f;
 
 		var rect = new Rect( screenPos, Size );
-
-		col = col.WithAlpha( alpha );
+		var col = (color ?? Color.White).WithAlpha( alpha );
 		Graphics.DrawIcon( rect, icon, col, Size );
 
 		rect.Position += new Vector2( 0, 32 );
@@ -67,62 +49,55 @@ public sealed class ObjectiveOverlay : Panel
 		Graphics.DrawText( rect, $"{displayDistance}m", col, "Chakra Petch", 14, 400, TextFlag.Center );
 	}
 
-	/// <summary>
-	/// Draws objective markers.
-	/// </summary>
 	private void DrawObjectives()
 	{
+		var scene = Game.ActiveScene;
+		var player = scene?.GetAllComponents<ColdOpenPlayer>().FirstOrDefault();
+		if ( scene is null || ObjectivePanel.Instance is null ) return;
+
 		foreach ( var objective in ObjectivePanel.Instance.DisplayObjectives )
 		{
 			foreach ( var endCondition in objective.ObjectiveEndConditions )
 			{
-				//
-				// This is awful. :D
-				//
-				Entity? entity = endCondition.Type switch
+				GameObject target = endCondition.Type switch
 				{
 					ObjectiveEndCondition.ConditionType.InteractWithEntity =>
-						Entity.FindByName( endCondition.InteractableName ),
+						scene.GetAllObjects( true ).FirstOrDefault( x => x.Name.Contains( endCondition.InteractableName ?? "", StringComparison.OrdinalIgnoreCase ) ),
 
 					ObjectiveEndCondition.ConditionType.InteractedWithEntity =>
-						Entity.FindByName( endCondition.InteractedName ),
+						scene.GetAllObjects( true ).FirstOrDefault( x => x.Name.Contains( endCondition.InteractedName ?? "", StringComparison.OrdinalIgnoreCase ) ),
 
 					ObjectiveEndCondition.ConditionType.InteractWithType =>
-						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).GetClosestOrDefault( Game.LocalPawn ),
+						scene.GetAllComponents<InteractableComponent>().Where( x => ObjectiveEndCondition.MatchesTypeName( x, endCondition.TypeName ) ).GetClosestOrDefault( player?.GameObject )?.GameObject,
 
 					ObjectiveEndCondition.ConditionType.InteractedWithType =>
-						Entity.All.Where( x => x.GetType().Name == endCondition.TypeName ).GetClosestOrDefault( Game.LocalPawn ),
+						scene.GetAllComponents<InteractableComponent>().Where( x => ObjectiveEndCondition.MatchesTypeName( x, endCondition.InteractedTypeName ) ).GetClosestOrDefault( player?.GameObject )?.GameObject,
 
 					ObjectiveEndCondition.ConditionType.PlayerEnteredTrigger =>
-						Entity.FindByName( endCondition.TriggerName ),
+						scene.GetAllObjects( true ).FirstOrDefault( x => x.Name.Contains( endCondition.TriggerName ?? "", StringComparison.OrdinalIgnoreCase ) ),
 
 					ObjectiveEndCondition.ConditionType.PlayerHasItem =>
-						Entity.All.OfType<InventoryItem>().Where( x => x.ItemType.ToString() == endCondition.ItemType ).GetClosestOrDefault( Game.LocalPawn ),
+						scene.GetAllComponents<InventoryItemComponent>().Where( x => x.ItemType.ToString() == endCondition.ItemType ).GetClosestOrDefault( player?.GameObject )?.GameObject,
 
-					ObjectiveEndCondition.ConditionType.Timer =>
-						null,
-
-					_ =>
-						null
+					_ => null
 				};
 
-				if ( !entity.IsValid() || entity == null )
-					continue;
-
-				DrawIcon( "radio_button_checked", entity, ObjectiveColor );
+				if ( target is not null && target.IsValid() )
+					DrawIcon( "radio_button_checked", target, ObjectiveColor );
 			}
 		}
 	}
 
-	/// <summary>
-	/// Draws note markers.
-	/// </summary>
 	private void DrawNotes()
 	{
-		foreach ( var note in Entity.All.OfType<Note>()
-			.Where( x => x.WorldSpaceBounds.Center.Distance( Camera.Position ) < MaxDistance ) )
+		var scene = Game.ActiveScene;
+		var cam = scene?.Camera;
+		if ( scene is null || cam is null ) return;
+
+		foreach ( var note in scene.GetAllComponents<NoteComponent>() )
 		{
-			DrawIcon( "description", note, NoteColor );
+			if ( note.WorldPosition.Distance( cam.WorldPosition ) < MaxDistance )
+				DrawIcon( "description", note.GameObject, NoteColor );
 		}
 	}
 }

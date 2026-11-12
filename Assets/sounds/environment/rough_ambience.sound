@@ -1,0 +1,15 @@
+{
+	"UI": true,
+	"Volume": 1,
+	"VolumeRandom": 0,
+	"Pitch": 1,
+	"PitchRandom": 0,
+	"Decibels": 85,
+	"Sounds":
+	[
+		"sounds/environment/rough_ambience.vsnd"
+	],
+	"SelectionMode": "Random",
+	"MaximumDistance": 1671.534500,
+	"MinimumDistance": 83.576730
+}

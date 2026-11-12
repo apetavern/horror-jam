@@ -1,0 +1,15 @@
+{
+	"UI": true,
+	"Volume": 1,
+	"VolumeRandom": 0,
+	"Pitch": 1,
+	"PitchRandom": 0,
+	"Decibels": 125,
+	"Sounds":
+	[
+		"sounds/generator/generator_power_off.vsnd"
+	],
+	"SelectionMode": "Random",
+	"MaximumDistance": 3577.706300,
+	"MinimumDistance": 178.885310
+}

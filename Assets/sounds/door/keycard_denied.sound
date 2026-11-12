@@ -1,0 +1,15 @@
+{
+	"UI": false,
+	"Volume": 1,
+	"VolumeRandom": 0,
+	"Pitch": 1,
+	"PitchRandom": 0,
+	"Decibels": 125,
+	"Sounds":
+	[
+		"sounds/door/keycard_denied.vsnd"
+	],
+	"SelectionMode": "Random",
+	"MaximumDistance": 3577.706300,
+	"MinimumDistance": 178.885310
+}

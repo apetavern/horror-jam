@@ -1,0 +1,15 @@
+{
+	"UI": false,
+	"Volume": 1,
+	"VolumeRandom": 0,
+	"Pitch": 1,
+	"PitchRandom": 0,
+	"Decibels": 130,
+	"Sounds":
+	[
+		"sounds/monster/monster_growl_high.vsnd"
+	],
+	"SelectionMode": "Random",
+	"MaximumDistance": 3867.036100,
+	"MinimumDistance": 193.351800
+}

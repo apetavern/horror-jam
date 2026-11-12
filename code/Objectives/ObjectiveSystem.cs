@@ -1,124 +1,113 @@
-﻿using GvarJam.UI.Elements;
-
 namespace GvarJam.Objectives;
 
-//
-// Objectives are server-side objects that remain the same
-// for all players on the server. Ideally they'd just be
-// part of Game, but I thought it'd be nicer to separate the
-// whole system out into it's own class, so that's done here.
-//
-// Clients have no knowledge of this system; instead, whenever
-// an objective is added or completed, an RPC gets passed along
-// to the client informing them of this, and the UI gets changed
-// accordingly.
-//
-/// <summary>
-/// The system to control objectives and handle their lifetime/completion.
-/// </summary>
-public sealed class ObjectiveSystem
+public sealed class ObjectiveSystem : GameObjectSystem<ObjectiveSystem>
 {
-	/// <summary>
-	/// The only instance of this system in existence.
-	/// </summary>
-	public static ObjectiveSystem Current { get; set; }
-
-	/// <summary>
-	/// Which objectives haven't been completed yet?
-	/// </summary>
-	/// 
-	public List<Objective> PendingObjectives { get; } = ResourceLibrary.GetAll<ObjectiveResource>().Select( x => new Objective() { Resource = x } ).ToList();
-
-	/// <summary>
-	/// Which objectives are the player/s doing?
-	/// </summary>
+	public List<Objective> PendingObjectives { get; } = new();
 	public List<Objective> ActiveObjectives { get; } = new();
 
-	/// <summary>
-	/// Initializes a default instance of <see cref="ObjectiveSystem"/>.
-	/// </summary>
-	public ObjectiveSystem()
-	{
-		Current = this;
-		Event.Register( this );
+	public event Action<ObjectiveResource> OnObjectiveAdded;
+	public event Action<ObjectiveResource> OnObjectiveRemoved;
 
-		PendingObjectives.ForEach( x =>
-		{
-			Log.Trace( x.Resource.ResourceName );
-		} );
+	private bool _initialized;
+
+	public ObjectiveSystem( Scene scene ) : base( scene )
+	{
+		Listen( Stage.StartUpdate, 0, OnTick, "ObjectiveSystemTick" );
 	}
 
-	/// <summary>
-	/// Run through all the inactive objectives and check if all the start
-	/// conditions are currently being met
-	/// </summary>
-	public void CheckStartObjectives( Pawn pawn )
+	public void EnsureInitialized()
 	{
-		foreach ( var objective in PendingObjectives.ToList() )
+		if ( _initialized ) return;
+		_initialized = true;
+
+		PendingObjectives.Clear();
+		ActiveObjectives.Clear();
+
+		var seen = new HashSet<ObjectiveResource>();
+		foreach ( var map in Scene.GetAllComponents<ColdOpenMapInstance>() )
 		{
-			if ( objective.CheckStart( pawn ) )
+			foreach ( var res in map.Objectives )
 			{
-				Log.Trace( $"Start objective {objective}" );
+				if ( res is not null && seen.Add( res ) )
+				{
+					PendingObjectives.Add( new Objective { Resource = res } );
+					Log.Trace( $"Loaded objective from map manifest: {res.ResourcePath}" );
+				}
+			}
+		}
 
-				objective.InvokeStartEvents( pawn );
+		foreach ( var file in FileSystem.Mounted.FindFile( "data/objectives", "*.objctv", true ) )
+		{
+			var path = $"data/objectives/{file}";
+			var res = ResourceLibrary.Get<ObjectiveResource>( path );
+			if ( res is not null && seen.Add( res ) )
+			{
+				PendingObjectives.Add( new Objective { Resource = res } );
+				Log.Trace( $"Loaded objective: {res.ResourcePath}" );
+			}
+		}
 
-				ActiveObjectives.Add( objective );
-				PendingObjectives.Remove( objective );
-
-				ObjectivePanel.RpcAddObjective( To.Everyone, objective.Resource );
+		foreach ( var res in ResourceLibrary.GetAll<ObjectiveResource>() )
+		{
+			if ( seen.Add( res ) )
+			{
+				PendingObjectives.Add( new Objective { Resource = res } );
+				Log.Trace( $"Loaded objective: {res.ResourcePath}" );
 			}
 		}
 	}
 
-	/// <summary>
-	/// Run through all the active objectives and check if all the end
-	/// conditions are currently being met
-	/// </summary>
-	public void CheckEndObjectives( Pawn pawn )
+	public void CheckStartObjectives( ColdOpenPlayer player )
+	{
+		foreach ( var objective in PendingObjectives.ToList() )
+		{
+			if ( !objective.CheckStart( player ) ) continue;
+
+			Log.Info( $"Start objective: {objective.Resource.ObjectiveName}" );
+			objective.InvokeStartEvents( player );
+			Log.Info( $"[Obj] Invoked start events for {objective.Resource.ObjectiveName}" );
+			ActiveObjectives.Add( objective );
+			PendingObjectives.Remove( objective );
+			OnObjectiveAdded?.Invoke( objective.Resource );
+			Log.Info( $"[Obj] Added UI for {objective.Resource.ObjectiveName}" );
+		}
+	}
+
+	public void CheckEndObjectives( ColdOpenPlayer player )
 	{
 		foreach ( var objective in ActiveObjectives.ToList() )
 		{
-			if ( !objective.CheckEnd( pawn ) )
-				continue;
+			if ( !objective.CheckEnd( player ) ) continue;
 
-			objective.InvokeEndEvents( pawn );
+			Log.Info( $"Complete objective: {objective.Resource.ObjectiveName}" );
+			objective.InvokeEndEvents( player );
 			ActiveObjectives.Remove( objective );
-			ObjectivePanel.RpcRemoveObjective( To.Everyone, objective.Resource );
+			OnObjectiveRemoved?.Invoke( objective.Resource );
 		}
 	}
 
-	/// <summary>
-	/// Debug method to print objective state.
-	/// </summary>
-	/// <param name="objective">The objective to output debug info from.</param>
-	/// <param name="line">The line number to start at with screen text overlay.</param>
-	private void PrintObjective( Objective objective, ref int line )
+	private void OnTick()
 	{
-		DebugOverlay.ScreenText( $"Objective: {objective.Resource.ObjectiveName}", line++ );
-		DebugOverlay.ScreenText( $"{objective.Resource.Description}", line++ );
-	}
+		if ( Scene.IsEditor ) return;
 
-	/// <summary>
-	/// Ticks the objective system.
-	/// </summary>
-	[Event.Tick.Server]
-	private void OnServerTick()
-	{
-		if ( HorrorGame.Debug )
+		EnsureInitialized();
+
+		if ( ColdOpenGame.Debug )
 		{
 			var line = 5;
-			DebugOverlay.ScreenText( $"Objectives:", line++ );
-			foreach ( var objective in ActiveObjectives )
-				PrintObjective( objective, ref line );
-
-			DebugOverlay.ScreenText( $"Pending objective count: {PendingObjectives.Count}", line++ );
-			DebugOverlay.ScreenText( $"Active objective count: {ActiveObjectives.Count}", line++ );
+			Scene.DebugOverlay.ScreenText( new Vector2( 20, 20 * line++ ), "Objectives:" );
+			foreach ( var obj in ActiveObjectives )
+			{
+				Scene.DebugOverlay.ScreenText( new Vector2( 20, 20 * line++ ), $"Objective: {obj.Resource.ObjectiveName}" );
+				Scene.DebugOverlay.ScreenText( new Vector2( 20, 20 * line++ ), obj.Resource.Description );
+			}
+			Scene.DebugOverlay.ScreenText( new Vector2( 20, 20 * line++ ), $"Pending: {PendingObjectives.Count}, Active: {ActiveObjectives.Count}" );
 		}
 
-		foreach ( var pawn in Game.Clients.Select( x => x.Pawn ).OfType<Pawn>() )
+		foreach ( var player in Scene.GetAllComponents<ColdOpenPlayer>() )
 		{
-			CheckStartObjectives( pawn );
-			CheckEndObjectives( pawn );
+			CheckStartObjectives( player );
+			CheckEndObjectives( player );
 		}
 	}
 }

@@ -1,0 +1,63 @@
+{
+  "ObjectiveName": "Let's blow this joint!",
+  "Description": "Initiate self-destruct on the ship!",
+  "ObjectiveStartConditions": [
+    {
+      "Type": "PreviousObjectiveComplete",
+      "InteractableName": null,
+      "ObjectiveName": "data/objectives/turnpowerbackon.objctv",
+      "TriggerName": null
+    }
+  ],
+  "ObjectiveEndConditions": [
+    {
+      "Type": "InteractedWithType",
+      "InteractableName": null,
+      "InteractedName": null,
+      "TypeName": null,
+      "InteractedTypeName": "ShipConsole",
+      "TriggerName": null,
+      "ItemType": null,
+      "TimeDelay": 0
+    }
+  ],
+  "ObjectiveStartEvents": [],
+  "ObjectiveEndEvents": [
+    {
+      "Type": "PlayInstantiatedCutscene",
+      "SoundName": null,
+      "LightsEnabled": false,
+      "DoorName": null,
+      "DoorLocked": false,
+      "TargetEntityName": null,
+      "InfoTarget": "selfdestruct_pos",
+      "TargetModel": "models/cutscenes/selfdestruct/selfdestructarms.vmdl",
+      "AdditionalSceneModels": null,
+      "TargetAttachment": "camPos",
+      "InputRequiredToStart": false,
+      "Duration": 5,
+      "HidePlayers": true,
+      "MonsterCameraToUse": null,
+      "MonsterCutsceneDuration": 0
+    },
+    {
+      "Type": "PlaySound",
+      "SoundName": "sounds/environment/self_destruct_siren.sound",
+      "LightsEnabled": false,
+      "DoorName": null,
+      "DoorLocked": false,
+      "TargetEntityName": null,
+      "InfoTarget": null,
+      "TargetModel": null,
+      "AdditionalSceneModels": null,
+      "TargetAttachment": null,
+      "InputRequiredToStart": false,
+      "Duration": 0,
+      "HidePlayers": false,
+      "MonsterCameraToUse": null,
+      "MonsterCutsceneDuration": 0
+    }
+  ],
+  "__references": [],
+  "__version": 0
+}

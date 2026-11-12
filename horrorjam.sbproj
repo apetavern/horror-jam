@@ -1,0 +1,41 @@
+{
+  "Title": "Cold Open",
+  "Type": "game",
+  "Org": "apetavern",
+  "Ident": "gvar_jam",
+  "Schema": 1,
+  "IncludeSourceFiles": false,
+  "Resources": "models/cameraconsole/*.vmdl\nmodels/cameraconsole/materials/monitor.vmat\nmodels/clipboard/clipboard_01a.vmdl\nmodels/cosmetics/spacehelmet.vmdl\nmodels/ctrlpanel/ctrlpanel_01a.vmdl\nmodels/enemy/basic_splitizen.vmdl\nmodels/enemy/materials/citizen/splitizen_skin.vmat\nmodels/enemy/monster.vmdl\nmodels/generator/fusebox_01a.vmdl\nmodels/generator/fuse_01a.vmdl\nmodels/items/battery/battery.vmdl\nmodels/keycards/keycard.vmdl\nmodels/mountedcamera/mountedcamera.vmdl\nmodels/player/playermodel.vmdl\nmodels/scifilocker/*.vmdl\nmodels/slimplayerlocker/slimplayerlocker.vmdl\nsounds/**/*.sound\nui/**",
+  "PublishUsedAssetsOnly": true,
+  "PackageReferences": [],
+  "EditorReferences": null,
+  "Mounts": null,
+  "IsStandaloneOnly": false,
+  "AI": {
+    "EnableMcpCommunication": true
+  },
+  "Metadata": {
+    "MaxPlayers": 1,
+    "MinPlayers": 1,
+    "TickRate": 50,
+    "GameNetworkType": "Multiplayer",
+    "MapSelect": "Hidden",
+    "MapList": [
+      "apetavern.horror_jam_map"
+    ],
+    "RankType": "None",
+    "PerMapRanking": false,
+    "LeaderboardType": "None",
+    "CsProjName": "",
+    "StartupScene": "scenes/minimal.scene",
+    "RecommendedMinPlayers": 0,
+    "RecommendedMaxPlayers": 0,
+    "Coop": false,
+    "Versus": false,
+    "WorkshopTags": [
+      "Horror",
+      "Puzzle",
+      "Survival"
+    ]
+  }
+}
